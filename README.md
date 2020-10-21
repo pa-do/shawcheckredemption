@@ -17,6 +17,7 @@
 
 # 와이어프레임
 
+- ![wireframe_flow](README_asset/wireframe_flow.png)
 - [와이어프레임.pdf](README_asset/와이어프레임.pdf) 
 
 
