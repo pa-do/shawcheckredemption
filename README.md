@@ -17,7 +17,13 @@
 
 # 와이어프레임
 
-- [와이어프레임.pdf](readme\와이어프레임.pdf) 
+- [와이어프레임.pdf](README_asset\와이어프레임.pdf) 
+
+
+
+# DB 모델링
+
+![HSS_ERD](README_asset\HSS_ERD.png)
 
 
 
