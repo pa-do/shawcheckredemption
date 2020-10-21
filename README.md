@@ -23,7 +23,7 @@
 
 # DB 모델링
 
-![HSS_ERD](README_asset/HSS_ERD.jpg)
+![HSS_ERD](README_asset/HSS_ERD.png)
 
 
 
