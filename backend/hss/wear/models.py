@@ -3,14 +3,85 @@ from django.conf import settings
 
 # Create your models here.
 
-class Clothes(models.Model):
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    coord_num = models.ForeignKey(Coordi, on_delete=models.CASCADE)
+class Accessory(models.Model):
     brand = models.CharField(max_length=50)
-    item = models.CharField(max_length=50)
-    img = models.ImageField(upload_to="clothes/")
-    url = models.CharField(max_length=100)
     category = models.IntegerField()
+    color = models.CharField(max_length=50)
+    season = models.CharField(max_length=50)
+    textile = models.CharField(max_length=50)
+    item = models.CharField(max_length=100)
+    img_src = models.ImageField(max_length=200)
+    url = models.CharField(max_length=200)
+
+class Bag(models.Model):
+    brand = models.CharField(max_length=50)
+    category = models.IntegerField()
+    color = models.CharField(max_length=50)
+    season = models.CharField(max_length=50)
+    textile = models.CharField(max_length=50)
+    item = models.CharField(max_length=100)
+    img_src = models.ImageField(max_length=200)
+    url = models.CharField(max_length=200)
+
+class Headwear(models.Model):
+    brand = models.CharField(max_length=50)
+    category = models.IntegerField()
+    color = models.CharField(max_length=50)
+    season = models.CharField(max_length=50)
+    textile = models.CharField(max_length=50)
+    item = models.CharField(max_length=100)
+    img_src = models.ImageField(max_length=200)
+    url = models.CharField(max_length=200)
+
+class Outer(models.Model):
+    brand = models.CharField(max_length=50)
+    category = models.IntegerField()
+    color = models.CharField(max_length=50)
+    season = models.CharField(max_length=50)
+    textile = models.CharField(max_length=50)
+    item = models.CharField(max_length=100)
+    img_src = models.ImageField(max_length=200)
+    url = models.CharField(max_length=200)
+
+class Pants(models.Model):
+    brand = models.CharField(max_length=50)
+    category = models.IntegerField()
+    color = models.CharField(max_length=50)
+    season = models.CharField(max_length=50)
+    textile = models.CharField(max_length=50)
+    item = models.CharField(max_length=100)
+    img_src = models.ImageField(max_length=200)
+    url = models.CharField(max_length=200)
+
+class Shoes(models.Model):
+    brand = models.CharField(max_length=50)
+    category = models.IntegerField()
+    color = models.CharField(max_length=50)
+    season = models.CharField(max_length=50)
+    textile = models.CharField(max_length=50)
+    item = models.CharField(max_length=100)
+    img_src = models.ImageField(max_length=200)
+    url = models.CharField(max_length=200)
+
+class Top(models.Model):
+    brand = models.CharField(max_length=50)
+    category = models.IntegerField()
+    color = models.CharField(max_length=50)
+    season = models.CharField(max_length=50)
+    textile = models.CharField(max_length=50)
+    item = models.CharField(max_length=100)
+    img_src = models.ImageField(max_length=200)
+    url = models.CharField(max_length=200)
+
+class Watch(models.Model):
+    brand = models.CharField(max_length=50)
+    category = models.IntegerField()
+    color = models.CharField(max_length=50)
+    season = models.CharField(max_length=50)
+    textile = models.CharField(max_length=50)
+    item = models.CharField(max_length=100)
+    img_src = models.ImageField(max_length=200)
+    url = models.CharField(max_length=200)
 
 class Coordi(models.Model):
     coordi_set = models.CharField(max_length=100)
