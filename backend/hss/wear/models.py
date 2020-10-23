@@ -91,6 +91,7 @@ class MyClothes(models.Model):
     img = models.ImageField(upload_to="Myclothes/%Y/%m/%d")
     category = models.IntegerField()
 
+# 사용자가 등록한 코디
 class UserCoordi(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     hat = models.IntegerField()
@@ -100,6 +101,7 @@ class UserCoordi(models.Model):
     shoes = models.IntegerField()
     accessory = models.IntegerField()
 
+# 좋아요 등록
 class LikeCoordi(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     coordi_num = models.IntegerField()
