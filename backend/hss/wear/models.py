@@ -83,9 +83,11 @@ class Watch(models.Model):
     img_src = models.ImageField(max_length=200)
     url = models.CharField(max_length=200)
 
+# 기본 제공 코디셋
 class Coordi(models.Model):
     coordi_set = models.CharField(max_length=100)
 
+# 내가 등록한 코디
 class MyClothes(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     img = models.ImageField(upload_to="Myclothes/%Y/%m/%d")
