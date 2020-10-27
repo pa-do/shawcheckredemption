@@ -62,7 +62,7 @@ class Shoes(models.Model):
     item = models.CharField(max_length=100)
     img_src = models.ImageField(max_length=200)
     url = models.CharField(max_length=200)
-
+# 상의
 class Top(models.Model):
     brand = models.CharField(max_length=50)
     category = models.IntegerField()
@@ -72,7 +72,7 @@ class Top(models.Model):
     item = models.CharField(max_length=100)
     img_src = models.ImageField(max_length=200)
     url = models.CharField(max_length=200)
-
+# 시계
 class Watch(models.Model):
     brand = models.CharField(max_length=50)
     category = models.IntegerField()
