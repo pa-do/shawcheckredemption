@@ -10,7 +10,8 @@ class Accessory(models.Model):
     season = models.CharField(max_length=50)
     textile = models.CharField(max_length=50)
     item = models.CharField(max_length=100)
-    img_src = models.ImageField(max_length=200)
+    price = models.IntegerField()
+    img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
 
 class Bag(models.Model):
@@ -20,7 +21,8 @@ class Bag(models.Model):
     season = models.CharField(max_length=50)
     textile = models.CharField(max_length=50)
     item = models.CharField(max_length=100)
-    img_src = models.ImageField(max_length=200)
+    price = models.IntegerField()
+    img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
 
 class Headwear(models.Model):
@@ -30,7 +32,8 @@ class Headwear(models.Model):
     season = models.CharField(max_length=50)
     textile = models.CharField(max_length=50)
     item = models.CharField(max_length=100)
-    img_src = models.ImageField(max_length=200)
+    price = models.IntegerField()
+    img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
 
 class Outer(models.Model):
@@ -40,7 +43,8 @@ class Outer(models.Model):
     season = models.CharField(max_length=50)
     textile = models.CharField(max_length=50)
     item = models.CharField(max_length=100)
-    img_src = models.ImageField(max_length=200)
+    price = models.IntegerField()
+    img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
 
 class Pants(models.Model):
@@ -50,7 +54,8 @@ class Pants(models.Model):
     season = models.CharField(max_length=50)
     textile = models.CharField(max_length=50)
     item = models.CharField(max_length=100)
-    img_src = models.ImageField(max_length=200)
+    price = models.IntegerField()
+    img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
 
 class Shoes(models.Model):
@@ -60,7 +65,8 @@ class Shoes(models.Model):
     season = models.CharField(max_length=50)
     textile = models.CharField(max_length=50)
     item = models.CharField(max_length=100)
-    img_src = models.ImageField(max_length=200)
+    price = models.IntegerField()
+    img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
 # 상의
 class Top(models.Model):
@@ -70,7 +76,8 @@ class Top(models.Model):
     season = models.CharField(max_length=50)
     textile = models.CharField(max_length=50)
     item = models.CharField(max_length=100)
-    img_src = models.ImageField(max_length=200)
+    price = models.IntegerField()
+    img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
 # 시계
 class Watch(models.Model):
@@ -80,7 +87,8 @@ class Watch(models.Model):
     season = models.CharField(max_length=50)
     textile = models.CharField(max_length=50)
     item = models.CharField(max_length=100)
-    img_src = models.ImageField(max_length=200)
+    price = models.IntegerField()
+    img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
 
 # 기본 제공 코디셋
