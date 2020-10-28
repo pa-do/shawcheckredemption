@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
 
     # DRF
     'rest_framework',
@@ -55,7 +56,8 @@ INSTALLED_APPS = [
     # 계정
     'accounts',
 
-
+    # 앱들
+    'wear',
 ]
 
 MIDDLEWARE = [
@@ -149,6 +151,7 @@ REST_FRAMEWORK = {
     ]
 }
 
+CORS_ORIGIN_ALLOW_ALL = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
