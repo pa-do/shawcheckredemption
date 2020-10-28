@@ -11,7 +11,8 @@
             "item": "럭셔리 백팩_Black",
             "price": "135000",
             "img": "0.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1320752/0"
+            "url": "https://store.musinsa.com/app/product/detail/1320752/0",
+            "style": "sporty"
         }
     },
     {
@@ -26,7 +27,8 @@
             "item": "메이드 3D 백팩_Black",
             "price": "120000",
             "img": "1.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/747317/0"
+            "url": "https://store.musinsa.com/app/product/detail/747317/0",
+            "style": "casual, street"
         }
     },
     {
@@ -41,7 +43,8 @@
             "item": "디럭스 백팩_Black",
             "price": "145000",
             "img": "2.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1466741/0"
+            "url": "https://store.musinsa.com/app/product/detail/1466741/0",
+            "style": "sporty, street"
         }
     },
     {
@@ -56,7 +59,8 @@
             "item": "PLANTPACK S 백팩 BLACK",
             "price": "169000",
             "img": "3.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656419/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656419/0",
+            "style": "formal, casual, dandy"
         }
     },
     {
@@ -71,7 +75,8 @@
             "item": "PLANTPACK S 백팩 NAVY",
             "price": "169000",
             "img": "4.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656420/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656420/0",
+            "style": "casual"
         }
     },
     {
@@ -86,7 +91,8 @@
             "item": "데이앤하프 - 블랙 발리스틱",
             "price": "229000",
             "img": "5.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/388328/0"
+            "url": "https://store.musinsa.com/app/product/detail/388328/0",
+            "style": "sporty, street"
         }
     },
     {
@@ -101,7 +107,8 @@
             "item": "NEUMONT 4 백팩 BLACK",
             "price": "199000",
             "img": "6.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656418/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656418/0",
+            "style": "formal, dandy, casual"
         }
     },
     {
@@ -116,7 +123,8 @@
             "item": "ELOY 백팩 M BLACK HO509002",
             "price": "179000",
             "img": "7.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656432/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656432/0",
+            "style": "formal, dandy, casual"
         }
     },
     {
@@ -131,7 +139,8 @@
             "item": "BuBilian leather backpack _BLACK",
             "price": "65000",
             "img": "8.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/363560/0"
+            "url": "https://store.musinsa.com/app/product/detail/363560/0",
+            "style": "street, casual"
         }
     },
     {
@@ -146,7 +155,8 @@
             "item": "ELOY 백팩 L BLACK HO509001",
             "price": "199000",
             "img": "9.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656430/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656430/0",
+            "style": "formal, dandy, casual"
         }
     },
     {
@@ -161,7 +171,8 @@
             "item": "WILLER 라운드백팩 GREY HP308002",
             "price": "169000",
             "img": "10.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656429/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656429/0",
+            "style": "dandy, casual"
         }
     },
     {
@@ -176,7 +187,8 @@
             "item": "ELOY 백팩 M COCOA HO553002",
             "price": "179000",
             "img": "11.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656434/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656434/0",
+            "style": "dandy, casual"
         }
     },
     {
@@ -191,7 +203,8 @@
             "item": "PLANTPACK 5 백팩 NAVY HO841001",
             "price": "179000",
             "img": "12.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656426/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656426/0",
+            "style": "casual"
         }
     },
     {
@@ -206,7 +219,8 @@
             "item": "PLANTPACK 5 백팩 BLACK HO809001",
             "price": "179000",
             "img": "13.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656424/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656424/0",
+            "style": "casual"
         }
     },
     {
@@ -221,7 +235,8 @@
             "item": "WILLER 라운드백팩 BLACK HP309002",
             "price": "169000",
             "img": "14.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656427/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656427/0",
+            "style": "dandy, casual"
         }
     },
     {
@@ -236,7 +251,8 @@
             "item": "TREVER 백팩 BLACK HO909001",
             "price": "269000",
             "img": "15.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656421/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656421/0",
+            "style": "casual"
         }
     },
     {
@@ -251,7 +267,8 @@
             "item": "스노이 백팩_Black",
             "price": "120000",
             "img": "16.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/943150/0"
+            "url": "https://store.musinsa.com/app/product/detail/943150/0",
+            "style": "sporty"
         }
     },
     {
@@ -266,7 +283,8 @@
             "item": "TREVER 백팩 NAVY HO941001",
             "price": "269000",
             "img": "17.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1656422/0"
+            "url": "https://store.musinsa.com/app/product/detail/1656422/0",
+            "style": "casual"
         }
     },
     {
@@ -281,7 +299,8 @@
             "item": "Basic backpack BTBB - SKY BLUE",
             "price": "47500",
             "img": "18.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/272448/0"
+            "url": "https://store.musinsa.com/app/product/detail/272448/0",
+            "style": "casual"
         }
     },
     {
@@ -296,7 +315,8 @@
             "item": "[그레고리] 데이팩 - 블랙발리스틱",
             "price": "189000",
             "img": "19.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/950226/0"
+            "url": "https://store.musinsa.com/app/product/detail/950226/0",
+            "style": "casual"
         }
     },
     {
@@ -311,7 +331,8 @@
             "item": "[AUTHENTIC] 패디드팩 XL (EKABA15 8)",
             "price": "93000",
             "img": "20.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/715729/0"
+            "url": "https://store.musinsa.com/app/product/detail/715729/0",
+            "style": "casual"
         }
     },
     {
@@ -326,7 +347,8 @@
             "item": "[그레고리] 데이팩 - 블랙",
             "price": "179000",
             "img": "21.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/538674/0"
+            "url": "https://store.musinsa.com/app/product/detail/538674/0",
+            "style": "sporty"
         }
     },
     {
@@ -341,7 +363,8 @@
             "item": "펠리 백팩_Black",
             "price": "122000",
             "img": "22.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1094266/0"
+            "url": "https://store.musinsa.com/app/product/detail/1094266/0",
+            "style": "sporty"
         }
     },
     {
@@ -356,7 +379,8 @@
             "item": "메이드 3D 백팩_Black&White",
             "price": "120000",
             "img": "23.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/747311/0"
+            "url": "https://store.musinsa.com/app/product/detail/747311/0",
+            "style": "street"
         }
     },
     {
@@ -371,7 +395,8 @@
             "item": "Basic backpack BTBB - Black",
             "price": "47500",
             "img": "24.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/336426/0"
+            "url": "https://store.musinsa.com/app/product/detail/336426/0",
+            "style": "casual"
         }
     },
     {
@@ -386,7 +411,8 @@
             "item": "[AUTHENTIC] 프로바이더 (EJCBA08 8)",
             "price": "79000",
             "img": "25.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/937172/0"
+            "url": "https://store.musinsa.com/app/product/detail/937172/0",
+            "style": "casual"
         }
     },
     {
@@ -401,7 +427,8 @@
             "item": "Basic backpack BTBB - Cream",
             "price": "47500",
             "img": "26.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/336234/0"
+            "url": "https://store.musinsa.com/app/product/detail/336234/0",
+            "style": "casual"
         }
     },
     {
@@ -416,7 +443,8 @@
             "item": "로페르 백팩 블랙 DO109001",
             "price": "115000",
             "img": "27.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/963679/0"
+            "url": "https://store.musinsa.com/app/product/detail/963679/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -431,7 +459,8 @@
             "item": "Basic backpack BTBB - BEIGE",
             "price": "47500",
             "img": "28.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/272456/0"
+            "url": "https://store.musinsa.com/app/product/detail/272456/0",
+            "style": "casual"
         }
     },
     {
@@ -446,7 +475,8 @@
             "item": "프리미엄 백팩_Black",
             "price": "33000",
             "img": "29.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/838875/0"
+            "url": "https://store.musinsa.com/app/product/detail/838875/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -461,7 +491,8 @@
             "item": "데이앤하프 - 블랙",
             "price": "210000",
             "img": "30.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/388330/0"
+            "url": "https://store.musinsa.com/app/product/detail/388330/0",
+            "style": "sporty"
         }
     },
     {
@@ -476,7 +507,8 @@
             "item": "[AUTHENTIC]패디드 파커(EKCBA02 8)",
             "price": "59000",
             "img": "31.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1526276/0"
+            "url": "https://store.musinsa.com/app/product/detail/1526276/0",
+            "style": "casual"
         }
     },
     {
@@ -491,7 +523,8 @@
             "item": "제스트 백팩_Black",
             "price": "115000",
             "img": "32.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1248759/0"
+            "url": "https://store.musinsa.com/app/product/detail/1248759/0",
+            "style": "sporty"
         }
     },
     {
@@ -506,7 +539,8 @@
             "item": "Basic backpack BTBB - Blue",
             "price": "47500",
             "img": "33.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/353283/0"
+            "url": "https://store.musinsa.com/app/product/detail/353283/0",
+            "style": "casual"
         }
     },
     {
@@ -521,7 +555,8 @@
             "item": "워터프루프 백팩_BLACK",
             "price": "50000",
             "img": "34.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/677764/0"
+            "url": "https://store.musinsa.com/app/product/detail/677764/0",
+            "style": "casual, dandy"
         }
     },
     {
