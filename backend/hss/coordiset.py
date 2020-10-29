@@ -332,3 +332,33 @@ else: # 입력한 아이템이 없을 때 모자 선택 알고리즘
     # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
     # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
 
+
+if "acc" in user_pick_item:    # 입력한 아이템이 있을 때 액세서리 선택 알고리즘
+
+    acc = {i for i in range(3)}    # {0"벨트", 1"넥타이", 2"머플러"}
+    target_acc = user_pick_item["acc"][0]
+    target_acc_color = user_pick_item["acc"][1]
+
+    # 액세서리 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
+    # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+    # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
+
+else: # 입력한 아이템이 없을 때 액세서리 선택 알고리즘
+
+    acc = {i for i in range(3)}    # {0"벨트", 1"넥타이", 2"머플러"}
+
+    # 현재 날씨로 필터
+    if weather != "winter":
+        acc -= {2}
+    
+    # 스타일로 필터
+    if first_style == "formal":
+        acc -= {2}
+    if first_style in ["casual", "street", "sporty"]:
+        acc -= {1}
+
+    print(acc)
+    # acc에 해당하는 카테고리에서 하의 컬러에 조화로운 색을 타겟 컬러로 지정하여
+    # 액세서리 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
+    # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+    # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
