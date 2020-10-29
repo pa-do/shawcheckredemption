@@ -295,3 +295,40 @@ else: # 입력한 아이템이 없을 때 시계 선택 알고리즘
     # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
     # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
 
+
+if "headwear" in user_pick_item:    # 입력한 아이템이 있을 때 모자 선택 알고리즘
+
+    headwear = {i for i in range(7)}    # {0"캡", 1"베레", 2"페도라", 3"버킷", 4"비니", 5"트루퍼", 6"기타"}
+    target_headwear = user_pick_item["headwear"][0]
+    target_headwear_color = user_pick_item["headwear"][1]
+
+    # 모자 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
+    # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+    # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
+
+else: # 입력한 아이템이 없을 때 모자 선택 알고리즘
+
+    headwear = {i for i in range(7)}    # {0"캡", 1"베레", 2"페도라", 3"버킷", 4"비니", 5"트루퍼", 6"기타"}
+
+    # 현재 날씨로 필터
+    if weather == "summer": 
+        headwear -= {1, 2, 4, 5}
+    if weather != "winter":
+        headwear -= {5}
+
+    # 스타일로 필터
+    if first_style == "formal":
+        headwear -= {0, 1, 2, 3, 4, 5, 6}
+    if first_style == "dandy" or second_style == "formal":
+        headwear -= {0, 3, 4, 5, 6}
+    if first_style == "sporty":
+        headwear -= {1, 2, 3}
+    if first_style == "casual":
+        headwear -= {2}
+    
+    print(headwear)
+    # headwear에 해당하는 카테고리에서 아우터 또는 상의 컬러에 조화로운 색을 타겟 컬러로 지정하여
+    # 모자 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
+    # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+    # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
+
