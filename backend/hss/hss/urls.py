@@ -47,6 +47,9 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     # 회원가입
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    
+    #swagger
+    url(r'^',include(router.urls)),
 
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
