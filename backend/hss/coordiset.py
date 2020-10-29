@@ -76,58 +76,92 @@ second_style = sorted_style[1][0]
 print(first_style, second_style)
 
 
-############ 해당 카테고리에서 유저가 입력한 아이템이 있을 경우
+
+if "상의" in user_pick_item:    # 입력한 아이템이 있을 때 상의 선택 알고리즘
+
+    top = {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
+    target_top = user_pick_item["상의"][0]
+    target_color = user_pick_item["상의"][1]
+
+    # 상의 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
+    # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+    # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
+
+else: # 입력한 아이템이 없을 때 상의 선택 알고리즘
+
+    top = {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
+
+    # 현재 날씨로 필터
+    if weather == "summer":
+        top.discard("긴팔티")
+        top.discard("맨투맨")
+        top.discard("후드")
+        top.discard("니트")
+    else:
+        top.discard("반팔티")
+        top.discard("민소매")
+
+    # 스타일로 필터
+    if first_style == "formal":
+        top.discard("반팔티")
+        top.discard("긴팔티")
+        top.discard("민소매")
+        top.discard("카라티")
+        top.discard("맨투맨")
+        top.discard("후드")
+        top.discard("니트")
+    if second_style == "formal" or first_style == "dandy":
+        top.discard("민소매")
+        top.discard("후드")
+    if second_style == "dandy":
+        top.discard("민소매")
+    if first_style == "sporty":
+        top.discard("니트")
+        top.discard("셔츠")
+
+    print(top)
+    # top에 해당하는 상의 카테고리에서 퍼스널 컬러들을 타겟 컬러로 지정하여
+    # 상의 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
+    # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+    # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
 
 
-# 입력한 아이템이 있을 때 상의 선택 알고리즘
-top = {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
-target_top = user_pick_item["상의"][0]
-target_color = user_pick_item["상의"][1]
 
-# 상의 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
-# 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-# 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
+if "하의" in user_pick_item:    # 입력한 아이템이 있을 때 하의 선택 알고리즘
 
+    pants = {"데님", "코튼", "슬랙스", "조거", "숏"}
+    target_top = user_pick_item["하의"][0]
+    target_color = user_pick_item["하의"][1]
 
+    # 하의 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
+    # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+    # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
 
+else: # 입력한 아이템이 없을 때 하의 선택 알고리즘
 
-############ 해당 카테고리에서 유저가 입력한 아이템이 없을 경우
+    pants = {"데님", "코튼", "슬랙스", "조거", "숏"}
 
-
-# 입력한 아이템이 없을 때 상의 선택 알고리즘
-top = {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
-
-# 현재 날씨로 필터
-if weather == "summer":
-    top.discard("긴팔티")
-    top.discard("맨투맨")
-    top.discard("후드")
-    top.discard("니트")
-else:
-    top.discard("반팔티")
-    top.discard("민소매")
-
-# 스타일로 필터
-if first_style == "formal":
-    top.discard("반팔티")
-    top.discard("긴팔티")
-    top.discard("민소매")
-    top.discard("카라티")
-    top.discard("맨투맨")
-    top.discard("후드")
-    top.discard("니트")
-if second_style == "formal" or first_style == "dandy":
-    top.discard("민소매")
-    top.discard("후드")
-if second_style == "dandy":
-    top.discard("민소매")
-if first_style == "sporty":
-    top.discard("니트")
-    top.discard("셔츠")
-
-print(top)
-# top에 해당하는 상의 카테고리에서 퍼스널 컬러들을 타겟 컬러로 지정하여
-# 상의 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
-# 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-# (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다
-
+    # 현재 날씨로 필터
+    if weather == "summer":
+        pass
+    else:
+        pants.discard("숏")
+    
+    # 스타일로 필터
+    if first_style == "formal":
+        pants.discard("숏")
+        pants.discard("데님")
+        pants.discard("조거")
+    if first_style == "dandy" or second_style == "formal":
+        pants.discard("숏")
+        pants.discard("조거")
+    if first_style == "sporty":
+        pants.discard("데님")
+        pants.discard("코튼")
+        pants.discard("슬랙스")
+    
+    print(pants)
+    # pants에 해당하는 하의 카테고리에서 상의 컬러에 조화로운 색을 타겟 컬러로 지정하여
+    # 하의 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
+    # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+    # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
