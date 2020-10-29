@@ -35,16 +35,14 @@
 # 액세서리 (포멀 - 넥타이 > 겨울 - 목도리 > 벨트는 하의에 영향받음)
 
 
-# 반팔티 - 
-
-############ 유저가 입력한 아이템이 없을 경우
 
 # 스타일 정의 알고리즘
 style = {"casual": 0, "street": 0, "dandy": 0, "formal": 0, "sporty": 0}
 who = "교수님/상사"
 where = "외식"
 weather = "winter"
-color = ["퍼스널 관련 컬러"]
+user_pick_item = {"상의": ["셔츠", "white"], "시계": ["", "black"]}
+personal_color = ["퍼스널 관련 컬러"] # 무채색은 필수로 넣음
 
 if who == "교수님/상사":
     style["formal"] += 10
@@ -57,7 +55,6 @@ else:
     pass
 
 if where == "결혼식" or where == "장례식":
-    color = ["black"]
     style["formal"] += 20
 elif where == "운동":
     style["sporty"] += 20
@@ -79,34 +76,58 @@ second_style = sorted_style[1][0]
 print(first_style, second_style)
 
 
+############ 해당 카테고리에서 유저가 입력한 아이템이 있을 경우
 
 
-# 상의 선택 알고리즘
-top = ["반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"]
+# 입력한 아이템이 있을 때 상의 선택 알고리즘
+top = {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
+target_top = user_pick_item["상의"][0]
+target_color = user_pick_item["상의"][1]
+
+# 상의 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
+# 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+# 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
+
+
+
+
+############ 해당 카테고리에서 유저가 입력한 아이템이 없을 경우
+
+
+# 입력한 아이템이 없을 때 상의 선택 알고리즘
+top = {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
 
 # 현재 날씨로 필터
 if weather == "summer":
-    top.remove("긴팔티")
-    top.remove("맨투맨")
-    top.remove("후드")
-    top.remove("니트")
+    top.discard("긴팔티")
+    top.discard("맨투맨")
+    top.discard("후드")
+    top.discard("니트")
 else:
-    top.remove("반팔티")
-    top.remove("민소매")
+    top.discard("반팔티")
+    top.discard("민소매")
 
 # 스타일로 필터
 if first_style == "formal":
-    top.remove("반팔티")
-    top.remove("긴팔티")
-    top.remove("민소매")
-    top.remove("카라티")
-    top.remove("맨투맨")
-    top.remove("후드")
-    top.remove("니트")
+    top.discard("반팔티")
+    top.discard("긴팔티")
+    top.discard("민소매")
+    top.discard("카라티")
+    top.discard("맨투맨")
+    top.discard("후드")
+    top.discard("니트")
 if second_style == "formal" or first_style == "dandy":
-    top.remove("민소매")
-    top.remove("후드")
+    top.discard("민소매")
+    top.discard("후드")
 if second_style == "dandy":
-    top.remove("민소매")
+    top.discard("민소매")
 if first_style == "sporty":
-    top.remove("니트")
+    top.discard("니트")
+    top.discard("셔츠")
+
+print(top)
+# top에 해당하는 상의 카테고리에서 퍼스널 컬러들을 타겟 컬러로 지정하여
+# 상의 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
+# 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+# (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다
+
