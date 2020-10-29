@@ -9,6 +9,7 @@ django-cors-headers==3.3.0
 django-extensions==3.0.8
 django-rest-auth==0.9.5
 djangorestframework==3.11.0
+djangorestframework-jwt==1.11.0
 drf-yasg==1.17.1
 idna==2.10
 inflection==0.5.1
