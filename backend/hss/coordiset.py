@@ -41,7 +41,7 @@ style = {"casual": 0, "street": 0, "dandy": 0, "formal": 0, "sporty": 0}
 who = "교수님/상사"
 where = "외식"
 weather = "winter"
-user_pick_item = {"상의": ["셔츠", "white"], "시계": ["", "black"]}
+user_pick_item = {"top": [3, "white"], "watch": [0, "black"]}
 personal_color = ["퍼스널 관련 컬러"] # 무채색은 필수로 넣음
 
 if who == "교수님/상사":
@@ -77,11 +77,11 @@ print(first_style, second_style)
 
 
 
-if "상의" in user_pick_item:    # 입력한 아이템이 있을 때 상의 선택 알고리즘
+if "top" in user_pick_item:    # 입력한 아이템이 있을 때 상의 선택 알고리즘
 
-    top = {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
-    target_top = user_pick_item["상의"][0]
-    target_color = user_pick_item["상의"][1]
+    top = {0,1,2,3,4,5,6,7}     # {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
+    target_top = user_pick_item["top"][0]
+    target_color = user_pick_item["top"][1]
 
     # 상의 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
     # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
@@ -89,35 +89,23 @@ if "상의" in user_pick_item:    # 입력한 아이템이 있을 때 상의 선
 
 else: # 입력한 아이템이 없을 때 상의 선택 알고리즘
 
-    top = {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
+    top = {0,1,2,3,4,5,6,7}     # {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
 
     # 현재 날씨로 필터
     if weather == "summer":
-        top.discard("긴팔티")
-        top.discard("맨투맨")
-        top.discard("후드")
-        top.discard("니트")
+        top -= {1, 5, 6, 7}
     else:
-        top.discard("반팔티")
-        top.discard("민소매")
+        top -= {0, 2}
 
     # 스타일로 필터
     if first_style == "formal":
-        top.discard("반팔티")
-        top.discard("긴팔티")
-        top.discard("민소매")
-        top.discard("카라티")
-        top.discard("맨투맨")
-        top.discard("후드")
-        top.discard("니트")
+        top -= {0, 1, 2, 4, 5, 6, 7}
     if second_style == "formal" or first_style == "dandy":
-        top.discard("민소매")
-        top.discard("후드")
+        top -= {2, 6}
     if second_style == "dandy":
-        top.discard("민소매")
+        top -= {2}
     if first_style == "sporty":
-        top.discard("니트")
-        top.discard("셔츠")
+        top -= {7, 3}
 
     print(top)
     # top에 해당하는 상의 카테고리에서 퍼스널 컬러들을 타겟 컬러로 지정하여
@@ -127,11 +115,11 @@ else: # 입력한 아이템이 없을 때 상의 선택 알고리즘
 
 
 
-if "하의" in user_pick_item:    # 입력한 아이템이 있을 때 하의 선택 알고리즘
+if "pants" in user_pick_item:    # 입력한 아이템이 있을 때 하의 선택 알고리즘
 
-    pants = {"데님", "코튼", "슬랙스", "조거", "숏"}
-    target_top = user_pick_item["하의"][0]
-    target_color = user_pick_item["하의"][1]
+    pants = {0,1,2,3,4}     # {"데님", "코튼", "슬랙스", "조거", "숏"}
+    target_top = user_pick_item["pants"][0]
+    target_color = user_pick_item["pants"][1]
 
     # 하의 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
     # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
@@ -139,29 +127,65 @@ if "하의" in user_pick_item:    # 입력한 아이템이 있을 때 하의 선
 
 else: # 입력한 아이템이 없을 때 하의 선택 알고리즘
 
-    pants = {"데님", "코튼", "슬랙스", "조거", "숏"}
+    pants = {0,1,2,3,4}     # {"데님", "코튼", "슬랙스", "조거", "숏"}
 
     # 현재 날씨로 필터
     if weather == "summer":
         pass
     else:
-        pants.discard("숏")
+        pants -= {4}
     
     # 스타일로 필터
     if first_style == "formal":
-        pants.discard("숏")
-        pants.discard("데님")
-        pants.discard("조거")
+        pants -= {0, 3, 4}
     if first_style == "dandy" or second_style == "formal":
-        pants.discard("숏")
-        pants.discard("조거")
+        pants -= {3, 4}
     if first_style == "sporty":
-        pants.discard("데님")
-        pants.discard("코튼")
-        pants.discard("슬랙스")
+        pants -= {0, 1, 2}
     
     print(pants)
     # pants에 해당하는 하의 카테고리에서 상의 컬러에 조화로운 색을 타겟 컬러로 지정하여
     # 하의 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
     # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
     # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
+
+
+if "shoes" in user_pick_item:    # 입력한 아이템이 있을 때 신발 선택 알고리즘
+
+    shoes = {0,1,2,3,4,5,6,7}    # {"캔버스,단화", "러닝화", "구두", "부츠", "로퍼", "모카신", "샌들", "슬리퍼"}
+    target_top = user_pick_item["shoes"][0]
+    target_color = user_pick_item["shoes"][1]
+
+    # 신발 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
+    # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+    # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
+
+else: # 입력한 아이템이 없을 때 신발 선택 알고리즘
+
+    shoes = {0,1,2,3,4,5,6,7}    # {0"캔버스,단화", 1"러닝화", 2"구두", 3"부츠", 4"로퍼", 5"모카신", 6"샌들", 7"슬리퍼"}
+
+    # 현재 날씨로 필터
+    if weather != "winter":
+        shoes -= {3, 5}
+    if weather != "summer":
+        shoes -= {6, 7}
+    
+    # 스타일로 필터
+    if first_style == "formal":
+        shoes -= {0, 1, 3, 5, 6, 7}
+    if first_style == "dandy" or second_style == "formal":
+        shoes -= {1, 6, 7}
+    if first_style == "sporty":
+        shoes -= {0, 2, 3, 4, 5, 6, 7}
+    if first_style == "casual":
+        shoes -= {2}
+    if first_style == "street":
+        shoes -= {2, 7}
+    
+    print(shoes)
+    # shoes에 해당하는 신발 카테고리에서 하의 컬러에 조화로운 색을 타겟 컬러로 지정하여
+    # 신발 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
+    # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
+    # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
+
+
