@@ -23,3 +23,90 @@
 
 
 # 체형 (저체중 / 비만 / 키작은 / 어깨좁은)
+
+# 추천 순서
+# 상의 (포멀 - 셔츠 > 스포티 - 셔츠제외 니트제외 > 여름 - 니트제외    반팔티, 긴팔티, 민소매, 셔츠, 카라티, 맨투맨, 후드, 니트)
+# 상의 -> 하의
+# 하의 -> 신발
+# 상의 -> 아우터
+# 신발 -> 가방
+# 가방 or 신발 -> 시계
+# 아우터 or 상의 -> 모자
+# 액세서리 (포멀 - 넥타이 > 겨울 - 목도리 > 벨트는 하의에 영향받음)
+
+
+# 반팔티 - 
+
+############ 유저가 입력한 아이템이 없을 경우
+
+# 스타일 정의 알고리즘
+style = {"casual": 0, "street": 0, "dandy": 0, "formal": 0, "sporty": 0}
+who = "교수님/상사"
+where = "외식"
+weather = "winter"
+color = ["퍼스널 관련 컬러"]
+
+if who == "교수님/상사":
+    style["formal"] += 10
+    style["casual"] -= 5
+    style["street"] -= 5
+    style["sporty"] -= 5
+elif who == "여사친/여친/썸녀":
+    style["dandy"] += 5
+else:
+    pass
+
+if where == "결혼식" or where == "장례식":
+    color = ["black"]
+    style["formal"] += 20
+elif where == "운동":
+    style["sporty"] += 20
+elif where == "발표":
+    style["formal"] += 10
+    style["dandy"] += 10
+elif where == "학교":
+    style["casual"] += 5
+    style["street"] += 5
+elif where == "외식":
+    style["casual"] += 5
+elif where == "pc방/편한 곳":
+    style["formal"] -= 5
+    style["dandy"] -= 5
+
+sorted_style = sorted(style.items(), key=lambda x: x[1], reverse=True)
+first_style = sorted_style[0][0]
+second_style = sorted_style[1][0]
+print(first_style, second_style)
+
+
+
+
+# 상의 선택 알고리즘
+top = ["반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"]
+
+# 현재 날씨로 필터
+if weather == "summer":
+    top.remove("긴팔티")
+    top.remove("맨투맨")
+    top.remove("후드")
+    top.remove("니트")
+else:
+    top.remove("반팔티")
+    top.remove("민소매")
+
+# 스타일로 필터
+if first_style == "formal":
+    top.remove("반팔티")
+    top.remove("긴팔티")
+    top.remove("민소매")
+    top.remove("카라티")
+    top.remove("맨투맨")
+    top.remove("후드")
+    top.remove("니트")
+if second_style == "formal" or first_style == "dandy":
+    top.remove("민소매")
+    top.remove("후드")
+if second_style == "dandy":
+    top.remove("민소매")
+if first_style == "sporty":
+    top.remove("니트")
