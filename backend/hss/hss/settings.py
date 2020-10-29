@@ -158,9 +158,9 @@ REST_FRAMEWORK = {
     ),
 }
 
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
-}
+# REST_AUTH_SERIALIZERS = {
+#     'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
+# }
 
 REST_USE_JWT = True
 

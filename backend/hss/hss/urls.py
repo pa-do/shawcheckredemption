@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf.urls import url
 from rest_framework import routers
 from django.conf.urls.static import static
-from sikdorang import settings
+from hss import settings
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
