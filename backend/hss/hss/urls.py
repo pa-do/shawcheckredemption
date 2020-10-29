@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url
+from rest_framework import routers
+from django.conf.urls.static import static
+from hss import settings
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -26,18 +29,30 @@ schema_view = get_schema_view(
       title="프로젝트 허성수",
       default_version='v1',
       description="20~30대 공대생 타깃 AI 옷 추천 프로젝트",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
-      license=openapi.License(name="BSD License"),
+      terms_of_service="https://lab.ssafy.com/s03-final/s03p31d205",
+      contact=openapi.Contact(email="gjtjdtn201@naver.com"),
+      license=openapi.License(name="고잉도희호"),
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
 )
 
+router = routers.DefaultRouter()
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # 로그인 & 로그아웃
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    # 소셜 로그인
+    url(r'^accounts/', include('allauth.urls')),
+    # 회원가입
+    path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    
+    #swagger
+    url(r'^',include(router.urls)),
+
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
