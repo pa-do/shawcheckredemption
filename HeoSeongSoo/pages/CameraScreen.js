@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 
-function CameraScreen({ navigation }) {
+function CameraScreen({ navigation, route }) {
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null)
     const [type, setType] = useState(Camera.Constants.Type.back);
+
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestPermissionsAsync();
@@ -45,9 +46,9 @@ function CameraScreen({ navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity style={{alignSelf: 'center'}} onPress={async() => {
                 if(cameraRef){
-                    let photo = await cameraRef.takePictureAsync({ quality: 0.5, base64: true });
-                    console.log('photo', photo);
-                    navigation.goBack();
+                    let photo = await cameraRef.takePictureAsync({ quality: 0.5 });
+                    // console.log('photo', photo);
+                    navigation.navigate(route.params.backScreen, { image: photo});
                 }
                 }}>
                 <View style={{ 
