@@ -89,6 +89,24 @@ function CodiMyListScreen({ navigation }) {
                 user: '정승희',
                 items: [{}, {}, {}, {}, {}]
             },
+            {
+                id: 10,
+                img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Cinq.svg/1200px-Cinq.svg.png',
+                content: '겨울코디,크리스마스코디,연말코디',
+                liked: false,
+                likes: 1,
+                user: '정승희',
+                items: [{}, {}, {}, {}, {}]
+            },
+            {
+                id: 11,
+                img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Cinq.svg/1200px-Cinq.svg.png',
+                content: '겨울코디,크리스마스코디,연말코디',
+                liked: false,
+                likes: 1,
+                user: '정승희',
+                items: [{}, {}, {}, {}, {}]
+            },
         ],
         likeCodis:[
             {
@@ -157,14 +175,13 @@ function CodiMyListScreen({ navigation }) {
         }
     }
 
-    function MyOrLike(navigation) {
+    function MyOrLike() {
         const items = showData
         const itemsList = []
         if (items.length !== 0) {
             for (let i = 0; i <= parseInt(items.length / 3); i++) {
                 let startPoint = (i * 3)
                 let endPoint = (i * 3) + 3
-                console.log(endPoint)
                 if (endPoint > items.length) {
                     endPoint = endPoint - 1
                     if (endPoint > items.length) {
@@ -177,11 +194,9 @@ function CodiMyListScreen({ navigation }) {
                     console.log(error)
                 }
             }
-            // console.log('>>>>>>>>>>>>>>>>>>>>>.', itemsList, '<<<<<<<<<<<<<<<<<<<<<<<<<<')
             return (
                 <>
                     {itemsList.map(tempItems => { 
-                        // console.log(tempItems)
                         return (
                             <GridRowContainer>
                                 {tempItems.map(item => {

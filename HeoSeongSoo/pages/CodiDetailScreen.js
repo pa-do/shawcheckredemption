@@ -39,6 +39,7 @@ function CodiDetailScreen({ navigation, route }) {
         // axios 요청으로 하트 변경사항 저장
         // codiItem.id와 itemLike 전송
     }
+    let nullCount = 0
     return (
         <Container>
             <Text>
@@ -52,6 +53,9 @@ function CodiDetailScreen({ navigation, route }) {
                     <Text>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</Text>
                 </TextContainer>
             </TouchableWithoutFeedback>
+            <Text>
+                {codiSetDetail.content}
+            </Text>
             <ScrollView>
                 {codiSetDetail.items.map(item => {
                     if (Object.keys(item).length !== 0) {
@@ -69,8 +73,11 @@ function CodiDetailScreen({ navigation, route }) {
                                 </ItemContainer>
                             </TouchableWithoutFeedback>
                         )
+                    } else {
+                        nullCount++;
                     }
                 })}
+                {nullCount === 5 ? <Text>등록된 상품의 정보가 없어요</Text> : null}
             </ScrollView>
         </Container>
     )
