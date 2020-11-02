@@ -1,14 +1,21 @@
 import React from  'react';
 import { Text, View, Modal, StyleSheet, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
 import NormalButton from '../components/buttons/NormalButton';
-import { Col, Row, Grid } from "react-native-easy-grid";
 import styled from 'styled-components/native';
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import produce from 'immer';
 
+
 const UserProfileImg = styled.Image`
     width: 150px;
+    height: 150px;
+    resize-mode: cover;
+`;
+
+const CodiItemImg = styled.Image`
+    margin: 3px;
+    width: 31%;
     height: 150px;
     resize-mode: cover;
 `;
@@ -21,17 +28,15 @@ const UserProfileTextContainer = styled.View`
     flex-direction: column;
     width: 100%;
 `;
+
 const Container = styled.SafeAreaView`
     flex: 1;
 `;
 
-const CodiItemImg = styled.Image`
-    margin: 3px;
-    width: 31%;
-    height: 150px;
-    resize-mode: cover;
+const GridRowContainer = styled.View`
+    flex: 1;
+    flex-direction: row;
 `;
-
 
 function CodiMyListScreen({ navigation }) {
     const UserData = {
@@ -41,7 +46,7 @@ function CodiMyListScreen({ navigation }) {
         codis: [
             {
                 id: 5,
-                img: 'https://i0.codibook.net/files/thumb/big/1974052848202/7924919fa49692/825365914.jpg',
+                img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Un1.svg/1200px-Un1.svg.png',
                 content: '겨울코디,크리스마스코디,연말코디',
                 liked: false,
                 likes: 1,
@@ -50,7 +55,7 @@ function CodiMyListScreen({ navigation }) {
             },
             {
                 id: 6,
-                img: 'https://i0.codibook.net/files/thumb/big/1974052848202/7924919fa49692/825365914.jpg',
+                img: 'https://i.stack.imgur.com/FAOZX.png',
                 content: '겨울코디,크리스마스코디,연말코디',
                 liked: false,
                 likes: 1,
@@ -59,7 +64,25 @@ function CodiMyListScreen({ navigation }) {
             },
             {
                 id: 7,
-                img: 'https://i0.codibook.net/files/thumb/big/1974052848202/7924919fa49692/825365914.jpg',
+                img: 'https://blognumbers.files.wordpress.com/2010/09/3.jpg',
+                content: '겨울코디,크리스마스코디,연말코디',
+                liked: false,
+                likes: 1,
+                user: '정승희',
+                items: [{}, {}, {}, {}, {}]
+            },
+            {
+                id: 8,
+                img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Quatre.svg/1200px-Quatre.svg.png',
+                content: '겨울코디,크리스마스코디,연말코디',
+                liked: false,
+                likes: 1,
+                user: '정승희',
+                items: [{}, {}, {}, {}, {}]
+            },            
+            {
+                id: 9,
+                img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Cinq.svg/1200px-Cinq.svg.png',
                 content: '겨울코디,크리스마스코디,연말코디',
                 liked: false,
                 likes: 1,
@@ -134,38 +157,62 @@ function CodiMyListScreen({ navigation }) {
         }
     }
 
-    function MyOrLike() {
-        return (
-            <ScrollView>
-                <Grid>
-                    {showData.map(item => {
-                        if (item.length !== 0) {
-                            return (
-                                <TouchableWithoutFeedback
-                                style={{marginBottom: 5}}
-                                key={item.id}
-                                onPress={() => {
-                                    navigation.navigate('Detail', { item: item })
-                                }}>
-                                <CodiItemImg
-                                    source={{
-                                        uri: item.img,
-                                    }}
-                                />
-                                </TouchableWithoutFeedback>
-                            )
-                        } else {
-                            return (
-                                <Text>
-                                    활동을 시작해보세요!
-                                </Text>
-                            )
-                        }
+    function MyOrLike(navigation) {
+        const items = showData
+        const itemsList = []
+        if (items.length !== 0) {
+            for (let i = 0; i <= parseInt(items.length / 3); i++) {
+                let startPoint = (i * 3)
+                let endPoint = (i * 3) + 3
+                console.log(endPoint)
+                if (endPoint > items.length) {
+                    endPoint = endPoint - 1
+                    if (endPoint > items.length) {
+                        endPoint = endPoint - 1
+                    }
+                }
+                try {
+                    itemsList.push(items.slice(startPoint, endPoint))
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            // console.log('>>>>>>>>>>>>>>>>>>>>>.', itemsList, '<<<<<<<<<<<<<<<<<<<<<<<<<<')
+            return (
+                <>
+                    {itemsList.map(tempItems => { 
+                        // console.log(tempItems)
+                        return (
+                            <GridRowContainer>
+                                {tempItems.map(item => {
+                                    return (
+                                        <TouchableWithoutFeedback
+                                            style={{marginBottom: 5}}
+                                            onPress={() => {
+                                                navigation.navigate('Detail', {item: item})
+                                            }}>
+                                            <CodiItemImg
+                                                source={{
+                                                    uri: item.img,
+                                                }}
+                                            />
+                                        </TouchableWithoutFeedback>
+                                    );
+                                })}
+                            </GridRowContainer>
+                        )
                     })}
-                </Grid>
-            </ScrollView>
-        );
+                </>
+            )
+        } else {
+            return (
+                <Text>
+                    활동을 시작해보세요!
+                </Text>
+            )
+        }
     }
+    
     return (
         <Container>
             <Modal
@@ -278,7 +325,9 @@ function CodiMyListScreen({ navigation }) {
             >
                 코디등록
             </NormalButton>
-            <MyOrLike />
+            <ScrollView>
+                <MyOrLike />
+            </ScrollView>
         </Container>
     )
 }

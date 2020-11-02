@@ -39,25 +39,21 @@ function CodiRecListScreen({ navigation, route}) {
     }
     function changePlusShowData() {
         if (showIndex === recommendations.length-1) {
-            console.log(showIndex, ',', recommendations.length, '<<<<<<<<<<< length')
             return
         } else {
             setShowIndex(showIndex+1);
             setShowData(recommendations[showIndex+1]);
             setLikeItem({liked: showData?.liked, likes:showData?.likes})
-            console.log(showIndex, '<<<<<<<<<<<<<<<<<<<<< plus')
         }
     }
 
     function changeMinusShowData() {
         if (showIndex === 0) {
-            console.log(showIndex, ',', recommendations.length, '<<<<<<<<<<< length')
             return
         } else {
             setShowIndex(showIndex-1);
             setShowData(recommendations[showIndex-1]);
             setLikeItem({liked: showData?.liked, likes:showData?.likes})
-            console.log(showIndex, '<<<<<<<<<<<<<<<<<<<<< minus')
         }
     }
 
