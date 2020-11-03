@@ -57,7 +57,7 @@ class Pants(models.Model):
     price = models.IntegerField()
     img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
-
+# 신발
 class Shoes(models.Model):
     brand = models.CharField(max_length=50)
     category = models.IntegerField()
