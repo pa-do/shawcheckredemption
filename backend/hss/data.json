@@ -18471,12 +18471,13 @@
             "brand": "무신사 스탠다드",
             "category": 3,
             "color": "흑청 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "면 100%",
             "item": "릴렉스드 데님 트러커 재킷 [워시드 블랙]",
             "price": "59900",
             "img": "251.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1337094/0"
+            "url": "https://store.musinsa.com/app/product/detail/1337094/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18486,12 +18487,13 @@
             "brand": "무신사 스탠다드",
             "category": 3,
             "color": "검정색 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "면 100%",
             "item": "릴렉스드 코튼 트러커 재킷 [블랙]",
             "price": "49900",
             "img": "252.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295829/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295829/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18501,12 +18503,13 @@
             "brand": "무신사 스탠다드",
             "category": 3,
             "color": "연청 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "면 100%",
             "item": "릴렉스드 데님 트러커 재킷 [라이트 인디고]",
             "price": "59900",
             "img": "253.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1337096/0"
+            "url": "https://store.musinsa.com/app/product/detail/1337096/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18516,12 +18519,13 @@
             "brand": "무신사 스탠다드",
             "category": 3,
             "color": "중청 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "면 100%",
             "item": "릴렉스드 데님 트러커 재킷 [미디움 인디고]",
             "price": "59900",
             "img": "254.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1337095/0"
+            "url": "https://store.musinsa.com/app/product/detail/1337095/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18531,12 +18535,13 @@
             "brand": "무신사 스탠다드",
             "category": 3,
             "color": "아이보리 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "면 100%",
             "item": "릴렉스드 데님 트러커 재킷 [크림]",
             "price": "59900",
             "img": "255.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1337097/0"
+            "url": "https://store.musinsa.com/app/product/detail/1337097/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18546,12 +18551,13 @@
             "brand": "무신사 스탠다드",
             "category": 3,
             "color": "베이지색 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "면 100%",
             "item": "릴렉스드 코튼 트러커 재킷 [베이지]",
             "price": "49900",
             "img": "256.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295832/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295832/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18566,7 +18572,8 @@
             "item": "릴렉스드 데님 트러커 재킷 2 [워시드 블랙]",
             "price": "59900",
             "img": "257.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1645767/0"
+            "url": "https://store.musinsa.com/app/product/detail/1645767/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18581,7 +18588,8 @@
             "item": "릴렉스드 데님 트러커 재킷 2 [딥 인디고]",
             "price": "59900",
             "img": "258.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1645765/0"
+            "url": "https://store.musinsa.com/app/product/detail/1645765/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18596,7 +18604,8 @@
             "item": "릴렉스드 데님 트러커 재킷 2 [라이트 인디고]",
             "price": "59900",
             "img": "259.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1645766/0"
+            "url": "https://store.musinsa.com/app/product/detail/1645766/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18606,12 +18615,13 @@
             "brand": "무신사 스탠다드",
             "category": 3,
             "color": "중청 ",
-            "season": "겨울",
+            "season": "가을겨울",
             "textile": "겉감:면100%, 안감(카라,몸판):폴리에스터80%, 아크릴20%",
             "item": "쉐르파 데님 트러커 재킷 [미디엄 인디고]",
             "price": "89900",
             "img": "260.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1651643/0"
+            "url": "https://store.musinsa.com/app/product/detail/1651643/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18626,7 +18636,8 @@
             "item": "콘트라스트 스티치 릴렉스드 데님 트러커 재킷 [크림]",
             "price": "59900",
             "img": "261.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1645764/0"
+            "url": "https://store.musinsa.com/app/product/detail/1645764/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18641,7 +18652,8 @@
             "item": "콘트라스트 스티치 릴렉스드 데님 트러커 재킷 [블랙]",
             "price": "59900",
             "img": "262.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1645763/0"
+            "url": "https://store.musinsa.com/app/product/detail/1645763/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18651,12 +18663,13 @@
             "brand": "무신사 스탠다드",
             "category": 3,
             "color": "카키 베이지 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "면 100%",
             "item": "릴렉스드 코튼 트러커 재킷 [라이트 브라운]",
             "price": "49900",
             "img": "263.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295831/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295831/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18666,12 +18679,13 @@
             "brand": "무신사 스탠다드",
             "category": 3,
             "color": "흑청 ",
-            "season": "겨울",
+            "season": "가을겨울",
             "textile": "겉감:면100%, 안감(카라,몸판):폴리에스터80%, 아크릴20%",
             "item": "쉐르파 데님 트러커 재킷 [워시드 블랙]",
             "price": "89900",
             "img": "264.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1651642/0"
+            "url": "https://store.musinsa.com/app/product/detail/1651642/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18686,7 +18700,8 @@
             "item": "레일로드 재킷 [블랙]",
             "price": "49900",
             "img": "265.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295862/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295862/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18701,7 +18716,8 @@
             "item": "BDU 재킷 [카키]",
             "price": "63900",
             "img": "266.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295838/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295838/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18710,13 +18726,14 @@
         "fields": {
             "brand": "세인트페인",
             "category": 3,
-            "color": "검정색 ",
-            "season": "",
+            "color": "흑청 ",
+            "season": "가을겨울",
             "textile": "",
             "item": "SP 보아 데님 트러커 자켓-블랙",
             "price": "95000",
             "img": "267.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1634847/0"
+            "url": "https://store.musinsa.com/app/product/detail/1634847/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18725,13 +18742,14 @@
         "fields": {
             "brand": "세인트페인",
             "category": 3,
-            "color": "파란색 ",
-            "season": "",
+            "color": "데님 ",
+            "season": "가을겨울",
             "textile": "",
             "item": "SP 보아 데님 트러커 자켓-블루",
             "price": "95000",
             "img": "268.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1634848/0"
+            "url": "https://store.musinsa.com/app/product/detail/1634848/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18741,12 +18759,13 @@
             "brand": "무신사 스탠다드",
             "category": 3,
             "color": "아이보리 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "면 100%",
             "item": "릴렉스드 코튼 트러커 재킷 [크림]",
             "price": "49900",
             "img": "269.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295830/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295830/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18761,7 +18780,8 @@
             "item": "BDU 재킷 [네이비]",
             "price": "63900",
             "img": "270.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295841/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295841/0",
+            "style": "street, casual"
         }
     },
     {
@@ -18776,7 +18796,8 @@
             "item": "레일로드 재킷 [라이트 브라운]",
             "price": "49900",
             "img": "271.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295863/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295863/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18791,7 +18812,8 @@
             "item": "BDU 재킷 [블랙]",
             "price": "63900",
             "img": "272.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295837/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295837/0",
+            "style": "street, casual"
         }
     },
     {
@@ -18806,7 +18828,8 @@
             "item": "레일로드 재킷 [크림]",
             "price": "49900",
             "img": "273.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295864/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295864/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18816,12 +18839,13 @@
             "brand": "세인트페인",
             "category": 3,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "SP 스웨이드 트러커 자켓-블랙",
             "price": "95000",
             "img": "274.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1591323/0"
+            "url": "https://store.musinsa.com/app/product/detail/1591323/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18831,12 +18855,13 @@
             "brand": "세인트페인",
             "category": 3,
             "color": "아이보리 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "SP 스웨이드 트러커 자켓-아이보리",
             "price": "95000",
             "img": "275.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1591324/0"
+            "url": "https://store.musinsa.com/app/product/detail/1591324/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18851,7 +18876,8 @@
             "item": "BDU 재킷 [베이지]",
             "price": "63900",
             "img": "276.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295839/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295839/0",
+            "style": "street, casual"
         }
     },
     {
@@ -18866,7 +18892,8 @@
             "item": "BDU 재킷 [다크 그레이]",
             "price": "63900",
             "img": "277.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295842/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295842/0",
+            "style": "street, casual"
         }
     },
     {
@@ -18875,13 +18902,14 @@
         "fields": {
             "brand": "로맨틱크라운",
             "category": 3,
-            "color": "기타색상 ",
-            "season": "",
+            "color": "네이비 ",
+            "season": "봄가을",
             "textile": "COTTON 100%\nLINING : POLYESTER 100%",
             "item": "BACK POCKET TRACK JACKET_NAVY",
             "price": "135000",
             "img": "278.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1271676/0"
+            "url": "https://store.musinsa.com/app/product/detail/1271676/0",
+            "style": "street, casual, sporty"
         }
     },
     {
@@ -18890,13 +18918,14 @@
         "fields": {
             "brand": "로맨틱크라운",
             "category": 3,
-            "color": "기타색상 ",
-            "season": "",
+            "color": "아이보리 ",
+            "season": "봄가을",
             "textile": "COTTON 100%\nLINING : POLYESTER 100%",
             "item": "BACK POCKET TRACK JACKET_OATMEAL",
             "price": "135000",
             "img": "279.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1271675/0"
+            "url": "https://store.musinsa.com/app/product/detail/1271675/0",
+            "style": "street, casual, sporty"
         }
     },
     {
@@ -18906,12 +18935,13 @@
             "brand": "세인트페인",
             "category": 3,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "SP 코튼 트윌 트러커 자켓-블랙",
             "price": "68000",
             "img": "280.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1591318/0"
+            "url": "https://store.musinsa.com/app/product/detail/1591318/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18920,13 +18950,14 @@
         "fields": {
             "brand": "로맨틱크라운",
             "category": 3,
-            "color": "기타색상 ",
-            "season": "",
+            "color": "버건디 ",
+            "season": "봄가을",
             "textile": "COTTON 100%\nACRYLIC 100%",
             "item": "JACQUARD TRUCKER JACKET_BURGUNDY",
             "price": "128000",
             "img": "281.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1110112/0"
+            "url": "https://store.musinsa.com/app/product/detail/1110112/0",
+            "style": "street, casual"
         }
     },
     {
@@ -18935,13 +18966,14 @@
         "fields": {
             "brand": "로맨틱크라운",
             "category": 3,
-            "color": "기타색상 ",
-            "season": "",
+            "color": "네이비 ",
+            "season": "봄가을",
             "textile": "COTTON 100%",
             "item": "RC Double Line Trucker Jacket_Navy",
             "price": "118000",
             "img": "282.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/960868/0"
+            "url": "https://store.musinsa.com/app/product/detail/960868/0",
+            "style": "street, casual"
         }
     },
     {
@@ -18950,13 +18982,14 @@
         "fields": {
             "brand": "로맨틱크라운",
             "category": 3,
-            "color": "기타색상 ",
-            "season": "",
+            "color": "연청 ",
+            "season": "봄가을",
             "textile": "COTTON 100%",
             "item": "FRIDAY TRUCKER JACKET_SKY BLUE",
             "price": "108000",
             "img": "283.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1268892/0"
+            "url": "https://store.musinsa.com/app/product/detail/1268892/0",
+            "style": "street, casual"
         }
     },
     {
@@ -18965,13 +18998,14 @@
         "fields": {
             "brand": "세인트페인",
             "category": 3,
-            "color": "베이지색 ",
-            "season": "",
+            "color": "카멜 ",
+            "season": "봄가을",
             "textile": "",
             "item": "SP 트러커 자켓-베이지",
             "price": "65000",
             "img": "284.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1139817/0"
+            "url": "https://store.musinsa.com/app/product/detail/1139817/0",
+            "style": "casual"
         }
     },
     {
@@ -18980,13 +19014,14 @@
         "fields": {
             "brand": "로맨틱크라운",
             "category": 3,
-            "color": "기타색상 ",
-            "season": "",
+            "color": "아이보리 ",
+            "season": "봄가을",
             "textile": "COTTON 100%",
             "item": "FRIDAY TRUCKER JACKET_OATMEAL",
             "price": "108000",
             "img": "285.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1268891/0"
+            "url": "https://store.musinsa.com/app/product/detail/1268891/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -18996,12 +19031,13 @@
             "brand": "마크 곤잘레스",
             "category": 3,
             "color": "아이보리 ",
-            "season": "",
+            "season": "겨울",
             "textile": "",
             "item": "엔젤 트러커 자켓 아이보리",
             "price": "139000",
             "img": "286.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1593412/0"
+            "url": "https://store.musinsa.com/app/product/detail/1593412/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19010,13 +19046,14 @@
         "fields": {
             "brand": "로맨틱크라운",
             "category": 3,
-            "color": "기타색상 ",
-            "season": "",
+            "color": "아이보리 ",
+            "season": "봄가을",
             "textile": "COTTON 100%",
             "item": "Color Tape Corduroy Jacket_Oatmeal",
             "price": "108000",
             "img": "287.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/933851/0"
+            "url": "https://store.musinsa.com/app/product/detail/933851/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19031,7 +19068,8 @@
             "item": "BDU 재킷 [크림]",
             "price": "63900",
             "img": "288.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1295840/0"
+            "url": "https://store.musinsa.com/app/product/detail/1295840/0",
+            "style": "street, casual"
         }
     },
     {
@@ -19040,13 +19078,14 @@
         "fields": {
             "brand": "로맨틱크라운",
             "category": 3,
-            "color": "검정색 ",
-            "season": "",
+            "color": "글렌 체크 ",
+            "season": "봄가을",
             "textile": "POLYESTER 98% SPANDEX 2%",
             "item": "Color Tape Check Jacket_Black",
             "price": "108000",
             "img": "289.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/933849/0"
+            "url": "https://store.musinsa.com/app/product/detail/933849/0",
+            "style": "street, casual"
         }
     },
     {
@@ -19055,13 +19094,14 @@
         "fields": {
             "brand": "세인트페인",
             "category": 3,
-            "color": "파란색 ",
-            "season": "",
+            "color": "데님 ",
+            "season": "봄가을",
             "textile": "",
             "item": "SP 데님 워시드 트러커 자켓-블루",
             "price": "78000",
             "img": "290.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1591322/0"
+            "url": "https://store.musinsa.com/app/product/detail/1591322/0",
+            "style": "street, casual"
         }
     },
     {
@@ -19070,13 +19110,14 @@
         "fields": {
             "brand": "마크 곤잘레스",
             "category": 3,
-            "color": "연청 ",
-            "season": "",
+            "color": "중청 ",
+            "season": "봄가을",
             "textile": "",
             "item": "M/G ANGEL DENIM JACKET INDIGO",
             "price": "128000",
             "img": "291.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1309966/0"
+            "url": "https://store.musinsa.com/app/product/detail/1309966/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19085,13 +19126,14 @@
         "fields": {
             "brand": "로맨틱크라운",
             "category": 3,
-            "color": "기타색상 ",
-            "season": "",
+            "color": "아이보리 ",
+            "season": "봄가을",
             "textile": "COTTON 100%",
             "item": "RC Double Line Trucker Jacket_Oatmeal",
             "price": "118000",
             "img": "292.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/960869/0"
+            "url": "https://store.musinsa.com/app/product/detail/960869/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19100,13 +19142,14 @@
         "fields": {
             "brand": "세인트페인",
             "category": 3,
-            "color": "검정색 ",
-            "season": "",
+            "color": "흑청 ",
+            "season": "봄가을",
             "textile": "",
             "item": "SP 데님 워시드 트러커 자켓-블랙",
             "price": "78000",
             "img": "293.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1591321/0"
+            "url": "https://store.musinsa.com/app/product/detail/1591321/0",
+            "style": "street, casual"
         }
     },
     {
@@ -19116,12 +19159,13 @@
             "brand": "마크 곤잘레스",
             "category": 3,
             "color": "검정색 ",
-            "season": "",
+            "season": "가을겨울",
             "textile": "",
             "item": "엔젤 트러커 자켓 블랙",
             "price": "139000",
             "img": "294.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1593413/0"
+            "url": "https://store.musinsa.com/app/product/detail/1593413/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19131,12 +19175,13 @@
             "brand": "세인트페인",
             "category": 3,
             "color": "아이보리 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "SP 코튼 트윌 트러커 자켓-아이보리",
             "price": "68000",
             "img": "295.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1591320/0"
+            "url": "https://store.musinsa.com/app/product/detail/1591320/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19145,13 +19190,14 @@
         "fields": {
             "brand": "로맨틱크라운",
             "category": 3,
-            "color": "기타색상 ",
-            "season": "",
+            "color": "아이보리 ",
+            "season": "봄가을",
             "textile": "COTTON 100%\n / POLYESTER 85% NYLON 15%\nLINING : POLYESTER 100%\nFILL : POLYESTER 100%",
             "item": "QUILTING TRUCKER JACKET_OATMEAL",
             "price": "128000",
             "img": "296.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1173547/0"
+            "url": "https://store.musinsa.com/app/product/detail/1173547/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19161,12 +19207,13 @@
             "brand": "로맨틱크라운",
             "category": 3,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "COTTON 100%\n / POLYESTER 85% NYLON 15%\nLINING : POLYESTER 100%\nFILL : POLYESTER 100%",
             "item": "QUILTING TRUCKER JACKET_BLACK",
             "price": "128000",
             "img": "297.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1173548/0"
+            "url": "https://store.musinsa.com/app/product/detail/1173548/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19175,13 +19222,14 @@
         "fields": {
             "brand": "로맨틱크라운",
             "category": 3,
-            "color": "보라색 ",
-            "season": "",
+            "color": "라벤더 ",
+            "season": "봄가을",
             "textile": "COTTON 100%",
             "item": "GNAC Corduroy Jacket_Purple",
             "price": "99000",
             "img": "298.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/948550/0"
+            "url": "https://store.musinsa.com/app/product/detail/948550/0",
+            "style": "street"
         }
     },
     {
@@ -19191,12 +19239,13 @@
             "brand": "마크 곤잘레스",
             "category": 3,
             "color": "흰색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "M/G ANGEL DENIM JACKET IVORY",
             "price": "128000",
             "img": "299.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1309965/0"
+            "url": "https://store.musinsa.com/app/product/detail/1309965/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19205,13 +19254,14 @@
         "fields": {
             "brand": "마크 곤잘레스",
             "category": 3,
-            "color": "기타색상 ",
-            "season": "",
+            "color": "카모 ",
+            "season": "겨울",
             "textile": "",
             "item": "엔젤 트러커 자켓 TC",
             "price": "139000",
             "img": "300.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1593414/0"
+            "url": "https://store.musinsa.com/app/product/detail/1593414/0",
+            "style": "street"
         }
     },
     {
@@ -19221,12 +19271,13 @@
             "brand": "무신사 스탠다드",
             "category": 4,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄여름가을",
             "textile": "폴리에스터 67% 레이온 29% 폴리우레탄 4%",
             "item": "베이식 블레이저 [블랙]",
             "price": "70900",
             "img": "301.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1108007/0"
+            "url": "https://store.musinsa.com/app/product/detail/1108007/0",
+            "style": "formal"
         }
     },
     {
@@ -19241,7 +19292,8 @@
             "item": "오버사이즈 블레이저 [블랙]",
             "price": "71900",
             "img": "302.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1283757/0"
+            "url": "https://store.musinsa.com/app/product/detail/1283757/0",
+            "style": "formal"
         }
     },
     {
@@ -19256,7 +19308,8 @@
             "item": "릴렉스드 베이식 블레이저 [블랙]",
             "price": "71900",
             "img": "303.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1558197/0"
+            "url": "https://store.musinsa.com/app/product/detail/1558197/0",
+            "style": "formal"
         }
     },
     {
@@ -19271,7 +19324,8 @@
             "item": "라이트웨이트 베이식 블레이저 [블랙]",
             "price": "70900",
             "img": "304.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/965917/0"
+            "url": "https://store.musinsa.com/app/product/detail/965917/0",
+            "style": "formal"
         }
     },
     {
@@ -19286,7 +19340,8 @@
             "item": "글렌 체크 베이식 블레이저 [미디엄 그레이]",
             "price": "74900",
             "img": "305.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1292227/0"
+            "url": "https://store.musinsa.com/app/product/detail/1292227/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -19301,7 +19356,8 @@
             "item": "글렌 체크 베이식 블레이저 [다크 베이지]",
             "price": "74900",
             "img": "306.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1558196/0"
+            "url": "https://store.musinsa.com/app/product/detail/1558196/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -19316,7 +19372,8 @@
             "item": "베이식 블레이저 [차콜 그레이]",
             "price": "70900",
             "img": "307.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1167428/0"
+            "url": "https://store.musinsa.com/app/product/detail/1167428/0",
+            "style": "formal"
         }
     },
     {
@@ -19331,7 +19388,8 @@
             "item": "베이식 블레이저 [미디엄 그레이]",
             "price": "70900",
             "img": "308.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1167429/0"
+            "url": "https://store.musinsa.com/app/product/detail/1167429/0",
+            "style": "formal"
         }
     },
     {
@@ -19346,7 +19404,8 @@
             "item": "베이식 블레이저 [네이비]",
             "price": "70900",
             "img": "309.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1181054/0"
+            "url": "https://store.musinsa.com/app/product/detail/1181054/0",
+            "style": "formal"
         }
     },
     {
@@ -19361,7 +19420,8 @@
             "item": "베이식 울 블레이저 [블랙]",
             "price": "119900",
             "img": "310.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1248260/0"
+            "url": "https://store.musinsa.com/app/product/detail/1248260/0",
+            "style": "formal"
         }
     },
     {
@@ -19376,7 +19436,8 @@
             "item": "릴렉스드 베이식 블레이저 [차콜 그레이]",
             "price": "71900",
             "img": "311.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1558671/0"
+            "url": "https://store.musinsa.com/app/product/detail/1558671/0",
+            "style": "formal"
         }
     },
     {
@@ -19391,7 +19452,8 @@
             "item": "라이트웨이트 베이식 블레이저 [미디엄 그레이]",
             "price": "70900",
             "img": "312.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1312176/0"
+            "url": "https://store.musinsa.com/app/product/detail/1312176/0",
+            "style": "formal"
         }
     },
     {
@@ -19406,7 +19468,8 @@
             "item": "오버사이즈 더블 브레스티드 블레이저 [블랙]",
             "price": "79900",
             "img": "313.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1595830/0"
+            "url": "https://store.musinsa.com/app/product/detail/1595830/0",
+            "style": "formal"
         }
     },
     {
@@ -19421,7 +19484,8 @@
             "item": "라이트웨이트 베이식 블레이저 [차콜 그레이]",
             "price": "70900",
             "img": "314.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1312175/0"
+            "url": "https://store.musinsa.com/app/product/detail/1312175/0",
+            "style": "formal"
         }
     },
     {
@@ -19436,7 +19500,8 @@
             "item": "릴렉스드 베이식 블레이저 [네이비]",
             "price": "71900",
             "img": "315.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1558677/0"
+            "url": "https://store.musinsa.com/app/product/detail/1558677/0",
+            "style": "formal"
         }
     },
     {
@@ -19451,7 +19516,8 @@
             "item": "릴렉스드 베이식 블레이저 [미디엄 그레이]",
             "price": "71900",
             "img": "316.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1558683/0"
+            "url": "https://store.musinsa.com/app/product/detail/1558683/0",
+            "style": "formal"
         }
     },
     {
@@ -19466,7 +19532,8 @@
             "item": "헤링본 울 블레이저 [차콜 그레이]",
             "price": "119900",
             "img": "317.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1597674/0"
+            "url": "https://store.musinsa.com/app/product/detail/1597674/0",
+            "style": "formal"
         }
     },
     {
@@ -19476,12 +19543,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "갈색 ",
-            "season": "",
+            "season": "가을겨울",
             "textile": "겉감-모 78% 견 22% 안감,소매안감-폴리에스터 100% 주머니감-폴리에스터 65% 면 35%",
             "item": "브라운 체크 울혼방 긴팔자켓 MLJA0D113W3",
             "price": "670000",
             "img": "318.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1647907/0"
+            "url": "https://store.musinsa.com/app/product/detail/1647907/0",
+            "style": "formal"
         }
     },
     {
@@ -19490,13 +19558,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "네이비 ",
-            "season": "",
+            "color": "네이비 옹브레 체크 ",
+            "season": "가을겨울",
             "textile": "겉감-모 87% 견 8% 마 5% 안감,소매안감-폴리에스터 100% 주머니감-폴리에스터 77% 면 23%",
             "item": "네이비 체크 울혼방 긴팔자켓 MLJA0D114N2",
             "price": "670000",
             "img": "319.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1647909/0"
+            "url": "https://store.musinsa.com/app/product/detail/1647909/0",
+            "style": "formal"
         }
     },
     {
@@ -19505,13 +19574,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "네이비 ",
-            "season": "",
+            "color": "네이비 글렌 체크 ",
+            "season": "가을겨울",
             "textile": "겉감-모 46% 알파카 35% 나일론 19% 안감-폴리에스터 100% 주머니감-폴리에스터 77% 면 23%",
             "item": "네이비 체크 울혼방 긴팔자켓 MLJA0D902N2",
             "price": "670000",
             "img": "320.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1647910/0"
+            "url": "https://store.musinsa.com/app/product/detail/1647910/0",
+            "style": "formal"
         }
     },
     {
@@ -19526,7 +19596,8 @@
             "item": "오버사이즈 3버튼 블레이저 [블랙]",
             "price": "71900",
             "img": "321.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1558198/0"
+            "url": "https://store.musinsa.com/app/product/detail/1558198/0",
+            "style": "formal"
         }
     },
     {
@@ -19541,7 +19612,8 @@
             "item": "베이식 울 블레이저 [차콜 그레이]",
             "price": "119900",
             "img": "322.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1248262/0"
+            "url": "https://store.musinsa.com/app/product/detail/1248262/0",
+            "style": "formal"
         }
     },
     {
@@ -19556,7 +19628,8 @@
             "item": "칼라리스 블레이저 [블랙]",
             "price": "70900",
             "img": "323.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1581943/0"
+            "url": "https://store.musinsa.com/app/product/detail/1581943/0",
+            "style": "dandy"
         }
     },
     {
@@ -19571,7 +19644,8 @@
             "item": "오버사이즈 노치트 더블 브레스티드 블레이저 [블랙]",
             "price": "79900",
             "img": "324.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1595842/0"
+            "url": "https://store.musinsa.com/app/product/detail/1595842/0",
+            "style": "formal"
         }
     },
     {
@@ -19586,7 +19660,8 @@
             "item": "오버사이즈 3버튼 블레이저 [차콜 그레이]",
             "price": "71900",
             "img": "325.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1558199/0"
+            "url": "https://store.musinsa.com/app/product/detail/1558199/0",
+            "style": "formal"
         }
     },
     {
@@ -19601,7 +19676,8 @@
             "item": "나일론 플렉서블 블레이저 [블랙]",
             "price": "75900",
             "img": "326.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1388927/0"
+            "url": "https://store.musinsa.com/app/product/detail/1388927/0",
+            "style": "formal"
         }
     },
     {
@@ -19616,7 +19692,8 @@
             "item": "오버사이즈 코듀로이 블레이저 [라이트 브라운]",
             "price": "71900",
             "img": "327.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1597676/0"
+            "url": "https://store.musinsa.com/app/product/detail/1597676/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -19631,7 +19708,8 @@
             "item": "오버사이즈 코듀로이 블레이저 [블랙]",
             "price": "71900",
             "img": "328.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1597675/0"
+            "url": "https://store.musinsa.com/app/product/detail/1597675/0",
+            "style": "formal"
         }
     },
     {
@@ -19640,13 +19718,14 @@
         "fields": {
             "brand": "무신사 스탠다드",
             "category": 4,
-            "color": "다크 그레이 ",
+            "color": "다크 그레이 글렌 체크 ",
             "season": "봄가을",
             "textile": "자켓, 겨울자켓, 모직자켓, 패턴자켓",
             "item": "글렌 체크 울 블레이저 [그레이]",
             "price": "119900",
             "img": "329.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1597672/0"
+            "url": "https://store.musinsa.com/app/product/detail/1597672/0",
+            "style": "formal"
         }
     },
     {
@@ -19656,12 +19735,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "회색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "wool blazer grey",
             "price": "139000",
             "img": "330.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1355963/0"
+            "url": "https://store.musinsa.com/app/product/detail/1355963/0",
+            "style": "dandy"
         }
     },
     {
@@ -19676,7 +19756,8 @@
             "item": "시어서커 블레이저 [블랙]",
             "price": "74900",
             "img": "331.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1407264/0"
+            "url": "https://store.musinsa.com/app/product/detail/1407264/0",
+            "style": "formal"
         }
     },
     {
@@ -19686,12 +19767,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "19fw sports jacket black",
             "price": "139000",
             "img": "332.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1141031/0"
+            "url": "https://store.musinsa.com/app/product/detail/1141031/0",
+            "style": "dandy"
         }
     },
     {
@@ -19700,13 +19782,14 @@
         "fields": {
             "brand": "유니폼브릿지",
             "category": 4,
-            "color": "녹색 ",
-            "season": "",
+            "color": "올리브 그린 ",
+            "season": "봄가을",
             "textile": "",
             "item": "19fw sports jacket sage green",
             "price": "139000",
             "img": "333.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1141038/0"
+            "url": "https://store.musinsa.com/app/product/detail/1141038/0",
+            "style": "dandy"
         }
     },
     {
@@ -19716,12 +19799,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "베이지색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "19fw sports jacket beige",
             "price": "139000",
             "img": "334.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1141034/0"
+            "url": "https://store.musinsa.com/app/product/detail/1141034/0",
+            "style": "dandy"
         }
     },
     {
@@ -19736,7 +19820,8 @@
             "item": "베이식 울 블레이저 [네이비]",
             "price": "119900",
             "img": "335.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1248261/0"
+            "url": "https://store.musinsa.com/app/product/detail/1248261/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -19746,12 +19831,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "comfort jacket black",
             "price": "139000",
             "img": "336.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1552787/0"
+            "url": "https://store.musinsa.com/app/product/detail/1552787/0",
+            "style": "dandy"
         }
     },
     {
@@ -19766,7 +19852,8 @@
             "item": "라이트웨이트 베이식 블레이저 [네이비]",
             "price": "70900",
             "img": "337.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1312177/0"
+            "url": "https://store.musinsa.com/app/product/detail/1312177/0",
+            "style": "formal"
         }
     },
     {
@@ -19781,7 +19868,8 @@
             "item": "오버사이즈 코듀로이 블레이저 [베이지]",
             "price": "71900",
             "img": "338.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1597677/0"
+            "url": "https://store.musinsa.com/app/product/detail/1597677/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -19791,12 +19879,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "coverall jacket black",
             "price": "125000",
             "img": "339.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1344707/0"
+            "url": "https://store.musinsa.com/app/product/detail/1344707/0",
+            "style": "dandy"
         }
     },
     {
@@ -19806,12 +19895,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "19fw easy blazer jacket black",
             "price": "129000",
             "img": "340.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1129125/0"
+            "url": "https://store.musinsa.com/app/product/detail/1129125/0",
+            "style": "street, dandy"
         }
     },
     {
@@ -19821,12 +19911,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "베이지색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "19fw easy blazer jacket beige",
             "price": "129000",
             "img": "341.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1129124/0"
+            "url": "https://store.musinsa.com/app/product/detail/1129124/0",
+            "style": "street, dandy"
         }
     },
     {
@@ -19836,12 +19927,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "wool blazer black",
             "price": "139000",
             "img": "342.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1355966/0"
+            "url": "https://store.musinsa.com/app/product/detail/1355966/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -19851,12 +19943,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "C-1 jacket black",
             "price": "129000",
             "img": "343.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1344512/0"
+            "url": "https://store.musinsa.com/app/product/detail/1344512/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19866,12 +19959,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "4pocket light jacket black",
             "price": "99000",
             "img": "344.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1321077/0"
+            "url": "https://store.musinsa.com/app/product/detail/1321077/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19881,12 +19975,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "20ss MxU 4pocket blazer black",
             "price": "169000",
             "img": "345.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1328911/0"
+            "url": "https://store.musinsa.com/app/product/detail/1328911/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19896,12 +19991,13 @@
             "brand": "무신사 스탠다드",
             "category": 4,
             "color": "스트라이프 스카이 블루 ",
-            "season": "봄가을",
+            "season": "봄여름",
             "textile": "면 98%, 폴리우레탄 2%",
             "item": "시어서커 블레이저 [더스티 네이비 스트라이프]",
             "price": "74900",
             "img": "346.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1407266/0"
+            "url": "https://store.musinsa.com/app/product/detail/1407266/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -19911,12 +20007,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "아이보리 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "20ss easy blazer ivory",
             "price": "139000",
             "img": "347.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1308604/0"
+            "url": "https://store.musinsa.com/app/product/detail/1308604/0",
+            "style": "street, casual, dandy"
         }
     },
     {
@@ -19926,12 +20023,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을겨울",
             "textile": "겉감-모 48% 폴리에스터 34% 마 17% 폴리우레탄 1% 안감-폴리에스터 100% 주머니감-폴리에스터 77% 면 23%",
             "item": "네이비 멜란지 울혼방 긴팔자켓 MLJA0D901N2",
             "price": "399000",
             "img": "348.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1555474/0"
+            "url": "https://store.musinsa.com/app/product/detail/1555474/0",
+            "style": "formal"
         }
     },
     {
@@ -19941,12 +20039,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "light blazer navy",
             "price": "139000",
             "img": "349.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1298084/0"
+            "url": "https://store.musinsa.com/app/product/detail/1298084/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -19956,12 +20055,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "다크 그레이 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "light blazer jacket charcoal",
             "price": "149000",
             "img": "350.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1587688/0"
+            "url": "https://store.musinsa.com/app/product/detail/1587688/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -19971,12 +20071,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "회색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "C-1 jacket grey",
             "price": "129000",
             "img": "351.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1344510/0"
+            "url": "https://store.musinsa.com/app/product/detail/1344510/0",
+            "style": "street, casual"
         }
     },
     {
@@ -19985,13 +20086,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "파란색 ",
-            "season": "",
+            "color": "회색 ",
+            "season": "봄여름가을",
             "textile": "겉감,안감,주머니감-폴리에스터 100%",
             "item": "블루 스트라이프 긴팔자켓 MLJA0B152B2",
             "price": "313000",
             "img": "352.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302751/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302751/0",
+            "style": "formal"
         }
     },
     {
@@ -20000,13 +20102,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "파란색 ",
-            "season": "",
+            "color": "회색 ",
+            "season": "봄여름가을",
             "textile": "겉감-폴리에스터 80% 마 18% 폴리우레탄 2% 안감,주머니감-폴리에스터 100%",
             "item": "라이트블루 체크 린넨혼방 긴팔자켓  MLJA0B257B1",
             "price": "356000",
             "img": "353.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302748/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302748/0",
+            "style": "formal"
         }
     },
     {
@@ -20015,13 +20118,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "파란색 ",
-            "season": "",
+            "color": "파란색 체크 ",
+            "season": "봄여름가을",
             "textile": "겉감,안감,주머니감-폴리에스터 100%",
             "item": "블루 패턴 긴팔자켓 MLJA0B154B2",
             "price": "313000",
             "img": "354.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1338651/0"
+            "url": "https://store.musinsa.com/app/product/detail/1338651/0",
+            "style": "formal"
         }
     },
     {
@@ -20030,13 +20134,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "파란색 ",
-            "season": "",
+            "color": "파란색 체크 ",
+            "season": "봄여름가을",
             "textile": "겉감-면 50% 폴리에스터 29% 아세테이트 20% 폴리우레탄 1% 안감,주머니감-폴리에스터 100%",
             "item": "블루 체크 면혼방 긴팔자켓  MLJA0B156B2",
             "price": "356000",
             "img": "355.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302734/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302734/0",
+            "style": "formal"
         }
     },
     {
@@ -20045,13 +20150,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "회색 ",
-            "season": "",
+            "color": "회색 체크 ",
+            "season": "봄가을",
             "textile": "겉감-면 85% 폴리에스터 8% 나일론 6% 폴리우레탄 1% 안감1-폴리에스터 100% 안감2-폴리에스터 52% 레이온 48% 주머니감-폴리에스터 80% 면 20%",
             "item": "그레이 패턴 면혼방 긴팔자켓 MLJA0B106G2",
             "price": "528000",
             "img": "356.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302762/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302762/0",
+            "style": "formal"
         }
     },
     {
@@ -20060,13 +20166,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "네이비 ",
-            "season": "",
+            "color": "회색 글렌 체크 ",
+            "season": "봄여름가을",
             "textile": "겉감-폴리에스터 42% 면 29% 마 27% 폴리우레탄 2% 안감,주머니감-폴리에스터 100%",
             "item": "네이비 체크 린넨혼방 긴팔자켓  MLJA0B157N2",
             "price": "356000",
             "img": "357.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302733/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302733/0",
+            "style": "formal"
         }
     },
     {
@@ -20076,12 +20183,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감-나일론 77% 폴리우레탄 14% 폴리에스터 9% 안감1,안감2-폴리에스터 100%",
             "item": "네이비 패턴 긴팔자켓  MLJA0B255N2",
             "price": "313000",
             "img": "358.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302736/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302736/0",
+            "style": "formal"
         }
     },
     {
@@ -20091,12 +20199,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감-폴리에스터 82% 아세테이트 18% 안감,주머니감-폴리에스터 100%",
             "item": "네이비 단색 긴팔자켓 MLJA0B203N2",
             "price": "356000",
             "img": "359.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302742/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302742/0",
+            "style": "formal"
         }
     },
     {
@@ -20106,12 +20215,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "가을겨울",
             "textile": "겉감-모 100% 안감,소매안감-폴리에스터 100% 주머니감-폴리에스터 70% 면 30%",
             "item": "네이비 슬림핏 조직물 울 자켓 MLJA0D109N2",
             "price": "528000",
             "img": "360.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1624283/0"
+            "url": "https://store.musinsa.com/app/product/detail/1624283/0",
+            "style": "formal"
         }
     },
     {
@@ -20121,12 +20231,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "라이트 오렌지 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "4pocket light jacket orange",
             "price": "99000",
             "img": "361.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1321076/0"
+            "url": "https://store.musinsa.com/app/product/detail/1321076/0",
+            "style": "street, casual"
         }
     },
     {
@@ -20136,12 +20247,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "카키 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "light blazer khaki",
             "price": "139000",
             "img": "362.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1298083/0"
+            "url": "https://store.musinsa.com/app/product/detail/1298083/0",
+            "style": "dandy, casual"
         }
     },
     {
@@ -20151,12 +20263,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "베이지색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감,안감,주머니감-폴리에스터 100%",
             "item": "베이지 패턴 긴팔자켓 MLJA0B251I2",
             "price": "270000",
             "img": "363.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302771/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302771/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20166,12 +20279,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감,안감1,2,주머니감-폴리에스터 100%",
             "item": "네이비 스트라이프 긴팔자켓  MLJA0B259N2",
             "price": "399000",
             "img": "364.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302747/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302747/0",
+            "style": "formal"
         }
     },
     {
@@ -20181,12 +20295,13 @@
             "brand": "유니폼브릿지",
             "category": 4,
             "color": "베이지색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "coverall jacket beige",
             "price": "125000",
             "img": "365.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1344706/0"
+            "url": "https://store.musinsa.com/app/product/detail/1344706/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20196,12 +20311,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감-폴리에스터 93% 폴리우레탄 7% 안감,주머니감-폴리에스터 100%",
             "item": "네이비 패턴 긴팔자켓 MLJA0B252N2",
             "price": "313000",
             "img": "366.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1342786/0"
+            "url": "https://store.musinsa.com/app/product/detail/1342786/0",
+            "style": "formal"
         }
     },
     {
@@ -20211,12 +20327,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "회색 ",
-            "season": "",
+            "season": "봄가을겨울",
             "textile": "겉감-레이온 46% 면 28% 모 26% 안감-폴리에스터 100% 주머니감-폴리에스터 75% 면 25%",
             "item": "그레이 체크 면혼방 긴팔자켓 MLJA0D103G3",
             "price": "399000",
             "img": "367.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1602790/0"
+            "url": "https://store.musinsa.com/app/product/detail/1602790/0",
+            "style": "formal"
         }
     },
     {
@@ -20225,13 +20342,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "네이비 ",
-            "season": "",
+            "color": "회색 체크 ",
+            "season": "봄가을",
             "textile": "겉감-마 64% 면 36% 안감1-폴리에스터 100% 안감2-폴리에스터 52% 레이온 48% 주머니감-폴리에스터 80% 면 20%",
             "item": "네이비 체크 린넨혼방 긴팔자켓 MLJA0B104N2",
             "price": "470000",
             "img": "368.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302759/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302759/0",
+            "style": "formal"
         }
     },
     {
@@ -20241,12 +20359,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감-폴리에스터 66% 레이온 30% 폴리우레탄 4% 안감-폴리에스터 100% 주머니감-폴리에스터 80% 면 20%",
             "item": "네이비 멜란지 긴팔자켓 MLJA0B202N3",
             "price": "313000",
             "img": "369.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302744/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302744/0",
+            "style": "formal"
         }
     },
     {
@@ -20256,12 +20375,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감-폴리에스터 65% 레이온 33% 폴리우레탄 2% 안감-폴리에스터 100% 주머니감-폴리에스터 80% 면 20%",
             "item": "네이비 패턴 긴팔자켓 MLJA0B201N2",
             "price": "313000",
             "img": "370.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302750/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302750/0",
+            "style": "formal"
         }
     },
     {
@@ -20270,13 +20390,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "네이비 ",
-            "season": "",
+            "color": "네이비 체크 ",
+            "season": "가을겨울",
             "textile": "겉감-모 67% 폴리에스터 17% 레이온 10% 마 6% 안감-폴리에스터 100% 주머니감-폴리에스터 80% 면 20%",
             "item": "네이비 체크 울혼방 긴팔자켓 MLJA0B102N1",
             "price": "399000",
             "img": "371.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302756/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302756/0",
+            "style": "formal"
         }
     },
     {
@@ -20285,13 +20406,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "회색 ",
-            "season": "",
+            "color": "회색 글렌 체크 ",
+            "season": "봄가을겨울",
             "textile": "겉감-모 99% 폴리우레탄 1% 안감1-폴리에스터 100% 안감2-폴리에스터 52% 레이온 48% 주머니감-폴리에스터 80% 면 20%",
             "item": "그레이 체크 울혼방 긴팔자켓 MLJA0B103G3",
             "price": "470000",
             "img": "372.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302760/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302760/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20301,12 +20423,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감-나일론 41% 폴리에스터 22% 마 18% 면 15% 폴리우레탄 4% 안감,주머니감-폴리에스터 100%",
             "item": "네이비 패턴 린넨혼방 긴팔자켓 MLJA0B155N2",
             "price": "313000",
             "img": "373.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1311454/0"
+            "url": "https://store.musinsa.com/app/product/detail/1311454/0",
+            "style": "formal"
         }
     },
     {
@@ -20315,13 +20438,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "파란색 ",
-            "season": "",
+            "color": "네이비 ",
+            "season": "봄여름가을",
             "textile": "겉감-마 56% 면 44% 안감1-폴리에스터 100% 안감2-폴리에스터 52% 레이온 48% 주머니감-폴리에스터 80% 면 20%",
             "item": "블루 패턴 린넨혼방 긴팔자켓 MLJA0B105B2",
             "price": "470000",
             "img": "374.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302729/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302729/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20331,12 +20455,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "베이지색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감-폴리에스터 82% 아세테이트 18% 안감,주머니감-폴리에스터 100%",
             "item": "베이지 단색 긴팔자켓 MLJA0B203I3",
             "price": "356000",
             "img": "375.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302743/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302743/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20345,13 +20470,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "파란색 ",
-            "season": "",
+            "color": "네이비 ",
+            "season": "봄여름가을",
             "textile": "겉감-폴리에스터 51% 아세테이트 49% 안감,주머니감-폴리에스터 100%",
             "item": "블루 패턴 긴팔자켓 MLJA0B260B3",
             "price": "399000",
             "img": "376.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1338649/0"
+            "url": "https://store.musinsa.com/app/product/detail/1338649/0",
+            "style": "formal"
         }
     },
     {
@@ -20361,12 +20487,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "회색 ",
-            "season": "",
+            "season": "봄여름가을",
             "textile": "겉감-폴리에스터 93% 폴리우레탄 7% 안감,주머니감-폴리에스터 100%",
             "item": "그레이 패턴 긴팔자켓 MLJA0B252G2",
             "price": "313000",
             "img": "377.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1342787/0"
+            "url": "https://store.musinsa.com/app/product/detail/1342787/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20375,13 +20502,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "파란색 ",
-            "season": "",
+            "color": "네이비 ",
+            "season": "봄여름가을",
             "textile": "겉감,안감,주머니감-폴리에스터 100%",
             "item": "블루 멜란지 긴팔자켓 MLJA0B151B2",
             "price": "270000",
             "img": "378.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302754/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302754/0",
+            "style": "formal"
         }
     },
     {
@@ -20391,12 +20519,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄여름가을",
             "textile": "겉감-폴리에스터 98% 폴리우레탄 2% 안감,주머니감-폴리에스터 100%",
             "item": "네이비 패턴 긴팔자켓  MLJA0B253N2",
             "price": "313000",
             "img": "379.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302741/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302741/0",
+            "style": "formal"
         }
     },
     {
@@ -20405,13 +20534,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "회색 ",
-            "season": "",
+            "color": "라이트 그레이 ",
+            "season": "봄여름",
             "textile": "겉감-마 100% 안감1,안감2-폴리에스터 100%",
             "item": "그레이 패턴 린넨 긴팔자켓  MLJA0B158G2",
             "price": "356000",
             "img": "380.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302765/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302765/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20420,13 +20550,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "파란색 ",
-            "season": "",
+            "color": "네이비 ",
+            "season": "봄가을",
             "textile": "겉감-폴리에스터 80% 면 18% 폴리우레탄 2% 안감,주머니감-폴리에스터 100%",
             "item": "블루 멜란지 면혼방 긴팔자켓 MLJA0B254B2",
             "price": "313000",
             "img": "381.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302730/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302730/0",
+            "style": "formal"
         }
     },
     {
@@ -20436,12 +20567,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "베이지색 ",
-            "season": "",
+            "season": "봄여름가을",
             "textile": "겉감-나일론 41% 폴리에스터 22% 마 18% 면 15% 폴리우레탄 4% 안감,주머니감-폴리에스터 100%",
             "item": "베이지 패턴 린넨혼방 긴팔자켓 MLJA0B155I2",
             "price": "313000",
             "img": "382.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1311455/0"
+            "url": "https://store.musinsa.com/app/product/detail/1311455/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20450,13 +20582,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "파란색 ",
-            "season": "",
+            "color": "네이비 ",
+            "season": "봄가을",
             "textile": "겉감-모 40% 마 31% 폴리에스터 27% 폴리우레탄 2% 안감-폴리에스터 100% 주머니감-폴리에스터 80% 면 20%",
             "item": "네이비 체크 울혼방 긴팔자켓 MLJA0B101N2",
             "price": "399000",
             "img": "383.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302758/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302758/0",
+            "style": "formal"
         }
     },
     {
@@ -20466,12 +20599,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "파란색 ",
-            "season": "",
+            "season": "봄여름",
             "textile": "겉감-마 100% 안감1,안감2-폴리에스터 100%",
             "item": "블루 패턴 린넨 긴팔자켓  MLJA0B158B2",
             "price": "356000",
             "img": "384.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302766/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302766/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20481,12 +20615,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감,안감-폴리에스터 100% 주머니감-폴리에스터 70% 면 30%",
             "item": "네이비 체크 긴팔자켓 MLJA0D101N2",
             "price": "356000",
             "img": "385.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1555468/0"
+            "url": "https://store.musinsa.com/app/product/detail/1555468/0",
+            "style": "formal"
         }
     },
     {
@@ -20496,12 +20631,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "베이지색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감,안감-폴리에스터 100% 주머니감-폴리에스터 65% 면 35%",
             "item": "베이지 체크 긴팔자켓 MLJA0D101I2",
             "price": "356000",
             "img": "386.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1555472/0"
+            "url": "https://store.musinsa.com/app/product/detail/1555472/0",
+            "style": "formal"
         }
     },
     {
@@ -20511,12 +20647,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "가을겨울",
             "textile": "겉감-모 51% 폴리에스터 44% 나일론 4% 폴리우레탄 1% 안감-폴리에스터 100% 주머니감-폴리에스터 75% 면 25%",
             "item": "네이비 체크 울혼방 긴팔자켓 MLJA0D202N2",
             "price": "399000",
             "img": "387.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1555461/0"
+            "url": "https://store.musinsa.com/app/product/detail/1555461/0",
+            "style": "formal"
         }
     },
     {
@@ -20526,12 +20663,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "회색 ",
-            "season": "",
+            "season": "가을겨울",
             "textile": "겉감-모 62% 나일론 28% 아크릴 9% 폴리우레탄 1% 안감-폴리에스터 100% 주머니감-폴리에스터 62% 면 38%",
             "item": "그레이 체크 울혼방 긴팔자켓 MLJA0D201G2",
             "price": "399000",
             "img": "388.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1555466/0"
+            "url": "https://store.musinsa.com/app/product/detail/1555466/0",
+            "style": "formal"
         }
     },
     {
@@ -20540,13 +20678,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "네이비 ",
-            "season": "",
+            "color": "네이비 글렌 체크 ",
+            "season": "봄가을",
             "textile": "겉감-폴리에스터 98% 폴리우레탄 2% 안감,주머니감-폴리에스터 100%",
             "item": "네이비 체크 긴팔자켓 MLJA0B153N2",
             "price": "313000",
             "img": "389.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302735/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302735/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20555,13 +20694,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "네이비 ",
-            "season": "",
+            "color": "네이비 체크 ",
+            "season": "봄가을",
             "textile": "겉감-모 51% 면 30% 나일론 19% 안감1-폴리에스터 100% 안감2-폴리에스터 52% 레이온 48% 주머니감-폴리에스터 80% 면 20%",
             "item": "네이비 체크 울혼방 긴팔자켓 MLJA0B107N2",
             "price": "528000",
             "img": "390.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302755/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302755/0",
+            "style": "formal"
         }
     },
     {
@@ -20571,12 +20711,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "회색 ",
-            "season": "",
+            "season": "봄여름가을",
             "textile": "겉감,안감,주머니감-폴리에스터 100%",
             "item": "그린 멜란지 긴팔자켓 MLJA0B151E2",
             "price": "270000",
             "img": "391.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302753/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302753/0",
+            "style": "formal"
         }
     },
     {
@@ -20585,13 +20726,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "회색 ",
-            "season": "",
+            "color": "회색 체크 ",
+            "season": "봄여름가을",
             "textile": "겉감-폴리에스터 70% 마 12% 레이온 8% 아크릴 8% 폴리우레탄 2% 안감1,2-폴리에스터 100% 주머니감-폴리에스터 80% 면 20%",
             "item": "그레이 체크 린넨혼방 긴팔자켓  MLJA0B256G2",
             "price": "356000",
             "img": "392.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302749/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302749/0",
+            "style": "formal"
         }
     },
     {
@@ -20601,12 +20743,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감,안감,주머니감-폴리에스터 100%",
             "item": "네이비 패턴 긴팔자켓 MLJA0B251N2",
             "price": "270000",
             "img": "393.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302769/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302769/0",
+            "style": "formal"
         }
     },
     {
@@ -20616,12 +20759,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "가을겨울",
             "textile": "겉감-모 62% 레이온 17% 폴리에스터 11% 나일론 10% 안감-폴리에스터 100% 주머니감-폴리에스터 70% 면 30%",
             "item": "네이비 짜임 울혼방 긴팔자켓MLJA9D103N3",
             "price": "399000",
             "img": "394.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1223077/0"
+            "url": "https://store.musinsa.com/app/product/detail/1223077/0",
+            "style": "formal"
         }
     },
     {
@@ -20631,12 +20775,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감-폴리에스터 70% 레이온 26% 폴리우레탄 4% 안감-폴리에스터 100% 주머니감-폴리에스터 80% 면 20%",
             "item": "네이비 단색 긴팔자켓 MLJA0B701N2",
             "price": "239000",
             "img": "395.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1302738/0"
+            "url": "https://store.musinsa.com/app/product/detail/1302738/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20646,12 +20791,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "회색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "겉감-폴리에스터 59% 레이온 39% 폴리우레탄 2% 안감-폴리에스터 100% 주머니감-폴리에스터 30% 면 30%",
             "item": "그레이 멜란지 트윌 져지자켓MLJA9D701G2",
             "price": "259000",
             "img": "396.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1182439/0"
+            "url": "https://store.musinsa.com/app/product/detail/1182439/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20660,13 +20806,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "회색 ",
-            "season": "",
+            "color": "회색 체크 ",
+            "season": "가을겨울",
             "textile": "겉감-모 70% 나일론 19% 아크릴 11% 안감-폴리에스터 100% 주머니감-폴리에스터 65% 면 35%",
             "item": "그레이 체크 울혼방 긴팔자켓 MLJA0D107G2",
             "price": "470000",
             "img": "397.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1555476/0"
+            "url": "https://store.musinsa.com/app/product/detail/1555476/0",
+            "style": "formal"
         }
     },
     {
@@ -20675,13 +20822,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "검정색 ",
-            "season": "",
+            "color": "검정색 체크 ",
+            "season": "가을겨울",
             "textile": "겉감-모 32% 레이온 22% 폴리에스터 18% 아크릴 11% 알파카 8% 견 5% 마 4% 인김-폴리에스터 100% 주머니감-폴리에스터 65% 면 35%",
             "item": "GRAY 체크 울 혼방 자켓MLJA9D106BK",
             "price": "470000",
             "img": "398.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1182444/0"
+            "url": "https://store.musinsa.com/app/product/detail/1182444/0",
+            "style": "formal"
         }
     },
     {
@@ -20690,13 +20838,14 @@
         "fields": {
             "brand": "블루 라운지 마에스트로",
             "category": 4,
-            "color": "파란색 ",
-            "season": "",
+            "color": "회색 ",
+            "season": "봄가을",
             "textile": "겉감-폴리에스터 68% 레이온 27% 폴리우레탄 5% 안감-폴리에스터 100% 주머니감-폴리에스터 70% 면 30%",
             "item": "블루 단색 긴팔자켓 MLJA0D251B5",
             "price": "256000",
             "img": "399.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1602789/0"
+            "url": "https://store.musinsa.com/app/product/detail/1602789/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20706,12 +20855,13 @@
             "brand": "블루 라운지 마에스트로",
             "category": 4,
             "color": "검정색 ",
-            "season": "",
+            "season": "가을겨울",
             "textile": "겉감-모 33% 레이온 24% 폴리에스터 18% 아크릴 12% 알파카 7% 견 4% 마 2% 안감-폴리에스터 100% 주머니감-폴리에스터 75% 면 25%",
             "item": "블랙 슬림핏 멜란지 울알파카혼방 자켓 MLJA0D105BK",
             "price": "470000",
             "img": "400.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1602782/0"
+            "url": "https://store.musinsa.com/app/product/detail/1602782/0",
+            "style": "formal, dandy"
         }
     },
     {
@@ -20721,12 +20871,13 @@
             "brand": "커스텀어클락",
             "category": 5,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "소프트 베이직 가디건 블랙",
             "price": "45000",
             "img": "401.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/498040/0"
+            "url": "https://store.musinsa.com/app/product/detail/498040/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20736,12 +20887,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "검정색 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [블랙]",
             "price": "53900",
             "img": "402.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1137177/0"
+            "url": "https://store.musinsa.com/app/product/detail/1137177/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20751,12 +20903,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "회색 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [미디엄 그레이]",
             "price": "53900",
             "img": "403.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1137182/0"
+            "url": "https://store.musinsa.com/app/product/detail/1137182/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20766,12 +20919,13 @@
             "brand": "커스텀어클락",
             "category": 5,
             "color": "회색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "소프트 베이직 가디건 그레이",
             "price": "45000",
             "img": "404.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/498051/0"
+            "url": "https://store.musinsa.com/app/product/detail/498051/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20781,12 +20935,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "샌드 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [베이지]",
             "price": "53900",
             "img": "405.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1137179/0"
+            "url": "https://store.musinsa.com/app/product/detail/1137179/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20796,12 +20951,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "네이비 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [네이비]",
             "price": "53900",
             "img": "406.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1137180/0"
+            "url": "https://store.musinsa.com/app/product/detail/1137180/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20811,12 +20967,13 @@
             "brand": "커스텀어클락",
             "category": 5,
             "color": "베이지색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "소프트 베이직 가디건 베이지",
             "price": "45000",
             "img": "407.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/609229/0"
+            "url": "https://store.musinsa.com/app/product/detail/609229/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20831,7 +20988,8 @@
             "item": "수피마 코튼 가디건 [블랙]",
             "price": "53900",
             "img": "408.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1333747/0"
+            "url": "https://store.musinsa.com/app/product/detail/1333747/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20841,12 +20999,13 @@
             "brand": "커스텀어클락",
             "category": 5,
             "color": "네이비 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "",
             "item": "소프트 베이직 가디건 네이비",
             "price": "45000",
             "img": "409.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/498044/0"
+            "url": "https://store.musinsa.com/app/product/detail/498044/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20856,12 +21015,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "카키 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [카키]",
             "price": "53900",
             "img": "410.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1604871/0"
+            "url": "https://store.musinsa.com/app/product/detail/1604871/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20871,12 +21031,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "샌드 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "모 80%, 나일론 20% ",
             "item": "램스울 오버사이즈 가디건 [베이지]",
             "price": "69900",
             "img": "411.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1636922/0"
+            "url": "https://store.musinsa.com/app/product/detail/1636922/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20886,12 +21047,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "아이보리 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [오트밀]",
             "price": "53900",
             "img": "412.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1604868/0"
+            "url": "https://store.musinsa.com/app/product/detail/1604868/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20901,12 +21063,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "레드 브라운 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [브릭]",
             "price": "53900",
             "img": "413.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1604872/0"
+            "url": "https://store.musinsa.com/app/product/detail/1604872/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20916,12 +21079,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "민트 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [소프트 모스]",
             "price": "53900",
             "img": "414.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1604869/0"
+            "url": "https://store.musinsa.com/app/product/detail/1604869/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20931,12 +21095,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "파란색 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [블루]",
             "price": "53900",
             "img": "415.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1604870/0"
+            "url": "https://store.musinsa.com/app/product/detail/1604870/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20946,12 +21111,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "회색 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "모 80%, 나일론 20% ",
             "item": "램스울 오버사이즈 가디건 [미디엄 그레이]",
             "price": "69900",
             "img": "416.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1636921/0"
+            "url": "https://store.musinsa.com/app/product/detail/1636921/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20961,12 +21127,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "검정색 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "모 80%, 나일론 20% ",
             "item": "램스울 오버사이즈 가디건 [블랙]",
             "price": "69900",
             "img": "417.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1635348/0"
+            "url": "https://store.musinsa.com/app/product/detail/1635348/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20976,12 +21143,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "다크 그레이 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "모 80%, 나일론 20% ",
             "item": "램스울 오버사이즈 가디건 [차콜 그레이]",
             "price": "69900",
             "img": "418.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1635350/0"
+            "url": "https://store.musinsa.com/app/product/detail/1635350/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -20991,12 +21159,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "다크 그레이 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [차콜 그레이]",
             "price": "53900",
             "img": "419.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1137185/0"
+            "url": "https://store.musinsa.com/app/product/detail/1137185/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -21006,12 +21175,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "네이비 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "모 80%, 나일론 20% ",
             "item": "램스울 오버사이즈 가디건 [네이비]",
             "price": "69900",
             "img": "420.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1636920/0"
+            "url": "https://store.musinsa.com/app/product/detail/1636920/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -21021,12 +21191,13 @@
             "brand": "로맨틱크라운",
             "category": 5,
             "color": "네이비 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "Acrylic 100%",
             "item": "CHECK KNITTED LONG CARDIGAN_NAVY",
             "price": "109000",
             "img": "421.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1643245/0"
+            "url": "https://store.musinsa.com/app/product/detail/1643245/0",
+            "style": "casual, dandy, street"
         }
     },
     {
@@ -21041,7 +21212,8 @@
             "item": "수피마 코튼 가디건 [베이지]",
             "price": "53900",
             "img": "422.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1333748/0"
+            "url": "https://store.musinsa.com/app/product/detail/1333748/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -21051,12 +21223,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "갈색 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "모 80%, 나일론 20% ",
             "item": "램스울 오버사이즈 가디건 [초코 브라운]",
             "price": "69900",
             "img": "423.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1635352/0"
+            "url": "https://store.musinsa.com/app/product/detail/1635352/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -21066,12 +21239,13 @@
             "brand": "로맨틱크라운",
             "category": 5,
             "color": "아이보리 ",
-            "season": "봄가을겨울",
+            "season": "봄가을",
             "textile": "Acrylic 100%",
             "item": "CHECK KNITTED LONG CARDIGAN_OATMEAL",
             "price": "109000",
             "img": "424.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1643244/0"
+            "url": "https://store.musinsa.com/app/product/detail/1643244/0",
+            "style": "casual, dandy, street"
         }
     },
     {
@@ -21081,12 +21255,13 @@
             "brand": "비욘드클로젯",
             "category": 5,
             "color": "검정색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "POLYESTER 100%",
             "item": "아폴로 크루 에코 퍼 가디건 블랙",
             "price": "98000",
             "img": "425.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1658077/0"
+            "url": "https://store.musinsa.com/app/product/detail/1658077/0",
+            "style": "casual, dandy, street"
         }
     },
     {
@@ -21096,12 +21271,13 @@
             "brand": "비욘드클로젯",
             "category": 5,
             "color": "회색 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "POLYESTER 100%",
             "item": "아폴로 크루 에코 퍼 가디건 그레이",
             "price": "98000",
             "img": "426.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1658078/0"
+            "url": "https://store.musinsa.com/app/product/detail/1658078/0",
+            "style": "casual, dandy, street"
         }
     },
     {
@@ -21111,12 +21287,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "갈색 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [초코 브라운]",
             "price": "53900",
             "img": "427.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1137181/0"
+            "url": "https://store.musinsa.com/app/product/detail/1137181/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -21126,12 +21303,13 @@
             "brand": "비욘드클로젯",
             "category": 5,
             "color": "아이보리 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "WOOL 50%,OTHER 50%",
             "item": "노맨틱 로고 니트 울 가디건 아이보리",
             "price": "79000",
             "img": "428.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1648487/0"
+            "url": "https://store.musinsa.com/app/product/detail/1648487/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -21141,12 +21319,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "올리브 그린 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [아보카도]",
             "price": "53900",
             "img": "429.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1137186/0"
+            "url": "https://store.musinsa.com/app/product/detail/1137186/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -21156,12 +21335,13 @@
             "brand": "비욘드클로젯",
             "category": 5,
             "color": "카멜 ",
-            "season": "",
+            "season": "봄가을",
             "textile": "WOOL 50%,OTHER 50%",
             "item": "뉴 파리지앵 울 가디건 카멜",
             "price": "78000",
             "img": "430.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1648489/0"
+            "url": "https://store.musinsa.com/app/product/detail/1648489/0",
+            "style": "casual, dandy"
         }
     },
     {
@@ -21171,12 +21351,13 @@
             "brand": "무신사 스탠다드",
             "category": 5,
             "color": "스카이 블루 ",
-            "season": "겨울",
+            "season": "봄가을",
             "textile": "모 60%, 나일론 30%, 캐시미어 10%",
             "item": "캐시미어 블렌드 가디건 [더스트 블루]",
             "price": "53900",
             "img": "431.jpg",
-            "url": "https://store.musinsa.com/app/product/detail/1137183/0"
+            "url": "https://store.musinsa.com/app/product/detail/1137183/0",
+            "style": "casual, dandy"
         }
     },
     {
