@@ -1,7 +1,13 @@
 import React from  'react';
 import { Text, SafeAreaView, FlatList } from 'react-native';
+import Constants from 'expo-constants';
+import styled from 'styled-components/native';
 import axios from 'axios';
 import CodiList from '../components/CodiList';
+
+const TopContainer = styled.SafeAreaView`
+    padding-top: ${Constants.statusBarHeight}px;
+`;
 
 function CodiAllListScreen({ navigation }) {
     const renderItem = ({ item }) => (
@@ -103,21 +109,21 @@ function CodiAllListScreen({ navigation }) {
     }, [])
     if (allCodiList.length !== 0) {
         return (
-            <SafeAreaView>
+            <TopContainer>
                 <FlatList
                     keyExtractor={item => item.id.toString()}
                     data={allCodiList}
                     renderItem={renderItem}
                 />
-            </SafeAreaView>
+            </TopContainer>
         )
     } else {
         return (
-            <SafeAreaView>
+            <TopContainer>
                 <Text>
                     데이터가 없습니다.
                 </Text>
-            </SafeAreaView>
+            </TopContainer>
         )
     }
 }

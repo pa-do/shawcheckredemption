@@ -2,6 +2,7 @@ import React from  'react';
 import { Text, View, Modal, StyleSheet, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
 import NormalButton from '../components/buttons/NormalButton';
 import styled from 'styled-components/native';
+import Constants from 'expo-constants'
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import produce from 'immer';
@@ -27,6 +28,11 @@ const UserProfileContainer = styled.View`
 const UserProfileTextContainer = styled.View`
     flex-direction: column;
     width: 100%;
+`;
+
+const TopContainer = styled.SafeAreaView`
+    flex: 1;
+    padding-top: ${Constants.statusBarHeight}px;
 `;
 
 const Container = styled.SafeAreaView`
@@ -196,21 +202,18 @@ function CodiMyListScreen({ navigation }) {
             }
             return (
                 <>
-                    {itemsList.map(tempItems => { 
+                    {itemsList.map((tempItems, index) => {
                         return (
-                            <GridRowContainer>
+                            <GridRowContainer key={index}>
                                 {tempItems.map(item => {
                                     return (
                                         <TouchableWithoutFeedback
+                                            key={item.id}
                                             style={{marginBottom: 5}}
                                             onPress={() => {
                                                 navigation.navigate('Detail', {item: item})
                                             }}>
-                                            <CodiItemImg
-                                                source={{
-                                                    uri: item.img,
-                                                }}
-                                            />
+                                            <CodiItemImg source={{uri: item.img}}/>
                                         </TouchableWithoutFeedback>
                                     );
                                 })}
@@ -229,7 +232,7 @@ function CodiMyListScreen({ navigation }) {
     }
     
     return (
-        <Container>
+        <TopContainer>
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -326,24 +329,22 @@ function CodiMyListScreen({ navigation }) {
                     >
                         내 아이템
                     </NormalButton>
+                    <NormalButton
+                        onPress={() => {
+                            navigation.navigate('Form')
+                        }}
+                    >
+                        코디등록
+                    </NormalButton>
                 </UserProfileTextContainer>
             </UserProfileContainer>
-            <NormalButton
-                onPress={changeMyOrLikeVisible}
-            >
+            <NormalButton onPress={changeMyOrLikeVisible}>
                 {buttonText}
-            </NormalButton>
-            <NormalButton
-                onPress={() => {
-                    navigation.navigate('Form')
-                }}
-            >
-                코디등록
             </NormalButton>
             <ScrollView>
                 <MyOrLike />
             </ScrollView>
-        </Container>
+        </TopContainer>
     )
 }
 

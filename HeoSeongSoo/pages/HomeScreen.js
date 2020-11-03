@@ -1,17 +1,22 @@
 import React from  'react';
 import { Text } from 'react-native';
+import { RadioButton } from 'react-native-paper';
 import Container from '../components/Container';
+import RowContainer from '../components/RowContainer';
 import NormalButton from '../components/buttons/NormalButton';
 
 function HomeScreen({ navigation }) {
+    const [value, setValue] = React.useState('first');
+
     return (
         <Container>
-            <Text>
-                홈 화면 뭐가 들어갈지 아직 모름
-            </Text>
-            <NormalButton onPress={ () => navigation.navigate("All") }>모든 리스트</NormalButton>
-            <NormalButton onPress={ () => navigation.navigate("MyList") }>마이페이지</NormalButton>
-            <NormalButton onPress={ () => navigation.navigate("ImgUpload") }>추천 받기</NormalButton>
+            <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+                <RadioButton.Item label="First item" value="first" />
+                <RadioButton.Item label="Second item" value="second" />
+            </RadioButton.Group>
+            <RowContainer>
+                <NormalButton onPress={ () => navigation.navigate("ImgUpload") }>추천 받기</NormalButton>
+            </RowContainer>
         </Container>
     )
 }
