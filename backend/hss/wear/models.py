@@ -13,6 +13,7 @@ class Accessory(models.Model):
     price = models.IntegerField()
     img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
+    style = models.CharField(max_length=50, blank=True)
 
 class Bag(models.Model):
     brand = models.CharField(max_length=50)
@@ -24,6 +25,7 @@ class Bag(models.Model):
     price = models.IntegerField()
     img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
+    style = models.CharField(max_length=50, blank=True)
 
 class Headwear(models.Model):
     brand = models.CharField(max_length=50)
@@ -35,6 +37,7 @@ class Headwear(models.Model):
     price = models.IntegerField()
     img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
+    style = models.CharField(max_length=50, blank=True)
 
 class Outer(models.Model):
     brand = models.CharField(max_length=50)
@@ -46,6 +49,7 @@ class Outer(models.Model):
     price = models.IntegerField()
     img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
+    style = models.CharField(max_length=50, blank=True)
 
 class Pants(models.Model):
     brand = models.CharField(max_length=50)
@@ -57,6 +61,8 @@ class Pants(models.Model):
     price = models.IntegerField()
     img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
+    style = models.CharField(max_length=50, blank=True)
+
 # 신발
 class Shoes(models.Model):
     brand = models.CharField(max_length=50)
@@ -68,6 +74,8 @@ class Shoes(models.Model):
     price = models.IntegerField()
     img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
+    style = models.CharField(max_length=50, blank=True)
+
 # 상의
 class Top(models.Model):
     brand = models.CharField(max_length=50)
@@ -79,6 +87,8 @@ class Top(models.Model):
     price = models.IntegerField()
     img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
+    style = models.CharField(max_length=50, blank=True)
+
 # 시계
 class Watch(models.Model):
     brand = models.CharField(max_length=50)
@@ -90,6 +100,7 @@ class Watch(models.Model):
     price = models.IntegerField()
     img = models.CharField(max_length=100)
     url = models.CharField(max_length=200)
+    style = models.CharField(max_length=50, blank=True)
 
 # 기본 제공 코디셋
 class Coordi(models.Model):

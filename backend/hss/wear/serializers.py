@@ -2,10 +2,9 @@ from rest_framework import serializers
 
 from .models import *
 
-# class TourDetailSerializer(serializers.ModelSerializer):
-#     class Meta: 
-#         model = TripItemModel
-#         depth = 1
-#         fields = '__all__'
+class MyClothesSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = MyClothes
+        fields = ['img', 'category']
 
 
