@@ -1,13 +1,15 @@
 import React from  'react';
-import { Text, View, Modal, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground } from 'react-native';
+import { Text, View, Modal, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground, DevSettings } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import NormalButton from '../components/buttons/NormalButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import Constants from 'expo-constants'
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import produce from 'immer';
+import AuthContext from '../components/AuthContext';
 
 
 const UserProfileImg = styled.Image`
@@ -57,7 +59,7 @@ const ItemBox = styled.View`
 const Seperator = styled.View`
     align-self: stretch;
     border-bottom-color: black;
-    border-bottom-width: ${StyleSheet.hairlineWidth};
+    border-bottom-width: ${StyleSheet.hairlineWidth}px;
 `;
 
 function CodiMyListScreen({ navigation, route }) {
@@ -213,10 +215,12 @@ function CodiMyListScreen({ navigation, route }) {
     const [showData, setShowData] = React.useState(UserData.codis);
     const [buttonText, setButtonText] = React.useState('하트코디 보기');
     
+    const { signOut } = React.useContext(AuthContext);
+
     React.useEffect(() => {
         const imageUri = route.params?.image.uri
         // imageUri 서버에 업로드 uploadCategory 첨부, 후 모달 재오픈
-        setModalVisible(!modalVisible);
+        // setModalVisible(true);
     }, [route.params?.image]);
 
     function changeMyOrLikeVisible() {
@@ -352,9 +356,9 @@ function CodiMyListScreen({ navigation, route }) {
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
                                 </ItemBox>
-                                {userItems.tops.map(item => {
+                                {userItems.tops.map((item, index) => {
                                     return (
-                                        <ItemBox>
+                                        <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
                                                 source={{uri : item}}
@@ -381,9 +385,9 @@ function CodiMyListScreen({ navigation, route }) {
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
                                 </ItemBox>
-                                {userItems.pants.map(item => {
+                                {userItems.pants.map((item, index) => {
                                     return (
-                                        <ItemBox>
+                                        <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
                                                 source={{uri : item}}
@@ -411,9 +415,9 @@ function CodiMyListScreen({ navigation, route }) {
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
                                 </ItemBox>
-                                {userItems.outers.map(item => {
+                                {userItems.outers.map((item, index) => {
                                     return (
-                                        <ItemBox>
+                                        <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
                                                 source={{uri : item}}
@@ -441,9 +445,9 @@ function CodiMyListScreen({ navigation, route }) {
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
                                 </ItemBox>
-                                {userItems.shoes.map(item => {
+                                {userItems.shoes.map((item, index) => {
                                     return (
-                                        <ItemBox>
+                                        <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
                                                 source={{uri : item}}
@@ -471,9 +475,9 @@ function CodiMyListScreen({ navigation, route }) {
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
                                 </ItemBox>
-                                {userItems.hats.map(item => {
+                                {userItems.hats.map((item, index) => {
                                     return (
-                                        <ItemBox>
+                                        <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
                                                 source={{uri : item}}
@@ -500,9 +504,9 @@ function CodiMyListScreen({ navigation, route }) {
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
                                 </ItemBox>
-                                {userItems.bags.map(item => {
+                                {userItems.bags.map((item, index) => {
                                     return (
-                                        <ItemBox>
+                                        <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
                                                 source={{uri : item}}
@@ -528,9 +532,9 @@ function CodiMyListScreen({ navigation, route }) {
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
                                 </ItemBox>
-                                {userItems.watches.map(item => {
+                                {userItems.watches.map((item, index) => {
                                     return (
-                                        <ItemBox>
+                                        <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
                                                 source={{uri : item}}
@@ -545,29 +549,29 @@ function CodiMyListScreen({ navigation, route }) {
 
                         <Text style={styles.modalText}>악세서리</Text>
                         <Container>
-                            <ScrollView
-                                    horizontal={true}
-                                >
-                                <ItemBox>
-                                    <TouchableHighlight onPress={() => {
-                                        setUploadCategory('accessory');
-                                        setModalImageVisible(true);
+                        <ScrollView
+                                horizontal={true}
+                            >
+                            <ItemBox>
+                                <TouchableHighlight onPress={() => {
+                                    setUploadCategory('accessory');
+                                    setModalImageVisible(true);
 
-                                    }}>
-                                        <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                    </TouchableHighlight>
-                                </ItemBox>
-                                {userItems.accs.map(item => {
-                                    return (
-                                        <ItemBox>
-                                            <ImageBackground 
-                                                style={{ width: "100%", height: "100%" }}
-                                                source={{uri : item}}
-                                                resizeMode="cover"
-                                            />
-                                        </ItemBox>
-                                    );
-                                })}
+                                }}>
+                                    <Ionicons name={'ios-add'} size={50} color={"black"} />
+                                </TouchableHighlight>
+                            </ItemBox>
+                            {userItems.accs.map((item, index) => {
+                                return (
+                                    <ItemBox key={index}>
+                                        <ImageBackground 
+                                            style={{ width: "100%", height: "100%" }}
+                                            source={{uri : item}}
+                                            resizeMode="cover"
+                                        />
+                                    </ItemBox>
+                                );
+                            })}
                             </ScrollView>
                         </Container>
                         <Seperator/>
@@ -596,6 +600,14 @@ function CodiMyListScreen({ navigation, route }) {
                     <Text>
                         {UserData.color}
                     </Text>
+                    <NormalButton
+                        onPress={() => {
+                            // UserItems 데이터를 수신합니다.
+                            signOut();
+                        }}
+                    >
+                        로그아웃
+                    </NormalButton>
                     <NormalButton
                         onPress={() => {
                             // UserItems 데이터를 수신합니다.

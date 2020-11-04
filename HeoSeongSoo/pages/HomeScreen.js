@@ -6,16 +6,54 @@ import RowContainer from '../components/RowContainer';
 import NormalButton from '../components/buttons/NormalButton';
 
 function HomeScreen({ navigation }) {
-    const [value, setValue] = React.useState('first');
+    const [value, setValue] = React.useState('school');
+    const [secondValue, setSecondValue] = React.useState('school');
 
     return (
         <Container>
-            <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
-                <RadioButton.Item label="First item" value="first" />
-                <RadioButton.Item label="Second item" value="second" />
-            </RadioButton.Group>
             <RowContainer>
-                <NormalButton onPress={ () => navigation.navigate("ImgUpload") }>추천 받기</NormalButton>
+                <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+                    <RadioButton.Item label="학교" value="school" />
+                    <RadioButton.Item label="장례식" value="funeral" />
+                    <RadioButton.Item label="결혼식" value="marry" />
+                    <RadioButton.Item label="운동" value="exercise" />
+                    <RadioButton.Item label="발표" value="presentation" />
+                    <RadioButton.Item label="PC방/편한 곳" value="comfortable" />
+                    <RadioButton.Item label="외식" value="restaurant" />
+                </RadioButton.Group>
+                <RadioButton.Group onValueChange={value => setSecondValue(value)} value={secondValue}>
+                    {value === 'school' ? (
+                        <>
+                            <RadioButton.Item label="교수님" value="professor"/>
+                            <RadioButton.Item label="여사친" value="girl-freind"/>
+                            <RadioButton.Item label="친구" value="freind"/>
+                        </>
+                     ) : null}
+                     {value === 'comfortable' ? (
+                        <>
+                            <RadioButton.Item label="여사친" value="girl-freind"/>
+                            <RadioButton.Item label="친구" value="freind"/>
+                        </>
+                     ) : null}
+                    {value === 'restaurant' ? (
+                        <>
+                            <RadioButton.Item label="교수님" value="professor"/>
+                            <RadioButton.Item label="여사친" value="girl-freind"/>
+                            <RadioButton.Item label="친구" value="freind"/>
+                            <RadioButton.Item label="가족" value="family"/>
+                        </>
+                     ) : null}
+                </RadioButton.Group>
+            </RowContainer>
+
+            <RowContainer>
+                <NormalButton onPress={ () => {
+                    console.log(value, secondValue, '<<<<<<<<<<<<<<<<<<<< user pick')
+                    navigation.navigate("ImgUpload")
+                }}
+                >
+                    추천 받기
+                </NormalButton>
             </RowContainer>
         </Container>
     )
