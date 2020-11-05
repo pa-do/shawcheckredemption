@@ -298,7 +298,7 @@ else: # 입력한 아이템이 없을 때 시계 선택 알고리즘
 
 if "headwear" in user_pick_item:    # 입력한 아이템이 있을 때 모자 선택 알고리즘
 
-    headwear = {i for i in range(7)}    # {0"캡", 1"베레", 2"페도라", 3"버킷", 4"비니", 5"트루퍼", 6"기타"}
+    headwear = {i for i in range(6)}    # {0"캡", 1"베레", 2"페도라", 3"버킷", 4"비니", 5"트루퍼"}
     target_headwear = user_pick_item["headwear"][0]
     target_headwear_color = user_pick_item["headwear"][1]
 
@@ -308,7 +308,7 @@ if "headwear" in user_pick_item:    # 입력한 아이템이 있을 때 모자 �
 
 else: # 입력한 아이템이 없을 때 모자 선택 알고리즘
 
-    headwear = {i for i in range(7)}    # {0"캡", 1"베레", 2"페도라", 3"버킷", 4"비니", 5"트루퍼", 6"기타"}
+    headwear = {i for i in range(6)}    # {0"캡", 1"베레", 2"페도라", 3"버킷", 4"비니", 5"트루퍼"}
 
     # 현재 날씨로 필터
     if weather == "summer": 
@@ -318,9 +318,9 @@ else: # 입력한 아이템이 없을 때 모자 선택 알고리즘
 
     # 스타일로 필터
     if first_style == "formal":
-        headwear -= {0, 1, 2, 3, 4, 5, 6}
+        headwear -= {0, 1, 2, 3, 4, 5}
     if first_style == "dandy" or second_style == "formal":
-        headwear -= {0, 3, 4, 5, 6}
+        headwear -= {0, 3, 4, 5}
     if first_style == "sporty":
         headwear -= {1, 2, 3}
     if first_style == "casual":
