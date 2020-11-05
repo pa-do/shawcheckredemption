@@ -4,9 +4,7 @@ import Constants from 'expo-constants';
 import styled from 'styled-components/native';
 import { TextInput, Button } from 'react-native-paper';
 import AuthContext from '../components/AuthContext';
-import ServerUrl from '../components/ServerUrl';
-
-console.log(ServerUrl.url)
+import { ServerUrl } from '../components/TextComponent';
 
 const Container = styled.SafeAreaView`
     flex: 1;

@@ -10,16 +10,13 @@ import CodiAllListScreen from './pages/CodiAllListScreen';
 import CodiDetailScreen from './pages/CodiDetailScreen';
 import CodiFormScreen from './pages/CodiFormScreen';
 import CodiMyListScreen from './pages/CodiMyListScreen';
-import CodiPickListScreen from './pages/CodiPickListScreen';
 import CodiRecListScreen from './pages/CodiRecListScreen';
 import ImgUploadForRecScreen from './pages/ImgUploadForRecScreen';
-import MyItemsScreen from './pages/MyItemsScreen';
 import WebViewScreen from './pages/WebViewScreen';
 import CameraScreen from './pages/CameraScreen';
 import LoginScreen from './pages/LoginScreen';
 import SignupScreen from './pages/SignupScreen';
 import AuthContext from './components/AuthContext';
-import ServerUrl from './components/ServerUrl';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -35,6 +32,34 @@ const MyTheme = {
     notification: 'rgb(255, 69, 58)',
   },
 };
+
+function StackScreen1() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
+      <Stack.Screen name="RecList" component={CodiRecListScreen} />
+      <Stack.Screen name="ImgUpload" component={ImgUploadForRecScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function StackScreen2() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{headerShown: false}} name="All" component={CodiAllListScreen} />
+      <Stack.Screen name="Detail" component={CodiDetailScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function StackScreen3() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{headerShown: false}} name="My Page" component={CodiMyListScreen} />
+      <Stack.Screen name="Form" component={CodiFormScreen} />
+    </Stack.Navigator>
+  );
+}
 
 function TabScreen() {
   return (
@@ -53,7 +78,7 @@ function TabScreen() {
             iconName = focused ? 'ios-albums' : 'ios-albums';
             size = focused ? 25 : 20;
           }
-
+          
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -63,9 +88,9 @@ function TabScreen() {
         inactiveTintColor: 'gray',
       }}
     >
-        <Tab.Screen options={{headerShown: false}} name="All" component={CodiAllListScreen} />
-        <Tab.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
-        <Tab.Screen options={{headerShown: false}} name="My Page" component={CodiMyListScreen} />
+        <Tab.Screen options={{headerShown: false}} name="Home" component={StackScreen1} />
+        <Tab.Screen options={{headerShown: false}} name="All" component={StackScreen2} />
+        <Tab.Screen options={{headerShown: false}} name="My Page" component={StackScreen3} />
     </Tab.Navigator>
   )
 }
@@ -182,12 +207,6 @@ function App() {
           ) : (
             <>
               <Stack.Screen name="TapScreen" component={TabScreen} options={{headerShown: false}}/>
-              <Stack.Screen name="Detail" component={CodiDetailScreen} />
-              <Stack.Screen name="PickList" component={CodiPickListScreen} />
-              <Stack.Screen name="RecList" component={CodiRecListScreen} />
-              <Stack.Screen name="Form" component={CodiFormScreen} />
-              <Stack.Screen name="ImgUpload" component={ImgUploadForRecScreen} />
-              <Stack.Screen name="MyItemsScreen" component={MyItemsScreen} />
               <Stack.Screen options={{headerShown: false}} name="WebView" component={WebViewScreen} />
               <Stack.Screen options={{headerShown: false}} name="Camera" component={CameraScreen} />
             </>

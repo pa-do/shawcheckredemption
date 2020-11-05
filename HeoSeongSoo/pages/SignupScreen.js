@@ -6,7 +6,7 @@ import { TextInput, Button } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import AuthContext from '../components/AuthContext';
 import axios from 'axios';
-import ServerUrl from '../components/ServerUrl';
+import { ServerUrl } from '../components/TextComponent';
 
 const Container = styled.SafeAreaView`
     flex: 1;
@@ -147,6 +147,7 @@ function SignupScreen({ navigation, route }) {
                         axios.post(ServerUrl.url + 'rest-auth/registration/', null, signupData)
                         .then(res => {
                             console.log(res)
+                            if (res.status)
                             signUp(res.data.token);
                         })
                         .catch(err => console.error(err))

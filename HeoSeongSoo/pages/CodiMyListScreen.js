@@ -10,7 +10,7 @@ import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import produce from 'immer';
 import AuthContext from '../components/AuthContext';
-import ServerUrl from '../components/TextComponent';
+import { ServerUrl, CategoryText } from '../components/TextComponent';
 
 const UserProfileImg = styled.Image`
     width: 150px;
@@ -347,7 +347,7 @@ function CodiMyListScreen({ navigation, route }) {
                 <ScrollView>
                     <View style={styles.modalView}>
 
-                        <Text style={styles.modalText}>상의</Text>
+                        <Text style={styles.modalText}>{CategoryText.top}</Text>
                         <Container>
                             <ScrollView
                                 horizontal={true}
@@ -375,7 +375,7 @@ function CodiMyListScreen({ navigation, route }) {
                         </Container>
                         <Seperator/>
 
-                        <Text style={styles.modalText}>하의</Text>
+                        <Text style={styles.modalText}>{CategoryText.pants}</Text>
                         <Container>
                             <ScrollView
                                 horizontal={true}
@@ -405,7 +405,7 @@ function CodiMyListScreen({ navigation, route }) {
                         <Seperator/>
 
 
-                        <Text style={styles.modalText}>외투</Text>
+                        <Text style={styles.modalText}>{CategoryText.outer}</Text>
                         <Container>
                             <ScrollView
                                     horizontal={true}
@@ -435,7 +435,7 @@ function CodiMyListScreen({ navigation, route }) {
                         <Seperator/>
 
 
-                        <Text style={styles.modalText}>신발</Text>
+                        <Text style={styles.modalText}>{CategoryText.shoes}</Text>
                         <Container>
                             <ScrollView
                                     horizontal={true}
@@ -465,7 +465,7 @@ function CodiMyListScreen({ navigation, route }) {
                         <Seperator/>
 
 
-                        <Text style={styles.modalText}>모자</Text>
+                        <Text style={styles.modalText}>{CategoryText.hat}</Text>
                         <Container>
                             <ScrollView
                                     horizontal={true}
@@ -495,7 +495,7 @@ function CodiMyListScreen({ navigation, route }) {
                         <Seperator/>
 
                         
-                        <Text style={styles.modalText}>가방</Text>
+                        <Text style={styles.modalText}>{CategoryText.bag}</Text>
                         <Container>
                             <ScrollView
                                     horizontal={true}
@@ -523,7 +523,7 @@ function CodiMyListScreen({ navigation, route }) {
                         </Container>
                         <Seperator/>
 
-                        <Text style={styles.modalText}>시계</Text>
+                        <Text style={styles.modalText}>{CategoryText.watch}</Text>
                         <Container>
                             <ScrollView
                                     horizontal={true}
@@ -551,7 +551,7 @@ function CodiMyListScreen({ navigation, route }) {
                         </Container>
                         <Seperator/>
 
-                        <Text style={styles.modalText}>악세서리</Text>
+                        <Text style={styles.modalText}>{CategoryText.accessory}</Text>
                         <Container>
                         <ScrollView
                                 horizontal={true}
@@ -603,9 +603,9 @@ function CodiMyListScreen({ navigation, route }) {
                         let url = ''
                         // 내 코디를 보는 상태 or 하트 코디를 보는 상태 url을 다르게 요청
                         if (buttonText === myCodiText) {
-                            url = ServerUrl + ''
+                            // url = ServerUrl.url + ''
                         } else {
-                            url = ServerUrl + ''
+                            // url = ServerUrl.url + ''
                         }
                         axios.get(url)
                         .then(res => {

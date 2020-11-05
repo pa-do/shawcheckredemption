@@ -3,7 +3,7 @@ import { Text, View, Modal, StyleSheet, TouchableHighlight, Image, ScrollView  }
 import Container from '../components/Container';
 import LongButton from '../components/buttons/LongButton';
 import * as ImagePicker from 'expo-image-picker';
-
+import { CategoryText } from '../components/TextComponent';
 
 
 function ImgUploadForRecScreen({ navigation, route }) {
@@ -251,7 +251,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 setUploadCategory('top');
                 }}
             >
-                <Text style={styles.textStyle}>상의</Text>
+                <Text style={styles.textStyle}>{CategoryText.top}</Text>
             </TouchableHighlight>
             {topImage && <Image source={{ uri: topImage }} style={{ width: 100, height: 100 }} />}
 
@@ -261,7 +261,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 setModalVisible(true);
                 setUploadCategory('pants');
                 }}>
-                <Text style={styles.textStyle}>하의</Text>
+                <Text style={styles.textStyle}>{CategoryText.pants}</Text>
             </TouchableHighlight>
             {pantsImage && <Image source={{ uri: pantsImage }} style={{ width: 100, height: 100 }} />}
 
@@ -271,7 +271,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 setModalVisible(true);
                 setUploadCategory('shoes');
                 }}>
-                <Text style={styles.textStyle}>신발</Text>
+                <Text style={styles.textStyle}>{CategoryText.shoes}</Text>
             </TouchableHighlight>
             {shoesImage && <Image source={{ uri: shoesImage }} style={{ width: 100, height: 100 }} />}
 
@@ -281,7 +281,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 setModalVisible(true);
                 setUploadCategory('outer');
                 }}>
-                <Text style={styles.textStyle}>외투</Text>
+                <Text style={styles.textStyle}>{CategoryText.outer}</Text>
             </TouchableHighlight>
             {outerImage && <Image source={{ uri: outerImage }} style={{ width: 100, height: 100 }} />}
 
@@ -291,7 +291,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 setModalVisible(true);
                 setUploadCategory('hat');
                 }}>
-                <Text style={styles.textStyle}>모자</Text>
+                <Text style={styles.textStyle}>{CategoryText.hat}</Text>
             </TouchableHighlight>
             {hatImage && <Image source={{ uri: hatImage }} style={{ width: 100, height: 100 }} />}
 
@@ -301,7 +301,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 setModalVisible(true);
                 setUploadCategory('bag');
                 }}>
-                <Text style={styles.textStyle}>가방</Text>
+                <Text style={styles.textStyle}>{CategoryText.bag}</Text>
             </TouchableHighlight>
             {bagImage && <Image source={{ uri: bagImage }} style={{ width: 100, height: 100 }} />}
 
@@ -311,7 +311,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 setModalVisible(true);
                 setUploadCategory('watch');
                 }}>
-                <Text style={styles.textStyle}>시계</Text>
+                <Text style={styles.textStyle}>{CategoryText.watch}</Text>
             </TouchableHighlight>
             {watchImage && <Image source={{ uri: watchImage }} style={{ width: 100, height: 100 }} />}
 
@@ -321,7 +321,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 setModalVisible(true);
                 setUploadCategory('accessory');
                 }}>
-                <Text style={styles.textStyle}>악세서리</Text>
+                <Text style={styles.textStyle}>{CategoryText.accessory}</Text>
             </TouchableHighlight>
             {AccImage && <Image source={{ uri: AccImage }} style={{ width: 100, height: 100 }} />}
 
