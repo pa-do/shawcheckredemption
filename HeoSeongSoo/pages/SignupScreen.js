@@ -5,11 +5,18 @@ import styled from 'styled-components/native';
 import { TextInput, Button } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import AuthContext from '../components/AuthContext';
+import axios from 'axios';
+import ServerUrl from '../components/ServerUrl';
 
 const Container = styled.SafeAreaView`
     flex: 1;
     justify-content: center;
     padding-top: ${Constants.statusBarHeight}px;
+`;
+
+const ErrorMsg = styled.Text`
+    color: red;
+    font-size: 12px;
 `;
 
 function SignupScreen({ navigation, route }) {
@@ -19,6 +26,10 @@ function SignupScreen({ navigation, route }) {
     const [textPasswordConfrim, setTextPasswordConfrim] = React.useState('');
     const [modalImageVisible, setModalImageVisible] = React.useState(false);
     const [userImage, setUserImage] = React.useState();
+
+    const [accountError, setAccountError] = React.useState(null);
+    const [nicknameError, setNicknameError] = React.useState(null);
+    const [passwordError, setPasswordError] = React.useState(null);
 
     const { signUp } = React.useContext(AuthContext);
 
@@ -83,11 +94,13 @@ function SignupScreen({ navigation, route }) {
                 value={textAccount}
                 onChangeText={text => setTextAccount(text)}
             />
+            {accountError !== null ? <ErrorMsg>{ accountError }</ErrorMsg> : null}
             <TextInput
                 label="Nickname"
                 value={textNickname}
                 onChangeText={text => setTextNickname(text)}
             />
+            {nicknameError !== null ? <ErrorMsg>{ nicknameError }</ErrorMsg> : null}
             <TextInput
                 label="Password"
                 type="password"
@@ -116,15 +129,28 @@ function SignupScreen({ navigation, route }) {
                 mode="contained"
                 onPress={() => {
                     if (textAccount.length === 0 || textPassword.length === 0 || textPasswordConfrim.length === 0 || textNickname.length === 0) {
-                        Alert.alert("", "모든 정보를 입력해주세요.")
+                        return Alert.alert("", "모든 정보를 입력해주세요.");
                     } else if (textPassword !== textPasswordConfrim) {
-                        Alert.alert("", "비밀번호가 일치하지 않습니다.")
+                        return Alert.alert("", "비밀번호가 일치하지 않습니다.");
+                    } else if (textPassword.length < 8) {
+                        return setPasswordError('비밀번호는 8자리 이상 이어야 합니다.');
+                    } else if (textAccount.length < 6) {
+                        return setAccountError('아이디는 6글자 이상 이어야 합니다.');
+                    } else {
+                        const signupData = {
+                            username: textAccount,
+                            nickname: textNickname,
+                            password1: textPassword,
+                            password2: textPasswordConfrim
+                        }
+                        // 회원가입 로직 -> 닉네임, 아이디 중복 확인 처리
+                        axios.post(ServerUrl.url + 'rest-auth/registration/', null, signupData)
+                        .then(res => {
+                            console.log(res)
+                            signUp(res.data.token);
+                        })
+                        .catch(err => console.error(err))
                     }
-
-                    // 회원가입 로직 -> 닉네임, 아이디 중복 확인 처리
-                    console.log(textAccount, textPassword, textPasswordConfrim, textNickname)
-                    signUp({textAccount, textPassword, textPasswordConfrim, textNickname});
-
                 }}
             >
                 제출

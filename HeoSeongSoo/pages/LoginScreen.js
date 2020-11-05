@@ -4,6 +4,9 @@ import Constants from 'expo-constants';
 import styled from 'styled-components/native';
 import { TextInput, Button } from 'react-native-paper';
 import AuthContext from '../components/AuthContext';
+import ServerUrl from '../components/ServerUrl';
+
+console.log(ServerUrl.url)
 
 const Container = styled.SafeAreaView`
     flex: 1;
@@ -11,10 +14,16 @@ const Container = styled.SafeAreaView`
     padding-top: ${Constants.statusBarHeight}px;
 `;
 
+const ErrorMsg = styled.Text`
+    color: red;
+    font-size: 12px;
+`;
+
 function LoginScreen({ navigation }) {
     const [textAccount, setTextAccount] = React.useState('');
     const [textPassword, setTextPassword] = React.useState('');
-    
+    const [errorMsg, setErrorMsg] = React.useState(null);
+
     const { signIn } = React.useContext(AuthContext);
 
     return (
@@ -31,15 +40,23 @@ function LoginScreen({ navigation }) {
                 onChangeText={text => setTextPassword(text)}
                 secureTextEntry
             />
+            {errorMsg !== null ? <ErrorMsg>{ errorMsg }</ErrorMsg> : null}
             <Button
                 icon="account-key"
                 mode="contained"
                 onPress={() => {
                     if (textAccount.length === 0 || textPassword.length === 0) {
-                        return Alert.alert("", "아이디 혹은 비밀번호를 확인하세요.")
+                        setErrorMsg('아이디 혹은 비밀번호를 확인하세요');
                     }
-                    console.log(textAccount, textPassword)
-                    signIn({ textAccount, textPassword });
+                    axios.post(ServerUrl.url + 'login/', null, data)
+                    .then(res => {
+                        console.log(res)
+                        signIn({ textAccount, textPassword });
+                    })
+                    .catch(err => {
+                        console.error(err)
+                        setErrorMsg('아이디 혹은 비밀번호를 확인하세요');
+                    })
                 }}
             >
                 로그인

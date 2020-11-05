@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios'
 import HomeScreen from './pages/HomeScreen';
 import CodiAllListScreen from './pages/CodiAllListScreen';
 import CodiDetailScreen from './pages/CodiDetailScreen';
@@ -18,6 +19,7 @@ import CameraScreen from './pages/CameraScreen';
 import LoginScreen from './pages/LoginScreen';
 import SignupScreen from './pages/SignupScreen';
 import AuthContext from './components/AuthContext';
+import ServerUrl from './components/ServerUrl';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -152,7 +154,7 @@ function App() {
         // 로그인 로직을 실행한 뒤 돌아오는 토큰을 담아 dispatch 합니다.
         // 로그인을 위한 데이터는 data에 담겨 옵니다.
         console.log(data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<< sign in data')
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+        dispatch({ type: 'SIGN_IN', token: data });
       },
       signOut: () => dispatch({ type: 'SIGN_OUT' }),
       signUp: async data => {
@@ -161,7 +163,7 @@ function App() {
         // After getting token, we need to persist the token using `AsyncStorage`
         // In the example, we'll use a dummy token
         console.log(data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<< sign up data');
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+        dispatch({ type: 'SIGN_IN', token: data });
       },
     }),
     []
@@ -171,7 +173,7 @@ function App() {
     <NavigationContainer theme={ MyTheme }>
       <AuthContext.Provider value={authContext}>
         <Stack.Navigator>
-          {state.userToken === null ? (
+          {state.userToken !== null ? (
             <>
               <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
               <Stack.Screen options={{headerShown: false}} name="Sign up" component={SignupScreen} />

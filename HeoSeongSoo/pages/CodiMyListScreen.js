@@ -10,7 +10,7 @@ import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import produce from 'immer';
 import AuthContext from '../components/AuthContext';
-
+import ServerUrl from '../components/ServerUrl';
 
 const UserProfileImg = styled.Image`
     width: 150px;
@@ -214,9 +214,13 @@ function CodiMyListScreen({ navigation, route }) {
     // const [userItems, setUserItems] = React.useState();
     const [showData, setShowData] = React.useState(UserData.codis);
     const [buttonText, setButtonText] = React.useState('하트코디 보기');
-    
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [index, setIndex] = React.useState(0);
+
     const { signOut } = React.useContext(AuthContext);
 
+    const myCodiText = '하트코디 보기';
+    const heartCodiText = '내 코디 보기';
     React.useEffect(() => {
         const imageUri = route.params?.image.uri
         // imageUri 서버에 업로드 uploadCategory 첨부, 후 모달 재오픈
@@ -226,10 +230,10 @@ function CodiMyListScreen({ navigation, route }) {
     function changeMyOrLikeVisible() {
         setMyOrLikeVisible(!myOrLikeVisible);
         if (myOrLikeVisible) {
-            setButtonText('하트코디 보기');
+            setButtonText(myCodiText);
             setShowData(UserData.codis);
         } else {
-            setButtonText('내 코디 보기')
+            setButtonText(heartCodiText);
             setShowData(UserData.likeCodis);
         }
     }
@@ -588,7 +592,32 @@ function CodiMyListScreen({ navigation, route }) {
                 </ScrollView>
                 </View>
             </Modal>
-
+            <ScrollView
+                onScroll = {(e) => {
+                    let paddingToBottom = 1;
+                    paddingToBottom += e.nativeEvent.layoutMeasurement.height;
+                    // console.log(Math.floor(paddingToBottom) + "-" + Math.floor(e.nativeEvent.contentOffset.y) + "-" + Math.floor(e.nativeEvent.contentSize.height));
+                    if (!isLoading && e.nativeEvent.contentOffset.y + paddingToBottom >= e.nativeEvent.contentSize.height) {
+                        console.log('at the end')
+                        setIsLoading(true);
+                        let url = ''
+                        // 내 코디를 보는 상태 or 하트 코디를 보는 상태 url을 다르게 요청
+                        if (buttonText === myCodiText) {
+                            url = ServerUrl + ''
+                        } else {
+                            url = ServerUrl + ''
+                        }
+                        axios.get(url)
+                        .then(res => {
+                            setIndex(index + 9);
+                            const newShowData = [...showData, res.data]
+                            setShowData(newShowData);
+                            setIsLoading(false);
+                        })
+                        .catch(err => console.error(err))
+                    }
+                }}
+            >
             <UserProfileContainer>
                 <UserProfileImg
                     source={{uri: UserData.profileImg}}
@@ -628,7 +657,6 @@ function CodiMyListScreen({ navigation, route }) {
             <NormalButton onPress={changeMyOrLikeVisible}>
                 {buttonText}
             </NormalButton>
-            <ScrollView>
                 <MyOrLike />
             </ScrollView>
         </TopContainer>
