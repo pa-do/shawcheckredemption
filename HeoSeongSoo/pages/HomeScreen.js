@@ -1,5 +1,5 @@
 import React from  'react';
-import { Text } from 'react-native';
+import { Alert, Text } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import Container from '../components/Container';
 import RowContainer from '../components/RowContainer';
@@ -7,12 +7,18 @@ import NormalButton from '../components/buttons/NormalButton';
 
 function HomeScreen({ navigation }) {
     const [value, setValue] = React.useState('school');
-    const [secondValue, setSecondValue] = React.useState('school');
+    const [secondValue, setSecondValue] = React.useState(null);
 
     return (
         <Container>
             <RowContainer>
-                <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+                <RadioButton.Group
+                    onValueChange={value => {
+                        setValue(value)
+                        setSecondValue('freind')
+                    }}
+                    value={value}
+                >
                     <RadioButton.Item label="학교" value="school" />
                     <RadioButton.Item label="장례식" value="funeral" />
                     <RadioButton.Item label="결혼식" value="marry" />
@@ -49,7 +55,11 @@ function HomeScreen({ navigation }) {
             <RowContainer>
                 <NormalButton onPress={ () => {
                     console.log(value, secondValue, '<<<<<<<<<<<<<<<<<<<< user pick')
-                    navigation.navigate("ImgUpload")
+                    if (value === 'school' || value === 'comfortable' || value === 'restaurant') {
+                        navigation.navigate("ImgUpload", {value: value, secondValue: secondValue})
+                    } else {
+                        navigation.navigate("ImgUpload", {value: value})
+                    }
                 }}
                 >
                     추천 받기

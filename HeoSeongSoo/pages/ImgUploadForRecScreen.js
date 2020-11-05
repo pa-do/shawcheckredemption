@@ -18,6 +18,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
     const [watchImage, setWatchImage] = React.useState(null);
     const [AccImage, setAccImage] = React.useState(null);
 
+
     const recommendationRequest = () => {
         // 서버로 이미지를 보내고 결과를 받아옵니다.
         // axios.post()
@@ -97,7 +98,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
     }
 
     React.useEffect(() => {
-        const imageUri = route.params?.image.uri
+        const imageUri = route.params.image?.uri
         if (imageUri) {
             switch (uploadCategory) {
                 case 'top':
@@ -248,7 +249,8 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 onPress={() => {
                 setModalVisible(true);
                 setUploadCategory('top');
-                }}>
+                }}
+            >
                 <Text style={styles.textStyle}>상의</Text>
             </TouchableHighlight>
             {topImage && <Image source={{ uri: topImage }} style={{ width: 100, height: 100 }} />}

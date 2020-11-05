@@ -10,7 +10,7 @@ import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import produce from 'immer';
 import AuthContext from '../components/AuthContext';
-import ServerUrl from '../components/ServerUrl';
+import ServerUrl from '../components/TextComponent';
 
 const UserProfileImg = styled.Image`
     width: 150px;
