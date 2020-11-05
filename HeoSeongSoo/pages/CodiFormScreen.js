@@ -1,8 +1,9 @@
 import React from 'react';
-import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image, ScrollView } from 'react-native';
+import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image, ScrollView, Dimensions } from 'react-native';
 import axios from 'axios'
 import * as ImagePicker from 'expo-image-picker';
 import { CategoryText } from '../components/TextComponent';
+import RowContainer from '../components/RowContainer';
 
 function CodiFormScreen({ navigation, route }) {
     const [uploadCategory, setUploadCategory] = React.useState();
@@ -168,88 +169,119 @@ function CodiFormScreen({ navigation, route }) {
                 </View>
             </Modal>
             </View>
-            <Text>
-                코디를 생성하는 폼 화면
-            </Text>
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('top');
-                }}>
-                <Text style={styles.textStyle}>{ CategoryText.top }</Text>
-            </TouchableHighlight>
-            {topImage && <Image source={{ uri: topImage }} style={{ width: 100, height: 100 }} />}
+            <View style={{height: Dimensions.get('window').height}}>
+            <RowContainer style={styles.RowContainerHeight}>
+                <TouchableHighlight
+                    style={styles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('hat');
+                    }}>
+                    {hatImage !== null ? 
+                        <Image source={{ uri: hatImage }} style={styles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.hat }</Text>
+                    }
+                </TouchableHighlight>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('pants');
-                }}>
-                <Text style={styles.textStyle}>{ CategoryText.pants }</Text>
-            </TouchableHighlight>
-            {pantsImage && <Image source={{ uri: pantsImage }} style={{ width: 100, height: 100 }} />}
+                <TouchableHighlight
+                    style={styles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('top');
+                    }}>
+                    
+                    {topImage !== null ? 
+                        <Image source={{ uri: topImage }} style={styles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.top }</Text>
+                    }
+                </TouchableHighlight>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('shoes');
-                }}>
-                <Text style={styles.textStyle}>{ CategoryText.shoes }</Text>
-            </TouchableHighlight>
-            {shoesImage && <Image source={{ uri: shoesImage }} style={{ width: 100, height: 100 }} />}
+                <TouchableHighlight
+                    style={styles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('outer');
+                    }}>
+                    {outerImage !== null ? 
+                        <Image source={{ uri: outerImage }} style={styles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.outer }</Text>
+                    }
+                </TouchableHighlight>
+            </RowContainer>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('outer');
-                }}>
-                <Text style={styles.textStyle}>{ CategoryText.outer }</Text>
-            </TouchableHighlight>
-            {outerImage && <Image source={{ uri: outerImage }} style={{ width: 100, height: 100 }} />}
+            <RowContainer style={styles.RowContainerHeight}>
+                <TouchableHighlight
+                    style={styles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('accessory');
+                    }}>
+                    {AccImage !== null ? 
+                        <Image source={{ uri: AccImage }} style={styles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.accessory }</Text>
+                    }
+                </TouchableHighlight>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('hat');
-                }}>
-                <Text style={styles.textStyle}>{ CategoryText.hat }</Text>
-            </TouchableHighlight>
-            {hatImage && <Image source={{ uri: hatImage }} style={{ width: 100, height: 100 }} />}
+                <TouchableHighlight
+                    style={styles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('pants');
+                    }}>
+                    {pantsImage !== null ? 
+                        <Image source={{ uri: pantsImage }} style={styles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.pants }</Text>
+                    }
+                </TouchableHighlight>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('bag');
-                }}>
-                <Text style={styles.textStyle}>{ CategoryText.bag }</Text>
-            </TouchableHighlight>
-            {bagImage && <Image source={{ uri: bagImage }} style={{ width: 100, height: 100 }} />}
+                <TouchableHighlight
+                    style={styles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('bag');
+                    }}>
+                    {bagImage !== null ? 
+                        <Image source={{ uri: bagImage }} style={styles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.bag }</Text>
+                    }
+                </TouchableHighlight>
+            </RowContainer>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('watch');
-                }}>
-                <Text style={styles.textStyle}>{ CategoryText.watch }</Text>
-            </TouchableHighlight>
-            {watchImage && <Image source={{ uri: watchImage }} style={{ width: 100, height: 100 }} />}
+            <RowContainer style={styles.RowContainerHeight}>
+                <TouchableHighlight
+                    style={styles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('watch');
+                    }}>
+                    {watchImage !== null ? 
+                        <Image source={{ uri: watchImage }} style={styles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.watch }</Text>
+                    }
+                </TouchableHighlight>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('accessory');
-                }}>
-                <Text style={styles.textStyle}>{ CategoryText.accessory }</Text>
-            </TouchableHighlight>
-            {AccImage && <Image source={{ uri: AccImage }} style={{ width: 100, height: 100 }} />}
+                <TouchableHighlight
+                    style={styles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('shoes');
+                    }}>
+                    {shoesImage !== null ? 
+                        <Image source={{ uri: shoesImage }} style={styles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.shoes }</Text>
+                    }
+                </TouchableHighlight>
+            
+                <View style={styles.uploadBox}/>
+            </RowContainer>
 
             <TouchableHighlight
                 style={styles.recButton}
@@ -257,6 +289,7 @@ function CodiFormScreen({ navigation, route }) {
             >
                 <Text style={styles.textStyle}>등록</Text>
             </TouchableHighlight>
+            </View>
         </ScrollView>
     )
 }
@@ -282,6 +315,22 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.25,
       shadowRadius: 3.84,
       elevation: 5,
+    },
+    uploadedItem: {
+        width: '100%',
+        height: '100%',
+        resizeMode: 'center',
+    },
+    RowContainerHeight: {
+        height: '25%',
+    },
+    uploadBox: {
+        width: '30%',
+        height: '100%',
+        backgroundColor: 'black',
+        borderColor: 'white',
+        borderWidth: 0.5,
+        borderColor: 'white',
     },
     openButton: {
       height: 40,
