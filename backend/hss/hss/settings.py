@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '$#p^5z2mw7a2g*qi)pve*nq$3*^^gi&&rn1jp3fxu**hy(n3e1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['k3d205.p.ssafy.io', 'localhost']
 
@@ -158,9 +158,9 @@ REST_FRAMEWORK = {
     ),
 }
 
-# REST_AUTH_SERIALIZERS = {
-#     'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
-# }
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
+}
 
 REST_USE_JWT = True
 

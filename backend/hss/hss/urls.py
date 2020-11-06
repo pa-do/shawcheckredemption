@@ -47,7 +47,8 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     # 회원가입
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
-    
+    # apps
+    path('wear/', include('wear.urls')),
     #swagger
     url(r'^',include(router.urls)),
 
