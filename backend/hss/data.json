@@ -37089,8 +37089,6 @@
         }
     },
     {
-<<<<<<< HEAD
-=======
         "pk": 214,
         "model": "wear.Pants",
         "fields": {
@@ -37203,7 +37201,6 @@
         }
     },
     {
->>>>>>> 8a66f5ea187406be4417fcaf33c8f4099061ce17
         "pk": 221,
         "model": "wear.Pants",
         "fields": {
@@ -37236,8 +37233,6 @@
         }
     },
     {
-<<<<<<< HEAD
-=======
         "pk": 223,
         "model": "wear.Pants",
         "fields": {
@@ -37270,7 +37265,6 @@
         }
     },
     {
->>>>>>> 8a66f5ea187406be4417fcaf33c8f4099061ce17
         "pk": 225,
         "model": "wear.Pants",
         "fields": {
@@ -37527,8 +37521,6 @@
         }
     },
     {
-<<<<<<< HEAD
-=======
         "pk": 241,
         "model": "wear.Pants",
         "fields": {
@@ -37657,7 +37649,6 @@
         }
     },
     {
->>>>>>> 8a66f5ea187406be4417fcaf33c8f4099061ce17
         "pk": 249,
         "model": "wear.Pants",
         "fields": {
