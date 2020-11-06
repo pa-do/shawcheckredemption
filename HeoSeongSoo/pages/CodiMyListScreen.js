@@ -162,6 +162,7 @@ function CodiMyListScreen({ navigation, route }) {
         dataAsync();
     }, []);
 
+
     function changeMyOrLikeVisible() {
         setMyOrLikeVisible(!myOrLikeVisible);
         if (myOrLikeVisible) {
