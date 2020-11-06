@@ -1,11 +1,29 @@
+from django.db.models import fields
 from rest_framework import serializers
 
 from .models import *
 
-# class TourDetailSerializer(serializers.ModelSerializer):
-#     class Meta: 
-#         model = TripItemModel
-#         depth = 1
-#         fields = '__all__'
+class UserClothesSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = UserClothes
+        fields = ['img', 'category', 'color']
 
+class UserClothSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserClothes
+        fields = '__all__'
 
+class CoordiSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserCoordi
+        fields = ['acc', 'bag', 'headwear', 'outer', 'pants', 'shoes', 'top', 'watch']
+
+class CoordiListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserCoordi
+        fields = '__all__'
+
+class UserMergeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserCoordi
+        fields = ['mimg']
