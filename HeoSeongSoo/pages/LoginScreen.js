@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import { TextInput, Button } from 'react-native-paper';
 import AuthContext from '../components/AuthContext';
 import { ServerUrl } from '../components/TextComponent';
+import axios from 'axios';
 
 const Container = styled.SafeAreaView`
     flex: 1;
@@ -44,15 +45,21 @@ function LoginScreen({ navigation }) {
                 mode="contained"
                 onPress={() => {
                     if (textAccount.length === 0 || textPassword.length === 0) {
-                        setErrorMsg('아이디 혹은 비밀번호를 확인하세요');
+                        return setErrorMsg('아이디 혹은 비밀번호를 확인하세요');
                     }
-                    axios.post(ServerUrl.url + 'login/', null, data)
+                    setErrorMsg(null);
+                    const loginData = {
+                        username: textAccount,
+                        password: textPassword
+                    }
+                    console.log(loginData)
+                    axios.post(ServerUrl.url + 'rest-auth/login/', loginData)
                     .then(res => {
-                        console.log(res)
-                        signIn({ textAccount, textPassword });
+                        console.log()
+                        signIn(res.data.token);
                     })
                     .catch(err => {
-                        console.error(err)
+                        console.error(err.response.data)
                         setErrorMsg('아이디 혹은 비밀번호를 확인하세요');
                     })
                 }}

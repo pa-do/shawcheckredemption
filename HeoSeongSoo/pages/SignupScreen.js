@@ -26,6 +26,7 @@ function SignupScreen({ navigation, route }) {
     const [textPasswordConfrim, setTextPasswordConfrim] = React.useState('');
     const [modalImageVisible, setModalImageVisible] = React.useState(false);
     const [userImage, setUserImage] = React.useState();
+    const [userToken, setUserToken] = React.useState(null);
 
     const [accountError, setAccountError] = React.useState(null);
     const [nicknameError, setNicknameError] = React.useState(null);
@@ -53,109 +54,155 @@ function SignupScreen({ navigation, route }) {
 
     return (
         <Container>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalImageVisible}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                            onPress={() => {
-                                navigation.navigate('Camera', {backScreen: 'Sign up'});
-                                setModalImageVisible(!modalImageVisible);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>카메라</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                            onPress={() => {
-                                pickImage();
-                                setModalImageVisible(!modalImageVisible);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>갤러리에서 가져오기</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                            onPress={() => {
-                                setModalImageVisible(!modalImageVisible);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>닫기</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-            </Modal>
-            <TextInput
-                label="Account"
-                value={textAccount}
-                onChangeText={text => setTextAccount(text)}
-            />
-            {accountError !== null ? <ErrorMsg>{ accountError }</ErrorMsg> : null}
-            <TextInput
-                label="Nickname"
-                value={textNickname}
-                onChangeText={text => setTextNickname(text)}
-            />
-            {nicknameError !== null ? <ErrorMsg>{ nicknameError }</ErrorMsg> : null}
-            <TextInput
-                label="Password"
-                type="password"
-                value={textPassword}
-                onChangeText={text => setTextPassword(text)}
-                secureTextEntry
-            />
-            <TextInput
-                label="Password Confirm"
-                value={textPasswordConfrim}
-                onChangeText={text => setTextPasswordConfrim(text)}
-                secureTextEntry
-            />
-            {userImage && <Image source={{ uri: userImage }} style={{ width: 150, height: 150, resizeMode: 'center' }} />}
-            <Button
-                icon="account-circle-outline"
-                mode="outlined"
-                onPress={() => {
-                    setModalImageVisible(true);
-                }}
-            >
-                퍼스널 컬러 진단을 위한 사진 업로드
-            </Button>
-            <Button
-                icon="account-plus"
-                mode="contained"
-                onPress={() => {
-                    if (textAccount.length === 0 || textPassword.length === 0 || textPasswordConfrim.length === 0 || textNickname.length === 0) {
-                        return Alert.alert("", "모든 정보를 입력해주세요.");
-                    } else if (textPassword !== textPasswordConfrim) {
-                        return Alert.alert("", "비밀번호가 일치하지 않습니다.");
-                    } else if (textPassword.length < 8) {
-                        return setPasswordError('비밀번호는 8자리 이상 이어야 합니다.');
-                    } else if (textAccount.length < 6) {
-                        return setAccountError('아이디는 6글자 이상 이어야 합니다.');
-                    } else {
-                        const signupData = {
-                            username: textAccount,
-                            nickname: textNickname,
-                            password1: textPassword,
-                            password2: textPasswordConfrim
+            {userToken === null ? (
+                <>
+                    <TextInput
+                        label="Account"
+                        value={textAccount}
+                        onChangeText={text => setTextAccount(text)}
+                    />
+                    {accountError && <ErrorMsg>{ accountError }</ErrorMsg>}
+                    <TextInput
+                        label="Password"
+                        type="password"
+                        value={textPassword}
+                        onChangeText={text => setTextPassword(text)}
+                        secureTextEntry
+                    />
+                    <TextInput
+                        label="Password Confirm"
+                        value={textPasswordConfrim}
+                        onChangeText={text => setTextPasswordConfrim(text)}
+                        secureTextEntry
+                    />
+                    {passwordError !== null ? <ErrorMsg>{ passwordError }</ErrorMsg> : null}
+                    <Button
+                        icon="account-plus"
+                        mode="contained"
+                        onPress={() => {
+                            if (textAccount.length === 0 || textPassword.length === 0 || textPasswordConfrim.length === 0) {
+                                return Alert.alert("", "모든 정보를 입력해주세요.");
+                            } else if (textPassword !== textPasswordConfrim) {
+                                return Alert.alert("", "비밀번호가 일치하지 않습니다.");
+                            } else if (textPassword.length < 8) {
+                                return setPasswordError('비밀번호는 8자리 이상 이어야 합니다.');
+                            } else if (textAccount.length < 6) {
+                                return setAccountError('아이디는 6글자 이상 이어야 합니다.');
+                            } else {
+                                setPasswordError(null)
+                                setAccountError(null)
+                                const signupData = {
+                                    username: textAccount,
+                                    password1: textPassword,
+                                    password2: textPasswordConfrim
+                                }
+                                console.log(signupData)
+                                // 회원가입 로직 -> 닉네임, 아이디 중복 확인 처리
+                                axios.post(ServerUrl.url + 'rest-auth/registration/', signupData)
+                                .then(res => {
+                                    console.log(res)
+                                    setTextNickname(textAccount);
+                                    setUserToken(res.data.token);
+                                })
+                                .catch(err => {
+                                    console.log(err.response.data)
+                                    if (err.response.data?.username) {
+                                        setAccountError(err.response.data?.username[0])
+                                    } else if (err.response.data?.password1) {
+                                        setPasswordError(err.response.data?.password1[0])
+                                    }
+                                })
+                            }
+                        }}
+                    >
+                        제출
+                    </Button>
+                </>
+            ) : (
+                <>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalImageVisible}
+                    >
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                                    onPress={() => {
+                                        navigation.navigate('Camera', {backScreen: 'Sign up'});
+                                        setModalImageVisible(!modalImageVisible);
+                                    }}
+                                >
+                                    <Text style={styles.textStyle}>카메라</Text>
+                                </TouchableHighlight>
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                                    onPress={() => {
+                                        pickImage();
+                                        setModalImageVisible(!modalImageVisible);
+                                    }}
+                                >
+                                    <Text style={styles.textStyle}>갤러리에서 가져오기</Text>
+                                </TouchableHighlight>
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                                    onPress={() => {
+                                        setModalImageVisible(!modalImageVisible);
+                                    }}
+                                >
+                                    <Text style={styles.textStyle}>닫기</Text>
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+                    </Modal>
+                    <TextInput
+                        label="Nickname"
+                        value={textNickname}
+                        onChangeText={text => setTextNickname(text)}
+                    />
+                    {nicknameError !== null ? <ErrorMsg>{ nicknameError }</ErrorMsg> : null}
+                    {userImage && <Image source={{ uri: userImage }} style={{ width: 150, height: 150, resizeMode: 'center' }} />}
+                    <Button
+                        icon="account-circle-outline"
+                        mode="outlined"
+                        onPress={() => {
+                            setModalImageVisible(true);
+                        }}
+                    >
+                        퍼스널 컬러 진단을 위한 사진 업로드
+                    </Button>
+                    <Button
+                        icon="account-plus"
+                        mode="contained"
+                        onPress={() => {
+                            if (textNickname.length === 0) {
+                                setNicknameError('닉네임을 입력해주세요.')
+                            } else {
+                                const requestHeaders = {
+                                    headers: {
+                                        Authorization: `JWT ${userToken}`
+                                    }
+                                }
+                                const patchData = {
+                                    nickname: textNickname
+                                }
+                                console.log(requestHeaders)
+                                axios.patch(ServerUrl.url + 'rest-auth/user/', patchData, requestHeaders)
+                                .then(res => {
+                                    console.log(res.data)
+                                    signUp(userToken);
+                                })
+                                .catch(err => console.log(err.response.data))}
+                            }
                         }
-                        // 회원가입 로직 -> 닉네임, 아이디 중복 확인 처리
-                        axios.post(ServerUrl.url + 'rest-auth/registration/', null, signupData)
-                        .then(res => {
-                            console.log(res)
-                            if (res.status)
-                            signUp(res.data.token);
-                        })
-                        .catch(err => console.error(err))
-                    }
-                }}
-            >
-                제출
-            </Button>
+                    >
+                        제출
+                    </Button>
+                </>
+
+            )}
+
         </Container>
     )
 }

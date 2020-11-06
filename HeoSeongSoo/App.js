@@ -198,7 +198,7 @@ function App() {
     <NavigationContainer theme={ MyTheme }>
       <AuthContext.Provider value={authContext}>
         <Stack.Navigator>
-          {state.userToken !== null ? (
+          {state.userToken === null ? (
             <>
               <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
               <Stack.Screen options={{headerShown: false}} name="Sign up" component={SignupScreen} />
