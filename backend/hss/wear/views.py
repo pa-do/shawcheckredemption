@@ -36,11 +36,9 @@ def create_coordi(request):
     user = get_object_or_404(User, pk=request.user.pk)
     serializer = CoordiSerializer(data=request.data)
     merged = Image.new('RGB', (300 * 3, 300 * 3), (250,250,250))
-    print('@@@@')
     cnt = 0
     i, j = 0, -1
     for idx, value in request.data.items():
-        print(idx, value)
         cnt += 1
         j += 1
         if cnt == 4:
@@ -51,19 +49,16 @@ def create_coordi(request):
             continue
         else:
             A = UserClothes.objects.get(pk=value)
-            print(A.img)
             im = Image.open(A.img)
             im = im.resize((300, 300))
             merged.paste(im, (300 * j, 300 * i))
-        print(i, j)
+
     now = datetime.datetime.now()
     nowDate = now.strftime('%M%H%S')
-    tartgeturl = "../media/" + user.username + "/"
-    merged.save(targeturl, user.username + '_' + nowDate + '.png')
-    # return HttpResponse('0')
-    imglink = tartgeturl + user.username + '_' + nowDate + '.png'
+    targeturl = "/media/usercoordi/" + user.username + '_' + nowDate + '.png'
+    merged.save('.' + targeturl)
     if serializer.is_valid():
-        serializer.save(user=user, img=imglink)
+        serializer.save(user=user, img=targeturl)
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(data=serializer.errors)
