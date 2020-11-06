@@ -58,7 +58,8 @@ def create_coordi(request):
         print(i, j)
     now = datetime.datetime.now()
     nowDate = now.strftime('%M%H%S')
-    merged.save(user.username + '_' + nowDate + '.png')
+    tartgeturl = "../media/" + user.username + "/"
+    merged.save(targeturl, user.username + '_' + nowDate + '.png')
     # return HttpResponse('0')
 
     if serializer.is_valid():
