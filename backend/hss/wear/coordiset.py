@@ -1,3 +1,7 @@
+# 실행 트리거
+
+def run_self():
+    print(__name__)
 
 # 유저 정보 : 퍼스널컬러(spring, summer, fall, winter) / 언제 / 어디에 / 가진옷(선택) + 체형
 # 코디셋 구성 항목 : 상의(필), 하의(필), 신발(필), 아우터, 가방, 시계, 모자, 액세서리
@@ -42,7 +46,27 @@ who = "교수님/상사"
 where = "외식"
 weather = "winter"
 user_pick_item = {"top": [3, "white"], "watch": [0, "black"]}
-personal_color = ["퍼스널 관련 컬러"] # 무채색은 필수로 넣음
+user_personal_color = "spring"
+personal_color = ["검정색", "흰색", "회색", "라이트 그레이", "다크 그레이", 
+"아이보리", "네이비", "데님", "연청", "중청", "진청", "흑청"] # 무채색은 필수로 넣음
+
+if user_personal_color == "spring":
+    personal_color.extend(["라즈베리", "페일 핑크", "코랄", "노란색", "머스타드", "금색", 
+    "라이트 그린", "민트", "올리브 그린", "네온 블루", "라벤더", "갈색", "로즈 골드", 
+    "레드 브라운", "카키 베이지", "카멜", "샌드", "베이지색"])
+elif user_personal_color == "summer":
+    personal_color.extend(["라이트 핑크", "피치", "라이트 옐로우", "네온 그린", "민트", 
+    "스카이 블루", "라벤더", "베이지색"])
+elif user_personal_color == "fall":
+    personal_color.extend(["딥레드", "오렌지 핑크", "카키", "다크 그린", "자주", 
+    "보라색", "다크 바이올렛", "버건디", "갈색", "로즈 골드", "레드 브라운", "카키 베이지", 
+    "카멜"])
+else:
+    personal_color.extend(["은색", "빨간색", "네온 핑크", "분홍색", "라이트 오렌지", 
+    "네온 오렌지", "주황색", "녹색", "네온 블루", "파란색", "샌드"])
+
+print(personal_color)
+
 
 if who == "교수님/상사":
     style["formal"] += 10
@@ -76,6 +100,7 @@ second_style = sorted_style[1][0]
 print(first_style, second_style)
 
 
+from .models import Accessory, Bag, Headwear, Outer, Pants, Shoes, Top, Watch
 
 if "top" in user_pick_item:    # 입력한 아이템이 있을 때 상의 선택 알고리즘
 
@@ -84,6 +109,10 @@ if "top" in user_pick_item:    # 입력한 아이템이 있을 때 상의 선택
     target_top_color = user_pick_item["top"][1]
 
     # 상의 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
+
+    print('올!!',Top.objects.all())
+    mytoplist = Top.objects.filter(category=target_top).filter(color=target_top_color)
+    print(mytoplist)
     # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
     # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
 
@@ -362,3 +391,4 @@ else: # 입력한 아이템이 없을 때 액세서리 선택 알고리즘
     # 액세서리 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
     # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
     # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
+

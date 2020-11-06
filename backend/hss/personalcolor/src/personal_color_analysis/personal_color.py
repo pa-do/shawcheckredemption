@@ -55,3 +55,5 @@ def analysis(imgpath):
             tone = '겨울쿨톤(winter)'
     # Print Result
     print('{}의 퍼스널 컬러는 {}입니다.'.format(imgpath, tone))
+
+    # 퍼스널 컬러 프론트로 보내고 프론트에서 axios로 값을 받아 유저 정보에 저장

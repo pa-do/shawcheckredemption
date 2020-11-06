@@ -20,11 +20,11 @@ def is_warm(lab_b, a):
     body_part = ['skin', 'eyebrow', 'eye']
     for i in range(3):
         warm_dist += abs(lab_b[i] - warm_b_std[i]) * a[i]
-        print(body_part[i],"의 warm 기준값과의 거리")
-        print(abs(lab_b[i] - warm_b_std[i]))
+        # print(body_part[i],"의 warm 기준값과의 거리")
+        # print(abs(lab_b[i] - warm_b_std[i]))
         cool_dist += abs(lab_b[i] - cool_b_std[i]) * a[i]
-        print(body_part[i],"의 cool 기준값과의 거리")
-        print(abs(lab_b[i] - cool_b_std[i]))
+        # print(body_part[i],"의 cool 기준값과의 거리")
+        # print(abs(lab_b[i] - cool_b_std[i]))
     if(warm_dist <= cool_dist):
         return 1 #warm
     else:
@@ -47,11 +47,11 @@ def is_spr(hsv_s, a):
     body_part = ['skin', 'eyebrow', 'eye']
     for i in range(3):
         spr_dist += abs(hsv_s[i] - spr_s_std[i]) * a[i]
-        print(body_part[i],"의 spring 기준값과의 거리")
-        print(abs(hsv_s[i] - spr_s_std[i]) * a[i])
+        # print(body_part[i],"의 spring 기준값과의 거리")
+        # print(abs(hsv_s[i] - spr_s_std[i]) * a[i])
         fal_dist += abs(hsv_s[i] - fal_s_std[i]) * a[i]
-        print(body_part[i],"의 fall 기준값과의 거리")
-        print(abs(hsv_s[i] - fal_s_std[i]) * a[i])
+        # print(body_part[i],"의 fall 기준값과의 거리")
+        # print(abs(hsv_s[i] - fal_s_std[i]) * a[i])
 
     if(spr_dist <= fal_dist):
         return 1 #spring
@@ -76,11 +76,11 @@ def is_smr(hsv_s, a):
     body_part = ['skin', 'eyebrow', 'eye']
     for i in range(3):
         smr_dist += abs(hsv_s[i] - smr_s_std[i]) * a[i]
-        print(body_part[i],"의 summer 기준값과의 거리")
-        print(abs(hsv_s[i] - smr_s_std[i]) * a[i])
+        # print(body_part[i],"의 summer 기준값과의 거리")
+        # print(abs(hsv_s[i] - smr_s_std[i]) * a[i])
         wnt_dist += abs(hsv_s[i] - wnt_s_std[i]) * a[i]
-        print(body_part[i],"의 winter 기준값과의 거리")
-        print(abs(hsv_s[i] - wnt_s_std[i]) * a[i])
+        # print(body_part[i],"의 winter 기준값과의 거리")
+        # print(abs(hsv_s[i] - wnt_s_std[i]) * a[i])
 
     if(smr_dist <= wnt_dist):
         return 1 #summer
