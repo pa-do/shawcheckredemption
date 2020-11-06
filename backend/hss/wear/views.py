@@ -25,9 +25,35 @@ class UserClothesViewSet(ModelViewSet):
 def mylist(request):
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    clothes = UserClothes.objects.filter(user=user)
-    serializer = UserClothSerializer(clothes, many=True)
-    return Response(serializer.data)
+    clothes = UserClothes.objects.filter(user=user).values()
+    headwear, top, outer, acc, pants, bag, watch, shoes = [], [], [], [], [], [], [], []
+    for i in clothes:
+        if i['category'] == 1:
+            headwear.append({'id':i['id'], 'img':i['img']})
+        elif i['category'] == 2:
+            top.append({'id':i['id'], 'img':i['img']})
+        elif i['category'] == 3:
+            outer.append({'id':i['id'], 'img':i['img']})
+        elif i['category'] == 4:
+            acc.append({'id':i['id'], 'img':i['img']})
+        elif i['category'] == 5:
+            pants.append({'id':i['id'], 'img':i['img']})
+        elif i['category'] == 6:
+            bag.append({'id':i['id'], 'img':i['img']})
+        elif i['category'] == 7:
+            watch.append({'id':i['id'], 'img':i['img']})
+        elif i['category'] == 8:
+            shoes.append({'id':i['id'], 'img':i['img']})
+    return JsonResponse({
+        1 : headwear,
+        2 : top,
+        3 : outer,
+        4 : acc,
+        5 : pants,
+        6 : bag,
+        7 : watch,
+        8 : shoes,
+    })
 
 # 유저 코디 등록하기
 @api_view(['POST'])
