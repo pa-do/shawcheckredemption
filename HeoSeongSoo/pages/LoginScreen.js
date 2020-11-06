@@ -1,5 +1,5 @@
 import React from  'react';
-import { Alert, Text, View } from 'react-native';
+import { View } from 'react-native';
 import Constants from 'expo-constants';
 import styled from 'styled-components/native';
 import { TextInput, Button } from 'react-native-paper';

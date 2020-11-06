@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 
+// 카메라 화면입니다. 비율을 맞추는 것을 제외하고는 추가적 디자인 작업 필요없습니다.
+
 function CameraScreen({ navigation, route }) {
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null)
@@ -17,7 +19,8 @@ function CameraScreen({ navigation, route }) {
         return <View />;
     }
     if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
+        alert('죄송합니다. 카메라 권한 허가가 필요합니다.');
+        return navigation.goBack();
     }
     return (
         <View style={{ flex: 1 }}>

@@ -1,3 +1,4 @@
+// 모든 텍스트를 관리하는 컴포넌트
 
 const ServerUrl = {
     url: 'https://k3d205.p.ssafy.io/'

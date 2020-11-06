@@ -1,9 +1,9 @@
 import React from  'react';
-import { Text, View, Modal, StyleSheet, TouchableHighlight, Image, ScrollView  } from 'react-native';
-import Container from '../components/Container';
-import LongButton from '../components/buttons/LongButton';
+import { Text, View, Modal, StyleSheet, TouchableHighlight, Image, ScrollView, Dimensions  } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { CategoryText } from '../components/TextComponent';
+import { styles, formStyles } from '../components/StyleSheetComponent';
+import RowContainer from '../components/RowContainer';
 
 
 function ImgUploadForRecScreen({ navigation, route }) {
@@ -135,16 +135,17 @@ function ImgUploadForRecScreen({ navigation, route }) {
         }
     }, [route.params?.image]);
 
-    React.useEffect(() => {
-      (async () => {
-        if (Platform.OS !== 'web') {
-          const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-          if (status !== 'granted') {
-            alert('Sorry, we need camera roll permissions to make this work!');
-          }
-        }
-      })();
-    }, []);
+    // React.useEffect(() => {
+    //   (async () => {
+    //     if (Platform.OS !== 'web') {
+    //       const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+    //       if (status !== 'granted') {
+    //         alert('죄송합니다. 카메라 권한 허가가 필요합니다.');
+    //         navigation.goBack();
+    //       }
+    //     }
+    //   })();
+    // }, []);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -206,24 +207,6 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     <TouchableHighlight
                         style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                         onPress={() => {
-                            navigation.navigate('Camera', {backScreen: 'ImgUpload'});
-                            setModalVisible(!modalVisible);
-                        }}
-                    >
-                        <Text style={styles.textStyle}>카메라</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                        onPress={() => {
-                            pickImage();
-                            setModalVisible(!modalVisible);
-                        }}
-                    >
-                        <Text style={styles.textStyle}>갤러리에서 가져오기</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                        onPress={() => {
                             setModalVisible(!modalVisible);
                         }}
                     >
@@ -244,86 +227,119 @@ function ImgUploadForRecScreen({ navigation, route }) {
             <Text>
                 코디를 생성하는 폼 화면
             </Text>
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('top');
-                }}
-            >
-                <Text style={styles.textStyle}>{CategoryText.top}</Text>
-            </TouchableHighlight>
-            {topImage && <Image source={{ uri: topImage }} style={{ width: 100, height: 100 }} />}
+            <View style={{height: Dimensions.get('window').height}}>
+            <RowContainer style={formStyles.RowContainerHeight}>
+                <TouchableHighlight
+                    style={formStyles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('hat');
+                    }}>
+                    {hatImage !== null ? 
+                        <Image source={{ uri: hatImage }} style={formStyles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.hat }</Text>
+                    }
+                </TouchableHighlight>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('pants');
-                }}>
-                <Text style={styles.textStyle}>{CategoryText.pants}</Text>
-            </TouchableHighlight>
-            {pantsImage && <Image source={{ uri: pantsImage }} style={{ width: 100, height: 100 }} />}
+                <TouchableHighlight
+                    style={formStyles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('top');
+                    }}>
+                    
+                    {topImage !== null ? 
+                        <Image source={{ uri: topImage }} style={formStyles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.top }</Text>
+                    }
+                </TouchableHighlight>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('shoes');
-                }}>
-                <Text style={styles.textStyle}>{CategoryText.shoes}</Text>
-            </TouchableHighlight>
-            {shoesImage && <Image source={{ uri: shoesImage }} style={{ width: 100, height: 100 }} />}
+                <TouchableHighlight
+                    style={formStyles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('outer');
+                    }}>
+                    {outerImage !== null ? 
+                        <Image source={{ uri: outerImage }} style={formStyles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.outer }</Text>
+                    }
+                </TouchableHighlight>
+            </RowContainer>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('outer');
-                }}>
-                <Text style={styles.textStyle}>{CategoryText.outer}</Text>
-            </TouchableHighlight>
-            {outerImage && <Image source={{ uri: outerImage }} style={{ width: 100, height: 100 }} />}
+            <RowContainer style={formStyles.RowContainerHeight}>
+                <TouchableHighlight
+                    style={formStyles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('accessory');
+                    }}>
+                    {AccImage !== null ? 
+                        <Image source={{ uri: AccImage }} style={formStyles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.accessory }</Text>
+                    }
+                </TouchableHighlight>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('hat');
-                }}>
-                <Text style={styles.textStyle}>{CategoryText.hat}</Text>
-            </TouchableHighlight>
-            {hatImage && <Image source={{ uri: hatImage }} style={{ width: 100, height: 100 }} />}
+                <TouchableHighlight
+                    style={formStyles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('pants');
+                    }}>
+                    {pantsImage !== null ? 
+                        <Image source={{ uri: pantsImage }} style={formStyles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.pants }</Text>
+                    }
+                </TouchableHighlight>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('bag');
-                }}>
-                <Text style={styles.textStyle}>{CategoryText.bag}</Text>
-            </TouchableHighlight>
-            {bagImage && <Image source={{ uri: bagImage }} style={{ width: 100, height: 100 }} />}
+                <TouchableHighlight
+                    style={formStyles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('bag');
+                    }}>
+                    {bagImage !== null ? 
+                        <Image source={{ uri: bagImage }} style={formStyles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.bag }</Text>
+                    }
+                </TouchableHighlight>
+            </RowContainer>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('watch');
-                }}>
-                <Text style={styles.textStyle}>{CategoryText.watch}</Text>
-            </TouchableHighlight>
-            {watchImage && <Image source={{ uri: watchImage }} style={{ width: 100, height: 100 }} />}
+            <RowContainer style={formStyles.RowContainerHeight}>
+                <TouchableHighlight
+                    style={formStyles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('watch');
+                    }}>
+                    {watchImage !== null ? 
+                        <Image source={{ uri: watchImage }} style={formStyles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.watch }</Text>
+                    }
+                </TouchableHighlight>
 
-            <TouchableHighlight
-                style={styles.openButton}
-                onPress={() => {
-                setModalVisible(true);
-                setUploadCategory('accessory');
-                }}>
-                <Text style={styles.textStyle}>{CategoryText.accessory}</Text>
-            </TouchableHighlight>
-            {AccImage && <Image source={{ uri: AccImage }} style={{ width: 100, height: 100 }} />}
+                <TouchableHighlight
+                    style={formStyles.uploadBox}
+                    onPress={() => {
+                    setModalVisible(true);
+                    setUploadCategory('shoes');
+                    }}>
+                    {shoesImage !== null ? 
+                        <Image source={{ uri: shoesImage }} style={formStyles.uploadedItem} /> 
+                    : 
+                        <Text style={styles.textStyle}>{ CategoryText.shoes }</Text>
+                    }
+                </TouchableHighlight>
+            
+                <View style={formStyles.uploadBox}/>
+            </RowContainer>
 
             <TouchableHighlight
                 style={styles.recButton}
@@ -331,57 +347,9 @@ function ImgUploadForRecScreen({ navigation, route }) {
             >
                 <Text style={styles.textStyle}>추천받기</Text>
             </TouchableHighlight>
+        </View>
         </ScrollView>
     )
 }
-
-const styles = StyleSheet.create({
-    centeredView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 22,
-    },
-    modalView: {
-      margin: 20,
-      backgroundColor: 'white',
-      borderRadius: 20,
-      padding: 35,
-      alignItems: 'stretch',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-    },
-    openButton: {
-      height: 40,
-      backgroundColor: '#191970',
-      borderRadius: 20,
-      padding: 10,
-      elevation: 2,
-      marginBottom: 10,
-    },
-    recButton: {
-        height: 40,
-        backgroundColor: '#CD5C5C',
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-        marginBottom: 10,
-      },
-    textStyle: {
-      color: 'white',
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    modalText: {
-      marginBottom: 15,
-      textAlign: 'center',
-    },
-  });
 
 export default ImgUploadForRecScreen;

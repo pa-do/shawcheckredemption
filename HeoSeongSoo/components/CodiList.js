@@ -1,27 +1,49 @@
 import React from 'react';
 import { Text, TouchableWithoutFeedback  } from 'react-native';
 import styled from 'styled-components/native';
-import axios from 'axios'
 
+// 전체 코디리스트의 개별 아이템입니다.
+
+// 카드의 전체 레이아웃
 const CodiItemCard = styled.View`
     margin: 10px;
     border: 2px #000000 solid;
 `;
 
+// 이미지를 감싸는 뷰
 const CodiListItem = styled.View`
     height: 250px;
 `;
 
+// 코디의 이미지
 const CodiItemImg = styled.Image`
     width: 100%;
     height: 100%;
     resize-mode: cover;
 `;
 
-const TextContainer = styled.View`
+// 하트를 품은 뷰
+const heartContainer = styled.View`
     margin: 5px;
     flex-direction: row;
     justify-content: space-between;
+`;
+
+// 하트 텍스트
+const heartText = styled.Text`
+
+`;
+
+// content 포함 뷰
+const contentContainer = styled.View`
+    margin: 5px;
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
+// content Text
+const contentText = styled.Text`
+
 `;
 
 function CodiList(props) {
@@ -55,13 +77,13 @@ function CodiList(props) {
                 </TouchableWithoutFeedback>
             </CodiListItem>
             <TouchableWithoutFeedback onPress={changeHeart}>
-                <TextContainer>
-                    <Text>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</Text>
-                </TextContainer>
+                <heartContainer>
+                    <heartText>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</heartText>
+                </heartContainer>
             </TouchableWithoutFeedback>
-            <TextContainer>
-                <Text>{ codiItem.content }</Text>
-            </TextContainer>
+            <contentContainer>
+                <contentText>{ codiItem.content }</contentText>
+            </contentContainer>
         </CodiItemCard>
     )
 }

@@ -1,24 +1,38 @@
 import React from  'react';
-import { Text, TouchableWithoutFeedback, View, ScrollView } from 'react-native';
+import { Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import Container from '../components/Container';
 import axios from 'axios'
 import styled from 'styled-components/native';
 
+// 코디의 디테일 페이지입니다.
 
+// 코디 이미지
 const CodiItemImg = styled.Image`
     width: 100%;
     height: 50%;
     resize-mode: cover;
 `;
 
-const TextContainer = styled.View`
+// 하트를 품은 뷰
+const heartContainer = styled.View`
     margin: 5px;
     justify-content: space-between;
 `;
 
+// 하트 텍스트
+const heartText = styled.Text`
+
+`;
+
+// 아이템의 정보를 보여주는 박스
 const ItemContainer = styled.View`
     margin: 5px;
     flex-direction: column;
+`;
+
+// content 값을 보여주는 태그
+const contentText = styled.Text`
+
 `;
 
 function CodiDetailScreen({ navigation, route }) {
@@ -47,21 +61,18 @@ function CodiDetailScreen({ navigation, route }) {
     let nullCount = 0
     return (
         <Container>
-            <Text>
-                {codiSetDetail.user}
-            </Text>
-            <CodiItemImg
-                source={{uri: codiSetDetail.img}}
-            />
-            <TouchableWithoutFeedback onPress={changeHeart}>
-                <TextContainer>
-                    <Text>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</Text>
-                </TextContainer>
-            </TouchableWithoutFeedback>
-            <Text>
-                {codiSetDetail.content}
-            </Text>
             <ScrollView>
+                <CodiItemImg
+                    source={{uri: codiSetDetail.img}}
+                />
+                <TouchableWithoutFeedback onPress={changeHeart}>
+                    <heartContainer>
+                        <heartText>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</heartText>
+                    </heartContainer>
+                </TouchableWithoutFeedback>
+                <contentText>
+                    {codiSetDetail.content}
+                </contentText>
                 {codiSetDetail.items.map(item => {
                     if (Object.keys(item).length !== 0) {
                         return (

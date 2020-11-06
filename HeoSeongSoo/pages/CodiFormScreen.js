@@ -1,6 +1,7 @@
 import React from 'react';
-import { Alert, Modal, StyleSheet, Text, TouchableHighlight, View, Image, ScrollView, Dimensions } from 'react-native';
+import { Modal, Text, TouchableHighlight, View, Image, ScrollView, Dimensions } from 'react-native';
 import axios from 'axios'
+import { styles } from '../components/StyleSheetComponent';
 import * as ImagePicker from 'expo-image-picker';
 import { CategoryText } from '../components/TextComponent';
 import RowContainer from '../components/RowContainer';
@@ -131,24 +132,6 @@ function CodiFormScreen({ navigation, route }) {
             >
                 <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                        onPress={() => {
-                            navigation.navigate('Camera', {backScreen: 'Form'});
-                            setModalVisible(!modalVisible);
-                        }}
-                    >
-                        <Text style={styles.textStyle}>카메라</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                        onPress={() => {
-                            pickImage();
-                            setModalVisible(!modalVisible);
-                        }}
-                    >
-                        <Text style={styles.textStyle}>갤러리에서 가져오기</Text>
-                    </TouchableHighlight>
                     <TouchableHighlight
                         style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                         onPress={() => {
@@ -293,70 +276,5 @@ function CodiFormScreen({ navigation, route }) {
         </ScrollView>
     )
 }
-
-const styles = StyleSheet.create({
-    centeredView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 22,
-    },
-    modalView: {
-      margin: 20,
-      backgroundColor: 'white',
-      borderRadius: 20,
-      padding: 35,
-      alignItems: 'stretch',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-    },
-    uploadedItem: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'center',
-    },
-    RowContainerHeight: {
-        height: '25%',
-    },
-    uploadBox: {
-        width: '30%',
-        height: '100%',
-        backgroundColor: 'black',
-        borderColor: 'white',
-        borderWidth: 0.5,
-        borderColor: 'white',
-    },
-    openButton: {
-      height: 40,
-      backgroundColor: '#191970',
-      borderRadius: 20,
-      padding: 10,
-      elevation: 2,
-      marginBottom: 10,
-    },
-    recButton: {
-        height: 40,
-        backgroundColor: '#CD5C5C',
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-        marginBottom: 10,
-      },
-    textStyle: {
-      color: 'white',
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    modalText: {
-      marginBottom: 15,
-      textAlign: 'center',
-    },
-  });
 
 export default CodiFormScreen;

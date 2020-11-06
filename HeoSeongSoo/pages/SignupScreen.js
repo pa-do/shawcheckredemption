@@ -1,5 +1,5 @@
 import React from  'react';
-import { Alert, Text, View, Modal, TouchableHighlight, StyleSheet, Image } from 'react-native';
+import { Alert, Text, View, Modal, TouchableHighlight, Image } from 'react-native';
 import Constants from 'expo-constants';
 import styled from 'styled-components/native';
 import { TextInput, Button } from 'react-native-paper';
@@ -206,48 +206,5 @@ function SignupScreen({ navigation, route }) {
         </Container>
     )
 }
-
-const styles = StyleSheet.create({
-    centeredView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 22,
-    },
-    modalView: {
-      maxWidth: '90%',
-      margin: 20,
-      backgroundColor: 'white',
-      borderRadius: 20,
-      padding: 35,
-      alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-    },
-    openButton: {
-      width: 250,
-      height: 30,
-      backgroundColor: '#F194FF',
-      borderRadius: 20,
-      padding: 10,
-      elevation: 2,
-      marginTop: 15,
-    },
-    textStyle: {
-      color: 'white',
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    modalText: {
-      marginBottom: 5,
-      textAlign: 'left',
-    },
-  });
 
 export default SignupScreen;

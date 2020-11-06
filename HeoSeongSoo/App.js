@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios'
 import HomeScreen from './pages/HomeScreen';
 import CodiAllListScreen from './pages/CodiAllListScreen';
 import CodiDetailScreen from './pages/CodiDetailScreen';
@@ -21,6 +20,7 @@ import AuthContext from './components/AuthContext';
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
+// 하단 탭 네비게이션의 테마 값입니다.
 const MyTheme = {
   dark: false,
   colors: {
@@ -79,7 +79,7 @@ function TabScreen() {
             size = focused ? 25 : 20;
           }
           
-          // You can return any component that you like here!
+          // 클릭된(포커스되는) 하단 탭의 아이콘입니다.
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
@@ -157,11 +157,6 @@ function App() {
       } catch (e) {
         // Restoring token failed
       }
-
-      // After restoring token, we may need to validate it in production apps
-
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
       console.log('get first user token >>>>>>>>>>>>>>>>>>>>>>', userToken)
       dispatch({ type: 'RESTORE_TOKEN', token: userToken });
     };
@@ -172,10 +167,6 @@ function App() {
   const authContext = React.useMemo(
     () => ({
       signIn: async data => {
-        // In a production app, we need to send some data (usually username, password) to server and get a token
-        // We will also need to handle errors if sign in failed
-        // After getting token, we need to persist the token using `AsyncStorage`
-        // In the example, we'll use a dummy token
         // 로그인 로직을 실행한 뒤 돌아오는 토큰을 담아 dispatch 합니다.
         // 로그인을 위한 데이터는 data에 담겨 옵니다.
         console.log(data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<< sign in data')
@@ -183,10 +174,6 @@ function App() {
       },
       signOut: () => dispatch({ type: 'SIGN_OUT' }),
       signUp: async data => {
-        // In a production app, we need to send user data to server and get a token
-        // We will also need to handle errors if sign up failed
-        // After getting token, we need to persist the token using `AsyncStorage`
-        // In the example, we'll use a dummy token
         console.log(data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<< sign up data');
         dispatch({ type: 'SIGN_IN', token: data });
       },
