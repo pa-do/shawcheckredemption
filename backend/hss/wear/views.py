@@ -61,10 +61,9 @@ def create_coordi(request):
     tartgeturl = "../media/" + user.username + "/"
     merged.save(targeturl, user.username + '_' + nowDate + '.png')
     # return HttpResponse('0')
-
+    imglink = tartgeturl + user.username + '_' + nowDate + '.png'
     if serializer.is_valid():
-        serializer.save(user=user)
-        serializer.save(ming=merged, format='png')
+        serializer.save(user=user, img=imglink)
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
     else:
         return Response(data=serializer.errors)
