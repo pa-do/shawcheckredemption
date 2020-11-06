@@ -84,6 +84,10 @@ def like_list(request):
     serializer = UserMergeSerializer(clothes, many=True)
     return Response(serializer.data)
 
+def coordiset_test(request):
+    from .coordiset import run_self
+    run_self()
+
 
 # @api_view(['GET'])
 # def detail_tour(request, tour_pk):

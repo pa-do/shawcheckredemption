@@ -14,5 +14,6 @@ urlpatterns = [
     path('likecoordi/coordi_pk/', views.like_coordi),
     path('likelist/', views.like_list),
     path('recommand/', views.recommand),
+    path('coordiset/test/', views.coordiset_test),
     # path('guidetour/<int:tour_pk>', views.guidetour),
 ]

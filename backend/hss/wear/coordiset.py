@@ -1,3 +1,7 @@
+# 실행 트리거
+
+def run_self():
+    print(__name__)
 
 # 유저 정보 : 퍼스널컬러(spring, summer, fall, winter) / 언제 / 어디에 / 가진옷(선택) + 체형
 # 코디셋 구성 항목 : 상의(필), 하의(필), 신발(필), 아우터, 가방, 시계, 모자, 액세서리
@@ -96,18 +100,7 @@ second_style = sorted_style[1][0]
 print(first_style, second_style)
 
 
-# python -m coordiset.py 로 실행 가능
-if __name__ == '__main__':
-    if __package__ is None:
-        import sys
-        from os import path
-        print(path.dirname( path.dirname( path.abspath(__file__) ) ))
-        sys.path.append(path.dirname( path.dirname( path.abspath(__file__) ) ))
-        from .models import Accessory, Bag, Headwear, Outer, Pants, Shoes, Top, Watch
-    else:
-        from .models import Accessory, Bag, Headwear, Outer, Pants, Shoes, Top, Watch
-
-
+from .models import Accessory, Bag, Headwear, Outer, Pants, Shoes, Top, Watch
 
 if "top" in user_pick_item:    # 입력한 아이템이 있을 때 상의 선택 알고리즘
 
@@ -117,6 +110,7 @@ if "top" in user_pick_item:    # 입력한 아이템이 있을 때 상의 선택
 
     # 상의 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
 
+    print('올!!',Top.objects.all())
     mytoplist = Top.objects.filter(category=target_top).filter(color=target_top_color)
     print(mytoplist)
     # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.

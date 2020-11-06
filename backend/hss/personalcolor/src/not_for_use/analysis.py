@@ -167,5 +167,5 @@ dirpath = '../res/train/spring'
 imgdir = os.listdir(dirpath)
 
 for imgpath in imgdir:
-    print(os.path.join(dirpath,imgpath))
+#     print(os.path.join(dirpath,imgpath))
     analysis(os.path.join(dirpath,imgpath))
