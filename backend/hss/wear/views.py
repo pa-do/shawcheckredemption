@@ -110,9 +110,11 @@ def like_list(request):
     serializer = UserMergeSerializer(clothes, many=True)
     return Response(serializer.data)
 
+# 코디셋 테스트
 def coordiset_test(request):
-    from .coordiset import run_self
-    run_self()
+    from wear import coordiset
+    result = coordiset.run_self()
+    print('result : ',result)
 
 
 # @api_view(['GET'])
