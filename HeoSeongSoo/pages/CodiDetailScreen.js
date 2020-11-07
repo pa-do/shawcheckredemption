@@ -36,8 +36,8 @@ const contentText = styled.Text`
 `;
 
 function CodiDetailScreen({ navigation, route }) {
-    const [codiSetDetail, setCodiSetDetail] = React.useState(route.params.item)
-    const [itemLike, setLikeItem] = React.useState({liked: route.params.item.liked, likes: route.params.item.likes})
+    const [codiSetDetail, setCodiSetDetail] = React.useState(route.params.item);
+    const [itemLike, setLikeItem] = React.useState({liked: route.params.item.liked, likes: route.params.item.likes});
     
     React.useEffect(() => {
         navigation.setOptions({title: `${route.params.item.user}님의 코디`});
