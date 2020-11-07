@@ -86,8 +86,38 @@ function CodiMyListScreen({ navigation, route }) {
     const heartCodiText = '내 코디 보기';
 
     React.useEffect(() => {
-        const imageUri = route.params?.image.uri
-        // imageUri 서버에 업로드 uploadCategory 첨부, 후 모달 재오픈
+        const dataUpload = async () => {
+            let userToken;
+        
+            try {
+            userToken = await AsyncStorage.getItem('userToken');
+            } catch (e) {
+            // Restoring token failed
+            }
+            const imageUri = route.params?.image.uri
+            // imageUri 서버에 업로드 uploadCategory 첨부, 후 모달 재오픈
+            const requestHeaders = {
+                headers: {
+                    Authorization: `JWT ${userToken}`,
+                    "Content-Type": "multipart/form-data",
+                }
+            }
+
+            const itemImage = {
+                uri: imageUri,
+                type: 'image/jpeg',
+                name: 'item.jpg',
+            }
+            const data = new FormData();
+            data.append(itemImage);
+
+            axios.post(ServerUrl.url +'wear/userclothes', data, requestHeaders)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => console.log(err.response))
+        }
+        dataUpload();
         // setModalVisible(true);
     }, [route.params?.image]);
 
