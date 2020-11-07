@@ -30,8 +30,8 @@
 # 하의 -> 신발
 # 상의 -> 아우터
 # 신발 -> 가방
-# 가방 or 신발 -> 시계
-# 아우터 or 상의 -> 모자
+# 신발 -> 시계
+# 상의 -> 모자
 # 액세서리 (포멀 - 넥타이 > 겨울 - 목도리 > 벨트는 하의에 영향받음)
 
 from .models import Accessory, Bag, Headwear, Outer, Pants, Shoes, Top, Watch
@@ -140,12 +140,9 @@ def set_top(user_info):
             # 컬러 필터에서 유사도 분석
             top_list = top_filter_with_color
 
-        
         sim_result = image_similarity(user_pick_item["top"][2], top_list, 'top')
-
         return sim_result
-        
-        # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 뽑는다.
+
 
     else: # 입력한 아이템이 없을 때 상의 선택 알고리즘
 
@@ -167,20 +164,21 @@ def set_top(user_info):
         if first_style == "sporty":
             top -= {7, 3}
 
-        return 'top_list'
+        return [1, 1, 1, 1, 1] # 5개 리턴
         # top에 해당하는 상의 카테고리에서 퍼스널 컬러들을 타겟 컬러로 지정하여
         # 상의 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
         # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
         # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
 
 
-def set_pants(user_info):
+def set_pants(user_info, top):
     user_pick_item = user_info["user_pick_item"]
     weather = user_info["weather"]
     first_style, second_style = user_info["style"]
     who = user_info["who"]
     where = user_info["where"]
     personal_color = user_info["personal_color"]
+    top_item = Top.objects.get(pk=top)
 
     if "pants" in user_pick_item:    # 입력한 아이템이 있을 때 하의 선택 알고리즘
 
@@ -189,9 +187,18 @@ def set_pants(user_info):
         target_pants_color = user_pick_item["pants"][1]
 
         # 하의 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
-        return 'pants'
+
+        pants_filter_with_category = Pants.objects.filter(category=target_pants)
+        pants_filter_with_color = pants_filter_with_category.filter(color__contains=target_pants_color)
+        if len(pants_filter_with_color) < 5:
+            # 카테고리 필터에서 유사도 분석
+            pants_list = pants_filter_with_category
+        else:
+            # 컬러 필터에서 유사도 분석
+            pants_list = pants_filter_with_color
+
+        sim_result = image_similarity(user_pick_item["pants"][2], pants_list, 'pants')
+        return sim_result
 
     else: # 입력한 아이템이 없을 때 하의 선택 알고리즘
         pants = {i for i in range(5)}     # {"데님", "코튼", "슬랙스", "조거", "숏"}
@@ -209,21 +216,21 @@ def set_pants(user_info):
         if first_style == "sporty":
             pants -= {0, 1, 2}
         
-        print(pants)
         # pants에 해당하는 하의 카테고리에서 상의 컬러에 조화로운 색을 타겟 컬러로 지정하여
         # 하의 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
         # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
         # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 'pants'
+        return 1 # 1개 리턴
 
 
-def set_shoes(user_info):
+def set_shoes(user_info, pants):
     user_pick_item = user_info["user_pick_item"]
     weather = user_info["weather"]
     first_style, second_style = user_info["style"]
     who = user_info["who"]
     where = user_info["where"]
     personal_color = user_info["personal_color"]
+    pants_item = Pants.objects.get(pk=pants)
 
     if "shoes" in user_pick_item:    # 입력한 아이템이 있을 때 신발 선택 알고리즘
 
@@ -232,9 +239,18 @@ def set_shoes(user_info):
         target_shoes_color = user_pick_item["shoes"][1]
 
         # 신발 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
-        return 'shoes'
+
+        shoes_filter_with_category = Shoes.objects.filter(category=target_shoes)
+        shoes_filter_with_color = shoes_filter_with_category.filter(color__contains=target_shoes_color)
+        if len(shoes_filter_with_color) < 5:
+            # 카테고리 필터에서 유사도 분석
+            shoes_list = shoes_filter_with_category
+        else:
+            # 컬러 필터에서 유사도 분석
+            shoes_list = shoes_filter_with_color
+
+        sim_result = image_similarity(user_pick_item["shoes"][2], shoes_list, 'shoes')
+        return sim_result
 
     else: # 입력한 아이템이 없을 때 신발 선택 알고리즘
 
@@ -258,21 +274,21 @@ def set_shoes(user_info):
         if first_style == "street":
             shoes -= {2, 7}
         
-        print(shoes)
         # shoes에 해당하는 신발 카테고리에서 하의 컬러에 조화로운 색을 타겟 컬러로 지정하여
         # 신발 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
         # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
         # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 'shoes'
+        return 1 # 1개 리턴
 
 
-def set_outer(user_info):
+def set_outer(user_info, top):
     user_pick_item = user_info["user_pick_item"]
     weather = user_info["weather"]
     first_style, second_style = user_info["style"]
     who = user_info["who"]
     where = user_info["where"]
     personal_color = user_info["personal_color"]
+    top_item = Top.objects.get(pk=top)
 
     if "outer" in user_pick_item:    # 입력한 아이템이 있을 때 아우터 선택 알고리즘
 
@@ -284,9 +300,18 @@ def set_outer(user_info):
         target_outer_color = user_pick_item["outer"][1]
 
         # 아우터 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
-        return 'outer'
+
+        outer_filter_with_category = Outer.objects.filter(category=target_outer)
+        outer_filter_with_color = outer_filter_with_category.filter(color__contains=target_outer_color)
+        if len(outer_filter_with_color) < 5:
+            # 카테고리 필터에서 유사도 분석
+            outer_list = outer_filter_with_category
+        else:
+            # 컬러 필터에서 유사도 분석
+            outer_list = outer_filter_with_color
+
+        sim_result = image_similarity(user_pick_item["outer"][2], outer_list, 'outer')
+        return sim_result
 
     else: # 입력한 아이템이 없을 때 아우터 선택 알고리즘
 
@@ -314,22 +339,22 @@ def set_outer(user_info):
             outer -= {4, 8}
         if first_style == "street":
             outer -= {0, 4, 8}
-        
-        print(outer)
+
         # outer에 해당하는 카테고리에서 상의 컬러에 조화로운 색을 타겟 컬러로 지정하여
         # 아우터 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
         # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
         # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 'outer'
+        return 1 # 1개 리턴
 
 
-def set_bag(user_info):
+def set_bag(user_info, shoes):
     user_pick_item = user_info["user_pick_item"]
     weather = user_info["weather"]
     first_style, second_style = user_info["style"]
     who = user_info["who"]
     where = user_info["where"]
     personal_color = user_info["personal_color"]
+    shoes_item = Shoes.objects.get(pk=shoes)
 
     if "bag" in user_pick_item:    # 입력한 아이템이 있을 때 가방 선택 알고리즘
 
@@ -340,9 +365,18 @@ def set_bag(user_info):
         target_bag_color = user_pick_item["bag"][1]
 
         # 가방 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
-        return 'bag'
+
+        bag_filter_with_category = Bag.objects.filter(category=target_bag)
+        bag_filter_with_color = bag_filter_with_category.filter(color__contains=target_bag_color)
+        if len(bag_filter_with_color) < 5:
+            # 카테고리 필터에서 유사도 분석
+            bag_list = bag_filter_with_category
+        else:
+            # 컬러 필터에서 유사도 분석
+            bag_list = bag_filter_with_color
+
+        sim_result = image_similarity(user_pick_item["bag"][2], bag_list, 'bag')
+        return sim_result
 
     else: # 입력한 아이템이 없을 때 가방 선택 알고리즘
 
@@ -365,52 +399,63 @@ def set_bag(user_info):
             bag -= {5, 6, 7, 8}
         if first_style == "street":
             bag -= {3, 7, 8}
-        
-        print(bag)
+
         # bag에 해당하는 카테고리에서 신발 컬러에 조화로운 색을 타겟 컬러로 지정하여
         # 가방 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
         # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
         # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 'bag'
+        return 1 # 1개 리턴
 
 
-def set_watch(user_info):
+def set_watch(user_info, shoes):
     user_pick_item = user_info["user_pick_item"]
     weather = user_info["weather"]
     first_style, second_style = user_info["style"]
     who = user_info["who"]
     where = user_info["where"]
     personal_color = user_info["personal_color"]
+    shoes_item = Shoes.objects.get(pk=shoes)
 
     if "watch" in user_pick_item:    # 입력한 아이템이 있을 때 시계 선택 알고리즘
 
         watch = {0} # 통합
+        target_watch = user_pick_item["watch"][0]
         target_watch_color = user_pick_item["watch"][1]
 
-        # 시계 DB에서 컬러가 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
-        return 'watch'
+        # 시계 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
+
+        watch_filter_with_category = Watch.objects.filter(category=target_watch)
+        watch_filter_with_color = watch_filter_with_category.filter(color__contains=target_watch_color)
+        if len(watch_filter_with_color) < 5:
+            # 카테고리 필터에서 유사도 분석
+            watch_list = watch_filter_with_category
+        else:
+            # 컬러 필터에서 유사도 분석
+            watch_list = watch_filter_with_color
+
+        sim_result = image_similarity(user_pick_item["watch"][2], watch_list, 'watch')
+        return sim_result
 
     else: # 입력한 아이템이 없을 때 시계 선택 알고리즘
 
         watch = {0} # 통합
 
-        print(watch)
+
         # 가방 또는 신발 컬러에 조화로운 색을 타겟 컬러로 지정하여
         # 시계 DB에서 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
         # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
         # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 'watch'
+        return 1 # 1개 리턴
 
 
-def set_headwear(user_info):
+def set_headwear(user_info, top):
     user_pick_item = user_info["user_pick_item"]
     weather = user_info["weather"]
     first_style, second_style = user_info["style"]
     who = user_info["who"]
     where = user_info["where"]
     personal_color = user_info["personal_color"]
+    top_item = Top.objects.get(pk=top)
 
     if "headwear" in user_pick_item:    # 입력한 아이템이 있을 때 모자 선택 알고리즘
 
@@ -419,9 +464,18 @@ def set_headwear(user_info):
         target_headwear_color = user_pick_item["headwear"][1]
 
         # 모자 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
-        return 'headwear'
+
+        headwear_filter_with_category = Headwear.objects.filter(category=target_headwear)
+        headwear_filter_with_color = headwear_filter_with_category.filter(color__contains=target_headwear_color)
+        if len(headwear_filter_with_color) < 5:
+            # 카테고리 필터에서 유사도 분석
+            headwear_list = headwear_filter_with_category
+        else:
+            # 컬러 필터에서 유사도 분석
+            headwear_list = headwear_filter_with_color
+
+        sim_result = image_similarity(user_pick_item["headwear"][2], headwear_list, 'headwear')
+        return sim_result
 
     else: # 입력한 아이템이 없을 때 모자 선택 알고리즘
 
@@ -443,22 +497,22 @@ def set_headwear(user_info):
         if first_style == "casual":
             headwear -= {2}
         
-        print(headwear)
+
         # headwear에 해당하는 카테고리에서 아우터 또는 상의 컬러에 조화로운 색을 타겟 컬러로 지정하여
         # 모자 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
         # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
         # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 'headwear'
+        return 1 # 1개 리턴
 
 
-def set_acc(user_info):
+def set_acc(user_info, top):
     user_pick_item = user_info["user_pick_item"]
     weather = user_info["weather"]
     first_style, second_style = user_info["style"]
     who = user_info["who"]
     where = user_info["where"]
     personal_color = user_info["personal_color"]
-
+    top_item = Top.objects.get(pk=top)
     if "acc" in user_pick_item:    # 입력한 아이템이 있을 때 액세서리 선택 알고리즘
 
         acc = {i for i in range(3)}    # {0"벨트", 1"넥타이", 2"머플러"}
@@ -466,10 +520,18 @@ def set_acc(user_info):
         target_acc_color = user_pick_item["acc"][1]
 
         # 액세서리 DB에서 카테고리 + 컬러가 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # 유사도 알고리즘을 돌려 user_pick_item의 이미지와 가장 유사한 아이템 5개를 20개 중에 뽑는다.
-        return 'acc'
 
+        acc_filter_with_category = Accessory.objects.filter(category=target_acc)
+        acc_filter_with_color = acc_filter_with_category.filter(color__contains=target_acc_color)
+        if len(acc_filter_with_color) < 5:
+            # 카테고리 필터에서 유사도 분석
+            acc_list = acc_filter_with_category
+        else:
+            # 컬러 필터에서 유사도 분석
+            acc_list = acc_filter_with_color
+
+        sim_result = image_similarity(user_pick_item["acc"][2], acc_list, 'acc')
+        return sim_result
     else: # 입력한 아이템이 없을 때 액세서리 선택 알고리즘
 
         acc = {i for i in range(3)}    # {0"벨트", 1"넥타이", 2"머플러"}
@@ -484,12 +546,11 @@ def set_acc(user_info):
         if first_style in ["casual", "street", "sporty"]:
             acc -= {1}
 
-        print(acc)
         # acc에 해당하는 카테고리에서 하의 컬러에 조화로운 색을 타겟 컬러로 지정하여
         # 액세서리 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
         # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
         # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 'acc'
+        return 1 # 1개 리턴
 
 
 
@@ -508,18 +569,54 @@ def run_self():
     user_info["style"] = set_style(user_info["who"], user_info["where"])
     
     coordiset = {
-        "top": set_top(user_info),
-        "pants": set_pants(user_info),
-        "shoes": set_shoes(user_info),
-        "outer": set_outer(user_info),
-        "bag": set_bag(user_info),
-        "watch": set_watch(user_info),
-        "headwear": set_headwear(user_info),
-        "acc": set_acc(user_info)
+        "top": [],
+        "pants": [],
+        "shoes": [],
+        "outer": [],
+        "bag": [],
+        "watch": [],
+        "headwear": [],
+        "acc": []
     }
+    coordiset["top"] = set_top(user_info)
+    for item in user_info["user_pick_item"]:
+        if item == "pants":
+            coordiset["pants"] = set_pants(user_info, 0)
+        elif item == "shoes":
+            coordiset["shoes"] = set_shoes(user_info, 0)
+        elif item == "outer":
+            coordiset["outer"] = set_outer(user_info, 0)
+        elif item == "bag":
+            coordiset["bag"] = set_bag(user_info, 0)
+        elif item == "watch":
+            coordiset["watch"] = set_watch(user_info, 0)
+        elif item == "headwear":
+            coordiset["headwear"] = set_headwear(user_info, 0)
+        elif item == "acc":
+            coordiset["acc"] = set_acc(user_info, 0)
+
+    for top_item in coordiset["top"]:
+        if "pants" not in user_info["user_pick_item"]:
+            coordiset["pants"].append(set_pants(user_info, top_item))
+        if "outer" not in user_info["user_pick_item"]:
+            coordiset["outer"].append(set_outer(user_info, top_item))
+        if "headwear" not in user_info["user_pick_item"]:
+            coordiset["headwear"].append(set_headwear(user_info, top_item))
+        if "acc" not in user_info["user_pick_item"]:
+            coordiset["acc"].append(set_acc(user_info, top_item))
+    for pants_item in coordiset["pants"]:
+        if "shoes" not in user_info["user_pick_item"]:
+            coordiset["shoes"].append(set_shoes(user_info, pants_item))
+    for shoes_item in coordiset["shoes"]:
+        if "bag" not in user_info["user_pick_item"]:
+            coordiset["bag"].append(set_bag(user_info, shoes_item))
+        if "watch" not in user_info["user_pick_item"]:
+            coordiset["watch"].append(set_watch(user_info, shoes_item))
+    
+    
 
     
-    return (coordiset)
+    return coordiset
 
 
 
