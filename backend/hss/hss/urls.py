@@ -43,8 +43,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # 로그인 & 로그아웃
     url(r'^rest-auth/', include('rest_auth.urls')),
-    # 소셜 로그인
-    url(r'^accounts/', include('allauth.urls')),
+    # 계정관련
+    url(r'^accounts/', include('accounts.urls')),
     # 회원가입
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     # apps
