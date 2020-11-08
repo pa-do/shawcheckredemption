@@ -89,6 +89,15 @@ def create_coordi(request):
     else:
         return Response(data=serializer.errors)
 
+# 내가 등록한 코디 보기
+@api_view(['GET'])
+def list_coordi(request):
+    User = get_user_model()
+    user = get_object_or_404(User, pk=request.user.pk)
+    coordi = UserCoordi.objects.filter(user=user)
+    serializer = UserMergeSerializer(coordi, many=True)
+    return Response(serializer.data)
+
 # 유저 코디 좋아요
 @api_view(['POST'])
 def like_coordi(request, coordi_pk):
@@ -106,9 +115,12 @@ def like_coordi(request, coordi_pk):
 def like_list(request):
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    clothes = UserClothes.objects.filter(user=user)
-    serializer = UserMergeSerializer(clothes, many=True)
-    return Response(serializer.data)
+    clothes = LikeCoordi.objects.filter(user=user).values()
+    like = []
+    for i in clothes:
+        cloth = UserCoordi.objects.get(id=i['id'])
+        like.append({'id':i['id'], 'img':i['img']})
+    return JsonResponse(like)
 
 # 코디셋 테스트
 def coordiset_test(request):
@@ -117,46 +129,10 @@ def coordiset_test(request):
     print('result : ',result)
 
 
-# @api_view(['GET'])
-# def detail_tour(request, tour_pk):
-#     User = get_user_model()
-#     user = get_object_or_404(User, pk=request.user.pk)
-#     tours = TripItemModel.objects.filter(pk=tour_pk)[0]
-#     paiders = GuideTour.objects.filter(trip_item=tour_pk)
-#     flag = False
-#     for paider in paiders:
-#         if paider.user == user:
-#             flag = True
-#     serializer = TourDetailSerializer(tours)
-#     return JsonResponse({"result": serializer.data, "flag": flag})
-
 # 추천 받기
 @api_view(['POST'])
 def recommand(request):
     pass
-
-# ----------------------------------- 이미지 합치기 --------------
-
-# from PIL import Image
-# im = Image.open('python.png')
- 
-# # 크기를 600x600 으로
-# img2 = im.resize((600, 600))
-# img2.save('python-600.jpg')
-
-# # 1. 병합할 이미지 만들기
-# merged = Image.new('L', (400, 200))
-
-# # 2. 이미지 불러오기
-# im0 = Image.open('mnist_0.png')
-# im1 = Image.open('mnist_1.png')
-
-# # 3. 이미지 붙여넣기
-# merged.paste(im0, (0, 0))
-# merged.paste(im1, (200, 0))
-
-# # 4. 병합한 이미지 저장하기
-# merged.save('mnist_merged.png')
 
 # 쓸것 들
 # for idx, value in request.data.items():
