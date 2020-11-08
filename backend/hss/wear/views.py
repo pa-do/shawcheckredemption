@@ -15,14 +15,35 @@ from PIL import Image
 
 # 유저 옷 CRUD 
 class UserClothesViewSet(ModelViewSet):
-   queryset = UserClothes.objects.all()
-   serializer_class = UserClothesSerializer
-   def perform_create(self, serializer):
+    """
+        유저 옷 1개 CRUD API
+
+        ---
+        # 내용
+            - img : 올릴 옷 이미지
+            - category : 1 : headwear,
+                        2 : top,
+                        3 : outer,
+                        4 : acc,
+                        5 : pants,
+                        6 : bag,
+                        7 : watch,
+                        8 : shoes, 중 한개를 입력
+            - color : 컨펌 후 채워지게 될 칸
+    """
+    queryset = UserClothes.objects.all()
+    serializer_class = UserClothesSerializer
+    def perform_create(self, serializer):
         serializer.save(user_id=self.request.user.pk)
 
 # 내 옷만 가져오기
 @api_view(['GET'])
 def mylist(request):
+    """
+        내가 등록한 옷 가져오는 API
+
+        ---
+    """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
     clothes = UserClothes.objects.filter(user=user).values()
@@ -58,6 +79,25 @@ def mylist(request):
 # 유저 코디 등록하기
 @api_view(['POST'])
 def create_coordi(request):
+    """
+        유저 코디 등록하는 API
+
+        ---
+        # 내용
+            반드시 순서에 맞춰서 보내주세요
+            - category : 1 : headwear,
+                        2 : top,
+                        3 : outer,
+                        4 : acc,
+                        5 : pants,
+                        6 : bag,
+                        7 : watch,
+                        8 : shoes,
+            123
+            456
+            789 형태로 사진이 합성되며
+            headwear : pk, top : pk ... 순으로 8개 보내고 없으면 -1
+    """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
     serializer = CoordiSerializer(data=request.data)
@@ -92,6 +132,11 @@ def create_coordi(request):
 # 내가 등록한 코디 보기
 @api_view(['GET'])
 def list_coordi(request):
+    """
+        내가 등록한 코디를 모아보는 API
+
+        ---
+    """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
     coordi = UserCoordi.objects.filter(user=user)
@@ -101,6 +146,14 @@ def list_coordi(request):
 # 유저 코디 좋아요
 @api_view(['POST'])
 def like_coordi(request, coordi_pk):
+    """
+        사람들이 올린 코디를 좋아요 하는 API
+
+        ---
+        # 내용
+            pk 값을 파라미터로 보내면 되며,
+            두번째 요청마다 자동으로 삭제됨
+    """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
     Lcoordi, flag = LikeCoordi.objects.get_or_create(oordi_num=coordi_pk, user=user)
@@ -113,6 +166,13 @@ def like_coordi(request, coordi_pk):
 # 좋아요 코디 가져오기
 @api_view(['GET'])
 def like_list(request):
+    """
+        내가 좋아요한 코디들을 가져오는 API
+
+        ---
+        # 내용
+            [{id: num, img: string, id:num2, img: string2 ...}]
+    """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
     clothes = LikeCoordi.objects.filter(user=user).values()
@@ -132,6 +192,12 @@ def coordiset_test(request):
 # 추천 받기
 @api_view(['POST'])
 def recommand(request):
+    """
+        코디셋 추천하는 API
+
+        ---
+        # 내용
+    """
     pass
 
 # 쓸것 들
