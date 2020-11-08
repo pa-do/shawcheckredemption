@@ -6,7 +6,7 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .serializers import *
-from .models import *
+from .models import Personalcolor, User
 from rest_framework import status
 
 # 퍼스널컬러 체크
@@ -20,9 +20,9 @@ import os
 def personalcolor(request):
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    # serializer = ColorSerializer(data=request.data)
-    # if serializer.is_valid():
-    #     serializer.save(user=user)
+    serializer = ColorSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=user)
     # imgpath = "C:/Users/multicampus/Desktop/coolcool.png" # 이미지 경로 설정
     pimg = Personalcolor.objects.get(user=user)
     imgpath = "./media/" + str(pimg.img)
