@@ -1,7 +1,8 @@
 // 모든 텍스트를 관리하는 컴포넌트
 
 const ServerUrl = {
-    url: 'https://k3d205.p.ssafy.io/'
+    url: 'https://k3d205.p.ssafy.io/',
+    mediaUrl: 'https://k3d205.p.ssafy.io/media/'
 }
 
 const RadioButtonText = {
@@ -29,5 +30,15 @@ const CategoryText = {
     accessory: '악세서리'
 }
 
+const CategoryEngText = {
+    top: 'tops',
+    pants: 'pants',
+    shoes: 'shoes',
+    outer: 'outers',
+    hat: 'hats',
+    bag: 'bags',
+    watch: 'watches',
+    accessory: 'accs',
+}
 
-export { ServerUrl, RadioButtonText, CategoryText }
+export { ServerUrl, RadioButtonText, CategoryText, CategoryEngText }

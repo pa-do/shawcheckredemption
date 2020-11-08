@@ -9,7 +9,7 @@ import Constants from 'expo-constants'
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import AuthContext from '../components/AuthContext';
-import { ServerUrl, CategoryText } from '../components/TextComponent';
+import { ServerUrl, CategoryText, CategoryEngText } from '../components/TextComponent';
 import { styles } from '../components/StyleSheetComponent';
 
 const UserProfileImg = styled.Image`
@@ -85,39 +85,68 @@ function CodiMyListScreen({ navigation, route }) {
     const myCodiText = '하트코디 보기';
     const heartCodiText = '내 코디 보기';
 
-    React.useEffect(() => {
-        const dataUpload = async () => {
-            let userToken;
-        
-            try {
+    const dataUpload = async image => {
+        let userToken;
+        try {
             userToken = await AsyncStorage.getItem('userToken');
-            } catch (e) {
-            // Restoring token failed
-            }
-            const imageUri = route.params?.image.uri
-            // imageUri 서버에 업로드 uploadCategory 첨부, 후 모달 재오픈
-            const requestHeaders = {
-                headers: {
-                    Authorization: `JWT ${userToken}`,
-                    "Content-Type": "multipart/form-data",
-                }
-            }
-
-            const itemImage = {
-                uri: imageUri,
-                type: 'image/jpeg',
-                name: 'item.jpg',
-            }
-            const data = new FormData();
-            data.append(itemImage);
-
-            axios.post(ServerUrl.url +'wear/userclothes', data, requestHeaders)
-            .then(res => {
-                console.log(res)
-            })
-            .catch(err => console.log(err.response))
+        } catch (e) {
+        // Restoring token failed
         }
-        dataUpload();
+        const imageUri = image.uri
+        // imageUri 서버에 업로드 uploadCategory 첨부, 후 모달 재오픈
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`,
+                "Content-Type": "multipart/form-data",
+            }
+        }
+
+        const itemImage = {
+            uri: imageUri,
+            type: 'image/jpeg',
+            name: 'item.jpg',
+        }
+        let categoryNum = 0
+        switch (uploadCategory) {
+            case CategoryEngText.hat:
+                categoryNum = 1;
+                break;
+            case CategoryEngText.top:
+                categoryNum = 2;
+                break;
+            case CategoryEngText.outer:
+                categoryNum = 3;
+                break;
+            case CategoryEngText.accessory:
+                categoryNum = 4;
+                break;
+            case CategoryEngText.pants:
+                categoryNum = 5;
+                break;
+            case CategoryEngText.bag:
+                categoryNum = 6;
+                break;
+            case CategoryEngText.watch:
+                categoryNum = 7;
+                break;
+            case CategoryEngText.shoes:
+                categoryNum = 8;
+                break;
+        }
+        const data = new FormData();
+        data.append('img', itemImage);
+        data.append('category', categoryNum);
+
+        axios.post(ServerUrl.url +'wear/userclothes/', data, requestHeaders)
+        .then(res => console.log(res.data))
+        .catch(err => console.error(err.response))
+        openItemModal(true);
+    }
+
+    React.useEffect(() => {
+        if (route.params?.image.uri !== undefined){
+            dataUpload(route.params?.image);
+        }
         // setModalVisible(true);
     }, [route.params?.image]);
 
@@ -144,56 +173,74 @@ function CodiMyListScreen({ navigation, route }) {
             })
             .catch(err => {console.log(err.response.data)})
             // 하트 리스트 요청
-            axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
-            .then(res => {
-                console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< like list')
-                setLikeCodis(res.data);
-            })
-            .catch(err => {console.log(err.response.data)})
-            // 유저의 아이템 요청
-            axios.get(ServerUrl.url + 'wear/mylist/', requestHeaders)
-            .then(res => {
-                const codiData = {
-                    tops: [], pansts: [], outers: [], shoes: [], hats: [], bags: [], watches: [], accs: []
-                }
-                Object.entries(res.data).map(entry => {
-                    switch (entry[0]) {
-                        case "1":
-                            codiData.hats = entry[1].slice();
-                            break;
-                        case "2":
-                            codiData.tops = entry[1].slice();
-                            break;
-                        case "3":
-                            codiData.outers = entry[1].slice();
-                            break;
-                        case "4":
-                            codiData.accs = entry[1].slice();
-                            break;
-                        case "5":
-                            codiData.pansts = entry[1].slice();
-                            break;
-                        case "6":
-                            codiData.bags = entry[1].slice();
-                            break;
-                        case "7":
-                            codiData.watches = entry[1].slice();
-                            break;
-                        case "8":
-                            codiData.shoes = entry[1].slice();
-                            break;
-                    }
-                })
-                console.log(codiData, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< my list')
-                setCodis(codiData);
-            })
-            .catch(err => console.log(err.response.data))
+            getLikeCodis(requestHeaders);
         };
         dataAsync();
     }, []);
 
+    const getLikeCodis = requestHeaders => {
+        axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
+        .then(res => {
+            console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< like list')
+            setLikeCodis(res.data);
+        })
+        .catch(err => {console.log(err.response.data)})
+    }
 
-    function changeMyOrLikeVisible() {
+    const getUserItems = requestHeaders => {
+        axios.get(ServerUrl.url + 'wear/mylist/', requestHeaders)
+        .then(res => {
+            const codiData = {
+                tops: [], pants: [], outers: [], shoes: [], hats: [], bags: [], watches: [], accs: []
+            }
+            Object.entries(res.data).map(entry => {
+                switch (entry[0]) {
+                    case "1":
+                        codiData.hats = entry[1].slice();
+                        break;
+                    case "2":
+                        codiData.tops = entry[1].slice();
+                        break;
+                    case "3":
+                        codiData.outers = entry[1].slice();
+                        break;
+                    case "4":
+                        codiData.accs = entry[1].slice();
+                        break;
+                    case "5":
+                        codiData.pants = entry[1].slice();
+                        break;
+                    case "6":
+                        codiData.bags = entry[1].slice();
+                        break;
+                    case "7":
+                        codiData.watches = entry[1].slice();
+                        break;
+                    case "8":
+                        codiData.shoes = entry[1].slice();
+                        break;
+                }
+            })
+            setUserItems(codiData);
+            console.log(userItems, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< my item list')
+        })
+        .catch(err => console.log(err.response.data))
+    }
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+        if (!result.cancelled) {
+            // 서버에 result 업로드
+            dataUpload(result);
+        }
+    }
+
+    const changeMyOrLikeVisible = () => {
         setMyOrLikeVisible(!myOrLikeVisible);
         if (myOrLikeVisible) {
             setButtonText(myCodiText);
@@ -204,7 +251,24 @@ function CodiMyListScreen({ navigation, route }) {
         }
     }
 
-    const MyOrLike = function() {
+    const openItemModal = async () => {
+        let userToken;
+        try {
+            userToken = await AsyncStorage.getItem('userToken');
+        } catch (e) {
+            // Restoring token failed
+        }
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`
+            }
+        }
+        getUserItems(requestHeaders);
+        setModalVisible(true);
+    }
+
+
+    const MyOrLike = () => {
         const items = showData;
         const itemsList = [];
         if (items?.length !== 0) {
@@ -236,7 +300,7 @@ function CodiMyListScreen({ navigation, route }) {
                                             onPress={() => {
                                                 navigation.navigate('Detail', {item: item});
                                             }}>
-                                            <CodiItemImg source={{uri: item.img}}/>
+                                            <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
                                         </TouchableWithoutFeedback>
                                     );
                                 })}
@@ -254,16 +318,6 @@ function CodiMyListScreen({ navigation, route }) {
         }
     }
 
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-        // 서버에 result 업로드, uploadCategory 첨부
-    }
-
     return (
         <TopContainer>
             {/* 이미지 업로드를 위한 모달 */}
@@ -278,8 +332,8 @@ function CodiMyListScreen({ navigation, route }) {
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
                                 navigation.navigate('Camera', {backScreen: 'My Page'});
-                                setModalVisible(!modalVisible);
-                                setModalImageVisible(!modalImageVisible);
+                                setModalVisible(false);
+                                setModalImageVisible(false);
                             }}
                         >
                             <Text style={styles.textStyle}>카메라</Text>
@@ -288,7 +342,8 @@ function CodiMyListScreen({ navigation, route }) {
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
                                 pickImage();
-                                setModalImageVisible(!modalImageVisible);
+                                setModalVisible(false);
+                                setModalImageVisible(false);
                             }}
                         >
                             <Text style={styles.textStyle}>갤러리에서 가져오기</Text>
@@ -321,7 +376,7 @@ function CodiMyListScreen({ navigation, route }) {
                             >
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
-                                        setUploadCategory('top');
+                                        setUploadCategory(CategoryEngText.top);
                                         setModalImageVisible(true);
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
@@ -332,7 +387,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
-                                                source={{uri : item}}
+                                                source={{uri : ServerUrl.mediaUrl + item.img}}
                                                 resizeMode="cover"
                                             />
                                         </ItemBox>
@@ -349,7 +404,7 @@ function CodiMyListScreen({ navigation, route }) {
                             >
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
-                                        setUploadCategory('pants');
+                                        setUploadCategory(CategoryEngText.pants);
                                         setModalImageVisible(true);
 
                                     }}>
@@ -361,7 +416,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
-                                                source={{uri : item}}
+                                                source={{uri : ServerUrl.mediaUrl + item.img}}
                                                 resizeMode="cover"
                                             />
                                         </ItemBox>
@@ -379,7 +434,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 >
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
-                                        setUploadCategory('outer');
+                                        setUploadCategory(CategoryEngText.outer);
                                         setModalImageVisible(true);
 
                                     }}>
@@ -388,10 +443,10 @@ function CodiMyListScreen({ navigation, route }) {
                                 </ItemBox>
                                 {userItems.outers?.map((item, index) => {
                                     return (
-                                        <ItemBox key={index}>
+                                        <ItemBox key={item.id}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
-                                                source={{uri : item}}
+                                                source={{uri : ServerUrl.mediaUrl + item.img}}
                                                 resizeMode="cover"
                                             />
                                         </ItemBox>
@@ -409,7 +464,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 >
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
-                                        setUploadCategory('shoes');
+                                        setUploadCategory(CategoryEngText.shoes);
                                         setModalImageVisible(true);
 
                                     }}>
@@ -421,7 +476,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
-                                                source={{uri : item}}
+                                                source={{uri : ServerUrl.mediaUrl + item.img}}
                                                 resizeMode="cover"
                                             />
                                         </ItemBox>
@@ -439,7 +494,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 >
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
-                                        setUploadCategory('hat');
+                                        setUploadCategory(CategoryEngText.hat);
                                         setModalImageVisible(true);
 
                                     }}>
@@ -451,7 +506,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
-                                                source={{uri : item}}
+                                                source={{uri : ServerUrl.mediaUrl + item.img}}
                                                 resizeMode="cover"
                                             />
                                         </ItemBox>
@@ -469,7 +524,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 >
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
-                                        setUploadCategory('bag');
+                                        setUploadCategory(CategoryEngText.bag);
                                         setModalImageVisible(true);
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
@@ -480,7 +535,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
-                                                source={{uri : item}}
+                                                source={{uri : ServerUrl.mediaUrl + item.img}}
                                                 resizeMode="cover"
                                             />
                                         </ItemBox>
@@ -497,7 +552,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 >
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
-                                        setUploadCategory('watch');
+                                        setUploadCategory(CategoryEngText.watch);
                                         setModalImageVisible(true);
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
@@ -508,7 +563,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         <ItemBox key={index}>
                                             <ImageBackground 
                                                 style={{ width: "100%", height: "100%" }}
-                                                source={{uri : item}}
+                                                source={{uri : ServerUrl.mediaUrl + item.img}}
                                                 resizeMode="cover"
                                             />
                                         </ItemBox>
@@ -525,7 +580,7 @@ function CodiMyListScreen({ navigation, route }) {
                             >
                             <ItemBox>
                                 <TouchableHighlight onPress={() => {
-                                    setUploadCategory('accessory');
+                                    setUploadCategory(CategoryEngText.accessory);
                                     setModalImageVisible(true);
 
                                 }}>
@@ -537,7 +592,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     <ItemBox key={index}>
                                         <ImageBackground 
                                             style={{ width: "100%", height: "100%" }}
-                                            source={{uri : item}}
+                                            source={{uri : ServerUrl.mediaUrl + item.img}}
                                             resizeMode="cover"
                                         />
                                     </ItemBox>
@@ -550,7 +605,7 @@ function CodiMyListScreen({ navigation, route }) {
                         <TouchableHighlight
                             style={{ ...styles.openButton, }}
                             onPress={() => {
-                                setModalVisible(!modalVisible);
+                                setModalVisible(false);
                             }}
                         >
                         <Text style={styles.textStyle}>닫기</Text>
@@ -606,7 +661,7 @@ function CodiMyListScreen({ navigation, route }) {
                     <NormalButton
                         onPress={() => {
                             // UserItems 데이터를 수신합니다.
-                            setModalVisible(true);
+                            openItemModal();
                         }}
                     >
                         내 아이템

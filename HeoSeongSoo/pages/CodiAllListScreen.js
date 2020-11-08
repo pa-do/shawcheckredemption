@@ -25,8 +25,9 @@ function CodiAllListScreen({ navigation }) {
 
     React.useEffect(() => {
         // 서버에서 모든 코디 리스트를 최신 날짜 순으로 가져옵니다.
-        axios.get(ServerUrl.url + 'wear/userclothes/')
+        axios.get(ServerUrl.url + '')
         .then(res => {
+            console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< res.data')
             setAllCodiList(res.data);
         })
         .catch(err => console.error(err))
@@ -36,7 +37,7 @@ function CodiAllListScreen({ navigation }) {
         return (
             <TopContainer>
                 <FlatList
-                    keyExtractor={item => item.id.toString()}
+                    keyExtractor={item => item.img.toString()}
                     data={allCodiList}
                     renderItem={renderItem}
                 />

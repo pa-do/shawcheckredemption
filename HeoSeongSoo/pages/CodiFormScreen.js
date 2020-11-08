@@ -19,40 +19,9 @@ function CodiFormScreen({ navigation, route }) {
     const [AccImage, setAccImage] = React.useState(null);
 
     React.useEffect(() => {
-        const imageUri = route.params?.image.uri
+        const imageUri = route.params?.image
         if (imageUri) {
-            switch (uploadCategory) {
-                case 'top':
-                    setTopImage(imageUri);
-                    break;
-                case 'pants':
-                    setPantsImage(imageUri);
-                    break;
-
-                case 'shoes':
-                    setShoesImage(imageUri);
-                    break;
-
-                case 'outer':
-                    setOuterImage(imageUri);
-                    break;
-
-                case 'hat':
-                    setHatImage(imageUri);
-                    break;
-
-                case 'bag':
-                    setBagImage(imageUri);
-                    break;
-
-                case 'watch':
-                    setWatchImage(imageUri);
-                    break;
-
-                case 'accessory':
-                    setAccImage(imageUri);
-                    break;
-            }
+            setImageUri(imageUri);
         }
     }, [route.params?.image]);
 
@@ -67,6 +36,34 @@ function CodiFormScreen({ navigation, route }) {
       })();
     }, []);
 
+    const setImageUri = result => {
+        switch (uploadCategory) {
+            case CategoryEngText.hat:
+                setHatImage(result.uri);
+                break;
+            case CategoryEngText.top:
+                setTopImage(result.uri);
+                break;
+            case CategoryEngText.outer:
+                setOuterImage(result.uri);
+                break;
+            case CategoryEngText.accessory:
+                setAccImage(result.uri);
+                break;
+            case CategoryEngText.pants:
+                setPantsImage(result.uri);
+                break;
+            case CategoryEngText.bag:
+                setBagImage(result.uri);
+                break;
+            case CategoryEngText.watch:
+                setWatchImage(result.uri);
+                break;
+            case CategoryEngText.shoes:
+                setShoesImage(result.uri);
+                break;
+        }
+    }
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -74,43 +71,10 @@ function CodiFormScreen({ navigation, route }) {
           aspect: [4, 3],
           quality: 1,
         });
-    
         console.log(result);
-    
         if (!result.cancelled) {
             console.log(uploadCategory)
-            switch (uploadCategory) {
-                case 'top':
-                    setTopImage(result.uri);
-                    break;
-                case 'pants':
-                    setPantsImage(result.uri);
-                    break;
-
-                case 'shoes':
-                    setShoesImage(result.uri);
-                    break;
-
-                case 'outer':
-                    setOuterImage(result.uri);
-                    break;
-
-                case 'hat':
-                    setHatImage(result.uri);
-                    break;
-
-                case 'bag':
-                    setBagImage(result.uri);
-                    break;
-
-                case 'watch':
-                    setWatchImage(result.uri);
-                    break;
-
-                case 'accessory':
-                    setAccImage(result.uri);
-                    break;
-            }
+            setImageUri(result);
         }
       };
 

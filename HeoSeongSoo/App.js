@@ -157,7 +157,6 @@ function App() {
       } catch (e) {
         // Restoring token failed
       }
-      console.log('get first user token >>>>>>>>>>>>>>>>>>>>>>', userToken)
       dispatch({ type: 'RESTORE_TOKEN', token: userToken });
     };
 
@@ -169,12 +168,10 @@ function App() {
       signIn: async data => {
         // 로그인 로직을 실행한 뒤 돌아오는 토큰을 담아 dispatch 합니다.
         // 로그인을 위한 데이터는 data에 담겨 옵니다.
-        console.log(data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<< sign in data')
         dispatch({ type: 'SIGN_IN', token: data });
       },
       signOut: () => dispatch({ type: 'SIGN_OUT' }),
       signUp: async data => {
-        console.log(data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<< sign up data');
         dispatch({ type: 'SIGN_IN', token: data });
       },
     }),

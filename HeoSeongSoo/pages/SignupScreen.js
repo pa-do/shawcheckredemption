@@ -7,6 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import AuthContext from '../components/AuthContext';
 import axios from 'axios';
 import { ServerUrl } from '../components/TextComponent';
+import { styles } from '../components/StyleSheetComponent';
 
 const Container = styled.SafeAreaView`
     flex: 1;
