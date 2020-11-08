@@ -293,3 +293,10 @@ const { signUp } = React.useContext(AuthContext);
 
 
 
+## 4. 스타일링 참고
+
+[Animated](https://docs.expo.io/versions/latest/react-native/animated/)
+
+[Icons](https://docs.expo.io/guides/icons/) [Icon list](https://icons.expo.fyi/)
+
+[Design sample](https://www.pinterest.co.kr/ubechen/app-ui-design-template/?autologin=true)
