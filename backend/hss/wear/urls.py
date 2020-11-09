@@ -23,5 +23,7 @@ urlpatterns = [
     # 코디 추천
     path('recommand/', views.recommand),
     path('coordiset/test/', views.coordiset_test),
+    # 이미지 전처리
+    path('image/preprocess/', views.image_preprocess),
     # path('guidetour/<int:tour_pk>', views.guidetour),
 ]
