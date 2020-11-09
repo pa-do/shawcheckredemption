@@ -943,8 +943,18 @@ def run_self():
     
     
     print(user_info)
+    result = []
+    for i in range(5):
+        one_set = dict()
+        for c in ["top", "pants", "shoes", "outer", "bag", "watch", "headwear", "acc"]:
+            one_set[c] = coordiset[c][i]
+        for item in user_info["user_pick_item"]:    # 유저가 아이템을 옷장에서 선택한 경우
+            one_set[item] = "user"
+        result.append(one_set)
     
-    return coordiset
+    # 선택하지 않은 아이템은 pk가 -1로 표기된다
+    
+    return result
 
 
 
