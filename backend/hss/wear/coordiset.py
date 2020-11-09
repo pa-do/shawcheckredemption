@@ -37,6 +37,7 @@
 from .models import Accessory, Bag, Headwear, Outer, Pants, Shoes, Top, Watch
 from PIL import Image
 import imagehash
+import random
 
 # 이미지 유사도 분석 알고리즘
 def image_similarity(target_item, image_list, category):  #target_item : 유저가 올린 이미지 주소 / image_list : 유사도 분석할 아이템 리스트(objects)
@@ -204,18 +205,26 @@ def set_top(user_info):
             season_ko = {"spring": "봄", "summer": "여름", "fall": "가을", "winter": "겨울"}
             if season_ko[weather] in target_weather:
                 item[1] += 30
+            
+            # 기타색상 제외
+            if "기타색상" in target_color:
+                item[1] = 0
 
         items.sort(key=lambda x: x[1], reverse=True)
-        print(items)
+        result = []
+        for i in range(5):
+            result.append(items[i][0])
+        target = 5
+        while True:
+            if items[4][1] == items[target][1]:
+                result.append(items[target][0])
+                target += 1
+            else:
+                break
+        random.shuffle(result)
+        result = result[:5]
 
-
-
-
-        return [1, 1, 1, 1, 1] # 5개 리턴
-        # top에 해당하는 상의 카테고리에서 퍼스널 컬러들을 타겟 컬러로 지정하여
-        # 상의 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
+        return result # 5개 리턴
 
 
 def set_pants(user_info, top):
@@ -263,11 +272,89 @@ def set_pants(user_info, top):
         if first_style == "sporty":
             pants -= {0, 1, 2}
         
-        # pants에 해당하는 하의 카테고리에서 상의 컬러에 조화로운 색을 타겟 컬러로 지정하여
-        # 하의 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 1 # 1개 리턴
+        # 상의 카테고리로 필터
+         # {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
+        if top_item.category in [3, 7]:
+            pants -= {3}
+        # elif top_item.category == 4:
+
+
+            
+        # 컬러
+        # 상의가 검정색을 제외한 무채색인 경우 (아이보리, 라이트 그레이 등 포함) 상의 색을 제외한 모든 색 추천 가능
+        # 상의가 유채색인 경우 무채색 추천
+        # 기타색상 제외
+
+        # 패턴
+        # 상의에 패턴이 있을 경우 (체크, 스트라이프, 도트 등 모든 패턴) 패턴 아이템 제거
+        
+        danger = ["기타색상"]
+        pattern = ["스트라이프", "도트", "체크", "윈도우", "하운드", "페이즐리", "플라워", "트로피컬", "카모", "애니멀", "패치워크", "기타패턴"]
+        chromatic_color = ["은색", "딥레드", "빨간색", "라즈베리", "네온 핑크", "분홍색", "라이트 핑크", "페일 핑크", "피치", "코랄", "라이트 오렌지", "네온 오렌지", "오렌지 핑크", "주황색", "라이트 옐로우", "노란색", "머스타드", "금색", "네온 그린", "라이트 그린", "민트", "녹색", "올리브 그린", "카키", "다크 그린", "스카이 블루", "네온 블루", "파란색", "자주", "라벤더", "보라색", "다크 바이올렛", "버건디", "갈색", "로즈골드", "레드 브라운", "카키 베이지", "카멜"]
+        achromatic_color = ["흰색", "회색", "다크 그레이", "라이트 그레이", "아이보리", "네이비", "샌드", "베이지색"]
+        for p in pattern:
+            if p in top_item.color:
+                danger = pattern
+                break
+
+        top_item_color = top_item.color.split()
+        for color in top_item_color:
+            if color in chromatic_color:
+                danger.extend(chromatic_color)
+                break
+            elif color in achromatic_color:
+                danger.append(color)
+        
+        
+        items = []
+        for i in pants:
+            target_category_items = Pants.objects.filter(category=i)
+            for item in target_category_items:
+                items.append([item.pk, 0])
+
+        for item in items:
+            target = Pants.objects.get(pk=item[0])
+            
+            # 컬러 가중치
+            target_color = target.color.split()
+            for color in target_color:
+                if color in personal_color:
+                    item[1] += 10
+
+            # 스타일 가중치
+            target_style = target.style.split(", ")
+            for style in target_style:
+                if style == first_style:
+                    item[1] += 50
+                elif style == second_style:
+                    item[1] += 25
+            # 날씨 가중치
+            target_weather = target.season
+            season_ko = {"spring": "봄", "summer": "여름", "fall": "가을", "winter": "겨울"}
+            if season_ko[weather] in target_weather:
+                item[1] += 30
+
+            # 위험 색상 제거
+            for d in danger:
+                if d in target.color:
+                    item[1] = 0
+                    break
+            
+
+        items.sort(key=lambda x: x[1], reverse=True)
+        result = [items[0][0]]
+        
+        target = 1
+        while True:
+            if items[0][1] == items[target][1]:
+                result.append(items[target][0])
+                target += 1
+            else:
+                break
+        random.shuffle(result)
+
+        result = result[0]
+        return result # 1개 리턴
 
 
 def set_shoes(user_info, pants):
@@ -320,6 +407,8 @@ def set_shoes(user_info, pants):
             shoes -= {2}
         if first_style == "street":
             shoes -= {2, 7}
+        
+        
         
         # shoes에 해당하는 신발 카테고리에서 하의 컬러에 조화로운 색을 타겟 컬러로 지정하여
         # 신발 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
@@ -602,6 +691,19 @@ def set_acc(user_info, top):
 
 
 def run_self():
+
+    # school: '학교',
+    # funeral: '장례식',
+    # marry: '결혼식',
+    # exercise: '운동',
+    # presentation: '발표',
+    # comfortable: 'PC방/편한 곳',
+    # restaurant: '외식',
+    # professor: '교수님',
+    # girlFriend: '여사친',
+    # friend: '친구',
+    # family: '가족'
+
     ######################### 유저에게 받는 데이터 #############################
     user_info = {
         "who": "professor",
