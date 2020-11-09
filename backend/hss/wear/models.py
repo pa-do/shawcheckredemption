@@ -121,6 +121,10 @@ class UserCoordi(models.Model):
     top = models.IntegerField(null=True, blank=True)
     watch = models.IntegerField(null=True, blank=True)
     img = models.CharField(max_length=100, blank=True)
+    color = models.CharField(max_length=5, blank=True)
+    style = models.CharField(max_length=50, blank=True)
+    content = models.TextField(blank=True)
+
 
 # 좋아요 등록
 class LikeCoordi(models.Model):
