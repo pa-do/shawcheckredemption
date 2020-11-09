@@ -15,7 +15,9 @@ import WebViewScreen from './pages/WebViewScreen';
 import CameraScreen from './pages/CameraScreen';
 import LoginScreen from './pages/LoginScreen';
 import SignupScreen from './pages/SignupScreen';
+import SignupScreen2 from './pages/SignupScreen2';
 import AuthContext from './components/AuthContext';
+import { navigationRef } from './components/RootNavigation';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -56,6 +58,7 @@ function StackScreen3() {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{headerShown: false}} name="My Page" component={CodiMyListScreen} />
+      <Stack.Screen options={{headerShown: false}} name="Camera" component={CameraScreen} />
       <Stack.Screen name="Form" component={CodiFormScreen} />
     </Stack.Navigator>
   );
@@ -157,6 +160,10 @@ function App() {
       } catch (e) {
         // Restoring token failed
       }
+
+      if (userToken !== null ){
+
+      }
       dispatch({ type: 'RESTORE_TOKEN', token: userToken });
     };
 
@@ -165,7 +172,7 @@ function App() {
 
   const authContext = React.useMemo(
     () => ({
-      signIn: async data => {
+      signIn: async (data) => {
         // 로그인 로직을 실행한 뒤 돌아오는 토큰을 담아 dispatch 합니다.
         // 로그인을 위한 데이터는 data에 담겨 옵니다.
         dispatch({ type: 'SIGN_IN', token: data });
@@ -177,22 +184,23 @@ function App() {
     }),
     []
   );
-  
+
   return (
-    <NavigationContainer theme={ MyTheme }>
+    <NavigationContainer ref={navigationRef} theme={ MyTheme }>
       <AuthContext.Provider value={authContext}>
         <Stack.Navigator>
           {state.userToken === null ? (
             <>
               <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
               <Stack.Screen options={{headerShown: false}} name="Sign up" component={SignupScreen} />
-              <Stack.Screen name="Camera" component={CameraScreen} />
+              <Stack.Screen options={{headerShown: false}} name="Camera" component={CameraScreen} />
             </>
-          ) : (
+          ) : 
+          (
             <>
               <Stack.Screen name="TapScreen" component={TabScreen} options={{headerShown: false}}/>
+              <Stack.Screen options={{headerShown: false}} name="Sign up2" component={SignupScreen2} />
               <Stack.Screen options={{headerShown: false}} name="WebView" component={WebViewScreen} />
-              <Stack.Screen options={{headerShown: false}} name="Camera" component={CameraScreen} />
             </>
           )}
         </Stack.Navigator>

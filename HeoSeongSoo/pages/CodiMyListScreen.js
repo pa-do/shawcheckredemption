@@ -81,10 +81,16 @@ function CodiMyListScreen({ navigation, route }) {
     const [index, setIndex] = React.useState(0);
 
     const { signOut } = React.useContext(AuthContext);
-
+ 
+    React.useEffect(() => {
+        console.log('image upload from camera')
+        if (route.params?.image.uri !== undefined){
+            dataUpload(route.params?.image);
+        }
+    }, [route.params?.image]);
+    
     const myCodiText = '하트코디 보기';
     const heartCodiText = '내 코디 보기';
-
     const dataUpload = async image => {
         let userToken;
         try {
@@ -138,17 +144,12 @@ function CodiMyListScreen({ navigation, route }) {
         data.append('category', categoryNum);
 
         axios.post(ServerUrl.url +'wear/userclothes/', data, requestHeaders)
-        .then(res => console.log(res.data))
+        .then(res => {
+            console.log(res.data)
+            openItemModal(true);
+        })
         .catch(err => console.error(err.response))
-        openItemModal(true);
     }
-
-    React.useEffect(() => {
-        if (route.params?.image.uri !== undefined){
-            dataUpload(route.params?.image);
-        }
-        // setModalVisible(true);
-    }, [route.params?.image]);
 
     React.useEffect(() => {
         const dataAsync = async () => {
@@ -190,38 +191,38 @@ function CodiMyListScreen({ navigation, route }) {
     const getUserItems = requestHeaders => {
         axios.get(ServerUrl.url + 'wear/mylist/', requestHeaders)
         .then(res => {
-            const codiData = {
+            const itemData = {
                 tops: [], pants: [], outers: [], shoes: [], hats: [], bags: [], watches: [], accs: []
             }
             Object.entries(res.data).map(entry => {
                 switch (entry[0]) {
                     case "1":
-                        codiData.hats = entry[1].slice();
+                        itemData.hats = entry[1].slice();
                         break;
                     case "2":
-                        codiData.tops = entry[1].slice();
+                        itemData.tops = entry[1].slice();
                         break;
                     case "3":
-                        codiData.outers = entry[1].slice();
+                        itemData.outers = entry[1].slice();
                         break;
                     case "4":
-                        codiData.accs = entry[1].slice();
+                        itemData.accs = entry[1].slice();
                         break;
                     case "5":
-                        codiData.pants = entry[1].slice();
+                        itemData.pants = entry[1].slice();
                         break;
                     case "6":
-                        codiData.bags = entry[1].slice();
+                        itemData.bags = entry[1].slice();
                         break;
                     case "7":
-                        codiData.watches = entry[1].slice();
+                        itemData.watches = entry[1].slice();
                         break;
                     case "8":
-                        codiData.shoes = entry[1].slice();
+                        itemData.shoes = entry[1].slice();
                         break;
                 }
             })
-            setUserItems(codiData);
+            setUserItems(itemData);
             console.log(userItems, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< my item list')
         })
         .catch(err => console.log(err.response.data))

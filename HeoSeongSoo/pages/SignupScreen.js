@@ -2,7 +2,7 @@ import React from  'react';
 import { Alert, Text, View, Modal, TouchableHighlight, Image } from 'react-native';
 import Constants from 'expo-constants';
 import styled from 'styled-components/native';
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button, ActivityIndicator, Colors } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import AuthContext from '../components/AuthContext';
 import axios from 'axios';
@@ -22,25 +22,76 @@ const ErrorMsg = styled.Text`
 
 function SignupScreen({ navigation, route }) {
     const [textAccount, setTextAccount] = React.useState('');
-    const [textNickname, setTextNickname] = React.useState('');
+    const [textNickname, setTextNickname] = React.useState(route.params?.nickname);
     const [textPassword, setTextPassword] = React.useState('');
     const [textPasswordConfrim, setTextPasswordConfrim] = React.useState('');
     const [modalImageVisible, setModalImageVisible] = React.useState(false);
-    const [userImage, setUserImage] = React.useState();
-    const [userToken, setUserToken] = React.useState(null);
+    const [indicatorVisible, setIndicatorVisible] = React.useState(false);
+    const [userImage, setUserImage] = React.useState(null);
+    const [userToken, setUserToken] = React.useState(route.params?.userToken);
 
     const [accountError, setAccountError] = React.useState(null);
     const [nicknameError, setNicknameError] = React.useState(null);
+    const [imageError, setimageError] = React.useState(null);
     const [passwordError, setPasswordError] = React.useState(null);
 
     const { signUp } = React.useContext(AuthContext);
 
     React.useEffect(() => {
-        const imageUri = route.params?.image.uri
+        const imageUri = route.params?.image?.uri
         setUserImage(imageUri);
         // imageUri 서버에 업로드 uploadCategory 첨부, 후 모달 재오픈
         // setModalVisible(true);
     }, [route.params?.image]);
+
+    const patchUserNickname = () => {
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`
+            }
+        }
+
+        const patchData = {
+            nickname: textNickname
+        }
+
+        axios.patch(ServerUrl.url + 'rest-auth/user/', patchData, requestHeaders)
+        .then(res => {
+            console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<< patched user data')
+        })
+        .catch(err => console.log(err.response))
+    }
+
+    const getUserPersonalColor = () => {
+        setIndicatorVisible(true);
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`,
+                "Content-Type": "multipart/form-data",
+            }
+        }
+
+        const userImageData = {
+            uri: userImage,
+            type: 'image/jpeg',
+            name: 'item.jpg',
+        }
+        const fd = new FormData();
+        fd.append('img', userImageData);
+
+        console.log(userImageData)
+        axios.post(ServerUrl.url + 'accounts/personalcolor/', fd, requestHeaders)
+        .then(res => {
+            console.log(res.data)
+            if (res.data === '정면 사진을 올려주세요.') {
+                setimageError('다른 이미지를 올려주세요');
+            } else {
+                signUp(userToken);
+            }
+            setIndicatorVisible(false);
+        })
+        .catch(err => console.error(err.response.data))
+    }
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -52,10 +103,9 @@ function SignupScreen({ navigation, route }) {
         setUserImage(result.uri);
         // 서버에 result 업로드, uploadCategory 첨부
     }
-
     return (
         <Container>
-            {userToken === null ? (
+            {userToken === undefined ? (
                 <>
                     <TextInput
                         label="Account"
@@ -121,7 +171,24 @@ function SignupScreen({ navigation, route }) {
                     </Button>
                 </>
             ) : (
-                <>
+                <>  
+                    <Modal
+                        transparent={true}
+                        visible={indicatorVisible}
+                    >
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <ActivityIndicator
+                                    style={{marginBottom: 12}}
+                                    animating={true}
+                                    transparent={true}
+                                    color={Colors.red800}
+                                    size={'large'}
+                                />
+                                <Text>퍼스널 컬러를 분석중입니다</Text>
+                            </View>
+                        </View>
+                    </Modal>
                     <Modal
                         animationType="slide"
                         transparent={true}
@@ -174,39 +241,27 @@ function SignupScreen({ navigation, route }) {
                     >
                         퍼스널 컬러 진단을 위한 사진 업로드
                     </Button>
+                    {imageError && <ErrorMsg>{ imageError }</ErrorMsg>}
                     <Button
                         icon="account-plus"
                         mode="contained"
                         onPress={() => {
                             if (textNickname.length === 0) {
                                 setNicknameError('닉네임을 입력해주세요.')
+                            } else if (userImage === null) {
+                                setimageError('이미지를 등록해주세요. 이미지는 저장되지 않습니다.')
                             } else {
-                                const requestHeaders = {
-                                    headers: {
-                                        Authorization: `JWT ${userToken}`
-                                    }
-                                }
-                                const patchData = {
-                                    nickname: textNickname
-                                }
-                                console.log(requestHeaders)
-                                axios.patch(ServerUrl.url + 'rest-auth/user/', patchData, requestHeaders)
-                                .then(res => {
-                                    console.log(res.data)
-                                    signUp(userToken);
-                                })
-                                .catch(err => console.log(err.response))}
+                                patchUserNickname();
+                                getUserPersonalColor();
                             }
-                        }
+                        }}
                     >
                         제출
                     </Button>
                 </>
-
             )}
-
         </Container>
-    )
+    );
 }
 
 export default SignupScreen;

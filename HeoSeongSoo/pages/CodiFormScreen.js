@@ -1,14 +1,42 @@
 import React from 'react';
-import { Modal, Text, TouchableHighlight, View, Image, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Modal, Text, TouchableHighlight, View, Image, ScrollView, Dimensions, ImageBackground } from 'react-native';
 import axios from 'axios'
-import { styles } from '../components/StyleSheetComponent';
-import * as ImagePicker from 'expo-image-picker';
-import { CategoryText } from '../components/TextComponent';
+import styled from 'styled-components/native';
+import Constants from 'expo-constants'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TextInput } from 'react-native-paper';
+import { styles, formStyles } from '../components/StyleSheetComponent';
+import { CategoryEngText, CategoryText } from '../components/TextComponent';
+import { ServerUrl } from '../components/TextComponent';
 import RowContainer from '../components/RowContainer';
 
-function CodiFormScreen({ navigation, route }) {
-    const [uploadCategory, setUploadCategory] = React.useState();
+const Container = styled.SafeAreaView`
+    flex-direction: row;
+    width: 100%;
+    height: 80px;
+`;
+
+const ItemBox = styled.View`
+    width: 50px;
+    height: 50px;
+    align-items: center;
+`;
+
+const Seperator = styled.View`
+    align-self: stretch;
+    border-bottom-color: black;
+    border-bottom-width: ${StyleSheet.hairlineWidth}px;
+`;
+
+const TopContainer = styled.SafeAreaView`
+    flex: 1;
+    padding-top: ${Constants.statusBarHeight}px;
+`;
+
+function CodiFormScreen({ navigation }) {
     const [modalVisible, setModalVisible] = React.useState(false);
+    const [content, setContent] = React.useState('');
+    const [userItems, setUserItems] = React.useState({});
     const [hatImage, setHatImage] = React.useState(null);
     const [topImage, setTopImage] = React.useState(null);
     const [pantsImage, setPantsImage] = React.useState(null);
@@ -19,216 +47,489 @@ function CodiFormScreen({ navigation, route }) {
     const [AccImage, setAccImage] = React.useState(null);
 
     React.useEffect(() => {
-        const imageUri = route.params?.image
-        if (imageUri) {
-            setImageUri(imageUri);
-        }
-    }, [route.params?.image]);
-
-    React.useEffect(() => {
-      (async () => {
-        if (Platform.OS !== 'web') {
-          const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-          if (status !== 'granted') {
-            navigation.navigate.goBack();
-          }
-        }
-      })();
+        navigation.setOptions({title: `코디를 만들어요`});
     }, []);
 
-    const setImageUri = result => {
+    const getUserItems = requestHeaders => {
+        axios.get(ServerUrl.url + 'wear/mylist/', requestHeaders)
+        .then(res => {
+            const itemData = {
+                tops: [], pants: [], outers: [], shoes: [], hats: [], bags: [], watches: [], accs: []
+            }
+            Object.entries(res.data).map(entry => {
+                switch (entry[0]) {
+                    case "1":
+                        itemData.hats = entry[1].slice();
+                        break;
+                    case "2":
+                        itemData.tops = entry[1].slice();
+                        break;
+                    case "3":
+                        itemData.outers = entry[1].slice();
+                        break;
+                    case "4":
+                        itemData.accs = entry[1].slice();
+                        break;
+                    case "5":
+                        itemData.pants = entry[1].slice();
+                        break;
+                    case "6":
+                        itemData.bags = entry[1].slice();
+                        break;
+                    case "7":
+                        itemData.watches = entry[1].slice();
+                        break;
+                    case "8":
+                        itemData.shoes = entry[1].slice();
+                        break;
+                }
+            })
+            setUserItems(itemData);
+            console.log(userItems, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< my item list')
+        })
+        .catch(err => console.log(err.response.data))
+    }
+
+    const openItemModal = async () => {
+        let userToken;
+        try {
+            userToken = await AsyncStorage.getItem('userToken');
+        } catch (e) {
+            // Restoring token failed
+        }
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`
+            }
+        }
+        getUserItems(requestHeaders);
+        setModalVisible(true);
+    }
+
+    const setImageUri = (uploadCategory, item) => {
         switch (uploadCategory) {
             case CategoryEngText.hat:
-                setHatImage(result.uri);
+                setHatImage(item);
                 break;
             case CategoryEngText.top:
-                setTopImage(result.uri);
+                setTopImage(item);
                 break;
             case CategoryEngText.outer:
-                setOuterImage(result.uri);
+                setOuterImage(item);
                 break;
             case CategoryEngText.accessory:
-                setAccImage(result.uri);
+                setAccImage(item);
                 break;
             case CategoryEngText.pants:
-                setPantsImage(result.uri);
+                setPantsImage(item);
                 break;
             case CategoryEngText.bag:
-                setBagImage(result.uri);
+                setBagImage(item);
                 break;
             case CategoryEngText.watch:
-                setWatchImage(result.uri);
+                setWatchImage(item);
                 break;
             case CategoryEngText.shoes:
-                setShoesImage(result.uri);
+                setShoesImage(item);
                 break;
         }
     }
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-        console.log(result);
-        if (!result.cancelled) {
-            console.log(uploadCategory)
-            setImageUri(result);
-        }
-      };
 
-    const createSet = () => {
+
+    const createSet = async () => {
         // 저장된 이미지들을 취합합니다.
-        // axios.post()
-        // .then(res => {
+        let userToken;
+        try {
+            userToken = await AsyncStorage.getItem('userToken');
+        } catch (e) {
+            // Restoring token failed
+        }
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`
+            }
+        }
+        const uploadData = []
+        uploadData.push({1: hatImage ? hatImage.id : -1})
+        uploadData.push({2: topImage ? topImage.id : -1})
+        uploadData.push({3: outerImage ? outerImage.id : -1})
+        uploadData.push({4: AccImage ? AccImage.id : -1})
+        uploadData.push({5: pantsImage ? pantsImage.id : -1})
+        uploadData.push({6: bagImage ? bagImage.id : -1})
+        uploadData.push({7: watchImage ? watchImage.id : -1})
+        uploadData.push({8: shoesImage ? shoesImage.id : -1})
+
+        console.log(uploadData, ServerUrl.url + 'wear/createcoordi/')
+        axios.post(ServerUrl.url + 'wear/createcoordi/', uploadData, requestHeaders)
+        .then(res => {
+            console.log(res)
             navigation.navigate('All')
-        // })
+        })
+        .catch(err => console.error(err.response))
     }
     
     return (
-        <ScrollView>
-            <View style={styles.centeredView}>
+        <>
+        <TopContainer>
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
             >
                 <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                        onPress={() => {
-                            setModalVisible(!modalVisible);
-                        }}
-                    >
-                        <Text style={styles.textStyle}>내 옷장에서 가져오기</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                        onPress={() => {
-                            setModalVisible(!modalVisible);
-                        }}
-                    >
+                <ScrollView>
+                    <View style={styles.modalView}>
+
+                        <Text style={styles.modalText}>{CategoryText.top}</Text>
+                        <Container>
+                            <ScrollView
+                                horizontal={true}
+                            >
+                                {userItems.tops?.map(item => {
+                                    return (
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                setImageUri(CategoryEngText.top, item);
+                                            }}
+                                        >
+                                            <ItemBox key={item.id}>
+                                                {item.id === topImage?.id ? 
+                                                    <ImageBackground 
+                                                        style={{ width: "100%", height: "100%" }}
+                                                        source={{uri : ServerUrl.mediaUrl + item.img}}
+                                                        resizeMode="cover"
+                                                    />
+                                                    :
+                                                    <ImageBackground 
+                                                        style={{ width: "100%", height: "100%" }}
+                                                        imageStyle={{ borderRadius: 6}}
+                                                        source={{uri : ServerUrl.mediaUrl + item.img}}
+                                                        resizeMode="cover"
+                                                    />
+                                            
+                                                }
+
+                                            </ItemBox>
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </ScrollView>
+                        </Container>
+                        <Seperator/>
+
+                        <Text style={styles.modalText}>{CategoryText.pants}</Text>
+                        <Container>
+                            <ScrollView
+                                horizontal={true}
+                            >
+                                {userItems.pants?.map(item => {
+                                    return (
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                setImageUri(CategoryEngText.pants, item);
+                                            }}
+                                        >
+                                            <ItemBox key={item.id}>
+                                                <ImageBackground 
+                                                    style={{ width: "100%", height: "100%" }}
+                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
+                                                    resizeMode="cover"
+                                                />
+                                            </ItemBox>
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </ScrollView>
+                        </Container>
+                        <Seperator/>
+
+
+                        <Text style={styles.modalText}>{CategoryText.outer}</Text>
+                        <Container>
+                            <ScrollView
+                                    horizontal={true}
+                                >
+                                {userItems.outers?.map(item => {
+                                    return (
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                setImageUri(CategoryEngText.outer, item);
+                                            }}
+                                        >
+                                            <ItemBox key={item.id}>
+                                                <ImageBackground 
+                                                    style={{ width: "100%", height: "100%" }}
+                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
+                                                    resizeMode="cover"
+                                                />
+                                            </ItemBox>
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </ScrollView>
+                        </Container>
+                        <Seperator/>
+
+
+                        <Text style={styles.modalText}>{CategoryText.shoes}</Text>
+                        <Container>
+                            <ScrollView
+                                    horizontal={true}
+                                >
+                                {userItems.shoes?.map(item => {
+                                    return (
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                setImageUri(CategoryEngText.shoes, item);
+                                            }}
+                                        >
+                                            <ItemBox key={item.id}>
+                                                <ImageBackground 
+                                                    style={{ width: "100%", height: "100%" }}
+                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
+                                                    resizeMode="cover"
+                                                />
+                                            </ItemBox>
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </ScrollView>
+                        </Container>
+                        <Seperator/>
+
+
+                        <Text style={styles.modalText}>{CategoryText.hat}</Text>
+                        <Container>
+                            <ScrollView
+                                    horizontal={true}
+                                >
+                                {userItems.hats?.map(item => {
+                                    return (
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                setImageUri(CategoryEngText.hat, item);
+                                            }}
+                                        >
+                                            <ItemBox key={item.id}>
+                                                <ImageBackground 
+                                                    style={{ width: "100%", height: "100%" }}
+                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
+                                                    resizeMode="cover"
+                                                />
+                                            </ItemBox>
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </ScrollView>
+                        </Container>
+                        <Seperator/>
+
+                        
+                        <Text style={styles.modalText}>{CategoryText.bag}</Text>
+                        <Container>
+                            <ScrollView
+                                    horizontal={true}
+                                >
+                                {userItems.bags?.map(item => {
+                                    return (
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                setImageUri(CategoryEngText.bag, item);
+                                            }}
+                                        >
+                                            <ItemBox key={item.id}>
+                                                <ImageBackground 
+                                                    style={{ width: "100%", height: "100%" }}
+                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
+                                                    resizeMode="cover"
+                                                />
+                                            </ItemBox>
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </ScrollView>
+                        </Container>
+                        <Seperator/>
+
+                        <Text style={styles.modalText}>{CategoryText.watch}</Text>
+                        <Container>
+                            <ScrollView
+                                    horizontal={true}
+                                >
+                                {userItems.watches?.map(item => {
+                                    return (
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                setImageUri(CategoryEngText.watch, item);
+                                            }}
+                                        >
+                                            <ItemBox key={item.id}>
+                                                <ImageBackground 
+                                                    style={{ width: "100%", height: "100%" }}
+                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
+                                                    resizeMode="cover"
+                                                />
+                                            </ItemBox>
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </ScrollView>
+                        </Container>
+                        <Seperator/>
+
+                        <Text style={styles.modalText}>{CategoryText.accessory}</Text>
+                        <Container>
+                            <ScrollView
+                                horizontal={true}
+                            >
+                            {userItems.accs?.map(item => {
+                                return (
+                                    <TouchableHighlight
+                                        onPress={() => {
+                                            setImageUri(CategoryEngText.accessory, item);
+                                        }}
+                                    >
+                                        <ItemBox key={item.id}>
+                                            <ImageBackground 
+                                                style={{ width: "100%", height: "100%" }}
+                                                source={{uri : ServerUrl.mediaUrl + item.img}}
+                                                resizeMode="cover"
+                                            />
+                                        </ItemBox>
+                                    </TouchableHighlight>
+                                );
+                            })}
+                            </ScrollView>
+                        </Container>
+                        <Seperator/>
+
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, }}
+                            onPress={() => {
+                                setModalVisible(false);
+                            }}
+                        >
                         <Text style={styles.textStyle}>닫기</Text>
-                    </TouchableHighlight>
-                </View>
+                        </TouchableHighlight>
+                    </View>
+                </ScrollView>
                 </View>
             </Modal>
-            </View>
+            </TopContainer>
+            <ScrollView>
             <View style={{height: Dimensions.get('window').height}}>
-            <RowContainer style={styles.RowContainerHeight}>
+            <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
-                    style={styles.uploadBox}
+                    style={formStyles.uploadBox}
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('hat');
+                        openItemModal();
                     }}>
                     {hatImage !== null ? 
-                        <Image source={{ uri: hatImage }} style={styles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + hatImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.textStyle}>{ CategoryText.hat }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
-                    style={styles.uploadBox}
+                    style={formStyles.uploadBox}
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('top');
+                        openItemModal();
                     }}>
                     
                     {topImage !== null ? 
-                        <Image source={{ uri: topImage }} style={styles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + topImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.textStyle}>{ CategoryText.top }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
-                    style={styles.uploadBox}
+                    style={formStyles.uploadBox}
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('outer');
+                        openItemModal();
                     }}>
                     {outerImage !== null ? 
-                        <Image source={{ uri: outerImage }} style={styles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + outerImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.textStyle}>{ CategoryText.outer }</Text>
                     }
                 </TouchableHighlight>
             </RowContainer>
 
-            <RowContainer style={styles.RowContainerHeight}>
+            <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
-                    style={styles.uploadBox}
+                    style={formStyles.uploadBox}
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('accessory');
+                        openItemModal();
                     }}>
                     {AccImage !== null ? 
-                        <Image source={{ uri: AccImage }} style={styles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + AccImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.textStyle}>{ CategoryText.accessory }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
-                    style={styles.uploadBox}
+                    style={formStyles.uploadBox}
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('pants');
+                        openItemModal();
                     }}>
                     {pantsImage !== null ? 
-                        <Image source={{ uri: pantsImage }} style={styles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + pantsImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.textStyle}>{ CategoryText.pants }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
-                    style={styles.uploadBox}
+                    style={formStyles.uploadBox}
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('bag');
+                        openItemModal();
                     }}>
                     {bagImage !== null ? 
-                        <Image source={{ uri: bagImage }} style={styles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + bagImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.textStyle}>{ CategoryText.bag }</Text>
                     }
                 </TouchableHighlight>
             </RowContainer>
 
-            <RowContainer style={styles.RowContainerHeight}>
+            <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
-                    style={styles.uploadBox}
+                    style={formStyles.uploadBox}
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('watch');
+                        openItemModal();
                     }}>
                     {watchImage !== null ? 
-                        <Image source={{ uri: watchImage }} style={styles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + watchImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.textStyle}>{ CategoryText.watch }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
-                    style={styles.uploadBox}
+                    style={formStyles.uploadBox}
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('shoes');
+                        openItemModal();
                     }}>
                     {shoesImage !== null ? 
-                        <Image source={{ uri: shoesImage }} style={styles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + shoesImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.textStyle}>{ CategoryText.shoes }</Text>
                     }
                 </TouchableHighlight>
             
-                <View style={styles.uploadBox}/>
+                <View style={formStyles.uploadBox}/>
             </RowContainer>
+
+            <TextInput
+                multiline
+                numberOfLines={4}
+                label="코디를 소개해주세요"
+                value={content}
+                onChangeText={text => setContent(text)}
+            />
 
             <TouchableHighlight
                 style={styles.recButton}
@@ -238,6 +539,7 @@ function CodiFormScreen({ navigation, route }) {
             </TouchableHighlight>
             </View>
         </ScrollView>
+        </>
     )
 }
 

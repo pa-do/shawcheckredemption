@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "HeoSeongSoo",
-    "slug": "HeoSeongSoo",
+    "name": "쇼체크탈출",
+    "slug": "EscapeShowCheck",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
