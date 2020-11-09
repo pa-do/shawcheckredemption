@@ -18,6 +18,16 @@ import os
 # Create your views here.
 @api_view(['POST'])
 def personalcolor(request):
+    """
+        유저의 얼굴 사진 인식후 퍼스널 컬러 진단해주는 API
+
+        ---
+        # 내용
+            - img : 유저가 올린 사진
+            response 값을 유저에게 보여주면 됨
+            판별후 자동으로 user 모델의 color 칸이
+            spring/summer/fall/winter 중 하나로 등록됨
+    """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
     serializer = ColorSerializer(data=request.data)
