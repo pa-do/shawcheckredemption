@@ -80,32 +80,45 @@ def set_personal_color(user_personal_color):
 
 
 # 스타일 정의 알고리즘
+
+# school: '학교',
+# funeral: '장례식',
+# marry: '결혼식',
+# exercise: '운동',
+# presentation: '발표',
+# comfortable: 'PC방/편한 곳',
+# restaurant: '외식',
+# professor: '교수님',
+# girlFriend: '여사친',
+# friend: '친구',
+# family: '가족'
+
 def set_style(who, where):
     style = {"casual": 0, "street": 0, "dandy": 0, "formal": 0, "sporty": 0}
 
-    if who == "교수님/상사":
+    if who == "professor":
         style["formal"] += 10
         style["casual"] -= 5
         style["street"] -= 5
         style["sporty"] -= 5
-    elif who == "여사친/여친/썸녀":
+    elif who == "girlFriend":
         style["dandy"] += 5
     else:
         pass
 
-    if where == "결혼식" or where == "장례식":
+    if where == "marry" or where == "funeral":
         style["formal"] += 20
-    elif where == "운동":
+    elif where == "exercise":
         style["sporty"] += 20
-    elif where == "발표":
+    elif where == "presentation":
         style["formal"] += 10
         style["dandy"] += 10
-    elif where == "학교":
+    elif where == "school":
         style["casual"] += 5
         style["street"] += 5
-    elif where == "외식":
+    elif where == "restaurant":
         style["casual"] += 5
-    elif where == "pc방/편한 곳":
+    elif where == "comfortable":
         style["formal"] -= 5
         style["dandy"] -= 5
 
@@ -163,6 +176,40 @@ def set_top(user_info):
             top -= {2}
         if first_style == "sporty":
             top -= {7, 3}
+        
+        items = []
+        for i in top:
+            target_category_items = Top.objects.filter(category=i)
+            for item in target_category_items:
+                items.append([item.pk, 0])
+
+        for item in items:
+            target = Top.objects.get(pk=item[0])
+            
+            # 컬러 가중치
+            target_color = target.color.split()
+            for color in target_color:
+                if color in personal_color:
+                    item[1] += 10
+
+            # 스타일 가중치
+            target_style = target.style.split(", ")
+            for style in target_style:
+                if style == first_style:
+                    item[1] += 50
+                elif style == second_style:
+                    item[1] += 25
+            # 날씨 가중치
+            target_weather = target.season
+            season_ko = {"spring": "봄", "summer": "여름", "fall": "가을", "winter": "겨울"}
+            if season_ko[weather] in target_weather:
+                item[1] += 30
+
+        items.sort(key=lambda x: x[1], reverse=True)
+        print(items)
+
+
+
 
         return [1, 1, 1, 1, 1] # 5개 리턴
         # top에 해당하는 상의 카테고리에서 퍼스널 컬러들을 타겟 컬러로 지정하여
@@ -557,16 +604,19 @@ def set_acc(user_info, top):
 def run_self():
     ######################### 유저에게 받는 데이터 #############################
     user_info = {
-        "who": "교수님/상사",
-        "where": "외식",
+        "who": "professor",
+        "where": "restaurant",
         "weather": "winter",
-        "user_pick_item": {"top": [3, "흰색", "이미지주소"], "watch": [0, "검정색", "이미지주소"]},
+        "user_pick_item": {"watch": [0, "검정색", "이미지주소"]},
         "user_personal_color": "spring"
     }
     
     ###########################################################################
     user_info["personal_color"] = set_personal_color(user_info["user_personal_color"])    
     user_info["style"] = set_style(user_info["who"], user_info["where"])
+
+    if user_info["where"] in ["funeral", "marry"]:
+        user_info["personal_color"] = ["검정색"]
     
     coordiset = {
         "top": [],
@@ -614,7 +664,7 @@ def run_self():
             coordiset["watch"].append(set_watch(user_info, shoes_item))
     
     
-
+    print(user_info)
     
     return coordiset
 
