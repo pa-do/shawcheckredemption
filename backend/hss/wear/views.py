@@ -4,37 +4,49 @@ from rest_framework.decorators import api_view
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
 from .serializers import *
 from .models import *
 from rest_framework import status
+from rest_framework.views import APIView
 import datetime
 
 # 이미지 처리
 from PIL import Image
+from wear import preprocess
 
 # 유저 옷 CRUD 
-class UserClothesViewSet(ModelViewSet):
+class UserClothes(APIView):
     """
-        유저 옷 1개 CRUD API
+        유저 옷 1개 넣는 CRUD API
 
         ---
-        # 내용
-            - img : 올릴 옷 이미지
-            - category : 1 : headwear,
-                        2 : top,
-                        3 : outer,
-                        4 : acc,
-                        5 : pants,
-                        6 : bag,
-                        7 : watch,
-                        8 : shoes, 중 한개를 입력
-            - color : 컨펌 후 채워지게 될 칸
     """
-    queryset = UserClothes.objects.all()
-    serializer_class = UserClothesSerializer
-    def perform_create(self, serializer):
-        serializer.save(user_id=self.request.user.pk)
+    def post(self, request, format=None):
+        """
+            유저 옷 1개 생성 요청
+
+            ---
+            # 내용
+                - img : 올릴 옷 이미지
+                - category : 1 : headwear,
+                            2 : top,
+                            3 : outer,
+                            4 : acc,
+                            5 : pants,
+                            6 : bag,
+                            7 : watch,
+                            8 : shoes, 중 한개를 입력
+                - color : 컨펌 후 채워지게 될 칸
+        """
+        User = get_user_model()
+        user = get_object_or_404(User, pk=request.user.pk)
+        serializer = UserClothesSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=user)
+        uimg = UserClothes.objects.latest('pk')
+        imgpath = "./media/" + str(uimg.img)
+        result, imglink = preprocess.image_preprocess(imgpath)
+        return JsonResponse({'color': result, 'img': imglink})
 
 # 내 옷만 가져오기
 @api_view(['GET'])
@@ -219,9 +231,3 @@ def recommand(request):
     #     A = Top.objects.get(pk=value)
     # elif idx == 'watch':
     #     A = Watch.objects.get(pk=value)
-
-
-def image_preprocess(request):
-    from wear import preprocess
-    result = preprocess.image_preprocess()
-    print(result)
