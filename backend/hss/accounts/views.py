@@ -14,8 +14,42 @@ from accounts.personalcolor.src.personal_color_analysis import personal_color
 import argparse
 import os
 
-
 # Create your views here.
+
+
+@api_view(['GET'])
+def checkID(request, name):
+    """
+        DB에 중복 아이디 체크하는 API
+
+        ---
+        # 내용
+            parameter로 유저 이름을 보내면 됩니다
+    """
+    User = get_user_model()
+    user = User.objects.filter(username=name)
+    minFlag = maxFlag = numFlag = False
+    if len(name) < 5:
+        minFlag = True
+    if len(name) >= 16:
+        maxFlag = True
+    try:
+        int(name)
+        numFlag = True
+    except:
+        pass
+    
+    if user:
+        return HttpResponse('이미 있는 아이디입니다.')
+    elif minFlag:
+        return HttpResponse('아이디가 너무 짧습니다.')
+    elif maxFlag:
+        return HttpResponse('아이디가 너무 깁니다.')
+    elif numFlag:
+        return HttpResponse('아이디는 숫자로만 이루어질 수 없습니다.')
+    else:
+        return HttpResponse('사용 할 수 있는 아이디입니다.')
+
 @api_view(['POST'])
 def personalcolor(request):
     """
@@ -36,7 +70,17 @@ def personalcolor(request):
     # imgpath = "C:/Users/multicampus/Desktop/coolcool.png" # 이미지 경로 설정
     pimg = Personalcolor.objects.get(user=user)
     imgpath = "./media/" + str(pimg.img)
-    ans, tone = personal_color.analysis(imgpath)
-    user.color = tone
-    user.save()
-    return HttpResponse(ans)
+    chk = 0
+    try:
+        ans, tone = personal_color.analysis(imgpath)
+        user.color = tone
+        user.save()
+        chk = 1
+    except:
+        pass
+    pimg.delete()
+    os.remove(imgpath)
+    if chk:
+        return HttpResponse(ans)
+    else:
+        return HttpResponse('정면 사진을 올려주세요.')
