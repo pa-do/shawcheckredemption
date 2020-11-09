@@ -26,8 +26,8 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="프로젝트 허성수",
-      default_version='v1',
+      title="프로젝트 쇼체크탈출",
+      default_version='v2',
       description="20~30대 공대생 타깃 AI 옷 추천 프로젝트",
       terms_of_service="https://lab.ssafy.com/s03-final/s03p31d205",
       contact=openapi.Contact(email="gjtjdtn201@naver.com"),
@@ -49,6 +49,10 @@ urlpatterns = [
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     # apps
     path('wear/', include('wear.urls')),
+    # 토큰
+    url(r'^api-jwt-auth/$', obtain_jwt_token),          # JWT 토큰 획득
+    url(r'^api-jwt-auth/refresh/$', refresh_jwt_token), # JWT 토큰 갱신
+    url(r'^api-jwt-auth/verify/$', verify_jwt_token),   # JWT 토큰 확인
     #swagger
     url(r'^',include(router.urls)),
 
