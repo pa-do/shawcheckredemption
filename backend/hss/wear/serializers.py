@@ -26,4 +26,4 @@ class CoordiListSerializer(serializers.ModelSerializer):
 class UserMergeSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCoordi
-        fields = ['id', 'img']
+        fields = ['id', 'img', 'color', 'style', 'content']
