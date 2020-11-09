@@ -20,6 +20,8 @@ from rest_framework import routers
 from django.conf.urls.static import static
 from hss import settings
 
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
+
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -50,7 +52,7 @@ urlpatterns = [
     # apps
     path('wear/', include('wear.urls')),
     # 토큰
-    url(r'^api-jwt-auth/$', obtain_jwt_token),          # JWT 토큰 획득
+    # url(r'^api-jwt-auth/$', obtain_jwt_token),          # JWT 토큰 획득
     url(r'^api-jwt-auth/refresh/$', refresh_jwt_token), # JWT 토큰 갱신
     url(r'^api-jwt-auth/verify/$', verify_jwt_token),   # JWT 토큰 확인
     #swagger

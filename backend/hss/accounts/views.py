@@ -36,7 +36,17 @@ def personalcolor(request):
     # imgpath = "C:/Users/multicampus/Desktop/coolcool.png" # 이미지 경로 설정
     pimg = Personalcolor.objects.get(user=user)
     imgpath = "./media/" + str(pimg.img)
-    ans, tone = personal_color.analysis(imgpath)
-    user.color = tone
-    user.save()
-    return HttpResponse(ans)
+    chk = 0
+    try:
+        ans, tone = personal_color.analysis(imgpath)
+        user.color = tone
+        user.save()
+        chk = 1
+    except:
+        pass
+    pimg.delete()
+    os.remove(imgpath)
+    if chk:
+        return HttpResponse(ans)
+    else:
+        return HttpResponse('정면 사진을 올려주세요.')
