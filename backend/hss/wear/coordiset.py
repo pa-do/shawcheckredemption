@@ -178,6 +178,9 @@ def set_top(user_info):
         if first_style == "sporty":
             top -= {7, 3}
         
+        if where in ["funeral", "marry"]:
+            top = {3}
+        
         items = []
         for i in top:
             target_category_items = Top.objects.filter(category=i)
@@ -188,10 +191,11 @@ def set_top(user_info):
             target = Top.objects.get(pk=item[0])
             
             # 컬러 가중치
-            target_color = target.color.split()
-            for color in target_color:
-                if color in personal_color:
-                    item[1] += 10
+            if where not in ["funeral", "marry"]:
+                target_color = target.color.split()
+                for color in target_color:
+                    if color in personal_color:
+                        item[1] += 10
 
             # 스타일 가중치
             target_style = target.style.split(", ")
@@ -209,6 +213,10 @@ def set_top(user_info):
             # 기타색상 제외
             if "기타색상" in target_color:
                 item[1] = 0
+            
+            if where in ["funeral", "marry"]:
+                if "흰색" not in target_color:
+                    item[1] = 0
 
         items.sort(key=lambda x: x[1], reverse=True)
         result = []
@@ -276,7 +284,9 @@ def set_pants(user_info, top):
          # {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
         if top_item.category in [3, 7]:
             pants -= {3}
-        # elif top_item.category == 4:
+        
+        if where in ["funeral", "marry"]:
+            pants = {2}
 
 
             
@@ -339,6 +349,10 @@ def set_pants(user_info, top):
                 if d in target.color:
                     item[1] = 0
                     break
+            
+            if where in ["funeral", "marry"]:
+                if "검정색" not in target_color:
+                    item[1] = 0
             
 
         items.sort(key=lambda x: x[1], reverse=True)
@@ -408,13 +422,78 @@ def set_shoes(user_info, pants):
         if first_style == "street":
             shoes -= {2, 7}
         
+
+        # 하의 카테고리로 필터
+         # {"데님", "코튼", "슬랙스", "조거", "숏"}
+        if pants_item.category == 2:
+            shoes -= {1}
+        elif pants_item.category == 3:
+            shoes -= {2, 4}
+
+        if where in ["funeral", "marry"]:
+            shoes = {2}    
+        
+        danger = ["기타색상"]
+
+        pants_item_color = pants_item.color.split()
+        for color in pants_item_color:
+            if color not in ["검정색", "회색", "다크 그레이", "라이트 그레이", "네이비"]:
+                danger.append(color)
         
         
-        # shoes에 해당하는 신발 카테고리에서 하의 컬러에 조화로운 색을 타겟 컬러로 지정하여
-        # 신발 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 1 # 1개 리턴
+        items = []
+        for i in shoes:
+            target_category_items = Shoes.objects.filter(category=i)
+            for item in target_category_items:
+                items.append([item.pk, 0])
+
+        for item in items:
+            target = Shoes.objects.get(pk=item[0])
+            
+            # 컬러 가중치
+            target_color = target.color.split()
+            for color in target_color:
+                if color in personal_color:
+                    item[1] += 10
+
+            # 스타일 가중치
+            target_style = target.style.split(", ")
+            for style in target_style:
+                if style == first_style:
+                    item[1] += 50
+                elif style == second_style:
+                    item[1] += 25
+            # 날씨 가중치
+            target_weather = target.season
+            season_ko = {"spring": "봄", "summer": "여름", "fall": "가을", "winter": "겨울"}
+            if season_ko[weather] in target_weather:
+                item[1] += 30
+
+            # 위험 색상 제거
+            for d in danger:
+                if d in target.color:
+                    item[1] = 0
+                    break
+            
+            if where in ["funeral", "marry"]:
+                if "검정색" not in target_color:
+                    item[1] = 0
+            
+
+        items.sort(key=lambda x: x[1], reverse=True)
+        result = [items[0][0]]
+        
+        target = 1
+        while True:
+            if items[0][1] == items[target][1]:
+                result.append(items[target][0])
+                target += 1
+            else:
+                break
+        random.shuffle(result)
+
+        result = result[0]
+        return result # 1개 리턴
 
 
 def set_outer(user_info, top):
@@ -451,36 +530,133 @@ def set_outer(user_info, top):
 
     else: # 입력한 아이템이 없을 때 아우터 선택 알고리즘
 
-        # {0"후드집업", 1"블루종", 2"라이더", 3"트러커", 4"블레이저", 5"가디건", 6"아노락", 7"플리스", 8"트레이닝", 9"스타디움", 10"환절기 코트"}
-        # {11"겨울싱글코트", 12"겨울기타코트", 13"롱패딩/헤비", 14"숏패딩.헤비", 15"패딩베스트", 16"베스트", 17"사파리", 18"코치"}
+        if weather == "winter": # 무조건 입는다
+            wear = 1
+        elif weather == "summer": # 안입는다
+            wear = 0
+        else:
+            random_list = [0, 1]
+            random.shuffle(random_list)
+            wear = random_list[0]
         
-        outer = {i for i in range(19)}
+        if where in ["funeral", "marry"]:
+            wear = 1
 
-        # 현재 날씨로 필터
-        if weather == "summer": # 여름에 못입는거
-            outer -= {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 16, 17, 18}
-        if weather == "winter": # 겨울에 못입는거
-            outer -= {0, 2, 3, 5, 10, 16, 18}
-        if weather != "winter": # 겨울에만 입는거
-            outer -= {11, 12, 13, 14, 15}
-        
-        # 스타일로 필터
-        if first_style == "formal":
-            outer -= {0, 1, 2, 3, 5, 6, 7, 8, 9, 13, 14, 15, 17, 18}
-        if first_style == "dandy" or second_style == "formal":
-            outer -= {0, 1, 2, 6, 7, 8, 9, 13, 14, 15, 17}
-        if first_style == "sporty":
-            outer -= {1, 2, 3, 4, 5, 10, 11, 12, 13, 16, 17, 18}
-        if first_style == "casual":
-            outer -= {4, 8}
-        if first_style == "street":
-            outer -= {0, 4, 8}
+        if not wear:
+            return -1
+        else:
 
-        # outer에 해당하는 카테고리에서 상의 컬러에 조화로운 색을 타겟 컬러로 지정하여
-        # 아우터 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 1 # 1개 리턴
+            # {0"후드집업", 1"블루종", 2"라이더", 3"트러커", 4"블레이저", 5"가디건", 6"아노락", 7"플리스", 8"트레이닝", 9"스타디움", 10"환절기 코트"}
+            # {11"겨울싱글코트", 12"겨울기타코트", 13"롱패딩/헤비", 14"숏패딩.헤비", 15"패딩베스트", 16"베스트", 17"사파리", 18"코치"}
+            
+            outer = {i for i in range(19)}
+
+            # 현재 날씨로 필터
+            if weather == "summer": # 여름에 못입는거
+                outer -= {0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 16, 17, 18}
+            if weather == "winter": # 겨울에 못입는거
+                outer -= {0, 2, 3, 5, 10, 16, 18}
+            if weather != "winter": # 겨울에만 입는거
+                outer -= {11, 12, 13, 14, 15}
+            
+            # 스타일로 필터
+            if first_style == "formal":
+                outer -= {0, 1, 2, 3, 5, 6, 7, 8, 9, 13, 14, 15, 17, 18}
+            if first_style == "dandy" or second_style == "formal":
+                outer -= {0, 1, 2, 6, 7, 8, 9, 13, 14, 15, 17}
+            if first_style == "sporty":
+                outer -= {1, 2, 3, 4, 5, 10, 11, 12, 13, 16, 17, 18}
+            if first_style == "casual":
+                outer -= {4, 8}
+            if first_style == "street":
+                outer -= {0, 4, 8}
+
+            # 상의 카테고리로 필터
+            # {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
+            if top_item.category in [0, 2, 4]:
+                outer -= {15}
+            elif top_item.category != 3:
+                outer -= {16}
+            elif top_item.category == 6:
+                outer -= {0, 17, 18}
+            
+            if where in ["funeral", "marry"]:
+                outer = {4, 10, 11}
+            else:
+                outer -= {4}
+                
+            
+            danger = ["기타색상"]
+            pattern = ["스트라이프", "도트", "체크", "윈도우", "하운드", "페이즐리", "플라워", "트로피컬", "카모", "애니멀", "패치워크", "기타패턴"]
+            chromatic_color = ["은색", "딥레드", "빨간색", "라즈베리", "네온 핑크", "분홍색", "라이트 핑크", "페일 핑크", "피치", "코랄", "라이트 오렌지", "네온 오렌지", "오렌지 핑크", "주황색", "라이트 옐로우", "노란색", "머스타드", "금색", "네온 그린", "라이트 그린", "민트", "녹색", "올리브 그린", "카키", "다크 그린", "스카이 블루", "네온 블루", "파란색", "자주", "라벤더", "보라색", "다크 바이올렛", "버건디", "갈색", "로즈골드", "레드 브라운", "카키 베이지", "카멜"]
+            achromatic_color = ["흰색", "회색", "다크 그레이", "라이트 그레이", "아이보리", "네이비", "샌드", "베이지색"]
+            for p in pattern:
+                if p in top_item.color:
+                    danger = pattern
+                    break
+
+            top_item_color = top_item.color.split()
+            for color in top_item_color:
+                if color in chromatic_color:
+                    danger.extend(chromatic_color)
+                    break
+                elif color in achromatic_color:
+                    danger.append(color)
+            
+            
+            items = []
+            for i in outer:
+                target_category_items = Outer.objects.filter(category=i)
+                for item in target_category_items:
+                    items.append([item.pk, 0])
+
+            for item in items:
+                target = Outer.objects.get(pk=item[0])
+                
+                # 컬러 가중치
+                target_color = target.color.split()
+                for color in target_color:
+                    if color in personal_color:
+                        item[1] += 10
+
+                # 스타일 가중치
+                target_style = target.style.split(", ")
+                for style in target_style:
+                    if style == first_style:
+                        item[1] += 50
+                    elif style == second_style:
+                        item[1] += 25
+                # 날씨 가중치
+                target_weather = target.season
+                season_ko = {"spring": "봄", "summer": "여름", "fall": "가을", "winter": "겨울"}
+                if season_ko[weather] in target_weather:
+                    item[1] += 30
+
+                # 위험 색상 제거
+                for d in danger:
+                    if d in target.color:
+                        item[1] = 0
+                        break
+                
+                if where in ["funeral", "marry"]:
+                    if "검정색" not in target_color:
+                        item[1] = 0
+                
+
+            items.sort(key=lambda x: x[1], reverse=True)
+            result = [items[0][0]]
+            
+            target = 1
+            while True:
+                if items[0][1] == items[target][1]:
+                    result.append(items[target][0])
+                    target += 1
+                else:
+                    break
+            random.shuffle(result)
+
+            result = result[0]
+            return result # 1개 리턴
 
 
 def set_bag(user_info, shoes):
@@ -708,7 +884,7 @@ def run_self():
     user_info = {
         "who": "professor",
         "where": "restaurant",
-        "weather": "winter",
+        "weather": "summer",
         "user_pick_item": {"watch": [0, "검정색", "이미지주소"]},
         "user_personal_color": "spring"
     }

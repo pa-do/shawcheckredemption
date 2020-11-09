@@ -50,9 +50,9 @@ urlpatterns = [
     # apps
     path('wear/', include('wear.urls')),
     # 토큰
-    url(r'^api-jwt-auth/$', obtain_jwt_token),          # JWT 토큰 획득
-    url(r'^api-jwt-auth/refresh/$', refresh_jwt_token), # JWT 토큰 갱신
-    url(r'^api-jwt-auth/verify/$', verify_jwt_token),   # JWT 토큰 확인
+    # url(r'^api-jwt-auth/$', obtain_jwt_token),          # JWT 토큰 획득
+    # url(r'^api-jwt-auth/refresh/$', refresh_jwt_token), # JWT 토큰 갱신
+    # url(r'^api-jwt-auth/verify/$', verify_jwt_token),   # JWT 토큰 확인
     #swagger
     url(r'^',include(router.urls)),
 
