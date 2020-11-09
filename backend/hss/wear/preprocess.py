@@ -74,9 +74,9 @@ def image_preprocess(target_item):
     for name, chip in zip(color_name, color_chip_hsv):
         mod_temp = (mod_h - chip[0])**2 + (mod_s - chip[1])**2 + (mod_v - chip[2])**2
         mod_diff.append(mod_temp)
-    print(color_name[mod_diff.index(min(mod_diff))])
+
     result_color = color_name[mod_diff.index(min(mod_diff))]
-    print(result_color)
+
             
     ## trim
     contours_xy = np.array(contours)
@@ -116,6 +116,8 @@ def image_preprocess(target_item):
             for j in range(size):
                 if i > diff and i < diff + height:
                     resize_image[i][j] = img_trim[i - diff][j]
-    cv2.imwrite(os.path.join(file_save , str(0) + '.png'), resize_image)
-
-    return result_color
+    imgpath = target_item
+    # link = 
+    cv2.imwrite(os.path.join(imgpath, link + '.png'), resize_image)
+    imglink = imgpath + '0.png'
+    return result_color, imglink
