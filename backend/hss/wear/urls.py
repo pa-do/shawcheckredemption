@@ -1,15 +1,13 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
 from . import views
 
 app_name = 'wear'
 
-router = DefaultRouter()
-router.register('userclothes', views.UserClothesViewSet)
 
 urlpatterns = [
-    # 코디 아이템 등록/수정/삭제
-    path('', include(router.urls)),
+    # 코디 아이템 등록/삭제
+    path('userclothes/', views.userclothes.as_view()),
+    path('userclothes/<int:pk>', views.clothesdetail.as_view()),
     # 내가 등록한 아이템 보기
     path('mylist/', views.mylist),
     # 코디셋 등록하기
