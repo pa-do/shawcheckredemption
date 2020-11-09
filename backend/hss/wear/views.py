@@ -219,3 +219,9 @@ def recommand(request):
     #     A = Top.objects.get(pk=value)
     # elif idx == 'watch':
     #     A = Watch.objects.get(pk=value)
+
+
+def image_preprocess(request):
+    from wear import preprocess
+    result = preprocess.image_preprocess()
+    print(result)
