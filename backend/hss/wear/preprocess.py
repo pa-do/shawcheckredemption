@@ -129,6 +129,9 @@ def image_preprocess(target_item):
             for j in range(size):
                 if i > diff and i < diff + height:
                     resize_image[i][j] = img_trim[i - diff][j]
-    cv2.imwrite(os.path.join(file_save , str(0) + '.png'), resize_image)
 
-    return result
+    imgpath = target_item
+    # link = 
+    cv2.imwrite(os.path.join(imgpath, link + '.png'), resize_image)
+    imglink = imgpath + '0.png'
+    return result, imglink
