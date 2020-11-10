@@ -692,31 +692,107 @@ def set_bag(user_info, shoes):
 
     else: # 입력한 아이템이 없을 때 가방 선택 알고리즘
 
-        # {0"백팩", 1"메신저/크로스", 2"숄더/토드", 3"에코", 4"보스턴/드럼/더플", 5"웨이스트", 6"클러치", 7"파우치", 8"브리프케이스"}
+        if first_style == "formal": # 무조건 선택
+            wear = 1
+        else:
+            random_list = [0, 1]
+            random.shuffle(random_list)
+            wear = random_list[0]
 
-        bag = {i for i in range(9)}
+        if not wear:
+            return -1
+        else:
 
-        # 현재 날씨로 필터
-        if weather == "winter": 
-            bag -= {1, 3, 7}
-        
-        # 스타일로 필터
-        if first_style == "formal":
-            bag -= {3, 4, 5, 7}
-        if first_style == "dandy" or second_style == "formal":
-            bag -= {4, 5, 7}
-        if first_style == "sporty":
-            bag -= {1, 2, 3, 6, 7, 8}
-        if first_style == "casual":
-            bag -= {5, 6, 7, 8}
-        if first_style == "street":
-            bag -= {3, 7, 8}
+            # {0"백팩", 1"메신저/크로스", 2"숄더/토드", 3"에코", 4"보스턴/드럼/더플", 5"웨이스트", 6"클러치", 7"파우치", 8"브리프케이스"}
 
-        # bag에 해당하는 카테고리에서 신발 컬러에 조화로운 색을 타겟 컬러로 지정하여
-        # 가방 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 1 # 1개 리턴
+            bag = {i for i in range(9)}
+
+            # 현재 날씨로 필터
+            if weather == "winter": 
+                bag -= {1, 3, 7}
+            
+            # 스타일로 필터
+            if first_style == "formal":
+                bag -= {3, 4, 5, 7}
+            if first_style == "dandy" or second_style == "formal":
+                bag -= {4, 5, 7}
+            if first_style == "sporty":
+                bag -= {1, 2, 3, 6, 7, 8}
+            if first_style == "casual":
+                bag -= {5, 6, 7, 8}
+            if first_style == "street":
+                bag -= {3, 7, 8}
+
+            # 신발 카테고리로 필터
+            # {0"캔버스,단화", 1"러닝화", 2"구두", 3"부츠", 4"로퍼", 5"모카신", 6"샌들", 7"슬리퍼"}
+            if shoes_item.category in [2, 3, 4]:
+                bag -= {3}
+            
+            if where in ["funeral", "marry"]:
+                bag = {1, 2, 8}
+                
+            
+            danger = ["기타색상"]
+
+            
+            items = []
+            for i in bag:
+                target_category_items = Bag.objects.filter(category=i)
+                for item in target_category_items:
+                    items.append([item.pk, 0])
+
+            for item in items:
+                target = Bag.objects.get(pk=item[0])
+                
+                # 컬러 가중치
+                target_color = target.color.split()
+                for color in target_color:
+                    if color in personal_color:
+                        item[1] += 10
+
+                # 스타일 가중치
+                target_style = target.style.split(", ")
+                for style in target_style:
+                    if style == first_style:
+                        item[1] += 50
+                    elif style == second_style:
+                        item[1] += 25
+                # 날씨 가중치
+                target_weather = target.season
+                season_ko = {"spring": "봄", "summer": "여름", "fall": "가을", "winter": "겨울"}
+                if season_ko[weather] in target_weather:
+                    item[1] += 30
+
+                # 위험 색상 제거
+                for d in danger:
+                    if d in target.color:
+                        item[1] = 0
+                        break
+                
+                shoes_item_color = shoes_item.color.split()
+                for color in shoes_item_color:
+                    if color in target_color:
+                        item[1] += 20
+                
+                if where in ["funeral", "marry"]:
+                    if "검정색" not in target_color:
+                        item[1] = 0
+                
+
+            items.sort(key=lambda x: x[1], reverse=True)
+            result = [items[0][0]]
+            
+            target = 1
+            while True:
+                if items[0][1] == items[target][1]:
+                    result.append(items[target][0])
+                    target += 1
+                else:
+                    break
+            random.shuffle(result)
+
+            result = result[0]
+            return result # 1개 리턴
 
 
 def set_watch(user_info, shoes):
