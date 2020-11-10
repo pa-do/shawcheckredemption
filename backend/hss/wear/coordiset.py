@@ -826,14 +826,70 @@ def set_watch(user_info, shoes):
 
     else: # 입력한 아이템이 없을 때 시계 선택 알고리즘
 
-        watch = {0} # 통합
+        if first_style == "formal": # 무조건 선택
+            wear = 1
+        else:
+            random_list = [0, 1]
+            random.shuffle(random_list)
+            wear = random_list[0]
 
+        if not wear:
+            return -1
+        else:
 
-        # 가방 또는 신발 컬러에 조화로운 색을 타겟 컬러로 지정하여
-        # 시계 DB에서 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 1 # 1개 리턴
+            watch = {0} # 통합
+            
+            danger = ["기타색상"]
+
+            
+            items = []
+
+            for i in range(51):
+                items.append([i, 0])
+
+            for item in items:
+                target = Watch.objects.get(pk=item[0])
+                
+                # 컬러 가중치
+                target_color = target.color.split()
+                for color in target_color:
+                    if color in personal_color:
+                        item[1] += 10
+
+                # 스타일 가중치
+                target_style = target.style.split(", ")
+                for style in target_style:
+                    if style == first_style:
+                        item[1] += 50
+                    elif style == second_style:
+                        item[1] += 25
+                
+
+                # 위험 색상 제거
+                for d in danger:
+                    if d in target.color:
+                        item[1] = 0
+                        break
+                
+                shoes_item_color = shoes_item.color.split()
+                for color in shoes_item_color:
+                    if color in target_color:
+                        item[1] += 20
+
+            items.sort(key=lambda x: x[1], reverse=True)
+            result = [items[0][0]]
+            
+            target = 1
+            while True:
+                if items[0][1] == items[target][1]:
+                    result.append(items[target][0])
+                    target += 1
+                else:
+                    break
+            random.shuffle(result)
+
+            result = result[0]
+            return result # 1개 리턴
 
 
 def set_headwear(user_info, top):
