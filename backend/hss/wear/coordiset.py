@@ -1134,30 +1134,7 @@ def set_acc(user_info, top):
 
 
 
-def run_self():
-
-    # school: '학교',
-    # funeral: '장례식',
-    # marry: '결혼식',
-    # exercise: '운동',
-    # presentation: '발표',
-    # comfortable: 'PC방/편한 곳',
-    # restaurant: '외식',
-    # professor: '교수님',
-    # girlFriend: '여사친',
-    # friend: '친구',
-    # family: '가족'
-
-    ######################### 유저에게 받는 데이터 #############################
-    user_info = {
-        "who": "professor",
-        "where": "restaurant",
-        "weather": "summer",
-        "user_pick_item": {"watch": [0, "검정색", "이미지주소"]},
-        "user_personal_color": "spring"
-    }
-    
-    ###########################################################################
+def run_self(user_info):
     user_info["personal_color"] = set_personal_color(user_info["user_personal_color"])    
     user_info["style"] = set_style(user_info["who"], user_info["where"])
 
@@ -1209,8 +1186,6 @@ def run_self():
         if "watch" not in user_info["user_pick_item"]:
             coordiset["watch"].append(set_watch(user_info, shoes_item))
     
-    
-    print(user_info)
     result = []
     for i in range(5):
         one_set = dict()

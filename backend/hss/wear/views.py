@@ -182,23 +182,26 @@ def like_list(request):
         like.append({'id':i['id'], 'img':i['img']})
     return JsonResponse(like)
 
-# 코디셋 테스트
-def coordiset_test(request):
-    from wear import coordiset
-    result = coordiset.run_self()
-    print('result : ',result)
-
 
 # 추천 받기
 @api_view(['POST'])
 def recommand(request):
-    """
-        코디셋 추천하는 API
+    from wear import coordiset
 
-        ---
-        # 내용
-    """
-    pass
+    ######################### 유저에게 받는 데이터 #############################
+    user_info = {
+        "who": "professor",
+        "where": "restaurant",
+        "weather": "summer",
+        "user_pick_item": {"watch": [0, "검정색", "이미지주소"]},
+        "user_personal_color": "spring"
+    }
+    
+    ###########################################################################
+    
+    result = coordiset.run_self(user_info)
+    print('result : ',result)
+    return result
 
 # 쓸것 들
 # for idx, value in request.data.items():
