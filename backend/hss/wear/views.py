@@ -13,6 +13,7 @@ import datetime
 # 이미지 처리
 from PIL import Image
 from wear import preprocess
+import os
 
 # 유저 옷 CRUD 
 class UserClothesAPI(APIView):
@@ -45,9 +46,17 @@ class UserClothesAPI(APIView):
             serializer.save(user=user)
         uimg = UserClothes.objects.last()
         imgpath = "./media/" + str(uimg.img)
-        # result, imglink = preprocess.image_preprocess(imgpath)
-        # return JsonResponse({'color': result, 'img': imglink})
-        return HttpResponse('ㅎㅇ')
+        result, imglink = preprocess.image_preprocess(imgpath)
+        os.remove(imgpath)
+        uimg.img = imglink
+        uimg.save()
+
+        rgb = [{'R': result[0], 'G': result[1], 'B': result[2]}]
+        return JsonResponse({'R': result[0], 'G': result[1], 'B': result[2], 'img': imglink})
+
+# 전처리된 이미지와 이미지에서 추출한 색상값을 반환
+# 현재 코드는 색상값만 반환하고 있음
+# todo: 이미지 반환 코드 추가
 
 # 내 옷만 가져오기
 @api_view(['GET'])
@@ -235,15 +244,3 @@ def recommand(request):
     #     A = Top.objects.get(pk=value)
     # elif idx == 'watch':
     #     A = Watch.objects.get(pk=value)
-
-
-# 전처리된 이미지와 이미지에서 추출한 색상값을 반환
-# 현재 코드는 색상값만 반환하고 있음
-# todo: 이미지 반환 코드 추가
-def image_preprocess(request):
-    from wear import preprocess
-
-    # result 는 색상의 rgb값
-    result = preprocess.image_preprocess()
-    rgb = [{'R': result[0], 'G': result[1], 'B': result[2]}]
-    return JsonResponse(rgb, safe=False)

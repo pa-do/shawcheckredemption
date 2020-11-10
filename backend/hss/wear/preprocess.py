@@ -38,7 +38,7 @@ color_chip_rgb = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91
 
 
 # 136라인, 이미지 저장 시 경로
-file_save = 'C:/Users/multicampus/Desktop/delete_bg/test'
+# file_save = 'C:/Users/multicampus/Desktop/delete_bg/test'
 
 # 이미지 전처리, 
 # input: 옷 사진
@@ -130,8 +130,9 @@ def image_preprocess(target_item):
                 if i > diff and i < diff + height:
                     resize_image[i][j] = img_trim[i - diff][j]
 
-    imgpath = target_item
-    # link = 
-    cv2.imwrite(os.path.join(imgpath, link + '.png'), resize_image)
-    imglink = imgpath + '0.png'
+    imgpath = target_item[:29]
+    print(imgpath)
+    link = 'c' + target_item[29:-4] + '.png'
+    cv2.imwrite(os.path.join(imgpath, link), resize_image)
+    imglink = imgpath[8:] + link
     return result, imglink
