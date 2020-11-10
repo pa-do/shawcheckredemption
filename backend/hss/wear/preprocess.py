@@ -25,11 +25,26 @@ color_chip_hsv = [[160, 0, 240], [40, 6, 203], [40, 1, 146], [145, 11, 82], [160
                   [29, 240, 76], [25, 163, 123], [24, 78, 165], [26, 166, 170], [140, 44, 106],
                   [142, 77, 122], [142, 85, 63], [148, 48, 38], [100, 7, 32]]
 
+color_chip_rgb = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91], [0, 0, 0], 
+                  [156, 35, 54], [232, 4, 22], [215, 64, 97], [223, 24, 149], [247, 17, 158],
+                  [255, 163, 182], [220, 166, 156], [250, 171, 141], [237, 104, 89], [254, 124, 0],
+                  [253, 92, 1], [228, 74, 86], [247, 68, 27], [254, 255, 239], [249, 225, 125],
+                  [251, 234, 43], [240, 179, 37], [212, 237, 22], [139, 197, 1], [64, 193, 171], 
+                  [42, 172, 20], [122, 134, 60], [91, 90, 58], [29, 66, 33], [91, 193, 231],
+                  [2, 128, 238], [36, 30, 252], [0, 31, 98], [125, 0, 76], [167, 123, 202],
+                  [78, 8, 108], [118, 34, 47], [108, 42, 22], [183, 82, 62], [190, 77, 0], 
+                  [161, 116, 0], [215, 154, 47], [201, 180, 149], [232, 195, 129],
+                  [61, 63, 107], [97, 134, 176], [38, 58, 84], [35, 40, 51], [33, 35, 34]]
+
+
+# 136라인, 이미지 저장 시 경로
+file_save = 'C:/Users/multicampus/Desktop/delete_bg/test'
 
 # 이미지 전처리, 
 # input: 옷 사진
 # output: 옷의 색상과 정방형의 png 파일
 def image_preprocess(target_item):
+    # image에 target_item을 받아와야 로직 실행이 가능
     # image = cv2.imread(os.path.join(file_path , str(target_item) + '.jpg'), cv2.IMREAD_UNCHANGED)
     image = cv2.imread(target_item, cv2.IMREAD_UNCHANGED)
     image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -74,9 +89,7 @@ def image_preprocess(target_item):
     for name, chip in zip(color_name, color_chip_hsv):
         mod_temp = (mod_h - chip[0])**2 + (mod_s - chip[1])**2 + (mod_v - chip[2])**2
         mod_diff.append(mod_temp)
-
-    result_color = color_name[mod_diff.index(min(mod_diff))]
-
+    result = color_chip_rgb[mod_diff.index(min(mod_diff))]
             
     ## trim
     contours_xy = np.array(contours)
@@ -116,8 +129,9 @@ def image_preprocess(target_item):
             for j in range(size):
                 if i > diff and i < diff + height:
                     resize_image[i][j] = img_trim[i - diff][j]
+
     imgpath = target_item
     # link = 
     cv2.imwrite(os.path.join(imgpath, link + '.png'), resize_image)
     imglink = imgpath + '0.png'
-    return result_color, imglink
+    return result, imglink
