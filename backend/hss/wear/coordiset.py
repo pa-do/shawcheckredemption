@@ -923,30 +923,95 @@ def set_headwear(user_info, top):
 
     else: # 입력한 아이템이 없을 때 모자 선택 알고리즘
 
-        headwear = {i for i in range(6)}    # {0"캡", 1"베레", 2"페도라", 3"버킷", 4"비니", 5"트루퍼"}
+        if first_style == "formal" or second_style == "formal": # 무조건 선택안함
+            wear = 0
+        elif where in ["funeral", "marry"]:
+            wear = 0
+        else:
+            random_list = [0, 1]
+            random.shuffle(random_list)
+            wear = random_list[0]
 
-        # 현재 날씨로 필터
-        if weather == "summer": 
-            headwear -= {1, 2, 4, 5}
-        if weather != "winter":
-            headwear -= {5}
+        if not wear:
+            return -1
+        else:
 
-        # 스타일로 필터
-        if first_style == "formal":
-            headwear -= {0, 1, 2, 3, 4, 5}
-        if first_style == "dandy" or second_style == "formal":
-            headwear -= {0, 3, 4, 5}
-        if first_style == "sporty":
-            headwear -= {1, 2, 3}
-        if first_style == "casual":
-            headwear -= {2}
-        
+            headwear = {i for i in range(6)}    # {0"캡", 1"베레", 2"페도라", 3"버킷", 4"비니", 5"트루퍼"}
 
-        # headwear에 해당하는 카테고리에서 아우터 또는 상의 컬러에 조화로운 색을 타겟 컬러로 지정하여
-        # 모자 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 1 # 1개 리턴
+            # 현재 날씨로 필터
+            if weather == "summer": 
+                headwear -= {1, 2, 4, 5}
+            if weather != "winter":
+                headwear -= {5}
+
+            # 스타일로 필터
+            if first_style == "formal":
+                headwear -= {0, 1, 2, 3, 4, 5}
+            if first_style == "dandy" or second_style == "formal":
+                headwear -= {0, 3, 4, 5}
+            if first_style == "sporty":
+                headwear -= {1, 2, 3}
+            if first_style == "casual":
+                headwear -= {2}
+            
+            # 신발 카테고리로 필터
+            # {0"캔버스,단화", 1"러닝화", 2"구두", 3"부츠", 4"로퍼", 5"모카신", 6"샌들", 7"슬리퍼"}
+            if shoes_item.category in [2, 3, 4]:
+                bag -= {0, 5}
+                
+            
+            danger = ["기타색상"]
+
+            
+            items = []
+            for i in headwear:
+                target_category_items = Headwear.objects.filter(category=i)
+                for item in target_category_items:
+                    items.append([item.pk, 0])
+
+            for item in items:
+                target = Headwear.objects.get(pk=item[0])
+                
+                # 컬러 가중치
+                target_color = target.color.split()
+                for color in target_color:
+                    if color in personal_color:
+                        item[1] += 10
+
+                # 스타일 가중치
+                target_style = target.style.split(", ")
+                for style in target_style:
+                    if style == first_style:
+                        item[1] += 50
+                    elif style == second_style:
+                        item[1] += 25
+
+                # 위험 색상 제거
+                for d in danger:
+                    if d in target.color:
+                        item[1] = 0
+                        break
+                
+                shoes_item_color = shoes_item.color.split()
+                for color in shoes_item_color:
+                    if color in target_color:
+                        item[1] += 20
+                
+
+            items.sort(key=lambda x: x[1], reverse=True)
+            result = [items[0][0]]
+            
+            target = 1
+            while True:
+                if items[0][1] == items[target][1]:
+                    result.append(items[target][0])
+                    target += 1
+                else:
+                    break
+            random.shuffle(result)
+
+            result = result[0]
+            return result # 1개 리턴
 
 
 def set_acc(user_info, top):
@@ -978,23 +1043,94 @@ def set_acc(user_info, top):
         return sim_result
     else: # 입력한 아이템이 없을 때 액세서리 선택 알고리즘
 
-        acc = {i for i in range(3)}    # {0"벨트", 1"넥타이", 2"머플러"}
+        if first_style == "formal": # 무조건 선택
+            wear = 1
+        elif where in ["funeral", "marry"]:
+            wear = 1
+        elif weather == "winter":
+            random_list = [0, 1]
+            random.shuffle(random_list)
+            wear = random_list[0]
+        else:
+            wear = 0
 
-        # 현재 날씨로 필터
-        if weather != "winter":
-            acc -= {2}
-        
-        # 스타일로 필터
-        if first_style == "formal":
-            acc -= {2}
-        if first_style in ["casual", "street", "sporty"]:
-            acc -= {1}
+        if not wear:
+            return -1
+        else:
 
-        # acc에 해당하는 카테고리에서 하의 컬러에 조화로운 색을 타겟 컬러로 지정하여
-        # 액세서리 DB에서 카테고리 + 컬러 + 스타일이 일치하는 아이템들을 뽑아온다.
-        # 뽑힌 아이템이 20개 이상이면 random으로 20개를 뽑는다.
-        # (여기에서 체형을 고려할 수 있음) 추가적인 알고리즘으로 5개를 뽑는다.
-        return 1 # 1개 리턴
+            acc = {i for i in range(3)}    # {0"벨트", 1"넥타이", 2"머플러"}
+
+            # 현재 날씨로 필터
+            if weather == "winter":
+                acc = {2}
+            
+            # 스타일로 필터
+            if first_style == "formal":
+                acc = {0, 1}
+
+            # 상의 카테고리로 필터
+            # {"반팔티", "긴팔티", "민소매", "셔츠", "카라티", "맨투맨", "후드", "니트"}
+            if top_item.category != 3:
+                acc -= {1}
+            elif top_item.category in [0, 2, 4]:
+                acc -= {2}
+                
+            
+            danger = ["기타색상"]
+
+            top_item_color = top_item.color.split()
+            for color in top_item_color:
+                if color != "검정색":
+                    danger.append(color)
+            
+            items = []
+            for i in acc:
+                target_category_items = Accessory.objects.filter(category=i)
+                for item in target_category_items:
+                    items.append([item.pk, 0])
+
+            for item in items:
+                target = Accessory.objects.get(pk=item[0])
+                
+                # 컬러 가중치
+                target_color = target.color.split()
+                for color in target_color:
+                    if color in personal_color:
+                        item[1] += 10
+
+                # 스타일 가중치
+                target_style = target.style.split(", ")
+                for style in target_style:
+                    if style == first_style:
+                        item[1] += 50
+                    elif style == second_style:
+                        item[1] += 25
+
+                # 위험 색상 제거
+                for d in danger:
+                    if d in target.color:
+                        item[1] = 0
+                        break
+                
+                if where in ["funeral", "marry"]:
+                    if "검정색" not in target_color:
+                        item[1] = 0
+                
+
+            items.sort(key=lambda x: x[1], reverse=True)
+            result = [items[0][0]]
+            
+            target = 1
+            while True:
+                if items[0][1] == items[target][1]:
+                    result.append(items[target][0])
+                    target += 1
+                else:
+                    break
+            random.shuffle(result)
+
+            result = result[0]
+            return result # 1개 리턴
 
 
 
