@@ -7,7 +7,7 @@ app_name = 'wear'
 urlpatterns = [
     # 코디 아이템 등록/삭제
     path('userclothes/', views.UserClothesAPI.as_view()),
-    # path('userclothes/<int:pk>', views.clothesdetail.as_view()),
+    path('userclothes/<int:pk>', views.clothes_detail.as_view()),
     # 내가 등록한 아이템 보기
     path('mylist/', views.mylist),
     # 코디셋 등록하기

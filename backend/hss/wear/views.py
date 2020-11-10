@@ -15,6 +15,25 @@ from PIL import Image
 from wear import preprocess
 import os
 
+color_name = ['흰색', '라이트그레이', '회색', '다크 그레이', '검정색', '딥레드', '빨간색', 
+              '라즈베리', '네온 핑크', '분홍색', '라이트 핑크', '페일 핑크', '피치', '코랄', 
+              '라이트 오렌지', '네온 오렌지', '오렌지 핑크', '주황색', '아이보리', '라이트 옐로우',
+              '노란색', '머스타드', '네온 그린', '라이트 그린', '민트', '녹색', '올리브 그린', '카키',
+              '다크 그린', '스카이 블루', '네온 블루', '파란색', '네이비', '자주', '라벤더', '보라색', 
+              '버건디', '갈색', '로즈골드', '레드 브라운', '카키 베이지', '카멜', '샌드', '베이지색', 
+              '데님', '연청', '중청', '진청', '흑청']
+
+color_chip_rgb = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91], [0, 0, 0], 
+                  [156, 35, 54], [232, 4, 22], [215, 64, 97], [223, 24, 149], [247, 17, 158],
+                  [255, 163, 182], [220, 166, 156], [250, 171, 141], [237, 104, 89], [254, 124, 0],
+                  [253, 92, 1], [228, 74, 86], [247, 68, 27], [254, 255, 239], [249, 225, 125],
+                  [251, 234, 43], [240, 179, 37], [212, 237, 22], [139, 197, 1], [64, 193, 171], 
+                  [42, 172, 20], [122, 134, 60], [91, 90, 58], [29, 66, 33], [91, 193, 231],
+                  [2, 128, 238], [36, 30, 252], [0, 31, 98], [125, 0, 76], [167, 123, 202],
+                  [78, 8, 108], [118, 34, 47], [108, 42, 22], [183, 82, 62], [190, 77, 0], 
+                  [161, 116, 0], [215, 154, 47], [201, 180, 149], [232, 195, 129],
+                  [61, 63, 107], [97, 134, 176], [38, 58, 84], [35, 40, 51], [33, 35, 34]]
+
 # 유저 옷 CRUD 
 class UserClothesAPI(APIView):
     """
@@ -54,15 +73,70 @@ class UserClothesAPI(APIView):
         rgb = [{'R': result[0], 'G': result[1], 'B': result[2]}]
         return JsonResponse({'R': result[0], 'G': result[1], 'B': result[2], 'img': imglink})
 
-# 전처리된 이미지와 이미지에서 추출한 색상값을 반환
-# 현재 코드는 색상값만 반환하고 있음
-# todo: 이미지 반환 코드 추가
+class clothes_detail(APIView):
+    """
+        유저 옷 1개 관리하는 API
+
+        ---
+    """
+    def get(self, request, pk):
+        """
+            유저 옷 1개 정보 요청
+
+            ---
+            # 내용
+                /userclothes/pk get 요청
+        """
+        cloth = get_object_or_404(UserClothes, pk=pk)
+        serializer = UserClothSerializer(cloth)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        """
+            유저 옷 1개 정보 수정 요청
+
+            ---
+            # 내용
+                /userclothes/pk put 요청, JWT 헤더의 유저가 다르면 수정안됨
+                body에 color값 {R:num , G:num, B:num} 주면 됨
+        """
+        User = get_user_model()
+        user = get_object_or_404(User, pk=request.user.pk)
+        cloth = get_object_or_404(UserClothes, pk=pk)
+        if cloth.user == user:
+            rgb = [int(request.data['R']), int(request.data['G']), int(request.data['B'])]
+            ans = 0
+            for i in range(len(color_name)):
+                if rgb == color_chip_rgb[i]:
+                    ans = i
+                    break
+            cloth.color = color_name[ans]
+            cloth.save()
+            print(cloth.color)
+            return HttpResponse('수정 완료')
+        return HttpResponse('다른 유저입니다')
+
+    def delete(self, request, pk, format=None):
+        """
+            유저 옷 1개 삭제 요청
+
+            ---
+            # 내용
+                /userclothes/pk delete 요청, JWT 헤더의 유저가 다르면 삭제안됨
+        """
+        User = get_user_model()
+        user = get_object_or_404(User, pk=request.user.pk)
+        cloth = get_object_or_404(UserClothes, pk=pk)
+        if cloth.user == user:
+            cloth.delete()
+            return HttpResponse('삭제 완료')
+        return HttpResponse('다른 유저입니다')
 
 # 내 옷만 가져오기
 @api_view(['GET'])
 def mylist(request):
     """
-        내가 등록한 옷 가져오는 API
+        내가 등록한 옷 전부 가져오는 API
 
         ---
     """
