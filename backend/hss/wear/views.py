@@ -221,7 +221,13 @@ def recommand(request):
     #     A = Watch.objects.get(pk=value)
 
 
+# 전처리된 이미지와 이미지에서 추출한 색상값을 반환
+# 현재 코드는 색상값만 반환하고 있음
+# todo: 이미지 반환 코드 추가
 def image_preprocess(request):
     from wear import preprocess
+
+    # result 는 색상의 rgb값
     result = preprocess.image_preprocess()
-    print(result)
+    rgb = [{'R': result[0], 'G': result[1], 'B': result[2]}]
+    return JsonResponse(rgb, safe=False)
