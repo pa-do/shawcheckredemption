@@ -71,7 +71,7 @@ class UserClothesAPI(APIView):
         uimg.save()
 
         rgb = [{'R': result[0], 'G': result[1], 'B': result[2]}]
-        return JsonResponse({'R': result[0], 'G': result[1], 'B': result[2], 'img': imglink})
+        return JsonResponse({'pk': uimg.pk,'R': result[0], 'G': result[1], 'B': result[2], 'img': imglink})
 
 class clothes_detail(APIView):
     """
@@ -112,7 +112,7 @@ class clothes_detail(APIView):
                     break
             cloth.color = color_name[ans]
             cloth.save()
-            print(cloth.color)
+            # print(cloth.color)
             return HttpResponse('수정 완료')
         return HttpResponse('다른 유저입니다')
 
