@@ -20,7 +20,5 @@ urlpatterns = [
     path('likelist/', views.like_list),
     # 코디 추천
     path('recommand/', views.recommand),
-    # 이미지 전처리
-    path('image/preprocess/', views.image_preprocess),
     # path('guidetour/<int:tour_pk>', views.guidetour),
 ]
