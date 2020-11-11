@@ -62,15 +62,42 @@ const Seperator = styled.View`
     border-bottom-width: ${StyleSheet.hairlineWidth}px;
 `;
 
-// 1. 코디세트 가져오는 url 아직 없음
-// 2. userItems 제이슨 파일로 넘어오는 것 확인해야함
-// 3. 버튼 디자인이 전부 다를 것 같으니 버튼들을 모두 분리해야함
+const ColorContainer = styled.View`
+    background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+`;
+
+const SelectColorContainer = styled.View`
+    background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    margin: 3px;
+    align-items: center;
+`;
+
+const colorRGB = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91], [0, 0, 0], 
+[156, 35, 54], [232, 4, 22], [215, 64, 97], [223, 24, 149], [247, 17, 158],
+[255, 163, 182], [220, 166, 156], [250, 171, 141], [237, 104, 89], [254, 124, 0],
+[253, 92, 1], [228, 74, 86], [247, 68, 27], [254, 255, 239], [249, 225, 125],
+[251, 234, 43], [240, 179, 37], [212, 237, 22], [139, 197, 1], [64, 193, 171], 
+[42, 172, 20], [122, 134, 60], [91, 90, 58], [29, 66, 33], [91, 193, 231],
+[2, 128, 238], [36, 30, 252], [0, 31, 98], [125, 0, 76], [167, 123, 202],
+[78, 8, 108], [118, 34, 47], [108, 42, 22], [183, 82, 62], [190, 77, 0], 
+[161, 116, 0], [215, 154, 47], [201, 180, 149], [232, 195, 129],
+[61, 63, 107], [97, 134, 176], [38, 58, 84], [35, 40, 51], [33, 35, 34]]
+
 
 function CodiMyListScreen({ navigation, route }) {
     const [UserData, setUserData] = React.useState(null);
     const [modalVisible, setModalVisible] = React.useState(false);
     const [modalImageVisible, setModalImageVisible] = React.useState(false);
+    const [modalColorVisible, setModalColorVisible] = React.useState(false);
     const [myOrLikeVisible, setMyOrLikeVisible] = React.useState(false);
+    const [uploadedColor, setUploadedColor] = React.useState(null);
+    const [uploadedItemPk, setUploadedItemPk] = React.useState(null);
     const [uploadCategory, setUploadCategory] = React.useState();
     const [codis, setCodis] = React.useState([]);
     const [likeCodis, setLikeCodis] = React.useState([]);
@@ -91,13 +118,19 @@ function CodiMyListScreen({ navigation, route }) {
     
     const myCodiText = '하트코디 보기';
     const heartCodiText = '내 코디 보기';
-    const dataUpload = async image => {
+
+    const getUserToken = async () => {
         let userToken;
         try {
             userToken = await AsyncStorage.getItem('userToken');
         } catch (e) {
         // Restoring token failed
         }
+        return userToken;
+    }
+
+    const dataUpload = async image => {
+        let userToken = await getUserToken();
         const imageUri = image.uri
         // imageUri 서버에 업로드 uploadCategory 첨부, 후 모달 재오픈
         const requestHeaders = {
@@ -145,21 +178,40 @@ function CodiMyListScreen({ navigation, route }) {
 
         axios.post(ServerUrl.url +'wear/userclothes/', data, requestHeaders)
         .then(res => {
-            console.log(res.data)
-            openItemModal(true);
+            console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<< return data')
+            // setUploadedColor([res.data.R, res.data.G, res.data.B]);
+            setUploadedColor([255, 255, 255]);
+            setUploadedItemPk(res.data.id);
+            setModalColorVisible(true);
         })
         .catch(err => console.error(err.response))
     }
 
+    const patchItemColor = async () => {
+        let userToken = await getUserToken();
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`,
+            }
+        }
+
+        const data = {
+            R: uploadedColor[0],
+            G: uploadedColor[1],
+            B: uploadedColor[2],
+        }
+        axios.put(ServerUrl.url + `wear/userclothes/${uploadedItemPk}`, data, requestHeaders)
+        .then(res => {
+            console.log(res.data)
+            modalColorVisible(false);
+            modalVisible(true);
+        })
+        .catch(err => console.error(err.response.data))
+    }
+
     React.useEffect(() => {
         const dataAsync = async () => {
-            let userToken;
-      
-            try {
-              userToken = await AsyncStorage.getItem('userToken');
-            } catch (e) {
-              // Restoring token failed
-            }
+            let userToken = await getUserToken();
             console.log('get first user token >>>>>>>>>>>>>>>>>>>>>>', userToken)
             const requestHeaders = {
                 headers: {
@@ -253,12 +305,8 @@ function CodiMyListScreen({ navigation, route }) {
     }
 
     const openItemModal = async () => {
-        let userToken;
-        try {
-            userToken = await AsyncStorage.getItem('userToken');
-        } catch (e) {
-            // Restoring token failed
-        }
+        let userToken = await getUserToken();
+
         const requestHeaders = {
             headers: {
                 Authorization: `JWT ${userToken}`
@@ -321,6 +369,46 @@ function CodiMyListScreen({ navigation, route }) {
 
     return (
         <TopContainer>
+            {/* 색상 컨펌을 위한 모달 */}
+             <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalColorVisible}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text>이 색감이 맞나요?</Text>
+                        {uploadedColor && <ColorContainer R={uploadedColor[0]} G={uploadedColor[1]}  B={uploadedColor[2]} />}
+                        <Text>아니라면 색을 골라주세요</Text>
+                        <Container>
+                            <ScrollView
+                                horizontal={true}
+                            >
+                                {colorRGB.map((item, index) => {
+                                    return (
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                setUploadedColor([item[0], item[1], item[2]]);
+                                            }}
+                                            key={index}
+                                        >
+                                            <SelectColorContainer R={item[0]} G={item[1]} B={item[2]} />
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </ScrollView>
+                        </Container>
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                            onPress={() => {
+                                patchItemColor();
+                            }}
+                        >
+                            <Text style={styles.textStyle}>확정</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </Modal>
             {/* 이미지 업로드를 위한 모달 */}
             <Modal
                 animationType="slide"
@@ -649,9 +737,15 @@ function CodiMyListScreen({ navigation, route }) {
                     <Text>
                         {UserData?.nickname}
                     </Text>
-                    <Text>
-                        {UserData?.color}
-                    </Text>
+                    <TouchableHighlight
+                        onPress={() => {
+                            navigation.navigate('PersonalColor', {color: UserData?.color})
+                        }}
+                    >
+                        <Text>
+                            {UserData?.color}
+                        </Text>
+                    </TouchableHighlight>
                     <NormalButton
                         onPress={() => {
                             signOut();

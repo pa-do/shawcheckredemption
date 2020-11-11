@@ -2,6 +2,7 @@ import React from  'react';
 import { Alert, Text, View, Modal, TouchableHighlight, Image } from 'react-native';
 import Constants from 'expo-constants';
 import styled from 'styled-components/native';
+import { StackActions } from '@react-navigation/native';
 import { TextInput, Button, ActivityIndicator, Colors } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import AuthContext from '../components/AuthContext';
@@ -20,6 +21,11 @@ const ErrorMsg = styled.Text`
     font-size: 12px;
 `;
 
+const PassMsg = styled.Text`
+    color: green;
+    font-size: 12px;
+`;
+
 function SignupScreen({ navigation, route }) {
     const [textAccount, setTextAccount] = React.useState('');
     const [textNickname, setTextNickname] = React.useState(route.params?.nickname);
@@ -31,6 +37,7 @@ function SignupScreen({ navigation, route }) {
     const [userToken, setUserToken] = React.useState(route.params?.userToken);
 
     const [accountError, setAccountError] = React.useState(null);
+    const [accountPass, setAccountPass] = React.useState(null);
     const [nicknameError, setNicknameError] = React.useState(null);
     const [imageError, setimageError] = React.useState(null);
     const [passwordError, setPasswordError] = React.useState(null);
@@ -63,6 +70,9 @@ function SignupScreen({ navigation, route }) {
     }
 
     const getUserPersonalColor = () => {
+        if (userImage === null) {
+            return
+        }
         setIndicatorVisible(true);
         const requestHeaders = {
             headers: {
@@ -86,11 +96,28 @@ function SignupScreen({ navigation, route }) {
             if (res.data === '정면 사진을 올려주세요.') {
                 setimageError('다른 이미지를 올려주세요');
             } else {
-                signUp(userToken);
+                // signUp(userToken);
+                let color;
+                switch (res.data){
+                    case ('봄웜톤(spring)'):
+                        color = 'spring';
+                    case ('여름쿨톤(summer)'):
+                        color = 'summer';
+                    case ('가을웜톤(fall)'):
+                        color = 'fall';
+                    case ('겨울쿨톤(winter)'):
+                        color = 'winter';
+                }
+                navigation.dispatch(
+                    StackActions.replace("PersonalColor", {color: color})
+                );
             }
             setIndicatorVisible(false);
         })
-        .catch(err => console.error(err.response.data))
+        .catch(err => {
+            setIndicatorVisible(false);
+            console.error(err.response)
+        })
     }
 
     const pickImage = async () => {
@@ -110,9 +137,38 @@ function SignupScreen({ navigation, route }) {
                     <TextInput
                         label="Account"
                         value={textAccount}
-                        onChangeText={text => setTextAccount(text)}
+                        onChangeText={text => {
+                            setTextAccount(text);
+                            setAccountError(null);
+                            setAccountPass(null);
+                        }
+                    }
                     />
+                    {!accountPass &&
+                        <Button
+                            mode="text"
+                            onPress={() => {
+                                setAccountError(null);
+                                setAccountPass(null);
+                                if (textAccount !== ''){
+                                    axios.get(ServerUrl.url + `accounts/chk/${textAccount}`)
+                                    .then(res => {
+                                        console.log(res.data)
+                                        if (res.data === '사용 할 수 있는 아이디입니다.') {
+                                            setAccountPass(res.data);
+                                        } else {
+                                            setAccountError(res.data);
+                                        }
+                                    })
+                                    .catch(err => console.error(err))
+                                } 
+                            }}
+                        >
+                            중복확인
+                        </Button>
+                    }
                     {accountError && <ErrorMsg>{ accountError }</ErrorMsg>}
+                    {accountPass && <PassMsg>{ accountPass }</PassMsg>}
                     <TextInput
                         label="Password"
                         type="password"
@@ -139,6 +195,8 @@ function SignupScreen({ navigation, route }) {
                                 return setPasswordError('비밀번호는 8자리 이상 이어야 합니다.');
                             } else if (textAccount.length < 6) {
                                 return setAccountError('아이디는 6글자 이상 이어야 합니다.');
+                            } else if (accountPass === null) {
+                                return setAccountError('중복 확인을 해주세요.')
                             } else {
                                 setPasswordError(null)
                                 setAccountError(null)

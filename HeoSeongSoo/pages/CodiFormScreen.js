@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Modal, Text, TouchableHighlight, View, Image, ScrollView, Dimensions, ImageBackground } from 'react-native';
+import { StyleSheet, Modal, Text, TouchableHighlight, TouchableOpacity, View, Image, ScrollView, Dimensions, ImageBackground } from 'react-native';
 import axios from 'axios'
 import styled from 'styled-components/native';
 import Constants from 'expo-constants'
@@ -33,9 +33,38 @@ const TopContainer = styled.SafeAreaView`
     padding-top: ${Constants.statusBarHeight}px;
 `;
 
+const SelectColorContainer = styled.View`
+    background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
+    width: 50px;
+    height: 50px;
+    border: ${props => props.borderSize}px solid black;
+    margin: 3px;
+    align-items: center;
+`;
+
+const SlectStyleText = styled.Text`
+    font-size: 25px;
+`;
+
+const colorRGB = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91], [0, 0, 0], 
+[156, 35, 54], [232, 4, 22], [215, 64, 97], [223, 24, 149], [247, 17, 158],
+[255, 163, 182], [220, 166, 156], [250, 171, 141], [237, 104, 89], [254, 124, 0],
+[253, 92, 1], [228, 74, 86], [247, 68, 27], [254, 255, 239], [249, 225, 125],
+[251, 234, 43], [240, 179, 37], [212, 237, 22], [139, 197, 1], [64, 193, 171], 
+[42, 172, 20], [122, 134, 60], [91, 90, 58], [29, 66, 33], [91, 193, 231],
+[2, 128, 238], [36, 30, 252], [0, 31, 98], [125, 0, 76], [167, 123, 202],
+[78, 8, 108], [118, 34, 47], [108, 42, 22], [183, 82, 62], [190, 77, 0], 
+[161, 116, 0], [215, 154, 47], [201, 180, 149], [232, 195, 129],
+[61, 63, 107], [97, 134, 176], [38, 58, 84], [35, 40, 51], [33, 35, 34]]
+
+const styleKor = ['포멀', '캐쥬얼', '스트릿', '스포티', '댄디']
+const styleList = ['formal', 'casual', 'street', 'sporty', 'dandy']
+
 function CodiFormScreen({ navigation }) {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [content, setContent] = React.useState('');
+    const [selectedStyle, setSelectedStyle] = React.useState('');
+    const [selectedColor, setSelectedColor] = React.useState('');
     const [userItems, setUserItems] = React.useState({});
     const [hatImage, setHatImage] = React.useState(null);
     const [topImage, setTopImage] = React.useState(null);
@@ -134,6 +163,11 @@ function CodiFormScreen({ navigation }) {
                 break;
         }
     }
+    React.useEffect(() => {
+        navigation.dangerouslyGetParent().setOptions({
+            tabBarVisible: false
+          });
+        })
 
 
     const createSet = async () => {
@@ -149,25 +183,61 @@ function CodiFormScreen({ navigation }) {
                 Authorization: `JWT ${userToken}`
             }
         }
-        const uploadData = []
-        uploadData.push({1: hatImage ? hatImage.id : -1})
-        uploadData.push({2: topImage ? topImage.id : -1})
-        uploadData.push({3: outerImage ? outerImage.id : -1})
-        uploadData.push({4: AccImage ? AccImage.id : -1})
-        uploadData.push({5: pantsImage ? pantsImage.id : -1})
-        uploadData.push({6: bagImage ? bagImage.id : -1})
-        uploadData.push({7: watchImage ? watchImage.id : -1})
-        uploadData.push({8: shoesImage ? shoesImage.id : -1})
+        const uploadData = {
+            headwear: hatImage ? hatImage.id : -1,
+            top: topImage ? topImage.id : -1,
+            outer: outerImage ? outerImage.id : -1,
+            acc: AccImage ? AccImage.id : -1,
+            pants: pantsImage ? pantsImage.id : -1,
+            bag: bagImage ? bagImage.id : -1,
+            watch: watchImage ? watchImage.id : -1,
+            shoes: shoesImage ? shoesImage.id : -1,
+            content: content,
+            style: selectedStyle,
+            color: selectedColor,
+        }
+        // uploadData.push({headwear: hatImage ? hatImage.id : -1})
+        // uploadData.push({top: topImage ? topImage.id : -1})
+        // uploadData.push({outer: outerImage ? outerImage.id : -1})
+        // uploadData.push({acc: AccImage ? AccImage.id : -1})
+        // uploadData.push({pants: pantsImage ? pantsImage.id : -1})
+        // uploadData.push({bag: bagImage ? bagImage.id : -1})
+        // uploadData.push({watch: watchImage ? watchImage.id : -1})
+        // uploadData.push({shoes: shoesImage ? shoesImage.id : -1})
 
         console.log(uploadData, ServerUrl.url + 'wear/createcoordi/')
         axios.post(ServerUrl.url + 'wear/createcoordi/', uploadData, requestHeaders)
         .then(res => {
             console.log(res)
-            navigation.navigate('All')
+            // navigation.navigate('All')
         })
         .catch(err => console.error(err.response))
     }
     
+    const OneOfItems = ({item, image}) => {
+        return(
+            <>
+                {item.id === image?.id ?
+                    <ItemBox>
+                        <ImageBackground 
+                            style={{ width: "100%", height: "100%", borderWidth: 5, borderColor: "rgb(234, 152, 90)" }}
+                            source={{uri : ServerUrl.mediaUrl + item.img}}
+                            resizeMode="cover"
+                        />
+                    </ItemBox>
+                    :
+                    <ItemBox>
+                        <ImageBackground 
+                            style={{ width: "100%", height: "100%" }}
+                            imageStyle={{ borderRadius: 5}}
+                            source={{uri : ServerUrl.mediaUrl + item.img}}
+                            resizeMode="cover"
+                        />
+                    </ItemBox>
+                }
+            </>
+        );
+    }
     return (
         <>
         <TopContainer>
@@ -188,28 +258,12 @@ function CodiFormScreen({ navigation }) {
                                 {userItems.tops?.map(item => {
                                     return (
                                         <TouchableHighlight
+                                            key={item.id}
                                             onPress={() => {
                                                 setImageUri(CategoryEngText.top, item);
                                             }}
                                         >
-                                            <ItemBox key={item.id}>
-                                                {item.id === topImage?.id ? 
-                                                    <ImageBackground 
-                                                        style={{ width: "100%", height: "100%" }}
-                                                        source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                        resizeMode="cover"
-                                                    />
-                                                    :
-                                                    <ImageBackground 
-                                                        style={{ width: "100%", height: "100%" }}
-                                                        imageStyle={{ borderRadius: 6}}
-                                                        source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                        resizeMode="cover"
-                                                    />
-                                            
-                                                }
-
-                                            </ItemBox>
+                                            <OneOfItems item={item} image={topImage}/>
                                         </TouchableHighlight>
                                     );
                                 })}
@@ -225,17 +279,12 @@ function CodiFormScreen({ navigation }) {
                                 {userItems.pants?.map(item => {
                                     return (
                                         <TouchableHighlight
+                                            key={item.id}
                                             onPress={() => {
                                                 setImageUri(CategoryEngText.pants, item);
                                             }}
                                         >
-                                            <ItemBox key={item.id}>
-                                                <ImageBackground 
-                                                    style={{ width: "100%", height: "100%" }}
-                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                    resizeMode="cover"
-                                                />
-                                            </ItemBox>
+                                            <OneOfItems item={item} image={pantsImage}/>
                                         </TouchableHighlight>
                                     );
                                 })}
@@ -252,17 +301,12 @@ function CodiFormScreen({ navigation }) {
                                 {userItems.outers?.map(item => {
                                     return (
                                         <TouchableHighlight
+                                            key={item.id}
                                             onPress={() => {
                                                 setImageUri(CategoryEngText.outer, item);
                                             }}
                                         >
-                                            <ItemBox key={item.id}>
-                                                <ImageBackground 
-                                                    style={{ width: "100%", height: "100%" }}
-                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                    resizeMode="cover"
-                                                />
-                                            </ItemBox>
+                                            <OneOfItems item={item} image={outerImage}/>
                                         </TouchableHighlight>
                                     );
                                 })}
@@ -279,17 +323,12 @@ function CodiFormScreen({ navigation }) {
                                 {userItems.shoes?.map(item => {
                                     return (
                                         <TouchableHighlight
+                                            key={item.id}
                                             onPress={() => {
                                                 setImageUri(CategoryEngText.shoes, item);
                                             }}
                                         >
-                                            <ItemBox key={item.id}>
-                                                <ImageBackground 
-                                                    style={{ width: "100%", height: "100%" }}
-                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                    resizeMode="cover"
-                                                />
-                                            </ItemBox>
+                                            <OneOfItems item={item} image={shoesImage}/>
                                         </TouchableHighlight>
                                     );
                                 })}
@@ -306,17 +345,12 @@ function CodiFormScreen({ navigation }) {
                                 {userItems.hats?.map(item => {
                                     return (
                                         <TouchableHighlight
+                                            key={item.id}
                                             onPress={() => {
                                                 setImageUri(CategoryEngText.hat, item);
                                             }}
                                         >
-                                            <ItemBox key={item.id}>
-                                                <ImageBackground 
-                                                    style={{ width: "100%", height: "100%" }}
-                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                    resizeMode="cover"
-                                                />
-                                            </ItemBox>
+                                            <OneOfItems item={item} image={hatImage}/>
                                         </TouchableHighlight>
                                     );
                                 })}
@@ -333,17 +367,12 @@ function CodiFormScreen({ navigation }) {
                                 {userItems.bags?.map(item => {
                                     return (
                                         <TouchableHighlight
+                                            key={item.id}
                                             onPress={() => {
                                                 setImageUri(CategoryEngText.bag, item);
                                             }}
                                         >
-                                            <ItemBox key={item.id}>
-                                                <ImageBackground 
-                                                    style={{ width: "100%", height: "100%" }}
-                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                    resizeMode="cover"
-                                                />
-                                            </ItemBox>
+                                            <OneOfItems item={item} image={bagImage}/>
                                         </TouchableHighlight>
                                     );
                                 })}
@@ -354,22 +383,17 @@ function CodiFormScreen({ navigation }) {
                         <Text style={styles.modalText}>{CategoryText.watch}</Text>
                         <Container>
                             <ScrollView
-                                    horizontal={true}
-                                >
+                                horizontal={true}
+                            >
                                 {userItems.watches?.map(item => {
                                     return (
                                         <TouchableHighlight
+                                            key={item.id}
                                             onPress={() => {
                                                 setImageUri(CategoryEngText.watch, item);
                                             }}
                                         >
-                                            <ItemBox key={item.id}>
-                                                <ImageBackground 
-                                                    style={{ width: "100%", height: "100%" }}
-                                                    source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                    resizeMode="cover"
-                                                />
-                                            </ItemBox>
+                                            <OneOfItems item={item} image={watchImage}/>
                                         </TouchableHighlight>
                                     );
                                 })}
@@ -382,23 +406,18 @@ function CodiFormScreen({ navigation }) {
                             <ScrollView
                                 horizontal={true}
                             >
-                            {userItems.accs?.map(item => {
-                                return (
-                                    <TouchableHighlight
-                                        onPress={() => {
-                                            setImageUri(CategoryEngText.accessory, item);
-                                        }}
-                                    >
-                                        <ItemBox key={item.id}>
-                                            <ImageBackground 
-                                                style={{ width: "100%", height: "100%" }}
-                                                source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                resizeMode="cover"
-                                            />
-                                        </ItemBox>
-                                    </TouchableHighlight>
-                                );
-                            })}
+                                {userItems.accs?.map(item => {
+                                    return (
+                                        <TouchableHighlight
+                                            key={item.id}
+                                            onPress={() => {
+                                                setImageUri(CategoryEngText.accessory, item);
+                                            }}
+                                        >
+                                            <OneOfItems item={item} image={AccImage}/>
+                                        </TouchableHighlight>
+                                    );
+                                })}
                             </ScrollView>
                         </Container>
                         <Seperator/>
@@ -417,7 +436,7 @@ function CodiFormScreen({ navigation }) {
             </Modal>
             </TopContainer>
             <ScrollView>
-            <View style={{height: Dimensions.get('window').height}}>
+            <View style={{height: Dimensions.get('window').height + 150}}>
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
@@ -522,7 +541,6 @@ function CodiFormScreen({ navigation }) {
             
                 <View style={formStyles.uploadBox}/>
             </RowContainer>
-
             <TextInput
                 multiline
                 numberOfLines={4}
@@ -530,7 +548,57 @@ function CodiFormScreen({ navigation }) {
                 value={content}
                 onChangeText={text => setContent(text)}
             />
+            <Text>코디의 색감을 선택해주세요</Text>
+            <Container>
+                <ScrollView
+                    horizontal={true}
+                >
+                {colorRGB.map((item, index) => {
+                    return (
+                        <TouchableHighlight
+                            key={index}
+                            onPress={() => {
+                                setSelectedColor([item[0], item[1], item[2]]);
+                            }}
+                        >
+                        {selectedColor[0] === item[0] && selectedColor[1] === item[1] && selectedColor[2] === item[2] ? 
+                            <SelectColorContainer borderSize={3} R={item[0]} G={item[1]} B={item[2]} />
+                            :
+                            <SelectColorContainer borderSize={1} R={item[0]} G={item[1]} B={item[2]} />
+                        }
 
+                        </TouchableHighlight>
+                    );
+                })}
+                </ScrollView>
+            </Container>
+            <Text>코디의 스타일을 선택해주세요</Text>
+            <Container>
+                <ScrollView
+                    horizontal={true}
+                >
+                    {styleList.map((item, index) => {
+                        return(
+                            <TouchableOpacity
+                                key={index}
+                                onPress={() => {
+                                    setSelectedStyle(item);
+                                }}
+                            >
+                                {selectedStyle === item ?
+                                    <View style={{margin: 7, backgroundColor: 'rgb(234, 152, 90)'}}>
+                                        <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
+                                    </View>
+                                :
+                                    <View style={{margin: 7}}>
+                                        <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
+                                    </View>                     
+                                }
+                            </TouchableOpacity>
+                        );
+                    })}
+                </ScrollView>
+            </Container>
             <TouchableHighlight
                 style={styles.recButton}
                 onPress={createSet}

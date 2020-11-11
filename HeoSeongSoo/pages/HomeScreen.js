@@ -14,7 +14,7 @@ function HomeScreen({ navigation }) {
     const [value, setValue] = React.useState('school');
     const [secondValue, setSecondValue] = React.useState('friend');
 
-    const { signUp } = React.useContext(AuthContext);
+    const { signUp, signOut } = React.useContext(AuthContext);
 
     React.useEffect(() => {
         getUserInfo();
@@ -44,7 +44,11 @@ function HomeScreen({ navigation }) {
                 );
           }
         })
-        .catch(err => console.error(err.response.data))
+        .catch(err => {
+            console.error(err.response.data)
+            signOut();
+        })
+
         const token = {
             token: userToken
         }
@@ -53,7 +57,10 @@ function HomeScreen({ navigation }) {
             console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<< refresh token')
             signUp(res.data.token);
         })
-        .catch(err => console.error(err))
+        .catch(err => {
+            console.error(err)
+            signOut();
+        })
     }
 
     return (

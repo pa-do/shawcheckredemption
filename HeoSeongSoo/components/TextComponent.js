@@ -31,14 +31,14 @@ const CategoryText = {
 }
 
 const CategoryEngText = {
-    top: 'tops',
+    top: 'top',
     pants: 'pants',
     shoes: 'shoes',
-    outer: 'outers',
-    hat: 'hats',
-    bag: 'bags',
-    watch: 'watches',
-    accessory: 'accs',
+    outer: 'outer',
+    hat: 'headwear',
+    bag: 'bag',
+    watch: 'watch',
+    accessory: 'acc',
 }
 
 export { ServerUrl, RadioButtonText, CategoryText, CategoryEngText }

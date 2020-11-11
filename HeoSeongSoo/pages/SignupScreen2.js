@@ -79,15 +79,26 @@ function SignupScreen({ navigation, route }) {
             if (res.data === '정면 사진을 올려주세요.') {
                 setimageError('다른 이미지를 올려주세요');
             } else {
+                let color;
+                switch (res.data){
+                    case ('봄웜톤(spring)'):
+                        color = 'spring';
+                    case ('여름쿨톤(summer)'):
+                        color = 'summer';
+                    case ('가을웜톤(fall)'):
+                        color = 'fall';
+                    case ('겨울쿨톤(winter)'):
+                        color = 'winter';
+                }
                 navigation.dispatch(
-                    StackActions.replace("TapScreen")
+                    StackActions.replace("PersonalColor", {color: color})
                 );
             }
             setIndicatorVisible(false);
         })
         .catch(err => {
-            console.error(err.response.data)
             setIndicatorVisible(false);
+            console.error(err.response.data)
         })
     }
 

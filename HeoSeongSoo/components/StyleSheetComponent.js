@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
-
+import Constants from 'expo-constants'
+import { Dimensions } from 'react-native';
 
 // 모든 스타일을 관리하는 컴포넌트
 
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
 
 const formStyles = StyleSheet.create({
 	RowContainerHeight: {
-		height: '25%',
+		height: '20%',
 	},
 	uploadBox: {
 		width: '30%',
@@ -72,4 +73,15 @@ const formStyles = StyleSheet.create({
 	}
 })
 
-export { styles, formStyles };
+const personalStyles = StyleSheet.create({
+  imageContainer: {
+    width: '90%', 
+    backgroundColor: '#000000', 
+    marginTop: Constants.statusBarHeight,
+  },
+  imageStyles: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height + 300
+  }
+})
+export { styles, formStyles, personalStyles };

@@ -16,6 +16,7 @@ import CameraScreen from './pages/CameraScreen';
 import LoginScreen from './pages/LoginScreen';
 import SignupScreen from './pages/SignupScreen';
 import SignupScreen2 from './pages/SignupScreen2';
+import PersonalColorScreen from './pages/PersonalColorScreen';
 import AuthContext from './components/AuthContext';
 import { navigationRef } from './components/RootNavigation';
 
@@ -59,6 +60,7 @@ function StackScreen3() {
     <Stack.Navigator>
       <Stack.Screen options={{headerShown: false}} name="My Page" component={CodiMyListScreen} />
       <Stack.Screen options={{headerShown: false}} name="Camera" component={CameraScreen} />
+      <Stack.Screen options={{headerShown: false}} name="PersonalColor" component={PersonalColorScreen} />
       <Stack.Screen name="Form" component={CodiFormScreen} />
     </Stack.Navigator>
   );
@@ -194,6 +196,7 @@ function App() {
               <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
               <Stack.Screen options={{headerShown: false}} name="Sign up" component={SignupScreen} />
               <Stack.Screen options={{headerShown: false}} name="Camera" component={CameraScreen} />
+              <Stack.Screen options={{headerShown: false}} name="PersonalColor" component={PersonalColorScreen} />
             </>
           ) : 
           (
