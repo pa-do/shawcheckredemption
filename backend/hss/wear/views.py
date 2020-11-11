@@ -200,17 +200,26 @@ def create_coordi(request):
     user = get_object_or_404(User, pk=request.user.pk)
     serializer = CoordiSerializer(data=request.data)
     merged = Image.new('RGBA', (300 * 3, 300 * 3), (250,250,250,0))
-    cnt = 0
-    i, j = 0, -1
+    i, j = 0, 0
     for idx, value in request.data.items():
         if idx == 'color' or idx == 'style' or idx == 'content':
             continue
-        cnt += 1
-        j += 1
-        if cnt == 4:
+        if idx == 'headwear':
+            i, j = 0, 0
+        elif idx == 'top':
+            i, j = 0, 1
+        elif idx == 'outer':
+            i, j = 0, 2
+        elif idx == 'acc':
             i, j = 1, 0
-        elif cnt == 7:
+        elif idx == 'pants':
+            i, j = 1, 1
+        elif idx == 'bag':
+            i, j = 1, 2
+        elif idx == 'watch':
             i, j = 2, 0
+        elif idx == 'shoes':
+            i, j = 2, 1
         if value == '-1':
             continue
 
