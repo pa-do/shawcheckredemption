@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import Constants from 'expo-constants'
 import { Dimensions } from 'react-native';
+import AuthContext from './AuthContext';
 
 // 모든 스타일을 관리하는 컴포넌트
 
@@ -36,12 +37,14 @@ const styles = StyleSheet.create({
         marginBottom: 10,
       },
       recButton: {
-          height: 40,
-          backgroundColor: '#CD5C5C',
-          borderRadius: 20,
-          padding: 10,
+          alignSelf: 'center',
+          backgroundColor: '#0d3754',
+          borderRadius: 5,
+          paddingVertical: 15,
+          paddingHorizontal: 40,
           elevation: 2,
-          marginBottom: 10,
+          marginTop: 22,
+          marginBottom: 22,
         },
       textStyle: {
         color: 'white',
@@ -56,11 +59,14 @@ const styles = StyleSheet.create({
 
 const formStyles = StyleSheet.create({
 	RowContainerHeight: {
-		height: '20%',
+    width: '100%',
+    height: undefined,
+    aspectRatio: 1/0.3,
 	},
 	uploadBox: {
 		width: '30%',
-		height: '100%',
+    height: undefined,
+    aspectRatio: 1 / 1,
 		backgroundColor: 'black',
 		borderColor: 'white',
 		borderWidth: 0.5,

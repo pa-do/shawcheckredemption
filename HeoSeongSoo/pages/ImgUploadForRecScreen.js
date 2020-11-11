@@ -224,8 +224,8 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 </View>
             </Modal>
             </View>
-            <Text>
-                코디를 생성하는 폼 화면
+            <Text style={{color: 'black', textAlign: 'center', paddingVertical: 15, marginBottom: 22}}>
+                착용할 아이템을 옷장에서 가져오세요!
             </Text>
             <View style={{height: Dimensions.get('window').height}}>
             <RowContainer style={formStyles.RowContainerHeight}>
