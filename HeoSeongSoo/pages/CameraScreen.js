@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { StackActions } from '@react-navigation/native';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+
+// 카메라 화면입니다. 비율을 맞추는 것을 제외하고는 추가적 디자인 작업 필요없습니다.
 
 function CameraScreen({ navigation, route }) {
     const [hasPermission, setHasPermission] = useState(null);
@@ -17,7 +20,8 @@ function CameraScreen({ navigation, route }) {
         return <View />;
     }
     if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
+        alert('죄송합니다. 카메라 권한 허가가 필요합니다.');
+        return navigation.goBack();
     }
     return (
         <View style={{ flex: 1 }}>
@@ -47,8 +51,12 @@ function CameraScreen({ navigation, route }) {
                 <TouchableOpacity style={{alignSelf: 'center'}} onPress={async() => {
                 if(cameraRef){
                     let photo = await cameraRef.takePictureAsync({ quality: 0.5 });
-                    // console.log('photo', photo);
-                    navigation.navigate(route.params.backScreen, { image: photo});
+                    navigation.navigate(route.params.backScreen, {image: photo})
+                    // navigation.dispatch(
+                    //     StackActions.replace(route.params.backScreen, {
+                    //         image: photo
+                    //     })
+                    // );
                 }
                 }}>
                 <View style={{ 
