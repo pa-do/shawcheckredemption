@@ -63,15 +63,16 @@ class UserClothesAPI(APIView):
         serializer = UserClothesSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=user)
-        uimg = UserClothes.objects.last()
-        imgpath = "./media/" + str(uimg.img)
-        result, imglink = preprocess.image_preprocess(imgpath)
-        os.remove(imgpath)
-        uimg.img = imglink
-        uimg.save()
+            uimg = UserClothes.objects.last()
+            imgpath = "./media/" + str(uimg.img)
+            result, imglink = preprocess.image_preprocess(imgpath)
+            os.remove(imgpath)
+            uimg.img = imglink
+            uimg.save()
 
-        rgb = [{'R': result[0], 'G': result[1], 'B': result[2]}]
-        return JsonResponse({'pk': uimg.pk,'R': result[0], 'G': result[1], 'B': result[2], 'img': imglink})
+            rgb = [{'R': result[0], 'G': result[1], 'B': result[2]}]
+            return JsonResponse({'pk': uimg.pk,'R': result[0], 'G': result[1], 'B': result[2], 'img': imglink})
+        return HttpResponse("저장 안됨 ㅅㄱ")
 
 class clothes_detail(APIView):
     """
@@ -198,7 +199,7 @@ def create_coordi(request):
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
     serializer = CoordiSerializer(data=request.data)
-    merged = Image.new('RGB', (300 * 3, 300 * 3), (250,250,250))
+    merged = Image.new('RGBA', (300 * 3, 300 * 3), (250,250,250,0))
     cnt = 0
     i, j = 0, -1
     for idx, value in request.data.items():
