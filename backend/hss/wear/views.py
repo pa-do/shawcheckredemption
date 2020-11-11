@@ -173,70 +173,105 @@ def mylist(request):
         8 : shoes,
     })
 
-# 유저 코디 등록하기
-@api_view(['POST'])
-def create_coordi(request):
+
+# 유저 코디 CRUD 
+class Coordi(APIView):
     """
-        유저 코디 등록하는 API
+        유저 코디 관리하는 API
 
         ---
-        # 내용
-            반드시 순서에 맞춰서 보내주세요
-            { headwear : pk,
-              top : pk,
-              outer : pk,
-              acc : pk,
-              pants : pk,
-              bag : pk,
-              watch : pk,
-              shoes : pk,
-              color : string , style : string, content : string ...
-            }
-            123
-            456
-            789 형태로 사진이 합성되며 pk 값 없으면 -1
     """
-    User = get_user_model()
-    user = get_object_or_404(User, pk=request.user.pk)
-    serializer = CoordiSerializer(data=request.data)
-    merged = Image.new('RGBA', (300 * 3, 300 * 3), (250,250,250,0))
-    i, j = 0, 0
-    for idx, value in request.data.items():
-        if idx == 'color' or idx == 'style' or idx == 'content':
-            continue
-        if idx == 'headwear':
-            i, j = 0, 0
-        elif idx == 'top':
-            i, j = 0, 1
-        elif idx == 'outer':
-            i, j = 0, 2
-        elif idx == 'acc':
-            i, j = 1, 0
-        elif idx == 'pants':
-            i, j = 1, 1
-        elif idx == 'bag':
-            i, j = 1, 2
-        elif idx == 'watch':
-            i, j = 2, 0
-        elif idx == 'shoes':
-            i, j = 2, 1
-        if value == '-1':
-            continue
+    def get(self, request):
+        User = get_user_model()
+        cuser = get_object_or_404(User, pk=request.user.pk)
+        serializer = UserMergeSerializer(UserCoordi.objects.all(), many=True, context={'request': request})
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
 
-        A = UserClothes.objects.get(pk=value)
-        im = Image.open(A.img)
-        im = im.resize((300, 300))
-        merged.paste(im, (300 * j, 300 * i))
+    def post(self, request, format=None):
+        """
+            유저 코디 등록하는 API
 
-    now = datetime.datetime.now()
-    nowDate = now.strftime('%M%H%S')
-    targeturl = "/media/usercoordi/" + user.username + '_' + nowDate + '.png'
-    merged.save('.' + targeturl)
-    if serializer.is_valid():
-        serializer.save(user=user, img=targeturl)
-        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        return Response(data=serializer.errors)
+            ---
+            # 내용
+                반드시 순서에 맞춰서 보내주세요
+                { headwear : pk,
+                top : pk,
+                outer : pk,
+                acc : pk,
+                pants : pk,
+                bag : pk,
+                watch : pk,
+                shoes : pk,
+                color : string , style : string, content : string ...
+                }
+                123
+                456
+                789 형태로 사진이 합성되며 pk 값 없으면 -1
+        """
+        User = get_user_model()
+        user = get_object_or_404(User, pk=request.user.pk)
+        serializer = CoordiSerializer(data=request.data)
+        merged = Image.new('RGBA', (300 * 3, 300 * 3), (250,250,250,0))
+        i, j = 0, 0
+        for idx, value in request.data.items():
+            if idx == 'color' or idx == 'style' or idx == 'content':
+                continue
+            if idx == 'headwear':
+                i, j = 0, 0
+            elif idx == 'top':
+                i, j = 0, 1
+            elif idx == 'outer':
+                i, j = 0, 2
+            elif idx == 'acc':
+                i, j = 1, 0
+            elif idx == 'pants':
+                i, j = 1, 1
+            elif idx == 'bag':
+                i, j = 1, 2
+            elif idx == 'watch':
+                i, j = 2, 0
+            elif idx == 'shoes':
+                i, j = 2, 1
+            if value == '-1':
+                continue
+
+            A = UserClothes.objects.get(pk=value)
+            im = Image.open(A.img)
+            im = im.resize((300, 300))
+            merged.paste(im, (300 * j, 300 * i))
+
+        now = datetime.datetime.now()
+        nowDate = now.strftime('%M%H%S')
+        targeturl = "usercoordi/" + user.username + '_' + nowDate + '.png'
+        merged.save('./media/' + targeturl)
+        if serializer.is_valid():
+            serializer.save(user=user, img=targeturl)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(data=serializer.errors)
+
+# 유저 코디 CRUD 
+class Coordi_detail(APIView):
+    """
+        유저 코디 관리하는 API
+
+        ---
+    """
+    def delete(self, request, pk, format=None):
+        """
+            유저 옷 1개 삭제 요청
+
+            ---
+            # 내용
+                /coordi/pk delete 요청, JWT 헤더의 유저가 다르면 삭제안됨
+        """
+        User = get_user_model()
+        user = get_object_or_404(User, pk=request.user.pk)
+        coordi = get_object_or_404(UserCoordi, pk=pk)
+        if coordi.user == user:
+            coordi.delete()
+            return HttpResponse('삭제 완료')
+        return HttpResponse('다른 유저입니다')
 
 # 내가 등록한 코디 보기
 @api_view(['GET'])
@@ -265,7 +300,7 @@ def like_coordi(request, coordi_pk):
     """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    Lcoordi, flag = LikeCoordi.objects.get_or_create(oordi_num=coordi_pk, user=user)
+    Lcoordi, flag = LikeCoordi.objects.get_or_create(coordi_num=coordi_pk, user=user)
     if flag:
         return HttpResponse('좋아요 등록.')
     else:
@@ -296,14 +331,28 @@ def like_list(request):
 @api_view(['POST'])
 def recommand(request):
     from wear import coordiset
+    User = get_user_model()
+    user = get_object_or_404(User, pk=request.user.pk)
+    who = request.data['value']
+    where = request.data['secondValue']
+    now = datetime.datetime.now()
+    nowDate = int(now.strftime('%m'))
+    weather = 'winter'
+    if 3 <= nowDate < 6:
+        weather = 'spring'
+    elif 6 <= nowDate < 9:
+        weather = 'summer'
+    elif 9 <= nowDate < 12:
+        weather = 'fall'
 
+    user_pick_item = object
     ######################### 유저에게 받는 데이터 #############################
     user_info = {
-        "who": "professor",
-        "where": "restaurant",
-        "weather": "summer",
-        "user_pick_item": {"watch": [0, "검정색", "이미지주소"]},
-        "user_personal_color": "spring"
+        "who": who,
+        "where": where,
+        "weather": weather,
+        "user_pick_item": user_pick_item,
+        "user_personal_color": user.color
     }
     
     ###########################################################################
@@ -311,23 +360,3 @@ def recommand(request):
     result = coordiset.run_self(user_info)
     print('result : ',result)
     return result
-
-# 쓸것 들
-# for idx, value in request.data.items():
-    # print(idx, value)
-    # if idx == 'acc':
-    #     A = Accessory.objects.get(pk=value)
-    # elif idx == 'bag':
-    #     A = Bag.objects.get(pk=value)
-    # elif idx == 'headwear':
-    #     A = Headwear.objects.get(pk=value)
-    # elif idx == 'outer':
-    #     A = Outer.objects.get(pk=value)
-    # elif idx == 'pants':
-    #     A = Pants.objects.get(pk=value)
-    # elif idx == 'shoes':
-    #     A = Shoes.objects.get(pk=value)
-    # elif idx == 'top':
-    #     A = Top.objects.get(pk=value)
-    # elif idx == 'watch':
-    #     A = Watch.objects.get(pk=value)
