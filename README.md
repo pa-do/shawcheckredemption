@@ -1,6 +1,27 @@
-# 프로젝트 허성수
+# 쇼체크 탈출
 
-> AI 기반의 코디 추천 서비스 
+- 목적: 패션에 큰 관심이 없는 20대 남성을 위한 AI 기반의 코디 추천 서비스
+- 개발 기간: 20.10.12. ~ 20.11.16.
+- 배포 링크
+
+
+
+## 목차
+
+1. 프로젝트 계획 및 계획서
+2. 팀 구성원 및 업무 분장
+3. 와이어프레임
+4. DB 모델링
+5. 핵심 기능
+6. 개발 스택 및 프레임 워크
+7. 개발 규칙
+8. 느낀점
+
+
+
+## 프로젝트 계획 및 계획서
+
+- [계획서.pdf](doc/계획서.pdf) 
 
 1. 주요 고객층 선정 
    - 패션에 큰 관심이 없는 20대 남성
@@ -12,31 +33,10 @@
      - 만나는 사람: 혼자 / 친구 / 여사친 / 교수님 등
      - 상황: 학교 / 아르바이트 / PC방 / 발표 및 프레젠테이션 /  결혼식 / 장례식 등
 4. 유저의 코디 중 좋아요를 50개 이상 받은 코디는 추천 set에 추가
-5. 1차 배포 일정(일정 수립): 30일(AI 제외하고라도).
 
 
 
-# 계획서
-
--  [계획서.pdf](README_asset/계획서.pdf) 
-
-
-
-# 와이어프레임
-
-- ![wireframe_flow](README_asset/wireframe_flow.png)
-- [와이어프레임.pdf](README_asset/와이어프레임.pdf) 
-- [화면설계.pdf](README_asset/화면설계.pdf) 
-
-
-
-# DB 모델링
-
-![HSS_ERD](README_asset/HSS_ERD.png)
-
-
-
-# R&R
+## 팀 구성원 및 업무 분장
 
 | Back-End    | Front-End       | A.I.               |
 | ----------- | --------------- | ------------------ |
@@ -45,7 +45,29 @@
 
 
 
-# 개발 규칙
+## 와이어프레임
+
+- ![wireframe_flow](doc/wireframe_flow.png)
+- [와이어프레임.pdf](doc/와이어프레임.pdf) 
+- [화면설계.pdf](doc/화면설계.pdf) 
+
+
+
+## DB 모델링
+
+![HSS_ERD](doc/HSS_ERD.png)
+
+
+
+## 핵심 기능
+
+
+
+## 개발 스택 및 프레임 워크
+
+
+
+## 개발 규칙
 
 - Git: git flow branch 전략
 
@@ -64,13 +86,11 @@
 
   ## 공통
 
-  
-
   #### indent (들여쓰기)
 
   - html, css, js - space 2
-  - python - space 4
-
+- python - space 4
+  
   
 
   #### 연산자
@@ -78,20 +98,20 @@
   - 앞뒤로 공백 필요
 
   - ``` javascript
-    // 나쁜 예
+  // 나쁜 예
     for(i=0, i<10, i++){}
     
     // 좋은 예
     for (i = 0, i < 10, i++) {}
     
     ```
-
+  
   
 
   #### 주석은 윗줄을 비우고 독립된 줄에 작성해 주세요
 
   - ``` javascript
-    // 나쁜 예1
+  // 나쁜 예1
     if (age > 20) {
       showAdultMovie(); // 이 줄은 나이가 20살 이상일 때만 실행됩니다.
     }
@@ -111,7 +131,7 @@
     
     
     ```
-
+  
   
 
   #### 따옴표
@@ -119,31 +139,31 @@
   - 문자열은 무조건 큰 따옴표로 묶습니다
 
   - ``` python
-    # 나쁜 예
+  # 나쁜 예
     name = '허성수'
     
     # 좋은 예
     name = "허성수"
     ```
-
+  
   
 
   #### 여는 괄호 다음과 닫는 괄호 이전에 공백은 없습니다
 
   - ``` javascript
-    // 나쁜 예
+  // 나쁜 예
     var isSpace = ( space <= 10 );
     
     // 좋은 예
     var isSpace = (space <= 10);
     ```
-
+  
   
 
   #### 다중 속성은 한줄에 적지 않습니다
 
   - ``` html
-    <!-- 나쁜 예 -->
+  <!-- 나쁜 예 -->
     <img src="https://vuejs.org/images/logo.png" alt="Vue Logo">
     <MyComponent foo="a" bar="b" baz="c"/>
     
@@ -158,7 +178,7 @@
       baz="c"
     />
     ```
-
+  
   
 
   ## Django
@@ -168,7 +188,7 @@
   #### 1. 함수, 변수, 모듈명, 속성은 소문자로 스네이크 표기법을 사용하세요
 
   - ``` python
-    # 나쁜 예 (카멜 표기법 사용)
+  # 나쁜 예 (카멜 표기법 사용)
      def addNumber(self, number):
         self.result += num
         return self.result 
@@ -178,13 +198,13 @@
         self.result += num
         return self.result 
     ```
-
+  
   
 
   #### 2. 클래스는 대문자로 시작하는 카멜 표기법을 사용하세요
 
   - ``` python
-    # 나쁜 예1 (소문자 카멜 표기법)
+  # 나쁜 예1 (소문자 카멜 표기법)
     class calculatorMachine:
      def __init__(self):
         self.result = 0
@@ -199,8 +219,11 @@
      def __init__(self):
         self.result = 0
     ```
-
+  
   
 
-  
+
+## 느낀점
+
+
 
