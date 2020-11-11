@@ -16,7 +16,7 @@ class UserClothSerializer(serializers.ModelSerializer):
 class CoordiSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCoordi
-        fields = ['acc', 'bag', 'headwear', 'outer', 'pants', 'shoes', 'top', 'watch']
+        fields = ['acc', 'bag', 'headwear', 'outer', 'pants', 'shoes', 'top', 'watch', 'color', 'style', 'content']
 
 class CoordiListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,4 +26,4 @@ class CoordiListSerializer(serializers.ModelSerializer):
 class UserMergeSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCoordi
-        fields = ['img']
+        fields = ['id', 'img', 'color', 'style', 'content']
