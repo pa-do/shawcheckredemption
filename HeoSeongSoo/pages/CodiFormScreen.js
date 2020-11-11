@@ -46,6 +46,14 @@ const SlectStyleText = styled.Text`
     font-size: 25px;
 `;
 
+const color_name = ['흰색', '라이트그레이', '회색', '다크 그레이', '검정색', '딥레드', '빨간색', 
+'라즈베리', '네온 핑크', '분홍색', '라이트 핑크', '페일 핑크', '피치', '코랄', 
+'라이트 오렌지', '네온 오렌지', '오렌지 핑크', '주황색', '아이보리', '라이트 옐로우',
+'노란색', '머스타드', '네온 그린', '라이트 그린', '민트', '녹색', '올리브 그린', '카키',
+'다크 그린', '스카이 블루', '네온 블루', '파란색', '네이비', '자주', '라벤더', '보라색', 
+'버건디', '갈색', '로즈골드', '레드 브라운', '카키 베이지', '카멜', '샌드', '베이지색', 
+'데님', '연청', '중청', '진청', '흑청']
+
 const colorRGB = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91], [0, 0, 0], 
 [156, 35, 54], [232, 4, 22], [215, 64, 97], [223, 24, 149], [247, 17, 158],
 [255, 163, 182], [220, 166, 156], [250, 171, 141], [237, 104, 89], [254, 124, 0],
@@ -183,19 +191,33 @@ function CodiFormScreen({ navigation }) {
                 Authorization: `JWT ${userToken}`
             }
         }
-        const uploadData = {
-            headwear: hatImage ? hatImage.id : -1,
-            top: topImage ? topImage.id : -1,
-            outer: outerImage ? outerImage.id : -1,
-            acc: AccImage ? AccImage.id : -1,
-            pants: pantsImage ? pantsImage.id : -1,
-            bag: bagImage ? bagImage.id : -1,
-            watch: watchImage ? watchImage.id : -1,
-            shoes: shoesImage ? shoesImage.id : -1,
-            content: content,
-            style: selectedStyle,
-            color: selectedColor,
-        }
+        const uploadData = new FormData();
+        uploadData.append('headwear', hatImage ? hatImage.id : -1);
+        uploadData.append('top', topImage ? topImage.id : -1);
+        uploadData.append('outer', outerImage ? outerImage.id : -1);
+        uploadData.append('acc', AccImage ? AccImage.id : -1);
+        uploadData.append('pants', pantsImage ? pantsImage.id : -1);
+        uploadData.append('bag', bagImage ? bagImage.id : -1);
+        uploadData.append('watch', watchImage ? watchImage.id : -1);
+        uploadData.append('shoes', shoesImage ? shoesImage.id : -1);
+        uploadData.append('content', content);
+        uploadData.append('style', selectedStyle);
+        uploadData.append('color', selectedColor);
+
+        // const uploadData = {
+        //     headwear: hatImage ? hatImage.id : -1,
+        //     top: topImage ? topImage.id : -1,
+        //     outer: outerImage ? outerImage.id : -1,
+        //     acc: AccImage ? AccImage.id : -1,
+        //     pants: pantsImage ? pantsImage.id : -1,
+        //     bag: bagImage ? bagImage.id : -1,
+        //     watch: watchImage ? watchImage.id : -1,
+        //     shoes: shoesImage ? shoesImage.id : -1,
+        //     content: content,
+        //     style: selectedStyle,
+        //     color: selectedColor
+        // }
+        console.log()
         // uploadData.push({headwear: hatImage ? hatImage.id : -1})
         // uploadData.push({top: topImage ? topImage.id : -1})
         // uploadData.push({outer: outerImage ? outerImage.id : -1})
@@ -558,7 +580,7 @@ function CodiFormScreen({ navigation }) {
                         <TouchableHighlight
                             key={index}
                             onPress={() => {
-                                setSelectedColor([item[0], item[1], item[2]]);
+                                setSelectedColor(color_name[index]);
                             }}
                         >
                         {selectedColor[0] === item[0] && selectedColor[1] === item[1] && selectedColor[2] === item[2] ? 

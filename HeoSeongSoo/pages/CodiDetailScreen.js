@@ -1,8 +1,10 @@
 import React from  'react';
 import { Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Container from '../components/Container';
 import axios from 'axios'
 import styled from 'styled-components/native';
+import { ServerUrl } from '../components/TextComponent';
 
 // 코디의 디테일 페이지입니다.
 
@@ -14,13 +16,13 @@ const CodiItemImg = styled.Image`
 `;
 
 // 하트를 품은 뷰
-const heartContainer = styled.View`
+const HeartContainer = styled.View`
     margin: 5px;
     justify-content: space-between;
 `;
 
 // 하트 텍스트
-const heartText = styled.Text`
+const HeartText = styled.Text`
 
 `;
 
@@ -31,7 +33,7 @@ const ItemContainer = styled.View`
 `;
 
 // content 값을 보여주는 태그
-const contentText = styled.Text`
+const ContentText = styled.Text`
 
 `;
 
@@ -43,7 +45,7 @@ function CodiDetailScreen({ navigation, route }) {
         navigation.setOptions({title: `${route.params.item.user}님의 코디`});
     }, [route.params.item?.user]);
     
-    function changeHeart() {
+    async function changeHeart() {
         if (itemLike.liked){
             setLikeItem({
                 liked: !itemLike.liked,
@@ -55,25 +57,41 @@ function CodiDetailScreen({ navigation, route }) {
                 likes: itemLike.likes + 1
             })
         }
+        let userToken;
+        try {
+            userToken = await AsyncStorage.getItem('userToken');
+        } catch (e) {
+        // Restoring token failed
+        }
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`,
+            }
+        }
         // axios 요청으로 하트 변경사항 저장
         // codiItem.id와 itemLike 전송
+        axios.post(ServerUrl.url + `wear/likecoordi/${codiSetDetail.id}`, requestHeaders)
+        .then(res => {
+            console.log(res.data)
+        })
+        .catch(err => console.error(err))
     }
     let nullCount = 0
     return (
         <Container>
             <ScrollView>
                 <CodiItemImg
-                    source={{uri: codiSetDetail.img}}
+                    source={{uri: ServerUrl.mediaUrl + codiSetDetail.img}}
                 />
                 <TouchableWithoutFeedback onPress={changeHeart}>
-                    <heartContainer>
-                        <heartText>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</heartText>
-                    </heartContainer>
+                    <HeartContainer>
+                        <HeartText>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</HeartText>
+                    </HeartContainer>
                 </TouchableWithoutFeedback>
-                <contentText>
+                <ContentText>
                     {codiSetDetail.content}
-                </contentText>
-                {codiSetDetail.items.map(item => {
+                </ContentText>
+                {codiSetDetail.items?.map(item => {
                     if (Object.keys(item).length !== 0) {
                         return (
                             <TouchableWithoutFeedback

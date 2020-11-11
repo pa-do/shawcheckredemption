@@ -110,8 +110,8 @@ function CodiMyListScreen({ navigation, route }) {
     const { signOut } = React.useContext(AuthContext);
  
     React.useEffect(() => {
-        console.log('image upload from camera')
         if (route.params?.image.uri !== undefined){
+            console.log('image upload from camera')
             dataUpload(route.params?.image);
         }
     }, [route.params?.image]);
@@ -139,11 +139,11 @@ function CodiMyListScreen({ navigation, route }) {
                 "Content-Type": "multipart/form-data",
             }
         }
-
+        console.log(userToken, '<<<<<<<<<<<<<<<<<<<<<<< userToken')
         const itemImage = {
             uri: imageUri,
             type: 'image/jpeg',
-            name: 'item.jpg',
+            name: `${UserData.username}${Date.now()}.jpg`,
         }
         let categoryNum = 0
         switch (uploadCategory) {
@@ -175,13 +175,14 @@ function CodiMyListScreen({ navigation, route }) {
         const data = new FormData();
         data.append('img', itemImage);
         data.append('category', categoryNum);
+        console.log(data, '<<<<<<<<<<, upload data')
 
         axios.post(ServerUrl.url +'wear/userclothes/', data, requestHeaders)
         .then(res => {
             console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<< return data')
             // setUploadedColor([res.data.R, res.data.G, res.data.B]);
-            setUploadedColor([255, 255, 255]);
-            setUploadedItemPk(res.data.id);
+            setUploadedColor([res.data.R, res.data.G, res.data.B]);
+            setUploadedItemPk(res.data.pk);
             setModalColorVisible(true);
         })
         .catch(err => console.error(err.response))
@@ -189,6 +190,7 @@ function CodiMyListScreen({ navigation, route }) {
 
     const patchItemColor = async () => {
         let userToken = await getUserToken();
+        console.log(userToken, '<<<<<<<<<<<<<<<<<<<<<<< userToken')
         const requestHeaders = {
             headers: {
                 Authorization: `JWT ${userToken}`,
@@ -203,10 +205,10 @@ function CodiMyListScreen({ navigation, route }) {
         axios.put(ServerUrl.url + `wear/userclothes/${uploadedItemPk}`, data, requestHeaders)
         .then(res => {
             console.log(res.data)
-            modalColorVisible(false);
-            modalVisible(true);
+            setModalColorVisible(false);
+            openItemModal();
         })
-        .catch(err => console.error(err.response.data))
+        .catch(err => console.error(err))
     }
 
     React.useEffect(() => {
@@ -226,12 +228,27 @@ function CodiMyListScreen({ navigation, route }) {
             })
             .catch(err => {console.log(err.response.data)})
             // 하트 리스트 요청
-            getLikeCodis(requestHeaders);
+            // getLikeCodis(requestHeaders);
+            getListData(requestHeaders);
+            getLikeData(requestHeaders);
         };
         dataAsync();
     }, []);
 
-    const getLikeCodis = requestHeaders => {
+    const getListData = requestHeaders => {
+        axios.get(ServerUrl.url + 'wear/listcoordi/', requestHeaders)
+        .then(res => {
+            console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<< show datas')
+            // TODO Infinite scroll index control
+            // setIndex(index + 9);
+            // const newShowData = [...showData, res.data]
+            setCodis(res.data);
+            setShowData(res.data);
+        })
+        .catch(err => console.error(err))
+    }
+
+    const getLikeData = requestHeaders => {
         axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
         .then(res => {
             console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< like list')
@@ -284,12 +301,43 @@ function CodiMyListScreen({ navigation, route }) {
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
-          aspect: [4, 3],
+          aspect: [4, 4],
           quality: 1,
         });
         if (!result.cancelled) {
             // 서버에 result 업로드
             dataUpload(result);
+        }
+    }
+
+    const pickUserImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 4],
+          quality: 1,
+        });
+        if (!result.cancelled) {
+            // 서버에 result 업로드
+            let userToken = await getUserToken();
+            const requestHeaders = {
+                headers: {
+                    Authorization: `JWT ${userToken}`
+                }
+            }
+            const userImage = {
+                uri: result.uri,
+                type: 'image/jpeg',
+                name: `${UserData.username}${Date.now()}.jpg`,
+            }
+            const fd = new FormData();
+            fd.append('profile_image', userImage);
+            axios.patch(ServerUrl.url + 'rest-auth/user/', fd, requestHeaders)
+            .then(res => {
+                console.log(res.data);
+                setUserData(res.data);
+            })
+            .catch(err => console.error(err.response.data))
         }
     }
 
@@ -349,7 +397,7 @@ function CodiMyListScreen({ navigation, route }) {
                                             onPress={() => {
                                                 navigation.navigate('Detail', {item: item});
                                             }}>
-                                            <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
+                                            <CodiItemImg source={{uri: ServerUrl.url + item.img}}/>
                                         </TouchableWithoutFeedback>
                                     );
                                 })}
@@ -440,7 +488,7 @@ function CodiMyListScreen({ navigation, route }) {
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
-                                setModalImageVisible(!modalVisible);
+                                setModalImageVisible(false);
                             }}
                         >
                             <Text style={styles.textStyle}>닫기</Text>
@@ -710,29 +758,20 @@ function CodiMyListScreen({ navigation, route }) {
                     // console.log(Math.floor(paddingToBottom) + "-" + Math.floor(e.nativeEvent.contentOffset.y) + "-" + Math.floor(e.nativeEvent.contentSize.height));
                     if (!isLoading && e.nativeEvent.contentOffset.y + paddingToBottom >= e.nativeEvent.contentSize.height) {
                         console.log('at the end');
-                        setIsLoading(true);
-                        let url = '';
-                        // 내 코디를 보는 상태 or 하트 코디를 보는 상태 url을 다르게 요청
-                        if (buttonText === myCodiText) {
-                            // url = ServerUrl.url + ''
-                        } else {
-                            // url = ServerUrl.url + ''
-                        }
-                        axios.get(url)
-                        .then(res => {
-                            setIndex(index + 9);
-                            const newShowData = [...showData, res.data]
-                            setShowData(newShowData);
-                            setIsLoading(false);
-                        })
-                        .catch(err => console.error(err))
+                        getShowData();
                     }
                 }}
             >
             <UserProfileContainer>
-                <UserProfileImg
-                    source={{uri: UserData?.profile_image}}
-                />
+                <TouchableHighlight
+                    onPress={() => {
+                        pickUserImage();
+                    }}
+                >
+                    <UserProfileImg
+                        source={{uri: UserData?.profile_image}}
+                    />
+                </TouchableHighlight>
                 <UserProfileTextContainer>
                     <Text>
                         {UserData?.nickname}
