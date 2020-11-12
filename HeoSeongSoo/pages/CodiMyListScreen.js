@@ -18,8 +18,8 @@ import UserPersonalColor from '../components/mypage/UserPersonalColor';
 import MypageButton from '../components/mypage/MypageButton';
 
 const UserProfileImg = styled.Image`
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     resize-mode: cover;
     border-radius: 150px;
 `;
@@ -33,6 +33,7 @@ const CodiItemImg = styled.Image`
 
 const UserProfileContainer = styled.View`
     flex-direction: row;
+    margin-top: 30px;
 `;
 
 const UserProfileTextContainer = styled.View`
@@ -787,13 +788,13 @@ function CodiMyListScreen({ navigation, route }) {
                         pickUserImage();
                     }}
                     underlayColor="none"
-                    style={{width: '50%', justifyContent: 'center', alignItems: 'center'}}
+                    style={{width: '40%', justifyContent: 'center', alignItems: 'center'}}
                 >
                     <UserProfileImg
                         source={{uri: UserData?.profile_image}}
                     />
                 </TouchableHighlight>
-                <UserProfileTextContainer>
+                <UserProfileTextContainer style={{justifyContent: 'center'}}>
                     <View style={{flexDirection:'row', flexWrap:'wrap'}}>
                         <UserName>
                             {UserData?.nickname}
