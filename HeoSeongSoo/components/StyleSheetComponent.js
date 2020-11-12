@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import Constants from 'expo-constants'
+import Constants from 'expo-constants';
 import { Dimensions } from 'react-native';
 import AuthContext from './AuthContext';
 
@@ -91,7 +91,7 @@ const personalStyles = StyleSheet.create({
   },
   imageStyles: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height + 300
+    height: Dimensions.get('screen').height + 300
   }
 })
 
