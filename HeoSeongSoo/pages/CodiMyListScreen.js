@@ -22,6 +22,7 @@ const UserProfileImg = styled.Image`
     height: 120px;
     resize-mode: cover;
     border-radius: 150px;
+    margin-left: 5px;
 `;
 
 const CodiItemImg = styled.Image`
@@ -777,7 +778,7 @@ function CodiMyListScreen({ navigation, route }) {
                         pickUserImage();
                     }}
                     underlayColor="none"
-                    style={{width: '40%', justifyContent: 'center', alignItems: 'center'}}
+                    style={{width: '38%', justifyContent: 'center', alignItems: 'center'}}
                 >
                     <UserProfileImg
                         source={{uri: UserData?.profile_image}}

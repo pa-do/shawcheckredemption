@@ -963,7 +963,7 @@ def set_headwear(user_info, shoes):
             # 신발 카테고리로 필터
             # {0"캔버스,단화", 1"러닝화", 2"구두", 3"부츠", 4"로퍼", 5"모카신", 6"샌들", 7"슬리퍼"}
             if shoes_item.category in [2, 3, 4]:
-                bag -= {0, 5}
+                headwear -= {0, 5}
                 
             
             danger = ["기타색상"]
