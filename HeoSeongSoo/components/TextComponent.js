@@ -15,7 +15,7 @@ const RadioButtonText = {
     restaurant: '외식',
     professor: '교수님',
     girlFriend: '여사친',
-    friend: '친구',
+    friend: '친구 / 혼자',
     family: '가족'
 }
 

@@ -17,6 +17,7 @@ const UserProfileImg = styled.Image`
     width: 150px;
     height: 150px;
     resize-mode: cover;
+    border-radius: 150px;
 `;
 
 const CodiItemImg = styled.Image`
@@ -33,6 +34,8 @@ const UserProfileContainer = styled.View`
 const UserProfileTextContainer = styled.View`
     flex-direction: column;
     width: 100%;
+    margin-left: 20px;
+    background-color: gray;
 `;
 
 const TopContainer = styled.SafeAreaView`

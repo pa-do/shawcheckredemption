@@ -2,17 +2,20 @@ import React from  'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackActions } from '@react-navigation/native';
-import { Alert, Text } from 'react-native';
-import { RadioButton } from 'react-native-paper';
+import { Alert, Text, View } from 'react-native';
 import Container from '../components/Container';
 import RowContainer from '../components/RowContainer';
 import NormalButton from '../components/buttons/NormalButton';
 import AuthContext from '../components/AuthContext';
 import { ServerUrl, RadioButtonText } from '../components/TextComponent';
+import MainText from '../components/main/MainText';
+import MainSelectText from '../components/main/MainSelectText';
+import MainChangeButton from '../components/main/MainChangeButton';
 
 function HomeScreen({ navigation }) {
-    const [value, setValue] = React.useState('school');
+    const [value, setValue] = React.useState('none');
     const [secondValue, setSecondValue] = React.useState('friend');
+
 
     const { signUp, signOut } = React.useContext(AuthContext);
 
@@ -63,63 +66,82 @@ function HomeScreen({ navigation }) {
         })
     }
 
+
+    function firstChoice(value) {
+        setValue(value)
+        setSecondValue('friend')
+        if (value === 'school' || value === 'comfortable' || value === 'restaurant') {
+            // pass
+        } else {
+            let passValue = value;
+            setValue('none');
+            navigation.navigate("ImgUpload", {value: passValue, secondValue: secondValue})
+        }
+    }
+
+    function secondChoice(value) {
+        setSecondValue(value)
+        navigation.navigate("ImgUpload", {value: value, secondValue: secondValue})
+    }
+
+    function choiceAgain() {
+        setValue('none')
+    }
+
     return (
         <Container>
-            <RowContainer>
-                <RadioButton.Group
-                    onValueChange={value => {
-                        setValue(value)
-                        setSecondValue('friend')
-                    }}
-                    value={value}
-                >
-                    <RadioButton.Item label={RadioButtonText.school} value="school" />
-                    <RadioButton.Item label={RadioButtonText.funeral} value="funeral" />
-                    <RadioButton.Item label={RadioButtonText.marry} value="marry" />
-                    <RadioButton.Item label={RadioButtonText.exercise} value="exercise" />
-                    <RadioButton.Item label={RadioButtonText.presentation} value="presentation" />
-                    <RadioButton.Item label={RadioButtonText.comfortable} value="comfortable" />
-                    <RadioButton.Item label={RadioButtonText.restaurant} value="restaurant" />
-                </RadioButton.Group>
-                <RadioButton.Group onValueChange={value => setSecondValue(value)} value={secondValue}>
-                    {value === 'school' ? (
-                        <>
-                            <RadioButton.Item label={RadioButtonText.professor} value="professor"/>
-                            <RadioButton.Item label={RadioButtonText.girlFriend} value="girlFriend"/>
-                            <RadioButton.Item label={RadioButtonText.friend} value="friend"/>
-                        </>
-                     ) : null}
-                     {value === 'comfortable' ? (
-                        <>
-                            <RadioButton.Item label={RadioButtonText.girlFriend} value="girlFriend"/>
-                            <RadioButton.Item label={RadioButtonText.friend} value="friend"/>
-                        </>
-                     ) : null}
-                    {value === 'restaurant' ? (
-                        <>
-                            <RadioButton.Item label={RadioButtonText.professor} value="professor"/>
-                            <RadioButton.Item label={RadioButtonText.girlFriend} value="girlFriend"/>
-                            <RadioButton.Item label={RadioButtonText.friend} value="friend"/>
-                            <RadioButton.Item label={RadioButtonText.family} value="family"/>
-                        </>
-                     ) : null}
-                </RadioButton.Group>
-            </RowContainer>
+            {value === 'none' ? (
+                <>
+                    <Container>
+                        <MainText>어디에 가시나요?</MainText>
+                        <MainSelectText label={RadioButtonText.school} value="school" onPress={() => firstChoice('school')}></MainSelectText>
+                        <MainSelectText label={RadioButtonText.funeral} value="funeral" onPress={() => firstChoice('funeral')}></MainSelectText>
+                        <MainSelectText label={RadioButtonText.marry} value="marry" onPress={() => firstChoice('marry')}></MainSelectText>
+                        <MainSelectText label={RadioButtonText.exercise} value="exercise" onPress={() => firstChoice('exercise')}></MainSelectText>
+                        <MainSelectText label={RadioButtonText.presentation} value="presentation" onPress={() => firstChoice('presentation')}></MainSelectText>
+                        <MainSelectText label={RadioButtonText.comfortable} value="comfortable" onPress={() => firstChoice('comfortable')}></MainSelectText>
+                        <MainSelectText label={RadioButtonText.restaurant} value="restaurant" onPress={() => firstChoice('restaurant')}></MainSelectText>
+                    </Container>
+                </>
+                ) : null}
+            
 
-            <RowContainer>
-                <NormalButton
-                    onPress={ () => {
-                        console.log(value, secondValue, '<<<<<<<<<<<<<<<<<<<< user pick')
-                        if (value === 'school' || value === 'comfortable' || value === 'restaurant') {
-                            navigation.navigate("ImgUpload", {value: value, secondValue: secondValue})
-                        } else {
-                            navigation.navigate("ImgUpload", {value: value})
-                        }
-                    }}
-                >
-                    추천 받기
-                </NormalButton>
-            </RowContainer>
+            {value === 'school' ? (
+                <>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <MainChangeButton onPress={() => choiceAgain()} ></MainChangeButton>
+                        <MainText>누구와 가시나요?</MainText>
+                    </View>
+                    <MainSelectText label={RadioButtonText.professor} value="professor" onPress={() => secondChoice('professor')}></MainSelectText>
+                    <MainSelectText label={RadioButtonText.girlFriend} value="girlFriend" onPress={() => secondChoice('girlFriend')}></MainSelectText>
+                    <MainSelectText label={RadioButtonText.friend} value="friend" onPress={() => secondChoice('friend')}></MainSelectText>
+                    
+                </>
+                ) : null}
+                {value === 'comfortable' ? (
+                <>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <MainChangeButton onPress={() => choiceAgain()} ></MainChangeButton>
+                        <MainText>누구와 가시나요?</MainText>
+                    </View>
+                    <MainSelectText label={RadioButtonText.girlFriend} value="girlFriend" onPress={() => secondChoice('girlFriend')}></MainSelectText>
+                    <MainSelectText label={RadioButtonText.friend} value="friend" onPress={() => secondChoice('friend')}></MainSelectText>
+                </>
+                ) : null}
+            {value === 'restaurant' ? (
+                <>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <MainChangeButton onPress={() => choiceAgain()} ></MainChangeButton>
+                        <MainText>누구와 가시나요?</MainText>
+                    </View>
+                    <MainSelectText label={RadioButtonText.professor} value="professor" onPress={() => secondChoice('professor')}></MainSelectText>
+                    <MainSelectText label={RadioButtonText.girlFriend} value="girlFriend" onPress={() => secondChoice('girlFriend')}></MainSelectText>
+                    <MainSelectText label={RadioButtonText.friend} value="friend" onPress={() => secondChoice('friend')}></MainSelectText>
+                    <MainSelectText label={RadioButtonText.family} value="family" onPress={() => secondChoice('family')}></MainSelectText>
+                </>
+                ) : null}
+
+
         </Container>
     )
 }
