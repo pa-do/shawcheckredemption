@@ -15,11 +15,11 @@ import RowContainer from '../components/RowContainer';
 import LogoutButton from '../components/mypage/LogoutButton';
 import UserName from '../components/mypage/UserName';
 import UserPersonalColor from '../components/mypage/UserPersonalColor';
-import { AntDesign } from '@expo/vector-icons'; 
+import MypageButton from '../components/mypage/MypageButton';
 
 const UserProfileImg = styled.Image`
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     resize-mode: cover;
     border-radius: 150px;
 `;
@@ -33,6 +33,7 @@ const CodiItemImg = styled.Image`
 
 const UserProfileContainer = styled.View`
     flex-direction: row;
+    margin-top: 30px;
 `;
 
 const UserProfileTextContainer = styled.View`
@@ -790,12 +791,13 @@ function CodiMyListScreen({ navigation, route }) {
                         pickUserImage();
                     }}
                     underlayColor="none"
+                    style={{width: '40%', justifyContent: 'center', alignItems: 'center'}}
                 >
                     <UserProfileImg
                         source={{uri: UserData?.profile_image}}
                     />
                 </TouchableHighlight>
-                <UserProfileTextContainer>
+                <UserProfileTextContainer style={{justifyContent: 'center'}}>
                     <View style={{flexDirection:'row', flexWrap:'wrap'}}>
                         <UserName>
                             {UserData?.nickname}
@@ -817,23 +819,21 @@ function CodiMyListScreen({ navigation, route }) {
                             {UserData?.color}
                         </UserPersonalColor>
                     </TouchableHighlight>
-                    <TouchableHighlight
-                        underlayColor="#DDDDDD"
-                        onPress={() => {
-                            // UserItems 데이터를 수신합니다.
-                            openItemModal();
-                        }}
-                    >
-                        <AntDesign name="database" size={48} color="black" />
-                        {/* <Text>내옷장</Text> */}
-                    </TouchableHighlight>
-                    <NormalButton
-                        onPress={() => {
-                            navigation.navigate('Form')
-                        }}
-                    >
-                        코디등록
-                    </NormalButton>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <MypageButton
+                            value="closet"
+                            onPress={() => {
+                                // UserItems 데이터를 수신합니다.
+                                openItemModal();
+                            }}
+                        ></MypageButton>
+                        <MypageButton
+                            value="coordi"
+                            onPress={() => {
+                                navigation.navigate('Form')
+                            }}
+                        ></MypageButton>
+                    </View>
                 </UserProfileTextContainer>
             </UserProfileContainer>
             <NormalButton onPress={changeMyOrLikeVisible}>
