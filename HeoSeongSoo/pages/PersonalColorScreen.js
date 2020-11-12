@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, Image, View, Dimensions, Button } from 'react-native';
-import PersonalColorBackButton from '../components/mypage/PersonalColorBackButton';
+import BackButton from '../components/buttons/BackButton';
 import { personalStyles } from '../components/StyleSheetComponent';
 
 function PersonalColorScreen({ navigation, route }) {
@@ -13,9 +13,9 @@ function PersonalColorScreen({ navigation, route }) {
             <View
                 style={personalStyles.imageContainer, {backgroundColor:'white', flex: 1}}
             >
-                <PersonalColorBackButton 
+                <BackButton 
                 onPress={() => moveBack()}
-                ></PersonalColorBackButton>
+                ></BackButton>
                 {color === 'spring' ? 
                     <Image
                         style={personalStyles.imageStyles}
@@ -50,12 +50,6 @@ function PersonalColorScreen({ navigation, route }) {
                 }
 
             </View>
-            <Button
-                title={'확인'}
-                onPress={() => {
-                    navigation.goBack();
-                }}
-            >확인</Button>
         </ScrollView>
     );
 }
