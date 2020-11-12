@@ -283,7 +283,7 @@ def list_coordi(request):
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
     coordi = UserCoordi.objects.filter(user=user, c_code=1)
-    serializer = UserMergeSerializer(coordi, many=True)
+    serializer = UserMergeSerializer(coordi, many=True, context={'request': request})
     return Response(serializer.data)
 
 # 유저 코디 좋아요
