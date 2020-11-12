@@ -27,7 +27,7 @@ const Tab = createMaterialBottomTabNavigator();
 const MyTheme = {
   dark: false,
   colors: {
-    primary: 'rgb(255, 45, 85)',
+    primary: '#0d3754',
     background: 'rgb(242, 242, 242)',
     card: 'rgb(255, 255, 255)',
     text: 'rgb(28, 28, 30)',
@@ -39,7 +39,7 @@ const MyTheme = {
 function StackScreen1() {
   return (
     <Stack.Navigator>
-      <Stack.Screen options={{headerShown: false}} name="Home" component={HomeScreen} />
+      <Stack.Screen options={{headerShown: false}} name="추천" component={HomeScreen} />
       <Stack.Screen name="RecList" component={CodiRecListScreen} />
       <Stack.Screen name="ImgUpload" component={ImgUploadForRecScreen} />
     </Stack.Navigator>
@@ -73,14 +73,14 @@ function TabScreen() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Home') {
-            iconName = focused ? 'md-star' : 'md-star-outline';
+          if (route.name === '추천') {
+            iconName = focused ? 'ios-shirt' : 'ios-shirt';
             size = focused ? 25 : 20;
-          } else if (route.name === 'My Page') {
+          } else if (route.name === '내정보') {
             iconName = focused ? 'ios-contact' : 'ios-contact';
             size = focused ? 25 : 20;
-          } else if (route.name === 'All') {
-            iconName = focused ? 'ios-albums' : 'ios-albums';
+          } else if (route.name === '피드') {
+            iconName = focused ? 'ios-journal' : 'ios-journal';
             size = focused ? 25 : 20;
           }
           
@@ -93,9 +93,9 @@ function TabScreen() {
         inactiveTintColor: 'gray',
       }}
     >
-        <Tab.Screen options={{headerShown: false}} name="Home" component={StackScreen1} />
-        <Tab.Screen options={{headerShown: false}} name="All" component={StackScreen2} />
-        <Tab.Screen options={{headerShown: false}} name="My Page" component={StackScreen3} />
+        <Tab.Screen options={{headerShown: false}} name="추천" component={StackScreen1} />
+        <Tab.Screen options={{headerShown: false}} name="피드" component={StackScreen2} />
+        <Tab.Screen options={{headerShown: false}} name="내정보" component={StackScreen3} />
     </Tab.Navigator>
   )
 }

@@ -16,6 +16,7 @@ const UserProfileImg = styled.Image`
     width: 150px;
     height: 150px;
     resize-mode: cover;
+    border-radius: 150px;
 `;
 
 const CodiItemImg = styled.Image`
@@ -32,6 +33,8 @@ const UserProfileContainer = styled.View`
 const UserProfileTextContainer = styled.View`
     flex-direction: column;
     width: 100%;
+    margin-left: 20px;
+    background-color: gray;
 `;
 
 const TopContainer = styled.SafeAreaView`
@@ -463,14 +466,14 @@ function CodiMyListScreen({ navigation, route }) {
                             <ScrollView
                                 horizontal={true}
                             >
-                                <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.top);
                                         setModalImageVisible(true);
                                     }}>
+                                            <ItemBox>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                    </TouchableHighlight>
                                 </ItemBox>
+                                    </TouchableHighlight>
                                 {userItems.tops?.map((item, index) => {
                                     return (
                                         <ItemBox key={index}>

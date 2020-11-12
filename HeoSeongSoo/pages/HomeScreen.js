@@ -10,6 +10,7 @@ import AuthContext from '../components/AuthContext';
 import { ServerUrl, RadioButtonText } from '../components/TextComponent';
 import MainText from '../components/main/MainText';
 import MainSelectText from '../components/main/MainSelectText';
+import MainChangeButton from '../components/main/MainChangeButton';
 
 function HomeScreen({ navigation }) {
     const [value, setValue] = React.useState('none');
@@ -72,7 +73,9 @@ function HomeScreen({ navigation }) {
         if (value === 'school' || value === 'comfortable' || value === 'restaurant') {
             // pass
         } else {
-            navigation.navigate("ImgUpload", {value: value, secondValue: secondValue})
+            let passValue = value;
+            setValue('none');
+            navigation.navigate("ImgUpload", {value: passValue, secondValue: secondValue})
         }
     }
 
@@ -105,29 +108,36 @@ function HomeScreen({ navigation }) {
 
             {value === 'school' ? (
                 <>
-                    <MainText>누구와 가시나요?</MainText>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <MainChangeButton onPress={() => choiceAgain()} ></MainChangeButton>
+                        <MainText>누구와 가시나요?</MainText>
+                    </View>
                     <MainSelectText label={RadioButtonText.professor} value="professor" onPress={() => secondChoice('professor')}></MainSelectText>
                     <MainSelectText label={RadioButtonText.girlFriend} value="girlFriend" onPress={() => secondChoice('girlFriend')}></MainSelectText>
                     <MainSelectText label={RadioButtonText.friend} value="friend" onPress={() => secondChoice('friend')}></MainSelectText>
-                    <NormalButton onPress={() => choiceAgain()}>다시 선택</NormalButton>
+                    
                 </>
                 ) : null}
                 {value === 'comfortable' ? (
                 <>
-                    <MainText>누구와 가시나요?</MainText>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <MainChangeButton onPress={() => choiceAgain()} ></MainChangeButton>
+                        <MainText>누구와 가시나요?</MainText>
+                    </View>
                     <MainSelectText label={RadioButtonText.girlFriend} value="girlFriend" onPress={() => secondChoice('girlFriend')}></MainSelectText>
                     <MainSelectText label={RadioButtonText.friend} value="friend" onPress={() => secondChoice('friend')}></MainSelectText>
-                    <NormalButton onPress={() => choiceAgain()}>다시 선택</NormalButton>
                 </>
                 ) : null}
             {value === 'restaurant' ? (
                 <>
-                    <MainText>누구와 가시나요?</MainText>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <MainChangeButton onPress={() => choiceAgain()} ></MainChangeButton>
+                        <MainText>누구와 가시나요?</MainText>
+                    </View>
                     <MainSelectText label={RadioButtonText.professor} value="professor" onPress={() => secondChoice('professor')}></MainSelectText>
                     <MainSelectText label={RadioButtonText.girlFriend} value="girlFriend" onPress={() => secondChoice('girlFriend')}></MainSelectText>
                     <MainSelectText label={RadioButtonText.friend} value="friend" onPress={() => secondChoice('friend')}></MainSelectText>
                     <MainSelectText label={RadioButtonText.family} value="family" onPress={() => secondChoice('family')}></MainSelectText>
-                    <NormalButton onPress={() => choiceAgain()}>다시 선택</NormalButton>
                 </>
                 ) : null}
 
