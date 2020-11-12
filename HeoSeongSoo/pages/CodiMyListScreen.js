@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import NormalButton from '../components/buttons/NormalButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
-import Constants from 'expo-constants'
+import Constants from 'expo-constants';
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import AuthContext from '../components/AuthContext';
@@ -65,12 +65,6 @@ const ItemBox = styled.View`
     align-items: center;
 `;
 
-const Seperator = styled.View`
-    align-self: stretch;
-    border-bottom-color: black;
-    border-bottom-width: ${StyleSheet.hairlineWidth}px;
-`;
-
 const ColorContainer = styled.View`
     background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
     width: 200px;
@@ -119,6 +113,8 @@ const colorRGB = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91
 [161, 116, 0], [215, 154, 47], [201, 180, 149], [232, 195, 129],
 [61, 63, 107], [97, 134, 176], [38, 58, 84], [35, 40, 51], [33, 35, 34]]
 
+const myCodiText = '하트코디 보기';
+const heartCodiText = '내 코디 보기';
 
 function CodiMyListScreen({ navigation, route }) {
     const [UserData, setUserData] = React.useState(null);
@@ -138,7 +134,7 @@ function CodiMyListScreen({ navigation, route }) {
     const [likeCodis, setLikeCodis] = React.useState([]);
     const [userItems, setUserItems] = React.useState({});
     const [showData, setShowData] = React.useState([]);
-    const [buttonText, setButtonText] = React.useState('하트코디 보기');
+    const [buttonText, setButtonText] = React.useState(myCodiText);
     const [isLoading, setIsLoading] = React.useState(false);
     const [index, setIndex] = React.useState(0);
     
@@ -151,9 +147,6 @@ function CodiMyListScreen({ navigation, route }) {
         }
     }, [route.params?.image]);
     
-    const myCodiText = '하트코디 보기';
-    const heartCodiText = '내 코디 보기';
-
     const getUserToken = async () => {
         let userToken;
         try {
@@ -174,7 +167,6 @@ function CodiMyListScreen({ navigation, route }) {
                 "Content-Type": "multipart/form-data",
             }
         }
-        console.log(userToken, '<<<<<<<<<<<<<<<<<<<<<<< userToken')
         const itemImage = {
             uri: imageUri,
             type: 'image/jpeg',
@@ -215,11 +207,9 @@ function CodiMyListScreen({ navigation, route }) {
         } else {
             data.append('subcategory', detailCategory);
         }
-        console.log(data, '<<<<<<<<<<, upload data')
 
         axios.post(ServerUrl.url +'wear/userclothes/', data, requestHeaders)
         .then(res => {
-            console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<< return data')
             // setUploadedColor([res.data.R, res.data.G, res.data.B]);
             setUploadedColor([res.data.R, res.data.G, res.data.B]);
             setUploadedItemPk(res.data.pk);
@@ -230,7 +220,6 @@ function CodiMyListScreen({ navigation, route }) {
 
     const patchItemColor = async () => {
         let userToken = await getUserToken();
-        console.log(userToken, '<<<<<<<<<<<<<<<<<<<<<<< userToken')
         const requestHeaders = {
             headers: {
                 Authorization: `JWT ${userToken}`,
@@ -244,7 +233,6 @@ function CodiMyListScreen({ navigation, route }) {
         }
         axios.put(ServerUrl.url + `wear/userclothes/${uploadedItemPk}`, data, requestHeaders)
         .then(res => {
-            console.log(res.data)
             setModalColorVisible(false);
             openItemModal();
         })
@@ -252,9 +240,41 @@ function CodiMyListScreen({ navigation, route }) {
     }
 
     React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', async () => {
+            let userToken = await getUserToken();
+            const requestHeaders = {
+                headers: {
+                    Authorization: `JWT ${userToken}`
+                }
+            }  
+            try {
+                const listResponse = await axios.get(ServerUrl.url + 'wear/listcoordi/', requestHeaders)
+                setCodis(listResponse.data)
+            } catch (error) {
+                console.error(error);
+            }
+            try {
+                const heartResponse = await axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
+                setLikeCodis(heartResponse.data)
+            } catch (error) {
+                console.error(error);
+            }
+            changeMyOrLikeVisible();
+        });
+        return unsubscribe;
+    }, [navigation]);
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('blur', () => {
+            setShowData([]);
+        });
+        return unsubscribe;
+    }, [navigation]);
+
+
+    React.useEffect(() => {
         const dataAsync = async () => {
             let userToken = await getUserToken();
-            console.log('get first user token >>>>>>>>>>>>>>>>>>>>>>', userToken)
             const requestHeaders = {
                 headers: {
                     Authorization: `JWT ${userToken}`
@@ -263,39 +283,16 @@ function CodiMyListScreen({ navigation, route }) {
             // 유저 정보 요청
             axios.get(ServerUrl.url + 'rest-auth/user/', requestHeaders)
             .then(res => {
-                console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< user data')
                 setUserData(res.data);
             })
-            .catch(err => {console.log(err.response.data)})
+            .catch(err => {console.error(err.response.data)})
             // 하트 리스트 요청
             // getLikeCodis(requestHeaders);
-            getListData(requestHeaders);
-            getLikeData(requestHeaders);
+            // getListData(requestHeaders);
+            // getLikeData(requestHeaders);
         };
         dataAsync();
     }, []);
-
-    const getListData = requestHeaders => {
-        axios.get(ServerUrl.url + 'wear/listcoordi/', requestHeaders)
-        .then(res => {
-            console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<< show datas')
-            // TODO Infinite scroll index control
-            // setIndex(index + 9);
-            // const newShowData = [...showData, res.data]
-            setCodis(res.data);
-            setShowData(res.data);
-        })
-        .catch(err => console.error(err, '<<<<<<<<<<<<<<<<<<< getListData'))
-    }
-
-    const getLikeData = requestHeaders => {
-        axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
-        .then(res => {
-            console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< like list')
-            setLikeCodis(res.data);
-        })
-        .catch(err => {console.log(err.response.data)})
-    }
 
     const getUserItems = requestHeaders => {
         axios.get(ServerUrl.url + 'wear/mylist/', requestHeaders)
@@ -333,7 +330,7 @@ function CodiMyListScreen({ navigation, route }) {
             })
             setUserItems(itemData);
         })
-        .catch(err => console.log(err.response.data))
+        .catch(err => console.error(err.response.data))
     }
 
     const pickImage = async () => {
@@ -373,7 +370,6 @@ function CodiMyListScreen({ navigation, route }) {
             fd.append('profile_image', userImage);
             axios.patch(ServerUrl.url + 'rest-auth/user/', fd, requestHeaders)
             .then(res => {
-                console.log(res.data);
                 setUserData(res.data);
             })
             .catch(err => console.error(err.response.data))
@@ -419,7 +415,7 @@ function CodiMyListScreen({ navigation, route }) {
             try {
                 itemsList.push(items.slice(startPoint, endPoint));
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         }
         return (
@@ -447,7 +443,6 @@ function CodiMyListScreen({ navigation, route }) {
     const MyOrLike = () => {
         const items = showData;
         const itemsList = [];
-        if (items?.length !== 0) {
             for (let i = 0; i <= parseInt(items?.length / 3); i++) {
                 let startPoint = (i * 3);
                 let endPoint = (i * 3) + 3;
@@ -460,7 +455,7 @@ function CodiMyListScreen({ navigation, route }) {
                 try {
                     itemsList.push(items.slice(startPoint, endPoint));
                 } catch (error) {
-                    console.log(error);
+                    console.error(error);
                 }
             }
             return (
@@ -485,13 +480,6 @@ function CodiMyListScreen({ navigation, route }) {
                     })}
                 </>
             )
-        } else {
-            return (
-                <Text>
-                    활동을 시작해보세요!
-                </Text>
-            )
-        }
     }
 
     return (
@@ -645,7 +633,6 @@ function CodiMyListScreen({ navigation, route }) {
                             onPress={() => {
                                 setModalItems(null);
 
-                                console.log(modalItems, '<<<<<<<<<<<<<<<<<<<<<< modal items')
                                 setModalItemCategoryVisible(false);
                             }}
                         >
