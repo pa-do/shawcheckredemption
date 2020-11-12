@@ -27,7 +27,7 @@ const UserProfileImg = styled.Image`
 const CodiItemImg = styled.Image`
     margin: 3px;
     width: 31%;
-    height: 150;
+    height: 150px;
     resize-mode: center;
 `;
 
@@ -259,6 +259,7 @@ function CodiMyListScreen({ navigation, route }) {
                 console.error(error);
             }
             changeMyOrLikeVisible();
+            console.log(showData, '<<<<<<<<<<<<<<<<<<<, show data2')
         });
         return unsubscribe;
     }, [navigation]);
@@ -375,15 +376,16 @@ function CodiMyListScreen({ navigation, route }) {
         }
     }
 
-    const changeMyOrLikeVisible = () => {
+    const changeMyOrLikeVisible = async () => {
         setMyOrLikeVisible(!myOrLikeVisible);
         if (myOrLikeVisible) {
             setButtonText(myCodiText);
-            setShowData(codis);
+            await setShowData(codis);
         } else {
             setButtonText(heartCodiText);
-            setShowData(likeCodis);
+            await setShowData(likeCodis);
         }
+        console.log(showData, '<<<<<<<<<<<<<<<<<<<, show data')
     }
 
     const openItemModal = async () => {
