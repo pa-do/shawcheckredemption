@@ -5,7 +5,6 @@ import { personalStyles } from '../components/StyleSheetComponent';
 
 function PersonalColorScreen({ navigation, route }) {
     const [color, setColor] = React.useState(route.params.color);
-    // console.log(path)
     function moveBack() {
         navigation.goBack();
     }
