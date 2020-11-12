@@ -2,6 +2,7 @@ import React from  'react';
 import { Text, View, Modal, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground } from 'react-native';
 import { Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 import NormalButton from '../components/buttons/NormalButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
@@ -21,15 +22,15 @@ import { Dimensions } from 'react-native';
 const UserProfileImg = styled.Image`
     width: 120px;
     height: 120px;
-    resize-mode: cover;
     border-radius: 150px;
+    resize-mode: cover;
     margin-left: 5px;
 `;
 
 const CodiItemImg = styled.Image`
-    margin: 3px;
-    width: 80px;
-    height: 100px;
+    margin: 1px;
+    width: 31%;
+    height: 150px;
     resize-mode: center;
 `;
 
@@ -115,12 +116,13 @@ const colorRGB = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91
 [161, 116, 0], [215, 154, 47], [201, 180, 149], [232, 195, 129],
 [61, 63, 107], [97, 134, 176], [38, 58, 84], [35, 40, 51], [33, 35, 34]]
 
-const myCodiText = '하트코디 보기';
-const heartCodiText = '내 코디 보기';
+const myCodiText = '내 코디 보기';
+const heartCodiText = '하트코디 보기';
 
 function CodiMyListScreen({ navigation, route }) {
     const [UserData, setUserData] = React.useState(null);
     const [modalVisible, setModalVisible] = React.useState(false);
+    const [indicatorVisible, setIndicatorVisible] = React.useState(false);
     const [modalImageVisible, setModalImageVisible] = React.useState(false);
     const [modalColorVisible, setModalColorVisible] = React.useState(false);
     const [modalCategoryVisible, setModalCategoryVisible] = React.useState(false);
@@ -138,7 +140,6 @@ function CodiMyListScreen({ navigation, route }) {
     const [showData, setShowData] = React.useState([]);
     const [buttonText, setButtonText] = React.useState(myCodiText);
     const [isLoading, setIsLoading] = React.useState(false);
-    const [index, setIndex] = React.useState(0);
     
     const { signOut } = React.useContext(AuthContext);
  
@@ -160,6 +161,7 @@ function CodiMyListScreen({ navigation, route }) {
     }
 
     const dataUpload = async image => {
+        setIndicatorVisible(true);
         let userToken = await getUserToken();
         const imageUri = image.uri
         // imageUri 서버에 업로드 uploadCategory 첨부, 후 모달 재오픈
@@ -217,7 +219,8 @@ function CodiMyListScreen({ navigation, route }) {
             setUploadedItemPk(res.data.pk);
             setModalColorVisible(true);
         })
-        .catch(err => console.error(err.response))
+        .catch(err => console.error(err))
+        setIndicatorVisible(false);
     }
 
     const patchItemColor = async () => {
@@ -257,20 +260,21 @@ function CodiMyListScreen({ navigation, route }) {
             }
             try {
                 const heartResponse = await axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
-                setLikeCodis(heartResponse.data)
+                setLikeCodis(heartResponse.data);
+                setMyOrLikeVisible(true);
+                setShowData(heartResponse.data);
             } catch (error) {
                 console.error(error);
             }
-            changeMyOrLikeVisible();
         });
         return unsubscribe;
     }, [navigation]);
 
     React.useEffect(() => {
-        const unsubscribe = navigation.addListener('blur', () => {
+        const _unsubscribe = navigation.addListener('blur', () => {
             setShowData([]);
         });
-        return unsubscribe;
+        return _unsubscribe;
     }, [navigation]);
 
 
@@ -287,11 +291,8 @@ function CodiMyListScreen({ navigation, route }) {
             .then(res => {
                 setUserData(res.data);
             })
-            .catch(err => {console.error(err.response.data)})
-            // 하트 리스트 요청
-            // getLikeCodis(requestHeaders);
-            // getListData(requestHeaders);
-            // getLikeData(requestHeaders);
+            .catch(err => {console.error(err)})
+
         };
         dataAsync();
     }, []);
@@ -332,7 +333,7 @@ function CodiMyListScreen({ navigation, route }) {
             })
             setUserItems(itemData);
         })
-        .catch(err => console.error(err.response.data))
+        .catch(err => console.error(err))
     }
 
     const pickImage = async () => {
@@ -374,19 +375,20 @@ function CodiMyListScreen({ navigation, route }) {
             .then(res => {
                 setUserData(res.data);
             })
-            .catch(err => console.error(err.response.data))
+            .catch(err => console.error(err))
         }
     }
 
-    const changeMyOrLikeVisible = () => {
-        setMyOrLikeVisible(!myOrLikeVisible);
-        if (myOrLikeVisible) {
-            setButtonText(myCodiText);
-            setShowData(codis);
-        } else {
-            setButtonText(heartCodiText);
-            setShowData(likeCodis);
-        }
+    const setMyCodiVisible = () => {
+        // 내가 등록한 코디를 보여줄 때는 false
+        setMyOrLikeVisible(false);
+        setShowData(codis);
+    }
+
+    const setHeartCodiVisible = () => {
+        // 하트를 누른 코디를 보여줄 때는 true
+        setMyOrLikeVisible(true);
+        setShowData(likeCodis);
     }
 
     const openItemModal = async () => {
@@ -400,6 +402,24 @@ function CodiMyListScreen({ navigation, route }) {
         getUserItems(requestHeaders);
         setModalItems(null);
         setModalItemCategoryVisible(true);
+    }
+
+    const deleteItem = async item => {
+        let userToken = await getUserToken();
+
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`
+            }
+        }
+        axios.delete(ServerUrl.url + `wear/userclothes/${item.id}`, requestHeaders)
+        .then(res => {
+            setModalItems(null);
+            setModalItemCategoryVisible(false);
+            openItemModal();
+        })
+        .catch(err => console.error(err))
+
     }
 
     const ModalItemGrid = () => {
@@ -430,8 +450,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 return (
                                     <TouchableWithoutFeedback
                                         key={item.id}
-                                        onPress={() => {
-                                        }}>
+                                        onPress={() => deleteItem(item)}>
                                         <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
                                     </TouchableWithoutFeedback>
                                 );
@@ -472,7 +491,7 @@ function CodiMyListScreen({ navigation, route }) {
                                             key={item.id}
                                             style={{marginBottom: 5}}
                                             onPress={() => {
-                                                navigation.navigate('Detail', {item: item});
+                                                navigation.navigate('Detail',{ item: item });
                                             }}>
                                             <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
                                         </TouchableWithoutFeedback>
@@ -487,6 +506,24 @@ function CodiMyListScreen({ navigation, route }) {
 
     return (
         <TopContainer>
+            {/* 액티비티 인디케이터 모달 */}
+            <Modal
+                transparent={true}
+                visible={indicatorVisible}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <ActivityIndicator
+                            style={{marginBottom: 12}}
+                            animating={true}
+                            transparent={true}
+                            color={Colors.red800}
+                            size={'large'}
+                        />
+                        <Text>처리 중입니다</Text>
+                    </View>
+                </View>
+            </Modal>
             {/* 디테일 카테고리 선택을 위한 모달 */}
             <Modal
                 animationType="slide"
@@ -596,7 +633,7 @@ function CodiMyListScreen({ navigation, route }) {
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
-                                navigation.navigate('Camera', {backScreen: 'My Page'});
+                                navigation.navigate('Camera', { backScreen: 'My Page' });
                                 setModalItemCategoryVisible(false);
                                 setModalImageVisible(false);
                             }}
@@ -819,15 +856,33 @@ function CodiMyListScreen({ navigation, route }) {
                         <MypageButton
                             value="coordi"
                             onPress={() => {
-                                navigation.navigate('Form')
+                                navigation.navigate('Form');
                             }}
                         ></MypageButton>
                     </View>
                 </UserProfileTextContainer>
             </UserProfileContainer>
-            <NormalButton onPress={changeMyOrLikeVisible}>
-                {buttonText}
-            </NormalButton>
+            <RowContainer>
+                {myOrLikeVisible ? 
+                    <NormalButton onPress={setMyCodiVisible}>
+                        {myCodiText}
+                    </NormalButton>
+                :
+                    <NormalButton 
+                        onPress={setMyCodiVisible}>
+                        선택됨
+                    </NormalButton>
+                }
+                {!myOrLikeVisible ? 
+                    <NormalButton onPress={setHeartCodiVisible}>
+                        {heartCodiText}
+                    </NormalButton>
+                :
+                    <NormalButton onPress={setHeartCodiVisible}>
+                        선택됨
+                    </NormalButton>
+                }
+            </RowContainer>
                 <MyOrLike />
             </ScrollView>
         </TopContainer>

@@ -1,6 +1,7 @@
 import React from  'react';
 import { Text, View, Modal, TouchableHighlight, TouchableWithoutFeedback, Image, ScrollView, Dimensions  } from 'react-native';
 import styled from 'styled-components/native';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CategoryText, ServerUrl, CategoryEngText } from '../components/TextComponent';
 import { styles, formStyles } from '../components/StyleSheetComponent';
@@ -22,6 +23,7 @@ const GridRowContainer = styled.View`
 function ImgUploadForRecScreen({ navigation, route }) {
     const [uploadCategory, setUploadCategory] = React.useState();
     const [value, setValue] = React.useState([route.params.value, route.params.secondValue]);
+    const [indicatorVisible, setIndicatorVisible] = React.useState(false);
     const [modalVisible, setModalVisible] = React.useState(false);
     const [userItems, setUserItems] = React.useState({});
     const [modalItems, setModalItems] = React.useState(null);
@@ -61,14 +63,16 @@ function ImgUploadForRecScreen({ navigation, route }) {
         // 서버로 이미지를 보내고 결과를 받아옵니다.
         axios.post(ServerUrl.url + 'wear/recommand/', uploadData, requestHeaders)
         .then(res => {
-            console.log(res.data)
             navigation.navigate('RecList', {rec: res.data});
+            setIndicatorVisible(false);
         })
-        .catch(err => console.error(err.response, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< rec error'))
+        .catch(err => {
+            setIndicatorVisible(false);
+            console.error(err)
+        })
     }
 
     React.useEffect(() => {
-        console.log(route.params)
         navigation.setOptions({title: `착용할 의류 선택하기`});
         getUserItems();
     }, []);
@@ -152,14 +156,12 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 }
             })
             setUserItems(itemData);
-            console.log(userItems, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< my item list')
         })
-        .catch(err => console.log(err.response.data))
+        .catch(err => console.error(err))
     }
 
     const ModalItemGrid = () => {
         const items = modalItems;
-        console.log(items, '<<<<<<<<<<<<< items')
         const itemsList = [];
         for (let i = 0; i <= parseInt(items?.length / 3); i++) {
             let startPoint = (i * 3);
@@ -173,7 +175,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
             try {
                 itemsList.push(items.slice(startPoint, endPoint));
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         }
         return (
@@ -202,6 +204,24 @@ function ImgUploadForRecScreen({ navigation, route }) {
 
     return (
         <ScrollView>
+                {/* 액티비티 인디케이터 모달 */}
+                <Modal
+                    transparent={true}
+                    visible={indicatorVisible}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <ActivityIndicator
+                                style={{marginBottom: 12}}
+                                animating={true}
+                                transparent={true}
+                                color={Colors.red800}
+                                size={'large'}
+                            />
+                            <Text>처리 중입니다</Text>
+                        </View>
+                    </View>
+                </Modal>
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -362,7 +382,10 @@ function ImgUploadForRecScreen({ navigation, route }) {
 
             <TouchableHighlight
                 style={styles.recButton}
-                onPress={recommendationRequest}
+                onPress={() => {
+                    setIndicatorVisible(true);
+                    recommendationRequest();
+                }}
             >
                 <Text style={styles.textStyle}>추천받기</Text>
             </TouchableHighlight>

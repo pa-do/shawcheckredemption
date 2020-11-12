@@ -300,7 +300,8 @@ def like_coordi(request, coordi_pk):
     """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    Lcoordi, flag = LikeCoordi.objects.get_or_create(coordi_num=coordi_pk, user=user)
+    ucoordi = get_object_or_404(UserCoordi, pk=coordi_pk)
+    Lcoordi, flag = LikeCoordi.objects.get_or_create(coordi_num=ucoordi, user=user)
     if flag:
         return HttpResponse('좋아요 등록.')
     else:
@@ -323,38 +324,39 @@ def like_list(request):
     like = []
     for i in clothes:
         data = {}
-        cloth = UserCoordi.objects.get(id=i['coordi_num'])
+        cloth = UserCoordi.objects.get(id=i['coordi_num_id'])
         serializer = CoordiListSerializer(cloth)
-        if serializer.data['headwear'] > -1:
-            A = Headwear.objects.get(pk=serializer.data['headwear'])
-            data['headwear'] = HeadwearSerializer(A).data
-        if serializer.data['top'] > -1:
-            A = Top.objects.get(pk=serializer.data['top'])
-            data['top'] = TopSerializer(A).data
-        if serializer.data['outer'] > -1:
-            A = Outer.objects.get(pk=serializer.data['outer'])
-            data['outer'] = OuterSerializer(A).data
-        if serializer.data['acc'] > -1:
-            A = Accessory.objects.get(pk=serializer.data['acc'])
-            data['acc'] = AccessorySerializer(A).data
-        if serializer.data['pants'] > -1:
-            A = Pants.objects.get(pk=serializer.data['pants'])
-            data['pants'] = PantsSerializer(A).data
-        if serializer.data['bag'] > -1:
-            A = Bag.objects.get(pk=serializer.data['bag'])
-            data['bag'] = BagSerializer(A).data
-        if serializer.data['watch'] > -1:
-            A = Watch.objects.get(pk=serializer.data['watch'])
-            data['watch'] = WatchSerializer(A).data
-        if serializer.data['shoes'] > -1:
-            A = Shoes.objects.get(pk=serializer.data['shoes'])
-            data['shoes'] = ShoesSerializer(A).data
+        if serializer.data['c_code'] == 0:
+            if serializer.data['headwear'] > -1:
+                A = Headwear.objects.get(pk=serializer.data['headwear'])
+                data['headwear'] = HeadwearSerializer(A).data
+            if serializer.data['top'] > -1:
+                A = Top.objects.get(pk=serializer.data['top'])
+                data['top'] = TopSerializer(A).data
+            if serializer.data['outer'] > -1:
+                A = Outer.objects.get(pk=serializer.data['outer'])
+                data['outer'] = OuterSerializer(A).data
+            if serializer.data['acc'] > -1:
+                A = Accessory.objects.get(pk=serializer.data['acc'])
+                data['acc'] = AccessorySerializer(A).data
+            if serializer.data['pants'] > -1:
+                A = Pants.objects.get(pk=serializer.data['pants'])
+                data['pants'] = PantsSerializer(A).data
+            if serializer.data['bag'] > -1:
+                A = Bag.objects.get(pk=serializer.data['bag'])
+                data['bag'] = BagSerializer(A).data
+            if serializer.data['watch'] > -1:
+                A = Watch.objects.get(pk=serializer.data['watch'])
+                data['watch'] = WatchSerializer(A).data
+            if serializer.data['shoes'] > -1:
+                A = Shoes.objects.get(pk=serializer.data['shoes'])
+                data['shoes'] = ShoesSerializer(A).data
         c_user = get_object_or_404(User, pk=serializer.data['user'])
         user_data = UserSerializer(c_user)
-        chk = LikeCoordi.objects.filter(user=user, coordi_num=i['coordi_num'])
+        chk = LikeCoordi.objects.filter(user=user, coordi_num=i['coordi_num_id'])
         liked = 1 if chk.exists() else 0
-        count = LikeCoordi.objects.filter(coordi_num=i['coordi_num'])
-        like.append({'id':i['coordi_num'], 'user':user_data.data, 'img':cloth.img, 'liked': liked, 'like_count': len(count),'data': data})
+        count = LikeCoordi.objects.filter(coordi_num=i['coordi_num_id'])
+        like.append({'id':i['coordi_num_id'], 'user':user_data.data, 'img':cloth.img, 'liked': liked, 'like_count': len(count),'data': data})
     return Response(like)
 
 

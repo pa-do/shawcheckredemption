@@ -3,6 +3,7 @@ import { StyleSheet, Modal, Text, TouchableHighlight, TouchableWithoutFeedback, 
 import axios from 'axios'
 import styled from 'styled-components/native';
 import Constants from 'expo-constants'
+import { StackActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput } from 'react-native-paper';
 import { styles, formStyles, gridStyles } from '../components/StyleSheetComponent';
@@ -153,9 +154,8 @@ function CodiFormScreen({ navigation }) {
                 }
             })
             setUserItems(itemData);
-            console.log(userItems, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< my item list')
         })
-        .catch(err => console.log(err.response.data))
+        .catch(err => console.error(err))
     }
 
     const openItemModal = async () => {
@@ -225,15 +225,15 @@ function CodiFormScreen({ navigation }) {
 
         axios.post(ServerUrl.url + 'wear/coordi/', uploadData, requestHeaders)
         .then(res => {
-            console.log(res)
-            // navigation.navigate('All')
+            navigation.dispatch(
+                StackActions.replace('My page')
+            )
         })
-        .catch(err => console.error(err.response))
+        .catch(err => console.error(err))
     }
     
     const ModalItemGrid = () => {
         const items = modalItems;
-        console.log(items, '<<<<<<<<<<<<< items')
         const itemsList = [];
         for (let i = 0; i <= parseInt(items?.length / 3); i++) {
             let startPoint = (i * 3);
@@ -247,7 +247,7 @@ function CodiFormScreen({ navigation }) {
             try {
                 itemsList.push(items.slice(startPoint, endPoint));
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         }
         return (
@@ -365,9 +365,13 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        setUploadCategory(CategoryEngText.hat);
-                        openItemModal();
-                        setModalItems(userItems.hats);
+                        if (hatImage !== null) {
+                            setHatImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.hat);
+                            openItemModal();
+                            setModalItems(userItems.hats);
+                        }
                     }}>
                     {hatImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + hatImage.img }} style={formStyles.uploadedItem} /> 
@@ -380,9 +384,13 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        setUploadCategory(CategoryEngText.top);
-                        openItemModal();
-                        setModalItems(userItems.tops);
+                        if (topImage !== null) {
+                            setTopImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.top);
+                            openItemModal();
+                            setModalItems(userItems.tops);
+                        }
                     }}>
                     
                     {topImage !== null ? 
@@ -396,9 +404,13 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        setUploadCategory(CategoryEngText.outer);
-                        openItemModal();
-                        setModalItems(userItems.outers);
+                        if (outerImage !== null) {
+                            setOuterImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.outer);
+                            openItemModal();
+                            setModalItems(userItems.outers);
+                        }
 
                     }}>
                     {outerImage !== null ? 
@@ -414,9 +426,13 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        setUploadCategory(CategoryEngText.accessory);
-                        openItemModal();
-                        setModalItems(userItems.accs);
+                        if (AccImage !== null) {
+                            setAccImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.accessory);
+                            openItemModal();
+                            setModalItems(userItems.accs);
+                        }
 
                     }}>
                     {AccImage !== null ? 
@@ -430,10 +446,13 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        setUploadCategory(CategoryEngText.pants);
-                        openItemModal();
-                        setModalItems(userItems.pants);
-
+                        if (pantsImage !== null) {
+                            setPantsImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.pants);
+                            openItemModal();
+                            setModalItems(userItems.pants);
+                        }
                     }}>
                     {pantsImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + pantsImage.img }} style={formStyles.uploadedItem} /> 
@@ -446,10 +465,13 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={async () => {
-                        setUploadCategory(CategoryEngText.bag);
-                        await openItemModal();
-                        setModalItems(userItems.bags);
-
+                        if (bagImage !== null) {
+                            setBagImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.bag);
+                            await openItemModal();
+                            setModalItems(userItems.bags);
+                        }
                     }}>
                     {bagImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + bagImage.img }} style={formStyles.uploadedItem} /> 
@@ -464,10 +486,13 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        setUploadCategory(CategoryEngText.watch);
-                        openItemModal();
-                        setModalItems(userItems.watches);
-
+                        if (watchImage !== null) {
+                            setWatchImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.watch);
+                            openItemModal();
+                            setModalItems(userItems.watches);
+                        }
                     }}>
                     {watchImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + watchImage.img }} style={formStyles.uploadedItem} /> 
@@ -480,10 +505,13 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        setUploadCategory(CategoryEngText.shoes);
-                        openItemModal();
-                        setModalItems(userItems.shoes);
-
+                        if (shoesImage !== null) {
+                            setShoesImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.shoes);
+                            openItemModal();
+                            setModalItems(userItems.shoes);
+                        }
                     }}>
                     {shoesImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + shoesImage.img }} style={formStyles.uploadedItem} /> 

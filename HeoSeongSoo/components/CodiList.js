@@ -1,9 +1,10 @@
 import React from 'react';
-import { Text, TouchableWithoutFeedback  } from 'react-native';
+import { Text, TouchableWithoutFeedback, TouchableHighlight  } from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
 import { ServerUrl } from '../components/TextComponent';
+import { AntDesign } from '@expo/vector-icons'; 
 
 // 전체 코디리스트의 개별 아이템입니다.
 
@@ -15,7 +16,8 @@ const CodiItemCard = styled.View`
 
 // 이미지를 감싸는 뷰
 const CodiListItem = styled.View`
-    height: 250px;
+    margin-top: 10px;
+    height: 300px;
 `;
 
 // 코디의 이미지
@@ -70,7 +72,6 @@ function CodiList(props) {
         // codiItem.id와 itemLike 전송
         axios.post(ServerUrl.url + `wear/likecoordi/${codiItem.id}`, null, requestHeaders)
         .then(res => {
-            console.log(res.data)
             if (res.data === '좋아요 삭제.'){
                 setLikeItem({
                     liked: !itemLike.liked,
@@ -87,7 +88,6 @@ function CodiList(props) {
     }
     return (
         <CodiItemCard>
-            <Text style={{margin: 3, fontWeight: 'bold'}}>{codiItem.user.nickname}</Text>
             <CodiListItem>
                 <TouchableWithoutFeedback onPress={props.imgOnPress}>
                     <CodiItemImg
@@ -96,15 +96,19 @@ function CodiList(props) {
                     }}
                     />
                 </TouchableWithoutFeedback>
+                <TouchableHighlight onPress={changeHeart} style={{position: 'absolute', zIndex: 1, bottom: 10, right: 10}}>
+                    <HeartContainer>
+                       {itemLike.liked ? <AntDesign name="pushpin" size={40} color="#dbb91f" /> : <AntDesign name="pushpino" size={40} color="#dbb91f"  />}
+                    </HeartContainer>
+                </TouchableHighlight>
             </CodiListItem>
-            <TouchableWithoutFeedback onPress={changeHeart}>
-                <HeartContainer>
-                    <HeartText>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</HeartText>
-                </HeartContainer>
-            </TouchableWithoutFeedback>
+            
+            <Text style={{margin: 3, fontWeight: 'bold'}}>{codiItem.user.nickname}</Text>
             <ContentContainer>
                 <ContentText>{ codiItem.content }</ContentText>
+                <HeartText>{ itemLike.likes }</HeartText>
             </ContentContainer>
+            
                 <ContentText>{ codiItem.style }</ContentText>
                 <ContentText>{ codiItem.color }</ContentText>
         </CodiItemCard>

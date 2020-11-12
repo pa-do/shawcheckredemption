@@ -1,8 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 import { Dimensions } from 'react-native';
-import AuthContext from './AuthContext';
-
 // 모든 스타일을 관리하는 컴포넌트
 
 const styles = StyleSheet.create({
@@ -102,7 +100,6 @@ const personalStyles = StyleSheet.create({
   imageContainer: {
     width: '90%', 
     backgroundColor: '#000000', 
-    marginTop: Constants.statusBarHeight,
   },
   imageStyles: {
     width: Dimensions.get('window').width,

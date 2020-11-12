@@ -1,11 +1,8 @@
 import React from  'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StackActions } from '@react-navigation/native';
-import { Alert, Text, View } from 'react-native';
+import { View } from 'react-native';
 import Container from '../components/Container';
-import RowContainer from '../components/RowContainer';
-import NormalButton from '../components/buttons/NormalButton';
 import AuthContext from '../components/AuthContext';
 import { ServerUrl, RadioButtonText } from '../components/TextComponent';
 import MainText from '../components/main/MainText';
@@ -15,7 +12,6 @@ import MainChangeButton from '../components/main/MainChangeButton';
 function HomeScreen({ navigation }) {
     const [value, setValue] = React.useState('none');
     const [secondValue, setSecondValue] = React.useState('friend');
-
 
     const { signUp, signOut } = React.useContext(AuthContext);
 
@@ -30,34 +26,11 @@ function HomeScreen({ navigation }) {
         } catch (e) {
         // Restoring token failed
         }
-        const requestHeaders = {
-          headers: {
-              Authorization: `JWT ${userToken}`
-          }
-        }
-        axios.get(ServerUrl.url + 'rest-auth/user/', requestHeaders)
-        .then(res => {
-          console.log(res.data, '<<<<<<<<<< get user Info')
-          if (res.data.color === "" || res.data.nickname === "") {
-                navigation.dispatch(
-                    StackActions.replace("Sign up2", {
-                        userToken: userToken,
-                        nickname: res.data.username
-                    })
-                );
-          }
-        })
-        .catch(err => {
-            console.error(err.response.data)
-            signOut();
-        })
-
         const token = {
             token: userToken
         }
         axios.post(ServerUrl.url + 'api-jwt-auth/refresh/', token)
         .then(res => {
-            console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<< refresh token')
             signUp(res.data.token);
         })
         .catch(err => {
