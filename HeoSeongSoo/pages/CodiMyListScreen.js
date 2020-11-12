@@ -10,7 +10,8 @@ import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import AuthContext from '../components/AuthContext';
 import { ServerUrl, CategoryText, CategoryEngText } from '../components/TextComponent';
-import { styles } from '../components/StyleSheetComponent';
+import { styles, gridStyles } from '../components/StyleSheetComponent';
+import RowContainer from '../components/RowContainer';
 
 const UserProfileImg = styled.Image`
     width: 150px;
@@ -21,8 +22,8 @@ const UserProfileImg = styled.Image`
 const CodiItemImg = styled.Image`
     margin: 3px;
     width: 31%;
-    height: 150px;
-    resize-mode: cover;
+    height: 150;
+    resize-mode: center;
 `;
 
 const UserProfileContainer = styled.View`
@@ -117,6 +118,8 @@ function CodiMyListScreen({ navigation, route }) {
     const [modalImageVisible, setModalImageVisible] = React.useState(false);
     const [modalColorVisible, setModalColorVisible] = React.useState(false);
     const [modalCategoryVisible, setModalCategoryVisible] = React.useState(false);
+    const [modalItemCategoryVisible, setModalItemCategoryVisible] = React.useState(false);
+    const [modalItems, setModalItems] = React.useState(null);
     const [myOrLikeVisible, setMyOrLikeVisible] = React.useState(false);
     const [detailCategory, setDetailCategory] = React.useState(null);
     const [detailCategoryList, setDetailCategoryList] = React.useState([]);
@@ -390,7 +393,48 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
         getUserItems(requestHeaders);
-        setModalVisible(true);
+        setModalItemCategoryVisible(true);
+    }
+
+    const ModalItemGrid = () => {
+        const items = modalItems;
+        console.log(items, '<<<<<<<<<<<<< items')
+        const itemsList = [];
+        for (let i = 0; i <= parseInt(items?.length / 3); i++) {
+            let startPoint = (i * 3);
+            let endPoint = (i * 3) + 3;
+            if (endPoint > items?.length) {
+                endPoint = endPoint - 1;
+                if (endPoint > items?.length) {
+                    endPoint = endPoint - 1;
+                }
+            }
+            try {
+                itemsList.push(items.slice(startPoint, endPoint));
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        return (
+            <>
+                {itemsList.map((tempItems, index) => {
+                    return (
+                        <GridRowContainer key={index}>
+                            {tempItems.map(item => {
+                                return (
+                                    <TouchableWithoutFeedback
+                                        key={item.id}
+                                        onPress={() => {
+                                        }}>
+                                        <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
+                                    </TouchableWithoutFeedback>
+                                );
+                            })}
+                        </GridRowContainer>
+                    )
+                })}
+            </>
+        );
     }
 
 
@@ -584,7 +628,8 @@ function CodiMyListScreen({ navigation, route }) {
             </Modal>
             {/* 아이템 모달 */}
             <Modal
-                animationType="slide"
+                style={{margin: 0}}
+                animationType="fade"
                 transparent={true}
                 visible={modalVisible}
             >
@@ -597,15 +642,15 @@ function CodiMyListScreen({ navigation, route }) {
                             <ScrollView
                                 horizontal={true}
                             >
-                                <ItemBox>
-                                    <TouchableHighlight onPress={() => {
-                                        setUploadCategory(CategoryEngText.top);
-                                        setDetailCategoryList(topDetailCategory);
-                                        setModalCategoryVisible(true);
-                                    }}>
+                                <TouchableHighlight onPress={() => {
+                                    setUploadCategory(CategoryEngText.top);
+                                    setDetailCategoryList(topDetailCategory);
+                                    setModalCategoryVisible(true);
+                                }}>
+                                    <ItemBox>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                    </TouchableHighlight>
-                                </ItemBox>
+                                    </ItemBox>
+                                </TouchableHighlight>
                                 {userItems.tops?.map((item, index) => {
                                     return (
                                         <ItemBox key={index}>
@@ -839,6 +884,153 @@ function CodiMyListScreen({ navigation, route }) {
                         <Text style={styles.textStyle}>닫기</Text>
                         </TouchableHighlight>
                     </ScrollView>
+                    </View>
+                </View>
+            </Modal>
+            {/* 아이템 카테고리 모달 */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalItemCategoryVisible}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                            onPress={() => {
+                                setModalItems(null);
+                                setModalItemCategoryVisible(false);
+                            }}
+                        >
+                                <Text style={styles.textStyle}>닫기</Text>
+                        </TouchableHighlight>
+                    {modalItems === null ? (
+                        <>
+                        <GridRowContainer style={gridStyles.row}>
+                            <TouchableWithoutFeedback
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.hat);
+                                    setDetailCategoryList(headwearDetailCategory);
+                                    setModalItems(userItems.hats);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.hat }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.top);
+                                    setDetailCategoryList(topDetailCategory);
+                                    setModalItems(userItems.tops);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.top }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.outer);
+                                    setDetailCategoryList(outerDetailCategory);
+                                    setModalItems(userItems.outers);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.outer }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </GridRowContainer>
+                        <GridRowContainer style={gridStyles.row}>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.accessory);
+                                    setDetailCategoryList(accessoryDetailCategory);
+                                    setModalItems(userItems.accs);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.accessory }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.pants);
+                                    setDetailCategoryList(pantsDetailCategory)
+                                    setModalItems(userItems.pants);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.pants }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.bag);
+                                    setDetailCategoryList(bagDetailCategory);
+                                    setModalItems(userItems.bags);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.bag }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </GridRowContainer>
+                        <GridRowContainer style={gridStyles.row}>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.watch);
+                                    setModalItems(userItems.watches);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.watch }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.shoes);
+                                    setDetailCategoryList(shoesDetailCategory);
+                                    setModalItems(userItems.shoes);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.shoes }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                }}>
+                                <View style={gridStyles.col}>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </GridRowContainer>
+                        </>
+                        ) : (
+                            <>
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                    onPress={() => {
+                                        setModalItems(null);
+                                    }}
+                                >
+                                        <Text style={styles.textStyle}>이전</Text>
+                                </TouchableHighlight>
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                    onPress={() => {
+                                        if (uploadCategory === CategoryEngText.watch){
+                                            setModalImageVisible(true);
+                                        } else {
+                                            setModalCategoryVisible(true);
+                                        }
+                                    }}
+                                >
+                                        <Text style={styles.textStyle}>아이템 등록</Text>
+                                </TouchableHighlight>
+                                <ModalItemGrid/>
+                            </>
+                        )}
                     </View>
                 </View>
             </Modal>
