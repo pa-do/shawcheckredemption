@@ -7,7 +7,8 @@ function MainChangeButton(props) {
         <TouchableHighlight
         style={{marginRight: 5}}
         underlayColor="none"
-        onPress={props.onPress} >
+        onPress={props.onPress}
+        >
             <Ionicons name="ios-arrow-dropleft" size={48} color="black" />
         </TouchableHighlight>
 

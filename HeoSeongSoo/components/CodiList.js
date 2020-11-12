@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableWithoutFeedback, TouchableHighlight  } from 'react-native';
+import { Text, View, TouchableWithoutFeedback, TouchableHighlight  } from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
@@ -10,8 +10,9 @@ import { AntDesign } from '@expo/vector-icons';
 
 // 카드의 전체 레이아웃
 const CodiItemCard = styled.View`
-    margin: 10px;
-    border: 2px #000000 solid;
+    margin: 15px 10px;
+    padding: 10px;
+    background-color: white;
 `;
 
 // 이미지를 감싸는 뷰
@@ -30,8 +31,6 @@ const CodiItemImg = styled.Image`
 // 하트를 품은 뷰
 const HeartContainer = styled.View`
     margin: 5px;
-    flex-direction: row;
-    justify-content: space-between;
 `;
 
 // 하트 텍스트
@@ -88,7 +87,7 @@ function CodiList(props) {
         .catch(err => console.error(err))
     }
     return (
-        <CodiItemCard>
+        <CodiItemCard style={{borderRadius: 20}}>
             <CodiListItem>
                 <TouchableWithoutFeedback onPress={props.imgOnPress}>
                     <CodiItemImg
@@ -97,21 +96,25 @@ function CodiList(props) {
                     }}
                     />
                 </TouchableWithoutFeedback>
-                <TouchableHighlight onPress={changeHeart} style={{position: 'absolute', zIndex: 1, bottom: 10, right: 10}}>
-                    <HeartContainer>
+                <TouchableHighlight 
+                onPress={changeHeart} 
+                style={{position: 'absolute', zIndex: 1, bottom: 10, right: 10}}
+                underlayColor="none"
+                >
+                    <HeartContainer style={{justifyContent: 'center', alignItems: 'center'}}>
                        {itemLike.liked ? <AntDesign name="pushpin" size={40} color="#dbb91f" /> : <AntDesign name="pushpino" size={40} color="#dbb91f"  />}
+                       <Text style={{fontSize: 17}}>{ itemLike.likes }</Text>
                     </HeartContainer>
                 </TouchableHighlight>
             </CodiListItem>
-            
-            <Text style={{margin: 3, fontWeight: 'bold'}}>{codiItem.user.nickname}</Text>
             <ContentContainer>
-                <ContentText>{ codiItem.content }</ContentText>
-                <HeartText>{ itemLike.likes }</HeartText>
+                <Text numberOfLines={2} style={{flexDirection:'row', flexWrap:'wrap'}}>
+                    <Text style={{fontWeight: 'bold', fontSize: 18}}>{codiItem.user.nickname} </Text>
+                    <Text>({ codiItem.color } { codiItem.style })  </Text>
+                    <Text>{ codiItem.content }</Text>
+                </Text>
+                
             </ContentContainer>
-            
-                <ContentText>{ codiItem.style }</ContentText>
-                <ContentText>{ codiItem.color }</ContentText>
         </CodiItemCard>
     )
 }
