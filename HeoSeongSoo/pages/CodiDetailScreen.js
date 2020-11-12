@@ -18,6 +18,7 @@ const CodiItemImg = styled.Image`
 // 하트를 품은 뷰
 const HeartContainer = styled.View`
     margin: 5px;
+    flex-direction: row;
     justify-content: space-between;
 `;
 
@@ -47,6 +48,7 @@ function CodiDetailScreen({ navigation, route }) {
     const [codiSetDetail, setCodiSetDetail] = React.useState(route.params.item);
     const [itemLike, setLikeItem] = React.useState({liked: route.params.item.liked, likes: route.params.item.like_count});
     const [itemDataList, setItemDataList] = React.useState([]);
+    const [userData, setUserData] = React.useState(null);
 
     React.useEffect(() => {
         navigation.setOptions({title: `${route.params.item.user.nickname}님의 코디`});
@@ -65,9 +67,22 @@ function CodiDetailScreen({ navigation, route }) {
         data?.acc ? dataList.push(data?.acc) : null;
         // console.log(dataList, '<<<<<<<<<<<<<<<<< datalist')
         setItemDataList(dataList);
+
+        const dataAsync = async () => {
+            let requestHeaders = await getToken();
+
+            // 유저 정보 요청
+            axios.get(ServerUrl.url + 'rest-auth/user/', requestHeaders)
+            .then(res => {
+                setUserData(res.data);
+            })
+            .catch(err => {console.error(err.response.data)})
+
+        };
+        dataAsync();
     }, []);
     
-    async function changeHeart() {
+    async function getToken() {
         let userToken;
         try {
             userToken = await AsyncStorage.getItem('userToken');
@@ -79,6 +94,12 @@ function CodiDetailScreen({ navigation, route }) {
                 Authorization: `JWT ${userToken}`,
             }
         }
+
+        return requestHeaders;
+    }
+
+    async function changeHeart() {
+        const requestHeaders = await getToken();
         // axios 요청으로 하트 변경사항 저장
         // codiItem.id와 itemLike 전송
         axios.post(ServerUrl.url + `wear/likecoordi/${codiSetDetail.id}`, null, requestHeaders)
@@ -98,17 +119,34 @@ function CodiDetailScreen({ navigation, route }) {
         })
         .catch(err => console.error(err))
     }
+
+    async function deleteCodi() {
+        const requestHeaders = await getToken();
+        console.log(requestHeaders)
+        axios.delete(ServerUrl.url + `wear/coordi/${codiSetDetail.id}`, requestHeaders)
+        .then(res => {
+            navigation.goBack();
+        })
+        .catch(err => console.error(err.response.data))
+    }
     let nullCount = 0
     return (
         <>
             <CodiItemImg
                 source={{uri: ServerUrl.mediaUrl + codiSetDetail.img}}
             />
-            <TouchableWithoutFeedback onPress={changeHeart}>
                 <HeartContainer>
-                    <HeartText>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</HeartText>
+                    <TouchableWithoutFeedback onPress={changeHeart}>
+                            <HeartText>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</HeartText>
+                    </TouchableWithoutFeedback>
+                    {userData?.username === codiSetDetail.user.username ? 
+                        <TouchableWithoutFeedback onPress={deleteCodi}>
+                                <HeartText style={{color: 'red'}}>삭제</HeartText>
+                        </TouchableWithoutFeedback>
+                    :
+                        null
+                    }
                 </HeartContainer>
-            </TouchableWithoutFeedback>
             <ContentText>
                 {codiSetDetail.content}
             </ContentText>
