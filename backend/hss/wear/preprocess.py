@@ -130,9 +130,10 @@ def image_preprocess(target_item):
                 if i > diff and i < diff + height:
                     resize_image[i][j] = img_trim[i - diff][j]
 
+    thumbnail = cv2.resize(resize_image, dsize=(150, 150), interpolation=cv2.INTER_AREA)
+
     imgpath = target_item[:29]
-    print(imgpath)
     link = 'c' + target_item[29:-4] + '.png'
-    cv2.imwrite(os.path.join(imgpath, link), resize_image)
+    cv2.imwrite(os.path.join(imgpath, link), thumbnail)
     imglink = imgpath[8:] + link
     return result, imglink
