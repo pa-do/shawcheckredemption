@@ -29,10 +29,6 @@ const CodiItemImg = styled.Image`
     margin: 1px;
     width: 31%;
     height: 150px;
-<<<<<<< HEAD
-    border: 1px black;
-=======
->>>>>>> e4b28d2bc9aa330d95699efc8247cb1ea514d03f
     resize-mode: center;
 `;
 
