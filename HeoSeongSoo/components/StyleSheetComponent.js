@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 35,
-        alignItems: 'stretch',
+        alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
