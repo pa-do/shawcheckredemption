@@ -1,5 +1,5 @@
 import React from  'react';
-import { Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { Text, TouchableWithoutFeedback, ScrollView, StyleSheet, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Container from '../components/Container';
 import axios from 'axios'
@@ -12,7 +12,7 @@ import { ServerUrl } from '../components/TextComponent';
 const CodiItemImg = styled.Image`
     width: 100%;
     height: 50%;
-    resize-mode: cover;
+    resize-mode: contain;
 `;
 
 // 하트를 품은 뷰
@@ -37,13 +37,35 @@ const ContentText = styled.Text`
 
 `;
 
+const Seperator = styled.View`
+    align-self: stretch;
+    border-bottom-color: black;
+    border-bottom-width: ${StyleSheet.hairlineWidth}px;
+`;
+
 function CodiDetailScreen({ navigation, route }) {
     const [codiSetDetail, setCodiSetDetail] = React.useState(route.params.item);
-    const [itemLike, setLikeItem] = React.useState({liked: codiSetDetail.liked ? true : false, likes: codiSetDetail.like_count});
-    console.log(codiSetDetail, '<<<<<<<<<<<<<<<< codisetdetail')
+    const [itemLike, setLikeItem] = React.useState({liked: route.params.item.liked, likes: route.params.item.like_count});
+    const [itemDataList, setItemDataList] = React.useState([]);
+
     React.useEffect(() => {
         navigation.setOptions({title: `${route.params.item.user.nickname}님의 코디`});
     }, [route.params.item?.user]);
+
+    React.useEffect(() => {
+        const data = route.params.item.data;
+        const dataList = [];
+        data?.top ? dataList.push(data.top) : null;
+        data?.pants ? dataList.push(data?.pants) : null;
+        data?.shoes ? dataList.push(data?.shoes) : null;
+        data?.outer ? dataList.push(data?.outer) : null;
+        data?.headwear ? dataList.push(data?.headwear) : null;
+        data?.bag ? dataList.push(data?.bag) : null;
+        data?.watch ? dataList.push(data?.watch) : null;
+        data?.acc ? dataList.push(data?.acc) : null;
+        // console.log(dataList, '<<<<<<<<<<<<<<<<< datalist')
+        setItemDataList(dataList);
+    }, []);
     
     async function changeHeart() {
         let userToken;
@@ -59,9 +81,9 @@ function CodiDetailScreen({ navigation, route }) {
         }
         // axios 요청으로 하트 변경사항 저장
         // codiItem.id와 itemLike 전송
-        axios.post(ServerUrl.url + `wear/likecoordi/${codiItem.id}`, null, requestHeaders)
+        axios.post(ServerUrl.url + `wear/likecoordi/${codiSetDetail.id}`, null, requestHeaders)
         .then(res => {
-            console.log(res.data)
+            console.log(res.data, itemLike)
             if (res.data === '좋아요 삭제.'){
                 setLikeItem({
                     liked: !itemLike.liked,
@@ -78,34 +100,39 @@ function CodiDetailScreen({ navigation, route }) {
     }
     let nullCount = 0
     return (
-        <Container>
+        <>
+            <CodiItemImg
+                source={{uri: ServerUrl.mediaUrl + codiSetDetail.img}}
+            />
+            <TouchableWithoutFeedback onPress={changeHeart}>
+                <HeartContainer>
+                    <HeartText>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</HeartText>
+                </HeartContainer>
+            </TouchableWithoutFeedback>
+            <ContentText>
+                {codiSetDetail.content}
+            </ContentText>
             <ScrollView>
-                <CodiItemImg
-                    source={{uri: ServerUrl.mediaUrl + codiSetDetail.img}}
-                />
-                <TouchableWithoutFeedback onPress={changeHeart}>
-                    <HeartContainer>
-                        <HeartText>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</HeartText>
-                    </HeartContainer>
-                </TouchableWithoutFeedback>
-                <ContentText>
-                    {codiSetDetail.content}
-                </ContentText>
-                {codiSetDetail.items?.map(item => {
+                {itemDataList.map(item => {
+                    // console.log(itemDataList.length, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<< item')
                     if (Object.keys(item).length !== 0) {
                         return (
+                            <>
                             <TouchableWithoutFeedback
                             style={{marginBottom: 5}}
-                            key={item.id}
+                            key={item.item}
                             onPress={() => {
                                 navigation.navigate('WebView', { url: item.url })
                             }}>
                                 <ItemContainer>
-                                    <Text style={{fontWeight: 'bold'}}>{item.category}</Text>
-                                    <Text>{item.name}</Text>
+                                    <Text style={{fontWeight: 'bold'}}>{item.style}</Text>
+                                    <Text>{item.brand}</Text>
+                                    <Text>{item.item}</Text>
                                     <Text>{item.price} 원</Text>
                                 </ItemContainer>
                             </TouchableWithoutFeedback>
+                            <Seperator/>
+                            </>
                         )
                     } else {
                         nullCount++;
@@ -113,7 +140,7 @@ function CodiDetailScreen({ navigation, route }) {
                 })}
                 {nullCount === 5 ? <Text>등록된 상품의 정보가 없어요</Text> : null}
             </ScrollView>
-        </Container>
+        </>
     )
 }
 

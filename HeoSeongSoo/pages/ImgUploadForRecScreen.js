@@ -64,10 +64,11 @@ function ImgUploadForRecScreen({ navigation, route }) {
             console.log(res.data)
             navigation.navigate('RecList', {rec: res.data});
         })
-        .catch(err => console.error(err, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< rec error'))
+        .catch(err => console.error(err.response, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< rec error'))
     }
 
     React.useEffect(() => {
+        console.log(route.params)
         navigation.setOptions({title: `착용할 의류 선택하기`});
         getUserItems();
     }, []);
