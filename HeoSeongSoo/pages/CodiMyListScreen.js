@@ -12,6 +12,10 @@ import AuthContext from '../components/AuthContext';
 import { ServerUrl, CategoryText, CategoryEngText } from '../components/TextComponent';
 import { styles, gridStyles } from '../components/StyleSheetComponent';
 import RowContainer from '../components/RowContainer';
+import LogoutButton from '../components/mypage/LogoutButton';
+import UserName from '../components/mypage/UserName';
+import UserPersonalColor from '../components/mypage/UserPersonalColor';
+import { AntDesign } from '@expo/vector-icons'; 
 
 const UserProfileImg = styled.Image`
     width: 150px;
@@ -35,7 +39,6 @@ const UserProfileTextContainer = styled.View`
     flex-direction: column;
     width: 100%;
     margin-left: 20px;
-    background-color: gray;
 `;
 
 const TopContainer = styled.SafeAreaView`
@@ -1053,39 +1056,43 @@ function CodiMyListScreen({ navigation, route }) {
                     onPress={() => {
                         pickUserImage();
                     }}
+                    underlayColor="none"
                 >
                     <UserProfileImg
                         source={{uri: UserData?.profile_image}}
                     />
                 </TouchableHighlight>
                 <UserProfileTextContainer>
-                    <Text>
-                        {UserData?.nickname}
-                    </Text>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <UserName>
+                            {UserData?.nickname}
+                        </UserName>
+                        <LogoutButton
+                            onPress={() => {
+                                signOut();
+                            }}
+                        >
+                        </LogoutButton>
+                    </View>
                     <TouchableHighlight
                         onPress={() => {
                             navigation.navigate('PersonalColor', {color: UserData?.color})
                         }}
+                        underlayColor="none"
                     >
-                        <Text>
+                        <UserPersonalColor>
                             {UserData?.color}
-                        </Text>
+                        </UserPersonalColor>
                     </TouchableHighlight>
-                    <NormalButton
-                        onPress={() => {
-                            signOut();
-                        }}
-                    >
-                        로그아웃
-                    </NormalButton>
-                    <NormalButton
+                    <TouchableHighlight
                         onPress={() => {
                             // UserItems 데이터를 수신합니다.
                             openItemModal();
                         }}
                     >
-                        내 아이템
-                    </NormalButton>
+                        <AntDesign name="database" size={48} color="black" />
+                        {/* <Text>내옷장</Text> */}
+                    </TouchableHighlight>
                     <NormalButton
                         onPress={() => {
                             navigation.navigate('Form')
