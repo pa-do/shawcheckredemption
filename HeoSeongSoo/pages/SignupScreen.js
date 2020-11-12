@@ -65,9 +65,9 @@ function SignupScreen({ navigation, route }) {
 
         axios.patch(ServerUrl.url + 'rest-auth/user/', patchData, requestHeaders)
         .then(res => {
-            console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<< patched user data')
+            // empty
         })
-        .catch(err => console.log(err.response))
+        .catch(err => console.error(err))
     }
 
     const getUserPersonalColor = () => {
@@ -90,10 +90,8 @@ function SignupScreen({ navigation, route }) {
         const fd = new FormData();
         fd.append('img', userImageData);
 
-        console.log(userImageData)
         axios.post(ServerUrl.url + 'accounts/personalcolor/', fd, requestHeaders)
         .then(res => {
-            console.log(res.data)
             if (res.data === '정면 사진을 올려주세요.') {
                 setimageError('다른 이미지를 올려주세요');
             } else {
@@ -121,7 +119,7 @@ function SignupScreen({ navigation, route }) {
         })
         .catch(err => {
             setIndicatorVisible(false);
-            console.error(err.response)
+            console.error(err)
         })
     }
 
@@ -163,7 +161,6 @@ function SignupScreen({ navigation, route }) {
                                 if (textAccount !== ''){
                                     axios.get(ServerUrl.url + `accounts/chk/${textAccount}`)
                                     .then(res => {
-                                        console.log(res.data)
                                         if (res.data === '사용 할 수 있는 아이디입니다.') {
                                             setAccountPass(res.data);
                                         } else {

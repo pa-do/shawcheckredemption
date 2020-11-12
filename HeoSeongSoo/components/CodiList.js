@@ -72,7 +72,6 @@ function CodiList(props) {
         // codiItem.id와 itemLike 전송
         axios.post(ServerUrl.url + `wear/likecoordi/${codiItem.id}`, null, requestHeaders)
         .then(res => {
-            console.log(res.data)
             if (res.data === '좋아요 삭제.'){
                 setLikeItem({
                     liked: !itemLike.liked,
