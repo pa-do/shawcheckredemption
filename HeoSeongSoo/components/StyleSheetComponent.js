@@ -97,16 +97,16 @@ const personalStyles = StyleSheet.create({
 
 const gridStyles = StyleSheet.create({
   col: {
-    backgroundColor: 'black',
+    backgroundColor: '#DDDDDD',
     width: '33%',
     height: undefined,
     aspectRatio: 1 / 1,
-    margin: 1,
-    padding: 0,
+    marginHorizontal: 1,
+    padding: 10,
+    alignContent: 'center',
   },
   row: {
     width: '100%',
-    backgroundColor: 'red',
   }
 
 })

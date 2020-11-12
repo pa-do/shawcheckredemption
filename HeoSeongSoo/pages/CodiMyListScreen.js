@@ -27,7 +27,7 @@ const UserProfileImg = styled.Image`
 const CodiItemImg = styled.Image`
     margin: 3px;
     width: 31%;
-    height: 150;
+    height: 150px;
     resize-mode: center;
 `;
 
@@ -53,8 +53,9 @@ const Container = styled.SafeAreaView`
 `;
 
 const GridRowContainer = styled.View`
-    flex: 1;
+    flex: 0.252;
     flex-direction: row;
+    padding: 1px;
 `;
 
 const ItemBox = styled.View`
@@ -506,6 +507,8 @@ function CodiMyListScreen({ navigation, route }) {
                         <Container>
                             <ScrollView
                                 horizontal={true}
+                                showsHorizontalScrollIndicator={false}
+
                             >
                                 {detailCategoryList.map((item, index) => {
                                     return (
@@ -516,12 +519,12 @@ function CodiMyListScreen({ navigation, route }) {
                                             key={index}
                                         >
                                             {detailCategory === index ?
-                                                <View style={{margin: 7, backgroundColor: 'rgb(234, 152, 90)'}}>
-                                                    <Text style={{fontSize: 25}}>{item}</Text>
+                                                <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 200, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
+                                                    <Text style={{fontSize: 20}}>{item}</Text>
                                                 </View>
                                             :
-                                                <View style={{margin: 7}}>
-                                                    <Text style={{fontSize: 25}}>{item}</Text>
+                                                <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 200, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
+                                                    <Text style={{fontSize: 20}}>{item}</Text>
                                                 </View>                     
                                             }
                                         </TouchableHighlight>
@@ -530,7 +533,7 @@ function CodiMyListScreen({ navigation, route }) {
                             </ScrollView>
                         </Container>
                         <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                            style={{ ...styles.openButton, backgroundColor: '#0d3754' }}
                             onPress={() => {
                                 setModalCategoryVisible(false);
                                 setModalImageVisible(true);
@@ -659,7 +662,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.hats);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.textStyle}>{ CategoryText.hat }</Text>
+                                    <Text style={styles.uploadboxText}>{ CategoryText.hat }</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -670,7 +673,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.tops);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.textStyle}>{ CategoryText.top }</Text>
+                                    <Text style={styles.uploadboxText}>{ CategoryText.top }</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -681,7 +684,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.outers);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.textStyle}>{ CategoryText.outer }</Text>
+                                    <Text style={styles.uploadboxText}>{ CategoryText.outer }</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                         </GridRowContainer>
@@ -694,7 +697,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.accs);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.textStyle}>{ CategoryText.accessory }</Text>
+                                    <Text style={styles.uploadboxText}>{ CategoryText.accessory }</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -705,7 +708,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.pants);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.textStyle}>{ CategoryText.pants }</Text>
+                                    <Text style={styles.uploadboxText}>{ CategoryText.pants }</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -716,7 +719,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.bags);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.textStyle}>{ CategoryText.bag }</Text>
+                                    <Text style={styles.uploadboxText}>{ CategoryText.bag }</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                         </GridRowContainer>
@@ -728,7 +731,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.watches);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.textStyle}>{ CategoryText.watch }</Text>
+                                    <Text style={styles.uploadboxText}>{ CategoryText.watch }</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -739,7 +742,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.shoes);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.textStyle}>{ CategoryText.shoes }</Text>
+                                    <Text style={styles.uploadboxText}>{ CategoryText.shoes }</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -815,6 +818,7 @@ function CodiMyListScreen({ navigation, route }) {
                         </UserPersonalColor>
                     </TouchableHighlight>
                     <TouchableHighlight
+                        underlayColor="#DDDDDD"
                         onPress={() => {
                             // UserItems 데이터를 수신합니다.
                             openItemModal();

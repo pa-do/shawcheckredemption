@@ -585,7 +585,8 @@ function CodiFormScreen({ navigation }) {
             <Container style={{marginBottom: 22, alignItems: 'center', justifyContent: 'center'}}>
                 <ScrollView
                     horizontal={true}
-                    // style={{marginHorizontal: 22}}
+                    style={{marginHorizontal: 22}}
+                    showsHorizontalScrollIndicator={false}
                 >
                 {colorRGB.map((item, index) => {
                     return (
