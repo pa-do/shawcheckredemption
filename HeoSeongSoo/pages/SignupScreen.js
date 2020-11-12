@@ -139,7 +139,7 @@ function SignupScreen({ navigation, route }) {
             {userToken === undefined ? (
                 <>
                     <TextInput
-                        label="Account"
+                        label="아이디"
                         value={textAccount}
                         onChangeText={text => {
                             setTextAccount(text);
@@ -174,14 +174,14 @@ function SignupScreen({ navigation, route }) {
                     {accountError && <ErrorMsg>{ accountError }</ErrorMsg>}
                     {accountPass && <PassMsg>{ accountPass }</PassMsg>}
                     <TextInput
-                        label="Password"
+                        label="비밀번호"
                         type="password"
                         value={textPassword}
                         onChangeText={text => setTextPassword(text)}
                         secureTextEntry
                     />
                     <TextInput
-                        label="Password Confirm"
+                        label="비밀번호 확인"
                         value={textPasswordConfrim}
                         onChangeText={text => setTextPasswordConfrim(text)}
                         secureTextEntry

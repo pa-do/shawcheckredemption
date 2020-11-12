@@ -6,7 +6,7 @@ function MypageButton(props) {
     return (
         <TouchableHighlight
         value={props.value}
-        style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center', borderRadius:'50%', borderWidth: 1, borderColor: '#0d3754', width: '26%', marginRight: '2%', padding: 0}}
+        style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center', borderRadius: 20, borderWidth: 1, borderColor: '#0d3754', width: '26%', marginRight: '2%', padding: 0}}
         onPress={props.onPress} 
         >   
             {/* value가 closet일 경우 */}
