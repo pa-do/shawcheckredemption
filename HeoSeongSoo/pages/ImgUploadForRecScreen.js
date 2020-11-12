@@ -18,7 +18,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
     const [watchImage, setWatchImage] = React.useState(null);
     const [AccImage, setAccImage] = React.useState(null);
 
-
+    
     const recommendationRequest = () => {
         // 서버로 이미지를 보내고 결과를 받아옵니다.
         // axios.post()
@@ -98,6 +98,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
     }
 
     React.useEffect(() => {
+        navigation.setOptions({title: `착용할 의류 선택하기`});
         const imageUri = route.params.image?.uri
         if (imageUri) {
             switch (uploadCategory) {
@@ -224,13 +225,15 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 </View>
             </Modal>
             </View>
-            <Text>
-                코디를 생성하는 폼 화면
+            <Text style={{color: 'black', textAlign: 'center', paddingVertical: 15, marginBottom: 22}}>
+                착용할 의류을 옷장에서 가져오세요! {"\n"}
+                (착용할 의류가 없으면 그냥 '추천받기'를 눌러요!)
             </Text>
             <View style={{height: Dimensions.get('window').height}}>
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                     setModalVisible(true);
                     setUploadCategory('hat');
@@ -238,26 +241,29 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {hatImage !== null ? 
                         <Image source={{ uri: hatImage }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.hat }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.hat }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                     setModalVisible(true);
                     setUploadCategory('top');
-                    }}>
+                    }}
+                    >
                     
                     {topImage !== null ? 
                         <Image source={{ uri: topImage }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.top }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.top }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                     setModalVisible(true);
                     setUploadCategory('outer');
@@ -265,7 +271,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {outerImage !== null ? 
                         <Image source={{ uri: outerImage }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.outer }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.outer }</Text>
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -273,6 +279,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                     setModalVisible(true);
                     setUploadCategory('accessory');
@@ -280,12 +287,13 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {AccImage !== null ? 
                         <Image source={{ uri: AccImage }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.accessory }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.accessory }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                     setModalVisible(true);
                     setUploadCategory('pants');
@@ -293,12 +301,13 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {pantsImage !== null ? 
                         <Image source={{ uri: pantsImage }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.pants }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.pants }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                     setModalVisible(true);
                     setUploadCategory('bag');
@@ -306,7 +315,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {bagImage !== null ? 
                         <Image source={{ uri: bagImage }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.bag }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.bag }</Text>
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -314,6 +323,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                     setModalVisible(true);
                     setUploadCategory('watch');
@@ -321,12 +331,13 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {watchImage !== null ? 
                         <Image source={{ uri: watchImage }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.watch }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.watch }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                     setModalVisible(true);
                     setUploadCategory('shoes');
@@ -334,7 +345,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {shoesImage !== null ? 
                         <Image source={{ uri: shoesImage }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.shoes }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.shoes }</Text>
                     }
                 </TouchableHighlight>
             
