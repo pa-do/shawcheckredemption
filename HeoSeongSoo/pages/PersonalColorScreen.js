@@ -51,6 +51,12 @@ function PersonalColorScreen({ navigation, route }) {
                 }
 
             </View>
+            <Button
+                title={'확인'}
+                onPress={() => {
+                    navigation.goBack();
+                }}
+            >확인</Button>
         </ScrollView>
     );
 }
