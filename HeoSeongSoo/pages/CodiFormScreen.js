@@ -344,7 +344,7 @@ function CodiFormScreen({ navigation }) {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                            style={{ ...styles.openButton, backgroundColor: 'red' }}
                             onPress={() => {
                                 setModalItems(null);
                                 setModalItemCategoryVisible(false);
@@ -359,7 +359,7 @@ function CodiFormScreen({ navigation }) {
             </Modal>
             </TopContainer>
             <ScrollView>
-            <View style={{height: Dimensions.get('window').height + 150}}>
+            <View style={{height: Dimensions.get('window').height + 150, marginVertical: 0}}>
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
@@ -372,7 +372,7 @@ function CodiFormScreen({ navigation }) {
                     {hatImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + hatImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.hat }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.hat }</Text>
                     }
                 </TouchableHighlight>
 
@@ -388,7 +388,7 @@ function CodiFormScreen({ navigation }) {
                     {topImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + topImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.top }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.top }</Text>
                     }
                 </TouchableHighlight>
 
@@ -404,7 +404,7 @@ function CodiFormScreen({ navigation }) {
                     {outerImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + outerImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.outer }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.outer }</Text>
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -422,7 +422,7 @@ function CodiFormScreen({ navigation }) {
                     {AccImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + AccImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.accessory }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.accessory }</Text>
                     }
                 </TouchableHighlight>
 
@@ -438,7 +438,7 @@ function CodiFormScreen({ navigation }) {
                     {pantsImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + pantsImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.pants }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.pants }</Text>
                     }
                 </TouchableHighlight>
 
@@ -454,7 +454,7 @@ function CodiFormScreen({ navigation }) {
                     {bagImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + bagImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.bag }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.bag }</Text>
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -472,7 +472,7 @@ function CodiFormScreen({ navigation }) {
                     {watchImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + watchImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.watch }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.watch }</Text>
                     }
                 </TouchableHighlight>
 
@@ -488,7 +488,7 @@ function CodiFormScreen({ navigation }) {
                     {shoesImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + shoesImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.shoes }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.shoes }</Text>
                     }
                 </TouchableHighlight>
             
@@ -497,7 +497,7 @@ function CodiFormScreen({ navigation }) {
             <TextInput
                 multiline
                 theme={{ colors: { primary: "#0d3754" }}}
-                numberOfLines={4}
+                numberOfLines={2}
                 label="코디를 소개해주세요"
                 value={content}
                 onChangeText={text => setContent(text)}
@@ -507,7 +507,8 @@ function CodiFormScreen({ navigation }) {
             <Container style={{marginBottom: 22, alignItems: 'center', justifyContent: 'center'}}>
                 <ScrollView
                     horizontal={true}
-                    // style={{marginHorizontal: 22}}
+                    style={{marginHorizontal: 22}}
+                    showsHorizontalScrollIndicator={false}
                 >
                 {colorRGB.map((item, index) => {
                     return (
@@ -534,6 +535,7 @@ function CodiFormScreen({ navigation }) {
                 <ScrollView
                     horizontal={true}
                     style={{marginHorizontal: 22}}
+                    showsHorizontalScrollIndicator={false}
                 >
                     {styleList.map((item, index) => {
                         return(
