@@ -217,7 +217,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                                 }}
                             >
                                     <Text style={styles.textStyle}>닫기</Text>
-                            </TouchableHighlight>
+                            </TouchableHighlight>                            
                             <ModalItemGrid/>
                         </View>
                     </View>
