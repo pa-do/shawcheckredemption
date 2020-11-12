@@ -20,15 +20,16 @@ import MypageButton from '../components/mypage/MypageButton';
 const UserProfileImg = styled.Image`
     width: 120px;
     height: 120px;
-    resize-mode: cover;
     border-radius: 150px;
+    resize-mode: cover;
     margin-left: 5px;
 `;
 
 const CodiItemImg = styled.Image`
-    margin: 3px;
+    margin: 1px;
     width: 31%;
     height: 150px;
+    border: 1px black;
     resize-mode: center;
 `;
 
@@ -113,8 +114,8 @@ const colorRGB = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91
 [161, 116, 0], [215, 154, 47], [201, 180, 149], [232, 195, 129],
 [61, 63, 107], [97, 134, 176], [38, 58, 84], [35, 40, 51], [33, 35, 34]]
 
-const myCodiText = '하트코디 보기';
-const heartCodiText = '내 코디 보기';
+const myCodiText = '내 코디 보기';
+const heartCodiText = '하트코디 보기';
 
 function CodiMyListScreen({ navigation, route }) {
     const [UserData, setUserData] = React.useState(null);
@@ -136,7 +137,6 @@ function CodiMyListScreen({ navigation, route }) {
     const [showData, setShowData] = React.useState([]);
     const [buttonText, setButtonText] = React.useState(myCodiText);
     const [isLoading, setIsLoading] = React.useState(false);
-    const [index, setIndex] = React.useState(0);
     
     const { signOut } = React.useContext(AuthContext);
  
@@ -255,21 +255,22 @@ function CodiMyListScreen({ navigation, route }) {
             }
             try {
                 const heartResponse = await axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
-                setLikeCodis(heartResponse.data)
+                console.log(heartResponse.data, '<<<<<<<<<<<<<<<<<<<<<<<<<< like')
+                setLikeCodis(heartResponse.data);
+                setMyOrLikeVisible(true);
+                setShowData(heartResponse.data);
             } catch (error) {
-                console.error(error);
+                console.error(error, '<<<<<<<<<<<<<<<<<<< like error');
             }
-            changeMyOrLikeVisible();
-            console.log(showData, '<<<<<<<<<<<<<<<<<<<, show data2')
         });
         return unsubscribe;
     }, [navigation]);
 
     React.useEffect(() => {
-        const unsubscribe = navigation.addListener('blur', () => {
+        const _unsubscribe = navigation.addListener('blur', () => {
             setShowData([]);
         });
-        return unsubscribe;
+        return _unsubscribe;
     }, [navigation]);
 
 
@@ -287,10 +288,7 @@ function CodiMyListScreen({ navigation, route }) {
                 setUserData(res.data);
             })
             .catch(err => {console.error(err.response.data)})
-            // 하트 리스트 요청
-            // getLikeCodis(requestHeaders);
-            // getListData(requestHeaders);
-            // getLikeData(requestHeaders);
+
         };
         dataAsync();
     }, []);
@@ -377,16 +375,16 @@ function CodiMyListScreen({ navigation, route }) {
         }
     }
 
-    const changeMyOrLikeVisible = async () => {
-        setMyOrLikeVisible(!myOrLikeVisible);
-        if (myOrLikeVisible) {
-            setButtonText(myCodiText);
-            await setShowData(codis);
-        } else {
-            setButtonText(heartCodiText);
-            await setShowData(likeCodis);
-        }
-        console.log(showData, '<<<<<<<<<<<<<<<<<<<, show data')
+    const setMyCodiVisible = () => {
+        // 내가 등록한 코디를 보여줄 때는 false
+        setMyOrLikeVisible(false);
+        setShowData(codis);
+    }
+
+    const setHeartCodiVisible = () => {
+        // 하트를 누른 코디를 보여줄 때는 true
+        setMyOrLikeVisible(true);
+        setShowData(likeCodis);
     }
 
     const openItemModal = async () => {
@@ -823,9 +821,27 @@ function CodiMyListScreen({ navigation, route }) {
                     </View>
                 </UserProfileTextContainer>
             </UserProfileContainer>
-            <NormalButton onPress={changeMyOrLikeVisible}>
-                {buttonText}
-            </NormalButton>
+            <RowContainer>
+                {myOrLikeVisible ? 
+                    <NormalButton onPress={setMyCodiVisible}>
+                        {myCodiText}
+                    </NormalButton>
+                :
+                    <NormalButton 
+                        onPress={setMyCodiVisible}>
+                        선택됨
+                    </NormalButton>
+                }
+                {!myOrLikeVisible ? 
+                    <NormalButton onPress={setHeartCodiVisible}>
+                        {heartCodiText}
+                    </NormalButton>
+                :
+                    <NormalButton onPress={setHeartCodiVisible}>
+                        선택됨
+                    </NormalButton>
+                }
+            </RowContainer>
                 <MyOrLike />
             </ScrollView>
         </TopContainer>
