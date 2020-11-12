@@ -172,42 +172,58 @@ function SignupScreen({ navigation, route }) {
                         </View>
                     </View>
                 </Modal>
-                <TextInput
-                    label="Nickname"
-                    value={textNickname}
-                    onChangeText={text => setTextNickname(text)}
-                />
-                {nicknameError !== null ? <ErrorMsg>{ nicknameError }</ErrorMsg> : null}
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                    <TextInput
+                        label="닉네임"
+                        value={textNickname}
+                        onChangeText={text => setTextNickname(text)}
+                        style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)'}}
+                        theme={{colors: {primary: '#0d3754'}}}
+                    />
+                </View>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                    {nicknameError !== null ? <ErrorMsg style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)', marginLeft: 20}}>{ nicknameError }</ErrorMsg> : null}
+                </View>
                 {userImage && <Image source={{ uri: userImage }} style={{ width: 150, height: 150, resizeMode: 'center' }} />}
-                <Button
-                    icon="account-circle-outline"
-                    mode="outlined"
-                    onPress={() => {
-                        setModalImageVisible(true);
-                    }}
-                >
-                    퍼스널 컬러 진단을 위한 사진 업로드
-                </Button>
-                {imageError && <ErrorMsg>{ imageError }</ErrorMsg>}
-                <Button
-                    icon="account-plus"
-                    mode="contained"
-                    onPress={() => {
-                        if (textNickname === undefined) {
-                            return setNicknameError('닉네임을 입력해주세요.')
-                        } else if (textNickname.length === 0) {
-                            return setNicknameError('닉네임을 입력해주세요.')
-                        } else if (userImage === undefined) {
-                            return setimageError('이미지를 등록해주세요. 이미지는 저장되지 않습니다.')
-                        } else {
-                            console.log(userImage);
-                            patchUserNickname();
-                            getUserPersonalColor();
-                        }
-                    }}
-                >
-                    제출
-                </Button>
+                <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 50}}>
+                    <Button
+                        mode="outlined"
+                        onPress={() => {
+                            setModalImageVisible(true);
+                        }}
+                        style={{borderWidth: 1, borderColor: '#0d3754', width: '85%'}}
+                        labelStyle={{fontSize:15, color: '#0d3754'}}
+                        theme={{colors: {primary: 'rgba(0, 0, 0, 0)'}}}
+                    >
+                        퍼스널 컬러 진단을 위한 사진 업로드
+                    </Button>
+                </View>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                    {imageError && <ErrorMsg style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)', marginLeft: 20}}>{ imageError }</ErrorMsg>}
+                </View>
+                <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 50}}>
+                    <Button
+                        mode="contained"
+                        onPress={() => {
+                            if (textNickname === undefined) {
+                                return setNicknameError('닉네임을 입력해주세요.')
+                            } else if (textNickname.length === 0) {
+                                return setNicknameError('닉네임을 입력해주세요.')
+                            } else if (userImage === undefined) {
+                                return setimageError('이미지를 등록해주세요. 이미지는 저장되지 않습니다.')
+                            } else {
+                                console.log(userImage);
+                                patchUserNickname();
+                                getUserPersonalColor();
+                            }
+                        }}
+                        style={{borderWidth: 1, borderColor: '#0d3754', width: '85%'}}
+                        labelStyle={{fontSize:20, color: '#0d3754'}}
+                        theme={{colors: {primary: 'rgba(0, 0, 0, 0)'}}}
+                    >
+                        제출
+                    </Button>
+                </View>
             </>
         </Container>
     );
