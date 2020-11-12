@@ -34,14 +34,17 @@
 # 상의 -> 모자
 # 액세서리 (포멀 - 넥타이 > 겨울 - 목도리 > 벨트는 하의에 영향받음)
 
-from .models import Accessory, Bag, Headwear, Outer, Pants, Shoes, Top, Watch
+from .serializers import *
+from .models import *
 from PIL import Image
+import os
 import imagehash
 import random
+import datetime
 
 # 이미지 유사도 분석 알고리즘
 def image_similarity(target_item, image_list, category):  #target_item : 유저가 올린 이미지 주소 / image_list : 유사도 분석할 아이템 리스트(objects)
-    target_item = 'media/test.png'   # 테스트 코드 (프론트 연결 후에 지워야함)
+    # target_item = 'media/test.png'   # 테스트 코드 (프론트 연결 후에 지워야함)
     hash = imagehash.average_hash(Image.open(target_item))
     sim_list = []
     for i in range(len(image_list)):
@@ -189,10 +192,10 @@ def set_top(user_info):
 
         for item in items:
             target = Top.objects.get(pk=item[0])
+            target_color = target.color.split()
             
             # 컬러 가중치
             if where not in ["funeral", "marry"]:
-                target_color = target.color.split()
                 for color in target_color:
                     if color in personal_color:
                         item[1] += 10
@@ -215,6 +218,8 @@ def set_top(user_info):
                 item[1] = 0
             
             if where in ["funeral", "marry"]:
+                if "formal" not in target_style:
+                    item[1] = 0
                 if "흰색" not in target_color:
                     item[1] = 0
 
@@ -224,14 +229,15 @@ def set_top(user_info):
             result.append(items[i][0])
         target = 5
         while True:
-            if items[4][1] == items[target][1]:
+            if items[4][1] == 0:
+                break
+            elif items[4][1] == items[target][1]:
                 result.append(items[target][0])
                 target += 1
             else:
                 break
         random.shuffle(result)
         result = result[:5]
-
         return result # 5개 리턴
 
 
@@ -892,14 +898,14 @@ def set_watch(user_info, shoes):
             return result # 1개 리턴
 
 
-def set_headwear(user_info, top):
+def set_headwear(user_info, shoes):
     user_pick_item = user_info["user_pick_item"]
     weather = user_info["weather"]
     first_style, second_style = user_info["style"]
     who = user_info["who"]
     where = user_info["where"]
     personal_color = user_info["personal_color"]
-    top_item = Top.objects.get(pk=top)
+    shoes_item = Shoes.objects.get(pk=shoes)
 
     if "headwear" in user_pick_item:    # 입력한 아이템이 있을 때 모자 선택 알고리즘
 
@@ -1134,7 +1140,7 @@ def set_acc(user_info, top):
 
 
 
-def run_self(user_info):
+def run_self(user_info, user):
     user_info["personal_color"] = set_personal_color(user_info["user_personal_color"])    
     user_info["style"] = set_style(user_info["who"], user_info["where"])
 
@@ -1173,8 +1179,6 @@ def run_self(user_info):
             coordiset["pants"].append(set_pants(user_info, top_item))
         if "outer" not in user_info["user_pick_item"]:
             coordiset["outer"].append(set_outer(user_info, top_item))
-        if "headwear" not in user_info["user_pick_item"]:
-            coordiset["headwear"].append(set_headwear(user_info, top_item))
         if "acc" not in user_info["user_pick_item"]:
             coordiset["acc"].append(set_acc(user_info, top_item))
     for pants_item in coordiset["pants"]:
@@ -1185,17 +1189,87 @@ def run_self(user_info):
             coordiset["bag"].append(set_bag(user_info, shoes_item))
         if "watch" not in user_info["user_pick_item"]:
             coordiset["watch"].append(set_watch(user_info, shoes_item))
-    
+        if "headwear" not in user_info["user_pick_item"]:
+            coordiset["headwear"].append(set_headwear(user_info, shoes_item))
     result = []
-    for i in range(5):
+    for z in range(5):
         one_set = dict()
         for c in ["top", "pants", "shoes", "outer", "bag", "watch", "headwear", "acc"]:
-            one_set[c] = coordiset[c][i]
+            one_set[c] = coordiset[c][z]
         for item in user_info["user_pick_item"]:    # 유저가 아이템을 옷장에서 선택한 경우
-            one_set[item] = "user"
-        result.append(one_set)
+            one_set[item] = -2
     
-    # 선택하지 않은 아이템은 pk가 -1로 표기된다
+        serializer = CoordiSerializer(data=one_set)
+        merged = Image.new('RGBA', (300 * 3, 300 * 3), (250,250,250,0))
+        i, j = 0, 0
+        for idx, value in one_set.items():
+            chk = 0
+            if value == -1:
+                continue
+            if idx == 'headwear':
+                i, j = 0, 0
+                if value == -2:
+                    chk = 1
+                else:
+                    A = Headwear.objects.get(pk=value)
+            elif idx == 'top':
+                i, j = 0, 1
+                if value == -2:
+                    chk = 1
+                else:
+                    A = Top.objects.get(pk=value)
+            elif idx == 'outer':
+                i, j = 0, 2
+                if value == -2:
+                    chk = 1
+                else:
+                    A = Outer.objects.get(pk=value)
+            elif idx == 'acc':
+                i, j = 1, 0
+                if value == -2:
+                    chk = 1
+                else:
+                    A = Accessory.objects.get(pk=value)
+            elif idx == 'pants':
+                i, j = 1, 1
+                if value == -2:
+                    chk = 1
+                else:
+                    A = Pants.objects.get(pk=value)
+            elif idx == 'bag':
+                i, j = 1, 2
+                if value == -2:
+                    chk = 1
+                else:
+                    A = Bag.objects.get(pk=value)
+            elif idx == 'watch':
+                i, j = 2, 0
+                if value == -2:
+                    chk = 1
+                else:
+                    A = Watch.objects.get(pk=value)
+            elif idx == 'shoes':
+                i, j = 2, 1
+                if value == -2:
+                    chk = 1
+                else:
+                    A = Shoes.objects.get(pk=value)
+            if chk:
+                im = Image.open(user_info['user_pick_item'][idx][2])
+            else:
+                imgpath = './media/' + idx + '/' + A.img
+                im = Image.open(imgpath)
+            im = im.resize((300, 300))
+            merged.paste(im, (300 * j, 300 * i))
+
+        now = datetime.datetime.now()
+        nowDate = now.strftime('%M%H%S')
+        targeturl = "usercoordi/" + user.username + '_' + nowDate + '_' + str(z) + '.png'
+        merged.save('./media/' + targeturl)
+        if serializer.is_valid():
+            serializer.save(user=user, img=targeturl, c_code=0)
+            uimg = UserCoordi.objects.last()
+            result.append({'id' : uimg.id, 'img' : targeturl})
     
     return result
 

@@ -1,14 +1,30 @@
 import React from  'react';
-import { Text, View, Modal, StyleSheet, TouchableHighlight, Image, ScrollView, Dimensions  } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import { CategoryText } from '../components/TextComponent';
+import { Text, View, Modal, TouchableHighlight, TouchableWithoutFeedback, Image, ScrollView, Dimensions  } from 'react-native';
+import styled from 'styled-components/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CategoryText, ServerUrl, CategoryEngText } from '../components/TextComponent';
 import { styles, formStyles } from '../components/StyleSheetComponent';
 import RowContainer from '../components/RowContainer';
+import axios from 'axios';
 
+const CodiItemImg = styled.Image`
+    margin: 3px;
+    width: 31%;
+    height: 150px;
+    resize-mode: center;
+`;
+
+const GridRowContainer = styled.View`
+    flex: 1;
+    flex-direction: row;
+`;
 
 function ImgUploadForRecScreen({ navigation, route }) {
     const [uploadCategory, setUploadCategory] = React.useState();
+    const [value, setValue] = React.useState([route.params.value, route.params.secondValue]);
     const [modalVisible, setModalVisible] = React.useState(false);
+    const [userItems, setUserItems] = React.useState({});
+    const [modalItems, setModalItems] = React.useState(null);
     const [hatImage, setHatImage] = React.useState(null);
     const [topImage, setTopImage] = React.useState(null);
     const [pantsImage, setPantsImage] = React.useState(null);
@@ -19,214 +35,197 @@ function ImgUploadForRecScreen({ navigation, route }) {
     const [AccImage, setAccImage] = React.useState(null);
 
     
-    const recommendationRequest = () => {
+    const recommendationRequest = async () => {
+        let userToken;
+        try {
+            userToken = await AsyncStorage.getItem('userToken');
+        } catch (e) {
+            // Restoring token failed
+        }
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`
+            }
+        }
+        const uploadData = new FormData();
+        uploadData.append('headwear', hatImage ? hatImage.id : -1);
+        uploadData.append('top', topImage ? topImage.id : -1);
+        uploadData.append('outer', outerImage ? outerImage.id : -1);
+        uploadData.append('acc', AccImage ? AccImage.id : -1);
+        uploadData.append('pants', pantsImage ? pantsImage.id : -1);
+        uploadData.append('bag', bagImage ? bagImage.id : -1);
+        uploadData.append('watch', watchImage ? watchImage.id : -1);
+        uploadData.append('shoes', shoesImage ? shoesImage.id : -1);
+        uploadData.append('who', value[1]);
+        uploadData.append('where', value[0]);
         // 서버로 이미지를 보내고 결과를 받아옵니다.
-        // axios.post()
-        //.then(res => {
-        const res = {
-            data: [
-                {
-                    id: 1,
-                    img: 'https://i0.codibook.net/files/thumb/big/197407283459/d6b9201b8871b2/639666474.jpg',
-                    content: '가을에 어울리는 코디lllllllllllllllllllllllㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣ',
-                    liked: false,
-                    likes: 10,
-                    user: '박인영',
-                    items: [
-                        {},
-                        {
-                            id: '1',
-                            category: 'top',
-                            name: '사인 로고 후디 그레이',
-                            price: '55,200',
-                            url: 'https://store.musinsa.com/app/product/detail/644026/0',
-                        },
-                        {
-                            id: '2',
-                            category: 'pants',
-                            name: 'Punk Town - MOD4 crop',
-                            price: '73,500',
-                            url: 'https://store.musinsa.com/app/product/detail/1037219/0'
-                        },
-                        {
-                            id: '3',
-                            category: 'outer',
-                            name: '네이비 하운드투스 울 블렌디드 레귤러핏 싱글 재킷 (320X11LY5R)',
-                            price: '119,900',
-                            url: 'https://store.musinsa.com/app/product/detail/1646140/0',
-                        },
-                        {
-                            id: '4',
-                            category: 'shoes',
-                            name: '바스토 베라티 (BASTOW VERRATI (GLASSY WHITE)) [BTVA61-GW09]',
-                            price: '179,000',
-                            url: 'https://store.musinsa.com/app/product/detail/1638849/0'
-                        }
-                    ]
-                },
-                {
-                    id: 2,
-                    img: 'https://t1.daumcdn.net/cfile/tistory/2422174D5244C0461F',
-                    content: '깔끔한 코디입니다.',
-                    liked: true,
-                    likes: 5,
-                    user: '박도희',
-                    items: [{}, {}, {}, {}, {}]
-                },
-                {
-                    id: 3,
-                    img: 'https://t1.daumcdn.net/cfile/tistory/210532355348EB1A32',
-                    content: '꾸안꾸',
-                    liked: false,
-                    likes: 8,
-                    user: '박도희',
-                    items: [{}, {}, {}, {}, {}]
-                },
-                {
-                    id: 4,
-                    img: 'https://t1.daumcdn.net/cfile/tistory/2263F34952AAF79910',
-                    content: '재미없는 남자 스타일',
-                    liked: true,
-                    likes: 12,
-                    user: '허성수',
-                    items: [{}, {}, {}, {}, {}]
-                },
-            ]
-        };
-        navigation.navigate('RecList', {rec: res.data});
-        // })
+        axios.post(ServerUrl.url + 'wear/recommand/', uploadData, requestHeaders)
+        .then(res => {
+            console.log(res.data)
+            navigation.navigate('RecList', {rec: res.data});
+        })
+        .catch(err => console.error(err, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< rec error'))
     }
 
     React.useEffect(() => {
         navigation.setOptions({title: `착용할 의류 선택하기`});
-        const imageUri = route.params.image?.uri
-        if (imageUri) {
-            switch (uploadCategory) {
-                case 'top':
-                    setTopImage(imageUri);
-                    break;
-                case 'pants':
-                    setPantsImage(imageUri);
-                    break;
+        getUserItems();
+    }, []);
 
-                case 'shoes':
-                    setShoesImage(imageUri);
-                    break;
+    const openItemModal = async () => {
+        setModalVisible(true);
+    }
 
-                case 'outer':
-                    setOuterImage(imageUri);
-                    break;
+    const setImageUri = (uploadCategory, item) => {
+        switch (uploadCategory) {
+            case CategoryEngText.hat:
+                setHatImage(item);
+                break;
+            case CategoryEngText.top:
+                setTopImage(item);
+                break;
+            case CategoryEngText.outer:
+                setOuterImage(item);
+                break;
+            case CategoryEngText.accessory:
+                setAccImage(item);
+                break;
+            case CategoryEngText.pants:
+                setPantsImage(item);
+                break;
+            case CategoryEngText.bag:
+                setBagImage(item);
+                break;
+            case CategoryEngText.watch:
+                setWatchImage(item);
+                break;
+            case CategoryEngText.shoes:
+                setShoesImage(item);
+                break;
+        }
+    }
 
-                case 'hat':
-                    setHatImage(imageUri);
-                    break;
-
-                case 'bag':
-                    setBagImage(imageUri);
-                    break;
-
-                case 'watch':
-                    setWatchImage(imageUri);
-                    break;
-
-                case 'accessory':
-                    setAccImage(imageUri);
-                    break;
+    const getUserItems = async () => {
+        let userToken;
+        try {
+            userToken = await AsyncStorage.getItem('userToken');
+        } catch (e) {
+            // Restoring token failed
+        }
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`
             }
         }
-    }, [route.params?.image]);
+        axios.get(ServerUrl.url + 'wear/mylist/', requestHeaders)
+        .then(res => {
+            const itemData = {
+                tops: [], pants: [], outers: [], shoes: [], hats: [], bags: [], watches: [], accs: []
+            }
+            Object.entries(res.data).map(entry => {
+                switch (entry[0]) {
+                    case "1":
+                        itemData.hats = entry[1].slice();
+                        break;
+                    case "2":
+                        itemData.tops = entry[1].slice();
+                        break;
+                    case "3":
+                        itemData.outers = entry[1].slice();
+                        break;
+                    case "4":
+                        itemData.accs = entry[1].slice();
+                        break;
+                    case "5":
+                        itemData.pants = entry[1].slice();
+                        break;
+                    case "6":
+                        itemData.bags = entry[1].slice();
+                        break;
+                    case "7":
+                        itemData.watches = entry[1].slice();
+                        break;
+                    case "8":
+                        itemData.shoes = entry[1].slice();
+                        break;
+                }
+            })
+            setUserItems(itemData);
+            console.log(userItems, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< my item list')
+        })
+        .catch(err => console.log(err.response.data))
+    }
 
-    // React.useEffect(() => {
-    //   (async () => {
-    //     if (Platform.OS !== 'web') {
-    //       const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-    //       if (status !== 'granted') {
-    //         alert('죄송합니다. 카메라 권한 허가가 필요합니다.');
-    //         navigation.goBack();
-    //       }
-    //     }
-    //   })();
-    // }, []);
-
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-    
-        console.log(result);
-    
-        if (!result.cancelled) {
-            console.log(uploadCategory)
-            switch (uploadCategory) {
-                case 'top':
-                    setTopImage(result.uri);
-                    break;
-                case 'pants':
-                    setPantsImage(result.uri);
-                    break;
-
-                case 'shoes':
-                    setShoesImage(result.uri);
-                    break;
-
-                case 'outer':
-                    setOuterImage(result.uri);
-                    break;
-
-                case 'hat':
-                    setHatImage(result.uri);
-                    break;
-
-                case 'bag':
-                    setBagImage(result.uri);
-                    break;
-
-                case 'watch':
-                    setWatchImage(result.uri);
-                    break;
-
-                case 'accessory':
-                    setAccImage(result.uri);
-                    break;
+    const ModalItemGrid = () => {
+        const items = modalItems;
+        console.log(items, '<<<<<<<<<<<<< items')
+        const itemsList = [];
+        for (let i = 0; i <= parseInt(items?.length / 3); i++) {
+            let startPoint = (i * 3);
+            let endPoint = (i * 3) + 3;
+            if (endPoint > items?.length) {
+                endPoint = endPoint - 1;
+                if (endPoint > items?.length) {
+                    endPoint = endPoint - 1;
+                }
+            }
+            try {
+                itemsList.push(items.slice(startPoint, endPoint));
+            } catch (error) {
+                console.log(error);
             }
         }
-      };
+        return (
+            <ScrollView>
+                {itemsList.map((tempItems, index) => {
+                    return (
+                        <GridRowContainer key={index}>
+                            {tempItems.map(item => {
+                                return (
+                                    <TouchableWithoutFeedback
+                                        key={item.id}
+                                        onPress={() => {
+                                            setImageUri(uploadCategory, item);
+                                            setModalVisible(false);
+                                        }}>
+                                        <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
+                                    </TouchableWithoutFeedback>
+                                );
+                            })}
+                        </GridRowContainer>
+                    )
+                })}
+            </ScrollView>
+        );
+    }
 
     return (
         <ScrollView>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <TouchableHighlight
+                                style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                onPress={() => {
+                                    setModalItems(null);
+                                    setModalVisible(false);
+                                }}
+                            >
+                                    <Text style={styles.textStyle}>닫기</Text>
+                            </TouchableHighlight>
+                            <ModalItemGrid/>
+                        </View>
+                    </View>
+                </Modal>
             <View style={styles.centeredView}>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-            >
-                <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                        onPress={() => {
-                            setModalVisible(!modalVisible);
-                        }}
-                    >
-                        <Text style={styles.textStyle}>내 옷장에서 가져오기</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                        onPress={() => {
-                            setModalVisible(!modalVisible);
-                        }}
-                    >
-                        <Text style={styles.textStyle}>닫기</Text>
-                    </TouchableHighlight>
-                </View>
-                </View>
-            </Modal>
+            
             </View>
             <Text style={{color: 'black', textAlign: 'center', paddingVertical: 15, marginBottom: 22}}>
-                착용할 의류을 옷장에서 가져오세요! {"\n"}
+                착용할 의류를 옷장에서 가져오세요! {"\n"}
                 (착용할 의류가 없으면 그냥 '추천받기'를 눌러요!)
             </Text>
             <View style={{height: Dimensions.get('window').height}}>
@@ -235,11 +234,12 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('hat');
+                        setUploadCategory(CategoryEngText.hat);
+                        openItemModal();
+                        setModalItems(userItems.hats);
                     }}>
                     {hatImage !== null ? 
-                        <Image source={{ uri: hatImage }} style={formStyles.uploadedItem} /> 
+                        <Image source={{ uri: hatImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.uploadboxText}>{ CategoryText.hat }</Text>
                     }
@@ -249,13 +249,14 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('top');
+                        setUploadCategory(CategoryEngText.top);
+                        openItemModal();
+                        setModalItems(userItems.tops);
                     }}
                     >
                     
                     {topImage !== null ? 
-                        <Image source={{ uri: topImage }} style={formStyles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + topImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.uploadboxText}>{ CategoryText.top }</Text>
                     }
@@ -265,11 +266,12 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('outer');
+                        setUploadCategory(CategoryEngText.outer);
+                        openItemModal();
+                        setModalItems(userItems.outers);
                     }}>
                     {outerImage !== null ? 
-                        <Image source={{ uri: outerImage }} style={formStyles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + outerImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.uploadboxText}>{ CategoryText.outer }</Text>
                     }
@@ -281,11 +283,12 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('accessory');
+                        setUploadCategory(CategoryEngText.accessory);
+                        openItemModal();
+                        setModalItems(userItems.accs);
                     }}>
                     {AccImage !== null ? 
-                        <Image source={{ uri: AccImage }} style={formStyles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + AccImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.uploadboxText}>{ CategoryText.accessory }</Text>
                     }
@@ -295,11 +298,12 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('pants');
+                        setUploadCategory(CategoryEngText.pants);
+                        openItemModal();
+                        setModalItems(userItems.pants);
                     }}>
                     {pantsImage !== null ? 
-                        <Image source={{ uri: pantsImage }} style={formStyles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + pantsImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.uploadboxText}>{ CategoryText.pants }</Text>
                     }
@@ -308,12 +312,13 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 <TouchableHighlight
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
-                    onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('bag');
+                    onPress={async () => {
+                        setUploadCategory(CategoryEngText.bag);
+                        await openItemModal();
+                        setModalItems(userItems.bags);
                     }}>
                     {bagImage !== null ? 
-                        <Image source={{ uri: bagImage }} style={formStyles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + bagImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.uploadboxText}>{ CategoryText.bag }</Text>
                     }
@@ -325,11 +330,12 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('watch');
+                        setUploadCategory(CategoryEngText.watch);
+                        openItemModal();
+                        setModalItems(userItems.watches);
                     }}>
                     {watchImage !== null ? 
-                        <Image source={{ uri: watchImage }} style={formStyles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + watchImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.uploadboxText}>{ CategoryText.watch }</Text>
                     }
@@ -339,11 +345,12 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                    setModalVisible(true);
-                    setUploadCategory('shoes');
+                        setUploadCategory(CategoryEngText.shoes);
+                        openItemModal();
+                        setModalItems(userItems.shoes);
                     }}>
                     {shoesImage !== null ? 
-                        <Image source={{ uri: shoesImage }} style={formStyles.uploadedItem} /> 
+                        <Image source={{ uri: ServerUrl.mediaUrl + shoesImage.img }} style={formStyles.uploadedItem} /> 
                     : 
                         <Text style={styles.uploadboxText}>{ CategoryText.shoes }</Text>
                     }

@@ -12,6 +12,10 @@ import AuthContext from '../components/AuthContext';
 import { ServerUrl, CategoryText, CategoryEngText } from '../components/TextComponent';
 import { styles, gridStyles } from '../components/StyleSheetComponent';
 import RowContainer from '../components/RowContainer';
+import LogoutButton from '../components/mypage/LogoutButton';
+import UserName from '../components/mypage/UserName';
+import UserPersonalColor from '../components/mypage/UserPersonalColor';
+import { AntDesign } from '@expo/vector-icons'; 
 
 const UserProfileImg = styled.Image`
     width: 150px;
@@ -35,7 +39,6 @@ const UserProfileTextContainer = styled.View`
     flex-direction: column;
     width: 100%;
     margin-left: 20px;
-    background-color: gray;
 `;
 
 const TopContainer = styled.SafeAreaView`
@@ -280,7 +283,7 @@ function CodiMyListScreen({ navigation, route }) {
             setCodis(res.data);
             setShowData(res.data);
         })
-        .catch(err => console.error(err))
+        .catch(err => console.error(err, '<<<<<<<<<<<<<<<<<<< getListData'))
     }
 
     const getLikeData = requestHeaders => {
@@ -327,7 +330,6 @@ function CodiMyListScreen({ navigation, route }) {
                 }
             })
             setUserItems(itemData);
-            console.log(userItems, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< my item list')
         })
         .catch(err => console.log(err.response.data))
     }
@@ -396,12 +398,12 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
         getUserItems(requestHeaders);
+        setModalItems(null);
         setModalItemCategoryVisible(true);
     }
 
     const ModalItemGrid = () => {
         const items = modalItems;
-        console.log(items, '<<<<<<<<<<<<< items')
         const itemsList = [];
         for (let i = 0; i <= parseInt(items?.length / 3); i++) {
             let startPoint = (i * 3);
@@ -419,7 +421,7 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
         return (
-            <>
+            <ScrollView>
                 {itemsList.map((tempItems, index) => {
                     return (
                         <GridRowContainer key={index}>
@@ -436,10 +438,9 @@ function CodiMyListScreen({ navigation, route }) {
                         </GridRowContainer>
                     )
                 })}
-            </>
+            </ScrollView>
         );
     }
-
 
     const MyOrLike = () => {
         const items = showData;
@@ -473,7 +474,7 @@ function CodiMyListScreen({ navigation, route }) {
                                             onPress={() => {
                                                 navigation.navigate('Detail', {item: item});
                                             }}>
-                                            <CodiItemImg source={{uri: ServerUrl.url + item.img}}/>
+                                            <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
                                         </TouchableWithoutFeedback>
                                     );
                                 })}
@@ -601,7 +602,7 @@ function CodiMyListScreen({ navigation, route }) {
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
                                 navigation.navigate('Camera', {backScreen: 'My Page'});
-                                setModalVisible(false);
+                                setModalItemCategoryVisible(false);
                                 setModalImageVisible(false);
                             }}
                         >
@@ -611,7 +612,7 @@ function CodiMyListScreen({ navigation, route }) {
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
                                 pickImage();
-                                setModalVisible(false);
+                                setModalItemCategoryVisible(false);
                                 setModalImageVisible(false);
                             }}
                         >
@@ -631,267 +632,6 @@ function CodiMyListScreen({ navigation, route }) {
             </Modal>
             {/* 아이템 모달 */}
             <Modal
-                style={{margin: 0}}
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                    <ScrollView>
-
-                        <Text style={styles.modalText}>{CategoryText.top}</Text>
-                        <Container>
-                            <ScrollView
-                                horizontal={true}
-                            >
-                                <TouchableHighlight onPress={() => {
-                                    setUploadCategory(CategoryEngText.top);
-                                    setDetailCategoryList(topDetailCategory);
-                                    setModalCategoryVisible(true);
-                                }}>
-                                    <ItemBox>
-                                        <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                    </ItemBox>
-                                </TouchableHighlight>
-                                {userItems.tops?.map((item, index) => {
-                                    return (
-                                        <ItemBox key={index}>
-                                            <ImageBackground 
-                                                style={{ width: "100%", height: "100%" }}
-                                                source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                resizeMode="cover"
-                                            />
-                                        </ItemBox>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-                        <Text style={styles.modalText}>{CategoryText.pants}</Text>
-                        <Container>
-                            <ScrollView
-                                horizontal={true}
-                            >
-                                <ItemBox>
-                                    <TouchableHighlight onPress={() => {
-                                        setUploadCategory(CategoryEngText.pants);
-                                        setDetailCategoryList(pantsDetailCategory);
-                                        setModalCategoryVisible(true);
-                                    }}>
-                                        <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                    </TouchableHighlight>
-                                </ItemBox>
-                                {userItems.pants?.map((item, index) => {
-                                    return (
-                                        <ItemBox key={index}>
-                                            <ImageBackground 
-                                                style={{ width: "100%", height: "100%" }}
-                                                source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                resizeMode="cover"
-                                            />
-                                        </ItemBox>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-
-                        <Text style={styles.modalText}>{CategoryText.outer}</Text>
-                        <Container>
-                            <ScrollView
-                                    horizontal={true}
-                                >
-                                <ItemBox>
-                                    <TouchableHighlight onPress={() => {
-                                        setUploadCategory(CategoryEngText.outer);
-                                        setDetailCategoryList(outerDetailCategory);
-                                        setModalCategoryVisible(true);
-
-                                    }}>
-                                        <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                    </TouchableHighlight>
-                                </ItemBox>
-                                {userItems.outers?.map((item, index) => {
-                                    return (
-                                        <ItemBox key={item.id}>
-                                            <ImageBackground 
-                                                style={{ width: "100%", height: "100%" }}
-                                                source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                resizeMode="cover"
-                                            />
-                                        </ItemBox>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-
-                        <Text style={styles.modalText}>{CategoryText.shoes}</Text>
-                        <Container>
-                            <ScrollView
-                                    horizontal={true}
-                                >
-                                <ItemBox>
-                                    <TouchableHighlight onPress={() => {
-                                        setUploadCategory(CategoryEngText.shoes);
-                                        setDetailCategoryList(shoesDetailCategory);
-                                        setModalCategoryVisible(true);
-
-                                    }}>
-                                        <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                    </TouchableHighlight>
-                                </ItemBox>
-                                {userItems.shoes?.map((item, index) => {
-                                    return (
-                                        <ItemBox key={index}>
-                                            <ImageBackground 
-                                                style={{ width: "100%", height: "100%" }}
-                                                source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                resizeMode="cover"
-                                            />
-                                        </ItemBox>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-
-                        <Text style={styles.modalText}>{CategoryText.hat}</Text>
-                        <Container>
-                            <ScrollView
-                                    horizontal={true}
-                                >
-                                <ItemBox>
-                                    <TouchableHighlight onPress={() => {
-                                        setUploadCategory(CategoryEngText.hat);
-                                        setDetailCategoryList(headwearDetailCategory);
-                                        setModalCategoryVisible(true);
-
-                                    }}>
-                                        <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                    </TouchableHighlight>
-                                </ItemBox>
-                                {userItems.hats?.map((item, index) => {
-                                    return (
-                                        <ItemBox key={index}>
-                                            <ImageBackground 
-                                                style={{ width: "100%", height: "100%" }}
-                                                source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                resizeMode="cover"
-                                            />
-                                        </ItemBox>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-                        
-                        <Text style={styles.modalText}>{CategoryText.bag}</Text>
-                        <Container>
-                            <ScrollView
-                                    horizontal={true}
-                                >
-                                <ItemBox>
-                                    <TouchableHighlight onPress={() => {
-                                        setUploadCategory(CategoryEngText.bag);
-                                        setDetailCategoryList(bagDetailCategory);
-                                        setModalCategoryVisible(true);
-                                    }}>
-                                        <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                    </TouchableHighlight>
-                                </ItemBox>
-                                {userItems.bags?.map((item, index) => {
-                                    return (
-                                        <ItemBox key={index}>
-                                            <ImageBackground 
-                                                style={{ width: "100%", height: "100%" }}
-                                                source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                resizeMode="cover"
-                                            />
-                                        </ItemBox>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-                        <Text style={styles.modalText}>{CategoryText.watch}</Text>
-                        <Container>
-                            <ScrollView
-                                    horizontal={true}
-                                >
-                                <ItemBox>
-                                    <TouchableHighlight onPress={() => {
-                                        setUploadCategory(CategoryEngText.watch);
-                                        setModalImageVisible(true);
-                                    }}>
-                                        <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                    </TouchableHighlight>
-                                </ItemBox>
-                                {userItems.watches?.map((item, index) => {
-                                    return (
-                                        <ItemBox key={index}>
-                                            <ImageBackground 
-                                                style={{ width: "100%", height: "100%" }}
-                                                source={{uri : ServerUrl.mediaUrl + item.img}}
-                                                resizeMode="cover"
-                                            />
-                                        </ItemBox>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-                        <Text style={styles.modalText}>{CategoryText.accessory}</Text>
-                        <Container>
-                        <ScrollView
-                                horizontal={true}
-                            >
-                            <ItemBox>
-                                <TouchableHighlight onPress={() => {
-                                    setUploadCategory(CategoryEngText.accessory);
-                                    setDetailCategoryList(accessoryDetailCategory);
-                                    setModalCategoryVisible(true);
-                                }}>
-                                    <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                </TouchableHighlight>
-                            </ItemBox>
-                            {userItems.accs?.map((item, index) => {
-                                return (
-                                    <ItemBox key={index}>
-                                        <ImageBackground 
-                                            style={{ width: "100%", height: "100%" }}
-                                            source={{uri : ServerUrl.mediaUrl + item.img}}
-                                            resizeMode="cover"
-                                        />
-                                    </ItemBox>
-                                );
-                            })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, }}
-                            onPress={() => {
-                                setModalVisible(false);
-                            }}
-                        >
-                        <Text style={styles.textStyle}>닫기</Text>
-                        </TouchableHighlight>
-                    </ScrollView>
-                    </View>
-                </View>
-            </Modal>
-            {/* 아이템 카테고리 모달 */}
-            <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalItemCategoryVisible}
@@ -902,6 +642,8 @@ function CodiMyListScreen({ navigation, route }) {
                             style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
                             onPress={() => {
                                 setModalItems(null);
+
+                                console.log(modalItems, '<<<<<<<<<<<<<<<<<<<<<< modal items')
                                 setModalItemCategoryVisible(false);
                             }}
                         >
@@ -1017,7 +759,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         setModalItems(null);
                                     }}
                                 >
-                                        <Text style={styles.textStyle}>이전</Text>
+                                    <Text style={styles.textStyle}>이전</Text>
                                 </TouchableHighlight>
                                 <TouchableHighlight
                                     style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
@@ -1025,6 +767,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         if (uploadCategory === CategoryEngText.watch){
                                             setModalImageVisible(true);
                                         } else {
+                                            setDetailCategory(null);
                                             setModalCategoryVisible(true);
                                         }
                                     }}
@@ -1053,39 +796,43 @@ function CodiMyListScreen({ navigation, route }) {
                     onPress={() => {
                         pickUserImage();
                     }}
+                    underlayColor="none"
                 >
                     <UserProfileImg
                         source={{uri: UserData?.profile_image}}
                     />
                 </TouchableHighlight>
                 <UserProfileTextContainer>
-                    <Text>
-                        {UserData?.nickname}
-                    </Text>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <UserName>
+                            {UserData?.nickname}
+                        </UserName>
+                        <LogoutButton
+                            onPress={() => {
+                                signOut();
+                            }}
+                        >
+                        </LogoutButton>
+                    </View>
                     <TouchableHighlight
                         onPress={() => {
                             navigation.navigate('PersonalColor', {color: UserData?.color})
                         }}
+                        underlayColor="none"
                     >
-                        <Text>
+                        <UserPersonalColor>
                             {UserData?.color}
-                        </Text>
+                        </UserPersonalColor>
                     </TouchableHighlight>
-                    <NormalButton
-                        onPress={() => {
-                            signOut();
-                        }}
-                    >
-                        로그아웃
-                    </NormalButton>
-                    <NormalButton
+                    <TouchableHighlight
                         onPress={() => {
                             // UserItems 데이터를 수신합니다.
                             openItemModal();
                         }}
                     >
-                        내 아이템
-                    </NormalButton>
+                        <AntDesign name="database" size={48} color="black" />
+                        {/* <Text>내옷장</Text> */}
+                    </TouchableHighlight>
                     <NormalButton
                         onPress={() => {
                             navigation.navigate('Form')

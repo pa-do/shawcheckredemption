@@ -1,17 +1,12 @@
 import React from 'react';
-import { Ionicons } from '@expo/vector-icons';  
-import { TouchableHighlight } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
-function MainChangeButton(props) {
+function LogoutButton(props) {
     return (
-        <TouchableHighlight
-        style={{ marginTop: 15, marginBottom: 20, marginRight: 5}}
-        underlayColor="none"
-        onPress={props.onPress} >
-            <Ionicons name="ios-arrow-dropleft" size={48} color="black" />
-        </TouchableHighlight>
+
+        <MaterialCommunityIcons name="logout" size={30} color="#0d3754" />
 
     )
 }
 
-export default MainChangeButton;
+export default LogoutButton;

@@ -7,7 +7,7 @@ from .models import *
 class UserClothesSerializer(serializers.ModelSerializer):
     class Meta: 
         model = UserClothes
-        fields = ['img', 'category', 'color']
+        fields = ['img', 'category', 'color', 'subcategory']
 
 class UserClothSerializer(serializers.ModelSerializer):
     class Meta:
