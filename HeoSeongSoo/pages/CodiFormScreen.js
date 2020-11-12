@@ -73,6 +73,7 @@ function CodiFormScreen({ navigation }) {
     const [content, setContent] = React.useState('');
     const [selectedStyle, setSelectedStyle] = React.useState('');
     const [selectedColor, setSelectedColor] = React.useState('');
+    const [selectedColorRGB, setSelectedColorRGB] = React.useState([]);
     const [userItems, setUserItems] = React.useState({});
     const [hatImage, setHatImage] = React.useState(null);
     const [topImage, setTopImage] = React.useState(null);
@@ -584,7 +585,7 @@ function CodiFormScreen({ navigation }) {
             <Container style={{marginBottom: 22, alignItems: 'center', justifyContent: 'center'}}>
                 <ScrollView
                     horizontal={true}
-                    style={{marginHorizontal: 22}}
+                    // style={{marginHorizontal: 22}}
                 >
                 {colorRGB.map((item, index) => {
                     return (
@@ -592,9 +593,10 @@ function CodiFormScreen({ navigation }) {
                             key={index}
                             onPress={() => {
                                 setSelectedColor(color_name[index]);
+                                setSelectedColorRGB(item);
                             }}
                         >
-                        {selectedColor[0] === item[0] && selectedColor[1] === item[1] && selectedColor[2] === item[2] ? 
+                        {selectedColorRGB[0] === item[0] && selectedColorRGB[1] === item[1] && selectedColorRGB[2] === item[2] ? 
                             <SelectColorContainer borderSize={3} R={item[0]} G={item[1]} B={item[2]} />
                             :
                             <SelectColorContainer borderSize={1} R={item[0]} G={item[1]} B={item[2]} />
