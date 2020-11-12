@@ -1014,7 +1014,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         setModalItems(null);
                                     }}
                                 >
-                                        <Text style={styles.textStyle}>이전</Text>
+                                    <Text style={styles.textStyle}>이전</Text>
                                 </TouchableHighlight>
                                 <TouchableHighlight
                                     style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
