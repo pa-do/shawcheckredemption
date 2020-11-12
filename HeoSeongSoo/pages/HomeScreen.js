@@ -37,7 +37,7 @@ function HomeScreen({ navigation }) {
         }
         axios.get(ServerUrl.url + 'rest-auth/user/', requestHeaders)
         .then(res => {
-          console.log(res.data)
+          console.log(res.data, '<<<<<<<<<< get user Info')
           if (res.data.color === "" || res.data.nickname === "") {
                 navigation.dispatch(
                     StackActions.replace("Sign up2", {

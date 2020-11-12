@@ -39,24 +39,13 @@ const ContentText = styled.Text`
 
 function CodiDetailScreen({ navigation, route }) {
     const [codiSetDetail, setCodiSetDetail] = React.useState(route.params.item);
-    const [itemLike, setLikeItem] = React.useState({liked: route.params.item.liked, likes: route.params.item.likes});
-    
+    const [itemLike, setLikeItem] = React.useState({liked: codiSetDetail.liked ? true : false, likes: codiSetDetail.like_count});
+    console.log(codiSetDetail, '<<<<<<<<<<<<<<<< codisetdetail')
     React.useEffect(() => {
-        navigation.setOptions({title: `${route.params.item.user}님의 코디`});
+        navigation.setOptions({title: `${route.params.item.user.nickname}님의 코디`});
     }, [route.params.item?.user]);
     
     async function changeHeart() {
-        if (itemLike.liked){
-            setLikeItem({
-                liked: !itemLike.liked,
-                likes: itemLike.likes - 1
-            })
-        } else {
-            setLikeItem({
-                liked: !itemLike.liked,
-                likes: itemLike.likes + 1
-            })
-        }
         let userToken;
         try {
             userToken = await AsyncStorage.getItem('userToken');
@@ -70,9 +59,20 @@ function CodiDetailScreen({ navigation, route }) {
         }
         // axios 요청으로 하트 변경사항 저장
         // codiItem.id와 itemLike 전송
-        axios.post(ServerUrl.url + `wear/likecoordi/${codiSetDetail.id}`, requestHeaders)
+        axios.post(ServerUrl.url + `wear/likecoordi/${codiItem.id}`, null, requestHeaders)
         .then(res => {
             console.log(res.data)
+            if (res.data === '좋아요 삭제.'){
+                setLikeItem({
+                    liked: !itemLike.liked,
+                    likes: itemLike.likes - 1
+                })
+            } else {
+                setLikeItem({
+                    liked: !itemLike.liked,
+                    likes: itemLike.likes + 1
+                })
+            }
         })
         .catch(err => console.error(err))
     }

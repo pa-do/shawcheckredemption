@@ -1,8 +1,8 @@
 import React from 'react';
-import { ScrollView, Image, View, Dimensions } from 'react-native';
+import { ScrollView, Image, View, Button } from 'react-native';
 import { personalStyles } from '../components/StyleSheetComponent';
 
-function PersonalColorScreen({ route }) {
+function PersonalColorScreen({ navigation, route }) {
     const [color, setColor] = React.useState(route.params.color);
     // console.log(path)
     return (
@@ -44,6 +44,12 @@ function PersonalColorScreen({ route }) {
                 }
 
             </View>
+            <Button
+                title={'확인'}
+                onPress={() => {
+                    navigation.goBack();
+                }}
+            >확인</Button>
         </ScrollView>
     );
 }
