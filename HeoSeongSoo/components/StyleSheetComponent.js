@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 35,
-        alignItems: 'stretch',
+        alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -97,16 +97,16 @@ const personalStyles = StyleSheet.create({
 
 const gridStyles = StyleSheet.create({
   col: {
-    backgroundColor: 'black',
+    backgroundColor: '#DDDDDD',
     width: '33%',
-    height: '100%',
-    margin: 1,
-    padding: 0,
+    height: undefined,
+    aspectRatio: 1 / 1,
+    marginHorizontal: 1,
+    padding: 10,
+    alignContent: 'center',
   },
   row: {
-    backgroundColor: 'red',
     width: '100%',
-    height: '30%',
   }
 
 })
