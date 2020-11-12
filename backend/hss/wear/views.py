@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from .serializers import *
+from accounts.serializers import *
 from .models import *
 from rest_framework import status
 from rest_framework.views import APIView
@@ -324,7 +325,6 @@ def like_list(request):
         data = {}
         cloth = UserCoordi.objects.get(id=i['coordi_num'])
         serializer = CoordiListSerializer(cloth)
-        print(serializer.data['headwear'])
         if serializer.data['headwear'] > -1:
             A = Headwear.objects.get(pk=serializer.data['headwear'])
             data['headwear'] = HeadwearSerializer(A).data
@@ -349,7 +349,10 @@ def like_list(request):
         if serializer.data['shoes'] > -1:
             A = Shoes.objects.get(pk=serializer.data['shoes'])
             data['shoes'] = ShoesSerializer(A).data
-        like.append({'id':i['coordi_num'], 'img':cloth.img, 'data': data})
+        print(serializer.data)
+        c_user = get_object_or_404(User, pk=serializer.data['user'])
+        user_data = UserSerializer(c_user)
+        like.append({'id':i['coordi_num'], 'user':user_data.data, 'img':cloth.img, 'data': data})
     return Response(like)
 
 
