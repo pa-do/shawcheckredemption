@@ -56,6 +56,7 @@ class UserClothesAPI(APIView):
                             6 : bag,
                             7 : watch,
                             8 : shoes, 중 한개를 입력
+                - subcategory : num
                 - color : 컨펌 후 채워지게 될 칸
         """
         User = get_user_model()
@@ -182,9 +183,7 @@ class Coordi(APIView):
         ---
     """
     def get(self, request):
-        User = get_user_model()
-        cuser = get_object_or_404(User, pk=request.user.pk)
-        serializer = UserMergeSerializer(UserCoordi.objects.all(), many=True, context={'request': request})
+        serializer = UserMergeSerializer(UserCoordi.objects.filter(c_code=1), many=True, context={'request': request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     def post(self, request, format=None):
@@ -245,7 +244,7 @@ class Coordi(APIView):
         targeturl = "usercoordi/" + user.username + '_' + nowDate + '.png'
         merged.save('./media/' + targeturl)
         if serializer.is_valid():
-            serializer.save(user=user, img=targeturl)
+            serializer.save(user=user, img=targeturl, c_code=1)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data=serializer.errors)
@@ -259,7 +258,7 @@ class Coordi_detail(APIView):
     """
     def delete(self, request, pk, format=None):
         """
-            유저 옷 1개 삭제 요청
+            유저 코디 1개 삭제 요청
 
             ---
             # 내용
@@ -283,7 +282,7 @@ def list_coordi(request):
     """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    coordi = UserCoordi.objects.filter(user=user)
+    coordi = UserCoordi.objects.filter(user=user, c_code=1)
     serializer = UserMergeSerializer(coordi, many=True)
     return Response(serializer.data)
 
@@ -333,8 +332,8 @@ def recommand(request):
     from wear import coordiset
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    who = request.data['value']
-    where = request.data['secondValue']
+    who = request.data['who']
+    where = request.data['where']
     now = datetime.datetime.now()
     nowDate = int(now.strftime('%m'))
     weather = 'winter'
@@ -344,8 +343,33 @@ def recommand(request):
         weather = 'summer'
     elif 9 <= nowDate < 12:
         weather = 'fall'
+    user_pick_item = {}
+    if request.data['headwear'] != '-1':
+        A = UserClothes.objects.get(pk=request.data['headwear'])
+        user_pick_item['headwear'] = [A.subcategory, A.color, A.img]
+    if request.data['top'] != '-1':
+        A = UserClothes.objects.get(pk=request.data['top'])
+        user_pick_item['top'] = [A.subcategory, A.color, A.img]
+    if request.data['outer'] != '-1':
+        A = UserClothes.objects.get(pk=request.data['outer'])
+        user_pick_item['outer'] = [A.subcategory, A.color, A.img]
+    if request.data['acc'] != '-1':
+        A = UserClothes.objects.get(pk=request.data['acc'])
+        user_pick_item['acc'] = [A.subcategory, A.color, A.img]
+    if request.data['pants'] != '-1':
+        A = UserClothes.objects.get(pk=request.data['pants'])
+        user_pick_item['pants'] = [A.subcategory, A.color, A.img]
+    if request.data['bag'] != '-1':
+        A = UserClothes.objects.get(pk=request.data['bag'])
+        user_pick_item['bag'] = [A.subcategory, A.color, A.img]
+    if request.data['watch'] != '-1':
+        A = UserClothes.objects.get(pk=request.data['watch'])
+        user_pick_item['watch'] = [A.subcategory, A.color, A.img]
+    if request.data['shoes'] != '-1':
+        A = UserClothes.objects.get(pk=request.data['shoes'])
+        user_pick_item['shoes'] = [A.subcategory, A.color, A.img]
 
-    user_pick_item = object
+
     ######################### 유저에게 받는 데이터 #############################
     user_info = {
         "who": who,
@@ -354,9 +378,7 @@ def recommand(request):
         "user_pick_item": user_pick_item,
         "user_personal_color": user.color
     }
-    
     ###########################################################################
     
-    result = coordiset.run_self(user_info)
-    print('result : ',result)
-    return result
+    result = coordiset.run_self(user_info, user)
+    return Response(result)

@@ -107,6 +107,7 @@ class UserClothes(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     img = models.ImageField(upload_to="Myclothes/%Y/%m/%d")
     category = models.IntegerField()
+    subcategory = models.IntegerField()
     color = models.CharField(max_length=5, blank=True)
 
 # 사용자가 등록한 코디
@@ -124,6 +125,7 @@ class UserCoordi(models.Model):
     color = models.CharField(max_length=5, blank=True)
     style = models.CharField(max_length=50, blank=True)
     content = models.TextField(blank=True)
+    c_code = models.IntegerField(null=True, blank=True)
 
 
 # 좋아요 등록
