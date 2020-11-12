@@ -1208,54 +1208,54 @@ def run_self(user_info, user):
                 continue
             if idx == 'headwear':
                 i, j = 0, 0
-                if value == '-2':
+                if value == -2:
                     chk = 1
                 else:
                     A = Headwear.objects.get(pk=value)
             elif idx == 'top':
                 i, j = 0, 1
-                if value == '-2':
+                if value == -2:
                     chk = 1
                 else:
                     A = Top.objects.get(pk=value)
             elif idx == 'outer':
                 i, j = 0, 2
-                if value == '-2':
+                if value == -2:
                     chk = 1
                 else:
                     A = Outer.objects.get(pk=value)
             elif idx == 'acc':
                 i, j = 1, 0
-                if value == '-2':
+                if value == -2:
                     chk = 1
                 else:
                     A = Accessory.objects.get(pk=value)
             elif idx == 'pants':
                 i, j = 1, 1
-                if value == '-2':
+                if value == -2:
                     chk = 1
                 else:
                     A = Pants.objects.get(pk=value)
             elif idx == 'bag':
                 i, j = 1, 2
-                if value == '-2':
+                if value == -2:
                     chk = 1
                 else:
                     A = Bag.objects.get(pk=value)
             elif idx == 'watch':
                 i, j = 2, 0
-                if value == '-2':
+                if value == -2:
                     chk = 1
                 else:
                     A = Watch.objects.get(pk=value)
             elif idx == 'shoes':
                 i, j = 2, 1
-                if value == '-2':
+                if value == -2:
                     chk = 1
                 else:
                     A = Shoes.objects.get(pk=value)
             if chk:
-                im = Image.open(user_info['user_pick_item']['headwear'][2])
+                im = Image.open(user_info['user_pick_item'][idx][2])
             else:
                 imgpath = './media/' + idx + '/' + A.img
                 im = Image.open(imgpath)
