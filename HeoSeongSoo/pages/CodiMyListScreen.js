@@ -15,7 +15,7 @@ import RowContainer from '../components/RowContainer';
 import LogoutButton from '../components/mypage/LogoutButton';
 import UserName from '../components/mypage/UserName';
 import UserPersonalColor from '../components/mypage/UserPersonalColor';
-import { AntDesign } from '@expo/vector-icons'; 
+import MypageButton from '../components/mypage/MypageButton';
 
 const UserProfileImg = styled.Image`
     width: 150px;
@@ -787,6 +787,7 @@ function CodiMyListScreen({ navigation, route }) {
                         pickUserImage();
                     }}
                     underlayColor="none"
+                    style={{width: '50%', justifyContent: 'center', alignItems: 'center'}}
                 >
                     <UserProfileImg
                         source={{uri: UserData?.profile_image}}
@@ -814,22 +815,21 @@ function CodiMyListScreen({ navigation, route }) {
                             {UserData?.color}
                         </UserPersonalColor>
                     </TouchableHighlight>
-                    <TouchableHighlight
-                        onPress={() => {
-                            // UserItems 데이터를 수신합니다.
-                            openItemModal();
-                        }}
-                    >
-                        <AntDesign name="database" size={48} color="black" />
-                        {/* <Text>내옷장</Text> */}
-                    </TouchableHighlight>
-                    <NormalButton
-                        onPress={() => {
-                            navigation.navigate('Form')
-                        }}
-                    >
-                        코디등록
-                    </NormalButton>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <MypageButton
+                            value="closet"
+                            onPress={() => {
+                                // UserItems 데이터를 수신합니다.
+                                openItemModal();
+                            }}
+                        ></MypageButton>
+                        <MypageButton
+                            value="coordi"
+                            onPress={() => {
+                                navigation.navigate('Form')
+                            }}
+                        ></MypageButton>
+                    </View>
                 </UserProfileTextContainer>
             </UserProfileContainer>
             <NormalButton onPress={changeMyOrLikeVisible}>
