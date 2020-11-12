@@ -459,7 +459,7 @@ function CodiFormScreen({ navigation }) {
             </Modal>
             </TopContainer>
             <ScrollView>
-            <View style={{height: Dimensions.get('window').height + 150}}>
+            <View style={{height: Dimensions.get('window').height + 150, marginVertical: 0}}>
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
@@ -575,17 +575,18 @@ function CodiFormScreen({ navigation }) {
             <TextInput
                 multiline
                 theme={{ colors: { primary: "#0d3754" }}}
-                numberOfLines={4}
+                numberOfLines={2}
                 label="코디를 소개해주세요"
                 value={content}
                 onChangeText={text => setContent(text)}
-                style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2"}}
+                style={{marginHorizontal: 22, marginVertical: 22, padding: 0, backgroundColor: "#F2F2F2"}}
             />
             <Text style={{marginHorizontal: 22}}>코디의 색감을 선택해주세요</Text>
             <Container style={{marginBottom: 22, alignItems: 'center', justifyContent: 'center'}}>
                 <ScrollView
                     horizontal={true}
-                    // style={{marginHorizontal: 22}}
+                    style={{marginHorizontal: 22}}
+                    showsHorizontalScrollIndicator={false}
                 >
                 {colorRGB.map((item, index) => {
                     return (
@@ -611,7 +612,8 @@ function CodiFormScreen({ navigation }) {
             <Container >
                 <ScrollView
                     horizontal={true}
-                    style={{marginHorizontal: 22}}
+                    style={{marginHorizontal: 22, marginVertical: 9}}
+                    showsHorizontalScrollIndicator={false}
                 >
                     {styleList.map((item, index) => {
                         return(
