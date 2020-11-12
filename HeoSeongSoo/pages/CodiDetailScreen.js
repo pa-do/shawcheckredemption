@@ -65,7 +65,6 @@ function CodiDetailScreen({ navigation, route }) {
         data?.bag ? dataList.push(data?.bag) : null;
         data?.watch ? dataList.push(data?.watch) : null;
         data?.acc ? dataList.push(data?.acc) : null;
-        // console.log(dataList, '<<<<<<<<<<<<<<<<< datalist')
         setItemDataList(dataList);
 
         const dataAsync = async () => {
@@ -76,7 +75,7 @@ function CodiDetailScreen({ navigation, route }) {
             .then(res => {
                 setUserData(res.data);
             })
-            .catch(err => {console.error(err.response.data)})
+            .catch(err => {console.error(err)})
 
         };
         dataAsync();
@@ -104,7 +103,6 @@ function CodiDetailScreen({ navigation, route }) {
         // codiItem.id와 itemLike 전송
         axios.post(ServerUrl.url + `wear/likecoordi/${codiSetDetail.id}`, null, requestHeaders)
         .then(res => {
-            console.log(res.data, itemLike)
             if (res.data === '좋아요 삭제.'){
                 setLikeItem({
                     liked: !itemLike.liked,
@@ -122,12 +120,11 @@ function CodiDetailScreen({ navigation, route }) {
 
     async function deleteCodi() {
         const requestHeaders = await getToken();
-        console.log(requestHeaders)
         axios.delete(ServerUrl.url + `wear/coordi/${codiSetDetail.id}`, requestHeaders)
         .then(res => {
             navigation.goBack();
         })
-        .catch(err => console.error(err.response.data))
+        .catch(err => console.error(err))
     }
     let nullCount = 0
     return (
@@ -152,7 +149,6 @@ function CodiDetailScreen({ navigation, route }) {
             </ContentText>
             <ScrollView>
                 {itemDataList.map(item => {
-                    // console.log(itemDataList.length, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<< item')
                     if (Object.keys(item).length !== 0) {
                         return (
                             <>

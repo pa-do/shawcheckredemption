@@ -55,11 +55,14 @@ function LoginScreen({ navigation }) {
                     console.log(loginData)
                     axios.post(ServerUrl.url + 'rest-auth/login/', loginData)
                     .then(res => {
-                        console.log()
-                        signIn(res.data.token);
+                        if (res.data.user.color === "") {
+                            navigation.navigate('Sign up', {userToken: res.data.token, nickname: res.data.user.username});
+                        } else {
+                            signIn(res.data.token);
+                        }
                     })
                     .catch(err => {
-                        console.error(err.response.data)
+                        console.error(err)
                         setErrorMsg('아이디 혹은 비밀번호를 확인하세요');
                     })
                 }}
