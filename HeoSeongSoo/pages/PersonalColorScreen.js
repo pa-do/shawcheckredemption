@@ -1,7 +1,7 @@
 import React from 'react';
-import { ScrollView, Image, View, Button } from 'react-native';
+import { ScrollView, Image, View } from 'react-native';
 import Constants from 'expo-constants';
-import PersonalColorBackButton from '../components/mypage/PersonalColorBackButton';
+import BackButton from '../components/buttons/BackButton';
 import { personalStyles } from '../components/StyleSheetComponent';
 
 function PersonalColorScreen({ navigation, route }) {
@@ -16,9 +16,9 @@ function PersonalColorScreen({ navigation, route }) {
             <View
                 style={personalStyles.imageContainer, {backgroundColor:'white', flex: 1, marginTop: Constants.statusBarHeight}}
             >
-                <PersonalColorBackButton 
+                <BackButton 
                 onPress={() => moveBack()}
-                ></PersonalColorBackButton>
+                ></BackButton>
                 {color === 'spring' ? 
                     <Image
                         style={personalStyles.imageStyles}
@@ -53,10 +53,6 @@ function PersonalColorScreen({ navigation, route }) {
                 }
 
             </View>
-            <Button
-                title={'확인'}
-                onPress={moveBack}
-            >확인</Button>
         </ScrollView>
     );
 }

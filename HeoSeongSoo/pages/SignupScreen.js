@@ -9,6 +9,7 @@ import AuthContext from '../components/AuthContext';
 import axios from 'axios';
 import { ServerUrl } from '../components/TextComponent';
 import { styles } from '../components/StyleSheetComponent';
+import BackButton from '../components/buttons/BackButton';
 
 const Container = styled.SafeAreaView`
     flex: 1;
@@ -136,17 +137,22 @@ function SignupScreen({ navigation, route }) {
         <Container>
             {userToken === undefined ? (
                 <>
-                    <TextInput
-                        label="Account"
-                        value={textAccount}
-                        onChangeText={text => {
-                            setTextAccount(text);
-                            setAccountError(null);
-                            setAccountPass(null);
-                        }
-                    }
-                    />
-                    {!accountPass &&
+                    <BackButton 
+                    onPress={() => navigation.goBack()}
+                    ></BackButton>
+                    <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'flex-end'}}>
+                        <TextInput
+                            label="아이디"
+                            value={textAccount}
+                            onChangeText={text => {
+                                setTextAccount(text);
+                                setAccountError(null);
+                                setAccountPass(null);
+                                }
+                            }
+                            style={{ width: '60%', backgroundColor: 'rgba(0, 0, 0, 0)'}}
+                            theme={{colors: {primary: '#0d3754'}}}
+                        />
                         <Button
                             mode="text"
                             onPress={() => {
@@ -164,67 +170,89 @@ function SignupScreen({ navigation, route }) {
                                     .catch(err => console.error(err))
                                 } 
                             }}
+                            style={{paddingVertical: 8, width: '25%', backgroundColor: '#0d3754'}}
+                            labelStyle={{color: 'white'}}
                         >
                             중복확인
                         </Button>
-                    }
-                    {accountError && <ErrorMsg>{ accountError }</ErrorMsg>}
-                    {accountPass && <PassMsg>{ accountPass }</PassMsg>}
-                    <TextInput
-                        label="Password"
-                        type="password"
-                        value={textPassword}
-                        onChangeText={text => setTextPassword(text)}
-                        secureTextEntry
-                    />
-                    <TextInput
-                        label="Password Confirm"
-                        value={textPasswordConfrim}
-                        onChangeText={text => setTextPasswordConfrim(text)}
-                        secureTextEntry
-                    />
-                    {passwordError !== null ? <ErrorMsg>{ passwordError }</ErrorMsg> : null}
-                    <Button
-                        icon="account-plus"
-                        mode="contained"
-                        onPress={() => {
-                            if (textAccount.length === 0 || textPassword.length === 0 || textPasswordConfrim.length === 0) {
-                                return Alert.alert("", "모든 정보를 입력해주세요.");
-                            } else if (textPassword !== textPasswordConfrim) {
-                                return Alert.alert("", "비밀번호가 일치하지 않습니다.");
-                            } else if (textPassword.length < 8) {
-                                return setPasswordError('비밀번호는 8자리 이상 이어야 합니다.');
-                            } else if (textAccount.length < 6) {
-                                return setAccountError('아이디는 6글자 이상 이어야 합니다.');
-                            } else if (accountPass === null) {
-                                return setAccountError('중복 확인을 해주세요.')
-                            } else {
-                                setPasswordError(null)
-                                setAccountError(null)
-                                const signupData = {
-                                    username: textAccount,
-                                    password1: textPassword,
-                                    password2: textPasswordConfrim
-                                }
-                                // 회원가입 로직 -> 닉네임, 아이디 중복 확인 처리
-                                axios.post(ServerUrl.url + 'rest-auth/registration/', signupData)
-                                .then(res => {
-                                    setTextNickname(textAccount);
-                                    setUserToken(res.data.token);
-                                })
-                                .catch(err => {
-                                    console.error(err)
-                                    if (err.response.data?.username) {
-                                        setAccountError(err.response.data?.username[0])
-                                    } else if (err.response.data?.password1) {
-                                        setPasswordError(err.response.data?.password1[0])
+                        
+                    </View>
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                        {accountError && <ErrorMsg style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)', marginLeft: 20}}>{ accountError }</ErrorMsg>}
+                        {accountPass && <PassMsg style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)', marginLeft: 20}}>{ accountPass }</PassMsg>}
+                    </View>
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                        <TextInput
+                            label="비밀번호"
+                            type="password"
+                            value={textPassword}
+                            onChangeText={text => setTextPassword(text)}
+                            secureTextEntry
+                            style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)'}}
+                            theme={{colors: {primary: '#0d3754'}}}
+                        />
+                    </View>
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                        <TextInput
+                            label="비밀번호 확인"
+                            value={textPasswordConfrim}
+                            onChangeText={text => setTextPasswordConfrim(text)}
+                            secureTextEntry
+                            style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)'}}
+                            theme={{colors: {primary: '#0d3754'}}}
+                        />
+                    </View>
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                        {passwordError !== null ? <ErrorMsg style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)', marginLeft: 20}}>{ passwordError }</ErrorMsg> : null}
+                    </View>
+                    <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 50}}>
+                        <Button
+                            mode="contained"
+                            onPress={() => {
+                                if (textAccount.length === 0 || textPassword.length === 0 || textPasswordConfrim.length === 0) {
+                                    return Alert.alert("", "모든 정보를 입력해주세요.");
+                                } else if (textPassword !== textPasswordConfrim) {
+                                    return Alert.alert("", "비밀번호가 일치하지 않습니다.");
+                                } else if (textPassword.length < 8) {
+                                    return setPasswordError('비밀번호는 8자리 이상 이어야 합니다.');
+                                } else if (textAccount.length < 6) {
+                                    return setAccountError('아이디는 6글자 이상 이어야 합니다.');
+                                } else if (accountPass === null) {
+                                    return setAccountError('중복 확인을 해주세요.')
+                                } else {
+                                    setPasswordError(null)
+                                    setAccountError(null)
+                                    const signupData = {
+                                        username: textAccount,
+                                        password1: textPassword,
+                                        password2: textPasswordConfrim
                                     }
-                                })
-                            }
-                        }}
-                    >
-                        제출
-                    </Button>
+                                    console.log(signupData);
+                                    console.log(ServerUrl.url + 'rest-auth/registration/');
+                                    // 회원가입 로직 -> 닉네임, 아이디 중복 확인 처리
+                                    axios.post(ServerUrl.url + 'rest-auth/registration/', signupData)
+                                    .then(res => {
+                                        console.log(res)
+                                        setTextNickname(textAccount);
+                                        setUserToken(res.data.token);
+                                    })
+                                    .catch(err => {
+                                        console.log(err)
+                                        if (err.response.data?.username) {
+                                            setAccountError(err.response.data?.username[0])
+                                        } else if (err.response.data?.password1) {
+                                            setPasswordError(err.response.data?.password1[0])
+                                        }
+                                    })
+                                }
+                            }}
+                            style={{borderWidth: 1, borderColor: '#0d3754', width: 200, marginBottom: 15}}
+                            labelStyle={{fontSize:20, color: '#0d3754'}}
+                            theme={{colors: {primary: 'rgba(0, 0, 0, 0)'}}}
+                        >
+                            가입하기
+                        </Button>
+                    </View>
                 </>
             ) : (
                 <>  

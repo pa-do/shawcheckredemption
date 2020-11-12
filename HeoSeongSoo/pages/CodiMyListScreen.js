@@ -30,7 +30,6 @@ const CodiItemImg = styled.Image`
     margin: 1px;
     width: 31%;
     height: 150px;
-    border: 1px black;
     resize-mode: center;
 `;
 
