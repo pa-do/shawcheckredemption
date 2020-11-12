@@ -11,7 +11,8 @@ urlpatterns = [
     # 내가 등록한 아이템 보기
     path('mylist/', views.mylist),
     # 코디셋 등록하기
-    path('createcoordi/', views.create_coordi),
+    path('coordi/', views.Coordi.as_view()),
+    path('coordi/<int:pk>', views.Coordi_detail.as_view()),
     # 내가 등록한 코디셋 보기
     path('listcoordi/', views.list_coordi),
     # 코디셋 좋아요/삭제 하기
