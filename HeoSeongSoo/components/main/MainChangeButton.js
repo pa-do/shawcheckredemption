@@ -5,7 +5,7 @@ import { TouchableHighlight } from 'react-native';
 function MainChangeButton(props) {
     return (
         <TouchableHighlight
-        style={{ marginTop: 15, marginBottom: 20, marginRight: 5}}
+        style={{marginRight: 5}}
         underlayColor="none"
         onPress={props.onPress} >
             <Ionicons name="ios-arrow-dropleft" size={48} color="black" />

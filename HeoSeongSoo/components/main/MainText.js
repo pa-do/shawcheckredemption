@@ -5,7 +5,6 @@ const Label = styled.Text`
     font-size: 35px;
     font-weight: bold;
     margin-bottom: 20px;
-    margin-top: 20px;
 `;
 
 function MainText(props) {

@@ -108,7 +108,7 @@ function HomeScreen({ navigation }) {
 
             {value === 'school' ? (
                 <>
-                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                    <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center', marginBottom: 20}}>
                         <MainChangeButton onPress={() => choiceAgain()} ></MainChangeButton>
                         <MainText>누구와 가시나요?</MainText>
                     </View>
@@ -120,7 +120,7 @@ function HomeScreen({ navigation }) {
                 ) : null}
                 {value === 'comfortable' ? (
                 <>
-                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                    <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center', marginBottom: 20}}>
                         <MainChangeButton onPress={() => choiceAgain()} ></MainChangeButton>
                         <MainText>누구와 가시나요?</MainText>
                     </View>
@@ -130,7 +130,7 @@ function HomeScreen({ navigation }) {
                 ) : null}
             {value === 'restaurant' ? (
                 <>
-                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                    <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center', marginBottom: 20}}>
                         <MainChangeButton onPress={() => choiceAgain()} ></MainChangeButton>
                         <MainText>누구와 가시나요?</MainText>
                     </View>
