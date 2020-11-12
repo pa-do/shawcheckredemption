@@ -780,17 +780,7 @@ function CodiMyListScreen({ navigation, route }) {
                     </View>
                 </View>
             </Modal>
-            <ScrollView
-                onScroll = {(e) => {
-                    let paddingToBottom = 1;
-                    paddingToBottom += e.nativeEvent.layoutMeasurement.height;
-                    // console.log(Math.floor(paddingToBottom) + "-" + Math.floor(e.nativeEvent.contentOffset.y) + "-" + Math.floor(e.nativeEvent.contentSize.height));
-                    if (!isLoading && e.nativeEvent.contentOffset.y + paddingToBottom >= e.nativeEvent.contentSize.height) {
-                        console.log('at the end');
-                        getShowData();
-                    }
-                }}
-            >
+            <ScrollView>
             <UserProfileContainer>
                 <TouchableHighlight
                     onPress={() => {
