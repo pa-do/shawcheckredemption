@@ -76,7 +76,7 @@ function CodiFormScreen({ navigation }) {
     const [AccImage, setAccImage] = React.useState(null);
 
     React.useEffect(() => {
-        navigation.setOptions({title: `코디를 만들어요`});
+        navigation.setOptions({title: `내 코디 등록하기`});
     }, []);
 
     const getUserItems = requestHeaders => {
@@ -543,15 +543,18 @@ function CodiFormScreen({ navigation }) {
             </RowContainer>
             <TextInput
                 multiline
+                theme={{ colors: { primary: "#0d3754" }}}
                 numberOfLines={4}
                 label="코디를 소개해주세요"
                 value={content}
                 onChangeText={text => setContent(text)}
+                style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2"}}
             />
-            <Text>코디의 색감을 선택해주세요</Text>
-            <Container>
+            <Text style={{marginHorizontal: 22}}>코디의 색감을 선택해주세요</Text>
+            <Container style={{marginBottom: 22, alignItems: 'center', justifyContent: 'center'}}>
                 <ScrollView
                     horizontal={true}
+                    style={{marginHorizontal: 22}}
                 >
                 {colorRGB.map((item, index) => {
                     return (
@@ -572,10 +575,11 @@ function CodiFormScreen({ navigation }) {
                 })}
                 </ScrollView>
             </Container>
-            <Text>코디의 스타일을 선택해주세요</Text>
-            <Container>
+            <Text style={{marginHorizontal: 22}}>코디의 스타일을 선택해주세요</Text>
+            <Container >
                 <ScrollView
                     horizontal={true}
+                    style={{marginHorizontal: 22}}
                 >
                     {styleList.map((item, index) => {
                         return(
@@ -586,11 +590,11 @@ function CodiFormScreen({ navigation }) {
                                 }}
                             >
                                 {selectedStyle === item ?
-                                    <View style={{margin: 7, backgroundColor: 'rgb(234, 152, 90)'}}>
+                                    <View style={{margin: 5, padding: 1, width: 73, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)'}}>
                                         <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
                                     </View>
                                 :
-                                    <View style={{margin: 7}}>
+                                    <View style={{margin: 5, padding: 1, width: 73, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)'}}>
                                         <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
                                     </View>                     
                                 }

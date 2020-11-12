@@ -18,7 +18,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
     const [watchImage, setWatchImage] = React.useState(null);
     const [AccImage, setAccImage] = React.useState(null);
 
-
+    
     const recommendationRequest = () => {
         // 서버로 이미지를 보내고 결과를 받아옵니다.
         // axios.post()
@@ -98,6 +98,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
     }
 
     React.useEffect(() => {
+        navigation.setOptions({title: `착용할 의류 선택하기`});
         const imageUri = route.params.image?.uri
         if (imageUri) {
             switch (uploadCategory) {
@@ -225,7 +226,8 @@ function ImgUploadForRecScreen({ navigation, route }) {
             </Modal>
             </View>
             <Text style={{color: 'black', textAlign: 'center', paddingVertical: 15, marginBottom: 22}}>
-                착용할 아이템을 옷장에서 가져오세요!
+                착용할 의류을 옷장에서 가져오세요! {"\n"}
+                (착용할 의류가 없으면 그냥 '추천받기'를 눌러요!)
             </Text>
             <View style={{height: Dimensions.get('window').height}}>
             <RowContainer style={formStyles.RowContainerHeight}>
