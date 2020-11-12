@@ -55,6 +55,11 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         textAlign: 'center',
       },
+      uploadboxText: {
+        color: 'black',
+        textAlign: 'center',
+
+      },
 })
 
 const formStyles = StyleSheet.create({
@@ -67,10 +72,9 @@ const formStyles = StyleSheet.create({
 		width: '30%',
     height: undefined,
     aspectRatio: 1 / 1,
-		backgroundColor: 'black',
-		borderColor: 'white',
-		borderWidth: 0.5,
-		borderColor: 'white',
+		backgroundColor: 'white',
+    borderColor: '#0d3754',
+    borderWidth: 0.5,
 	},
 	uploadedItem: {
 		width: '100%',

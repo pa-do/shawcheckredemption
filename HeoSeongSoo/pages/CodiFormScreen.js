@@ -440,18 +440,20 @@ function CodiFormScreen({ navigation }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         openItemModal();
                     }}>
                     {hatImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + hatImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.hat }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.hat }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         openItemModal();
                     }}>
@@ -459,19 +461,20 @@ function CodiFormScreen({ navigation }) {
                     {topImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + topImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.top }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.top }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         openItemModal();
                     }}>
                     {outerImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + outerImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.outer }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.outer }</Text>
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -479,37 +482,40 @@ function CodiFormScreen({ navigation }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         openItemModal();
                     }}>
                     {AccImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + AccImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.accessory }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.accessory }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         openItemModal();
                     }}>
                     {pantsImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + pantsImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.pants }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.pants }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         openItemModal();
                     }}>
                     {bagImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + bagImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.bag }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.bag }</Text>
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -517,25 +523,27 @@ function CodiFormScreen({ navigation }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         openItemModal();
                     }}>
                     {watchImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + watchImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.watch }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.watch }</Text>
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         openItemModal();
                     }}>
                     {shoesImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + shoesImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.textStyle}>{ CategoryText.shoes }</Text>
+                        <Text style={styles.uploadboxText}>{ CategoryText.shoes }</Text>
                     }
                 </TouchableHighlight>
             
@@ -590,11 +598,11 @@ function CodiFormScreen({ navigation }) {
                                 }}
                             >
                                 {selectedStyle === item ?
-                                    <View style={{margin: 5, padding: 1, width: 73, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)'}}>
+                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 90, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
                                         <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
                                     </View>
                                 :
-                                    <View style={{margin: 5, padding: 1, width: 73, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)'}}>
+                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 90, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
                                         <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
                                     </View>                     
                                 }
