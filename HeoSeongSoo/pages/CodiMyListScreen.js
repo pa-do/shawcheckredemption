@@ -12,10 +12,14 @@ import AuthContext from '../components/AuthContext';
 import { ServerUrl, CategoryText, CategoryEngText } from '../components/TextComponent';
 import { styles, gridStyles } from '../components/StyleSheetComponent';
 import RowContainer from '../components/RowContainer';
+import LogoutButton from '../components/mypage/LogoutButton';
+import UserName from '../components/mypage/UserName';
+import UserPersonalColor from '../components/mypage/UserPersonalColor';
+import MypageButton from '../components/mypage/MypageButton';
 
 const UserProfileImg = styled.Image`
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     resize-mode: cover;
     border-radius: 150px;
 `;
@@ -29,13 +33,13 @@ const CodiItemImg = styled.Image`
 
 const UserProfileContainer = styled.View`
     flex-direction: row;
+    margin-top: 30px;
 `;
 
 const UserProfileTextContainer = styled.View`
     flex-direction: column;
     width: 100%;
     margin-left: 20px;
-    background-color: gray;
 `;
 
 const TopContainer = styled.SafeAreaView`
@@ -770,46 +774,50 @@ function CodiMyListScreen({ navigation, route }) {
                     onPress={() => {
                         pickUserImage();
                     }}
+                    underlayColor="none"
+                    style={{width: '40%', justifyContent: 'center', alignItems: 'center'}}
                 >
                     <UserProfileImg
                         source={{uri: UserData?.profile_image}}
                     />
                 </TouchableHighlight>
-                <UserProfileTextContainer>
-                    <Text>
-                        {UserData?.nickname}
-                    </Text>
+                <UserProfileTextContainer style={{justifyContent: 'center'}}>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <UserName>
+                            {UserData?.nickname}
+                        </UserName>
+                        <LogoutButton
+                            onPress={() => {
+                                signOut();
+                            }}
+                        >
+                        </LogoutButton>
+                    </View>
                     <TouchableHighlight
                         onPress={() => {
                             navigation.navigate('PersonalColor', {color: UserData?.color})
                         }}
+                        underlayColor="none"
                     >
-                        <Text>
+                        <UserPersonalColor>
                             {UserData?.color}
-                        </Text>
+                        </UserPersonalColor>
                     </TouchableHighlight>
-                    <NormalButton
-                        onPress={() => {
-                            signOut();
-                        }}
-                    >
-                        로그아웃
-                    </NormalButton>
-                    <NormalButton
-                        onPress={() => {
-                            // UserItems 데이터를 수신합니다.
-                            openItemModal();
-                        }}
-                    >
-                        내 아이템
-                    </NormalButton>
-                    <NormalButton
-                        onPress={() => {
-                            navigation.navigate('Form')
-                        }}
-                    >
-                        코디등록
-                    </NormalButton>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <MypageButton
+                            value="closet"
+                            onPress={() => {
+                                // UserItems 데이터를 수신합니다.
+                                openItemModal();
+                            }}
+                        ></MypageButton>
+                        <MypageButton
+                            value="coordi"
+                            onPress={() => {
+                                navigation.navigate('Form')
+                            }}
+                        ></MypageButton>
+                    </View>
                 </UserProfileTextContainer>
             </UserProfileContainer>
             <NormalButton onPress={changeMyOrLikeVisible}>

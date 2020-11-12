@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from .serializers import *
+from accounts.serializers import *
 from .models import *
 from rest_framework import status
 from rest_framework.views import APIView
@@ -183,7 +184,7 @@ class Coordi(APIView):
         ---
     """
     def get(self, request):
-        serializer = UserMergeSerializer(UserCoordi.objects.filter(c_code=1), many=True, context={'request': request})
+        serializer = UserMergeSerializer(UserCoordi.objects.filter(c_code=1).order_by('-id'), many=True, context={'request': request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     def post(self, request, format=None):
@@ -321,9 +322,40 @@ def like_list(request):
     clothes = LikeCoordi.objects.filter(user=user).values()
     like = []
     for i in clothes:
-        cloth = UserCoordi.objects.get(id=i['id'])
-        like.append({'id':i['id'], 'img':i['img']})
-    return JsonResponse(like)
+        data = {}
+        cloth = UserCoordi.objects.get(id=i['coordi_num'])
+        serializer = CoordiListSerializer(cloth)
+        if serializer.data['headwear'] > -1:
+            A = Headwear.objects.get(pk=serializer.data['headwear'])
+            data['headwear'] = HeadwearSerializer(A).data
+        if serializer.data['top'] > -1:
+            A = Top.objects.get(pk=serializer.data['top'])
+            data['top'] = TopSerializer(A).data
+        if serializer.data['outer'] > -1:
+            A = Outer.objects.get(pk=serializer.data['outer'])
+            data['outer'] = OuterSerializer(A).data
+        if serializer.data['acc'] > -1:
+            A = Accessory.objects.get(pk=serializer.data['acc'])
+            data['acc'] = AccessorySerializer(A).data
+        if serializer.data['pants'] > -1:
+            A = Pants.objects.get(pk=serializer.data['pants'])
+            data['pants'] = PantsSerializer(A).data
+        if serializer.data['bag'] > -1:
+            A = Bag.objects.get(pk=serializer.data['bag'])
+            data['bag'] = BagSerializer(A).data
+        if serializer.data['watch'] > -1:
+            A = Watch.objects.get(pk=serializer.data['watch'])
+            data['watch'] = WatchSerializer(A).data
+        if serializer.data['shoes'] > -1:
+            A = Shoes.objects.get(pk=serializer.data['shoes'])
+            data['shoes'] = ShoesSerializer(A).data
+        c_user = get_object_or_404(User, pk=serializer.data['user'])
+        user_data = UserSerializer(c_user)
+        chk = LikeCoordi.objects.filter(user=user, coordi_num=i['coordi_num'])
+        liked = 1 if chk.exists() else 0
+        count = LikeCoordi.objects.filter(coordi_num=i['coordi_num'])
+        like.append({'id':i['coordi_num'], 'user':user_data.data, 'img':cloth.img, 'liked': liked, 'like_count': len(count),'data': data})
+    return Response(like)
 
 
 # 추천 받기

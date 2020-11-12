@@ -91,6 +91,7 @@ function CodiFormScreen({ navigation }) {
     const [content, setContent] = React.useState('');
     const [selectedStyle, setSelectedStyle] = React.useState('');
     const [selectedColor, setSelectedColor] = React.useState('');
+    const [selectedColorRGB, setSelectedColorRGB] = React.useState([]);
     const [userItems, setUserItems] = React.useState({});
     const [hatImage, setHatImage] = React.useState(null);
     const [topImage, setTopImage] = React.useState(null);
@@ -102,7 +103,7 @@ function CodiFormScreen({ navigation }) {
     const [AccImage, setAccImage] = React.useState(null);
 
     React.useEffect(() => {
-        navigation.setOptions({title: `코디를 만들어요`});
+        navigation.setOptions({title: `내 코디 등록하기`});
         getUserItems();
     }, []);
 
@@ -195,6 +196,7 @@ function CodiFormScreen({ navigation }) {
           });
         })
 
+
     const createSet = async () => {
         // 저장된 이미지들을 취합합니다.
         let userToken;
@@ -220,6 +222,7 @@ function CodiFormScreen({ navigation }) {
         uploadData.append('content', content);
         uploadData.append('style', selectedStyle);
         uploadData.append('color', selectedColor);
+
         axios.post(ServerUrl.url + 'wear/coordi/', uploadData, requestHeaders)
         .then(res => {
             console.log(res)
@@ -273,7 +276,6 @@ function CodiFormScreen({ navigation }) {
     return (
         <>
         <TopContainer>
-            {/* 디테일 카테고리 선택을 위한 모달 */}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -294,20 +296,22 @@ function CodiFormScreen({ navigation }) {
                                             }}
                                             key={index}
                                         >
-                                            {detailCategory === index ?
-                                                <View style={{margin: 7, backgroundColor: 'rgb(234, 152, 90)'}}>
-                                                    <Text style={{fontSize: 25}}>{item}</Text>
-                                                </View>
-                                            :
-                                                <View style={{margin: 7}}>
-                                                    <Text style={{fontSize: 25}}>{item}</Text>
-                                                </View>                     
-                                            }
+                                        {detailCategory === index ?
+                                            <View style={{margin: 7, backgroundColor: 'rgb(234, 152, 90)'}}>
+                                                <Text style={{fontSize: 25}}>{item}</Text>
+                                            </View>
+                                        :
+                                            <View style={{margin: 7}}>
+                                                <Text style={{fontSize: 25}}>{item}</Text>
+                                            </View>                     
+                                        }
+
                                         </TouchableHighlight>
                                     );
                                 })}
                             </ScrollView>
                         </Container>
+
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
@@ -319,15 +323,17 @@ function CodiFormScreen({ navigation }) {
                         </TouchableHighlight>
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+
                             onPress={() => {
                                 setDetailCategory(null);
                                 setModalCategoryVisible(false);
+
                             }}
                         >
-                            <Text style={styles.textStyle}>닫기</Text>
+                        <Text style={styles.textStyle}>닫기</Text>
                         </TouchableHighlight>
                     </View>
-                </View>
+                    </View>
             </Modal>
             {/* 아이템 모달 */}
             <Modal
@@ -344,10 +350,11 @@ function CodiFormScreen({ navigation }) {
                                 setModalItemCategoryVisible(false);
                             }}
                         >
-                                <Text style={styles.textStyle}>닫기</Text>
+                            <Text style={styles.textStyle}>닫기</Text>
                         </TouchableHighlight>
                         <ModalItemGrid/>
                     </View>
+
                 </View>
             </Modal>
             </TopContainer>
@@ -356,6 +363,7 @@ function CodiFormScreen({ navigation }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.hat);
                         openItemModal();
@@ -370,6 +378,7 @@ function CodiFormScreen({ navigation }) {
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.top);
                         openItemModal();
@@ -385,10 +394,12 @@ function CodiFormScreen({ navigation }) {
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.outer);
                         openItemModal();
                         setModalItems(userItems.outers);
+
                     }}>
                     {outerImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + outerImage.img }} style={formStyles.uploadedItem} /> 
@@ -401,10 +412,12 @@ function CodiFormScreen({ navigation }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.accessory);
                         openItemModal();
                         setModalItems(userItems.accs);
+
                     }}>
                     {AccImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + AccImage.img }} style={formStyles.uploadedItem} /> 
@@ -415,10 +428,12 @@ function CodiFormScreen({ navigation }) {
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.pants);
                         openItemModal();
                         setModalItems(userItems.pants);
+
                     }}>
                     {pantsImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + pantsImage.img }} style={formStyles.uploadedItem} /> 
@@ -429,10 +444,12 @@ function CodiFormScreen({ navigation }) {
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={async () => {
                         setUploadCategory(CategoryEngText.bag);
                         await openItemModal();
                         setModalItems(userItems.bags);
+
                     }}>
                     {bagImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + bagImage.img }} style={formStyles.uploadedItem} /> 
@@ -445,10 +462,12 @@ function CodiFormScreen({ navigation }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.watch);
                         openItemModal();
                         setModalItems(userItems.watches);
+
                     }}>
                     {watchImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + watchImage.img }} style={formStyles.uploadedItem} /> 
@@ -459,10 +478,12 @@ function CodiFormScreen({ navigation }) {
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
+                    underlayColor="#DDDDDD"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.shoes);
                         openItemModal();
                         setModalItems(userItems.shoes);
+
                     }}>
                     {shoesImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + shoesImage.img }} style={formStyles.uploadedItem} /> 
@@ -475,15 +496,18 @@ function CodiFormScreen({ navigation }) {
             </RowContainer>
             <TextInput
                 multiline
+                theme={{ colors: { primary: "#0d3754" }}}
                 numberOfLines={4}
                 label="코디를 소개해주세요"
                 value={content}
                 onChangeText={text => setContent(text)}
+                style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2"}}
             />
-            <Text>코디의 색감을 선택해주세요</Text>
-            <Container>
+            <Text style={{marginHorizontal: 22}}>코디의 색감을 선택해주세요</Text>
+            <Container style={{marginBottom: 22, alignItems: 'center', justifyContent: 'center'}}>
                 <ScrollView
                     horizontal={true}
+                    // style={{marginHorizontal: 22}}
                 >
                 {colorRGB.map((item, index) => {
                     return (
@@ -491,9 +515,10 @@ function CodiFormScreen({ navigation }) {
                             key={index}
                             onPress={() => {
                                 setSelectedColor(color_name[index]);
+                                setSelectedColorRGB(item);
                             }}
                         >
-                        {selectedColor[0] === item[0] && selectedColor[1] === item[1] && selectedColor[2] === item[2] ? 
+                        {selectedColorRGB[0] === item[0] && selectedColorRGB[1] === item[1] && selectedColorRGB[2] === item[2] ? 
                             <SelectColorContainer borderSize={3} R={item[0]} G={item[1]} B={item[2]} />
                             :
                             <SelectColorContainer borderSize={1} R={item[0]} G={item[1]} B={item[2]} />
@@ -504,10 +529,11 @@ function CodiFormScreen({ navigation }) {
                 })}
                 </ScrollView>
             </Container>
-            <Text>코디의 스타일을 선택해주세요</Text>
-            <Container>
+            <Text style={{marginHorizontal: 22}}>코디의 스타일을 선택해주세요</Text>
+            <Container >
                 <ScrollView
                     horizontal={true}
+                    style={{marginHorizontal: 22}}
                 >
                     {styleList.map((item, index) => {
                         return(
@@ -518,11 +544,11 @@ function CodiFormScreen({ navigation }) {
                                 }}
                             >
                                 {selectedStyle === item ?
-                                    <View style={{margin: 7, backgroundColor: 'rgb(234, 152, 90)'}}>
+                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 90, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
                                         <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
                                     </View>
                                 :
-                                    <View style={{margin: 7}}>
+                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 90, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
                                         <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
                                     </View>                     
                                 }
