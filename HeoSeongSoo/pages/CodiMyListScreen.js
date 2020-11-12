@@ -78,6 +78,27 @@ const SelectColorContainer = styled.View`
     align-items: center;
 `;
 
+const accessoryDetailCategory = ['벨트', '넥타이', '머플러']
+
+const headwearDetailCategory = ['캡/야구 모자', '헌팅/베레', '페도라', '버킷/사파리햇', '비니', '트루퍼',
+'기타 모자']
+
+const bagDetailCategory = ['백팩', '메신저/크로스백', '숄더/토트백', '에코백', '보스턴/드럼/더플백',
+'웨이스트백', '클러치백', '파우치백', '브리프케이스']
+
+const topDetailCategory = ['반팔 티셔츠', '긴팔 티셔츠', '민소매 티셔츠', '셔츠/블라우스', '피케/카라 티셔츠',
+'맨투맨/스웨트셔츠', '후드 티셔츠', '니트/스웨터']
+
+const shoesDetailCategory = ['캔버스/단화', '러닝화/피트니스화', '구두', '부츠', '로퍼',
+'모카신/보트 슈즈', '샌들', '슬리퍼']
+
+const pantsDetailCategory = ['데님 팬츠', '코튼 팬츠', '슈트 팬츠/슬랙스', '트레이닝/조거 팬츠', '숏 팬츠']
+
+const outerDetailCategory = ['후드 집업', '블루종/MA-1', '레더/라이더스 재킷', '트러커 재킷', '슈트/블레이저 재킷',
+'카디건', '아노락 재킷', '플리스', '트레이닝 재킷', '스타디움 재킷', '환절기 코트', '겨울 싱글 코트',
+'겨울 기타 코트', '롱 패딩/롱 헤비 아우터', '숏 패딩/숏 헤비 아우터', '패딩 베스트', '베스트', '사파리/헌팅 재킷',
+'나일론/코치 재킷']
+
 const colorRGB = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91], [0, 0, 0], 
 [156, 35, 54], [232, 4, 22], [215, 64, 97], [223, 24, 149], [247, 17, 158],
 [255, 163, 182], [220, 166, 156], [250, 171, 141], [237, 104, 89], [254, 124, 0],
@@ -95,7 +116,10 @@ function CodiMyListScreen({ navigation, route }) {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [modalImageVisible, setModalImageVisible] = React.useState(false);
     const [modalColorVisible, setModalColorVisible] = React.useState(false);
+    const [modalCategoryVisible, setModalCategoryVisible] = React.useState(false);
     const [myOrLikeVisible, setMyOrLikeVisible] = React.useState(false);
+    const [detailCategory, setDetailCategory] = React.useState(null);
+    const [detailCategoryList, setDetailCategoryList] = React.useState([]);
     const [uploadedColor, setUploadedColor] = React.useState(null);
     const [uploadedItemPk, setUploadedItemPk] = React.useState(null);
     const [uploadCategory, setUploadCategory] = React.useState();
@@ -106,7 +130,7 @@ function CodiMyListScreen({ navigation, route }) {
     const [buttonText, setButtonText] = React.useState('하트코디 보기');
     const [isLoading, setIsLoading] = React.useState(false);
     const [index, setIndex] = React.useState(0);
-
+    
     const { signOut } = React.useContext(AuthContext);
  
     React.useEffect(() => {
@@ -175,6 +199,11 @@ function CodiMyListScreen({ navigation, route }) {
         const data = new FormData();
         data.append('img', itemImage);
         data.append('category', categoryNum);
+        if (categoryNum === 7) {
+            data.append('subcategory', 0)
+        } else {
+            data.append('subcategory', detailCategory);
+        }
         console.log(data, '<<<<<<<<<<, upload data')
 
         axios.post(ServerUrl.url +'wear/userclothes/', data, requestHeaders)
@@ -417,6 +446,62 @@ function CodiMyListScreen({ navigation, route }) {
 
     return (
         <TopContainer>
+            {/* 디테일 카테고리 선택을 위한 모달 */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalCategoryVisible}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text>카테고리를 선택해주세요.</Text>
+                        <Container>
+                            <ScrollView
+                                horizontal={true}
+                            >
+                                {detailCategoryList.map((item, index) => {
+                                    return (
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                setDetailCategory(index);
+                                            }}
+                                            key={index}
+                                        >
+                                            {detailCategory === index ?
+                                                <View style={{margin: 7, backgroundColor: 'rgb(234, 152, 90)'}}>
+                                                    <Text style={{fontSize: 25}}>{item}</Text>
+                                                </View>
+                                            :
+                                                <View style={{margin: 7}}>
+                                                    <Text style={{fontSize: 25}}>{item}</Text>
+                                                </View>                     
+                                            }
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </ScrollView>
+                        </Container>
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                            onPress={() => {
+                                setModalCategoryVisible(false);
+                                setModalImageVisible(true);
+                            }}
+                        >
+                            <Text style={styles.textStyle}>확정</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                            onPress={() => {
+                                setDetailCategory(null);
+                                setModalCategoryVisible(false);
+                            }}
+                        >
+                            <Text style={styles.textStyle}>닫기</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </Modal>
             {/* 색상 컨펌을 위한 모달 */}
              <Modal
                 animationType="slide"
@@ -489,6 +574,7 @@ function CodiMyListScreen({ navigation, route }) {
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
                                 setModalImageVisible(false);
+                                setDetailCategory(null);
                             }}
                         >
                             <Text style={styles.textStyle}>닫기</Text>
@@ -503,8 +589,8 @@ function CodiMyListScreen({ navigation, route }) {
                 visible={modalVisible}
             >
                 <View style={styles.centeredView}>
-                <ScrollView>
                     <View style={styles.modalView}>
+                    <ScrollView>
 
                         <Text style={styles.modalText}>{CategoryText.top}</Text>
                         <Container>
@@ -514,7 +600,8 @@ function CodiMyListScreen({ navigation, route }) {
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.top);
-                                        setModalImageVisible(true);
+                                        setDetailCategoryList(topDetailCategory);
+                                        setModalCategoryVisible(true);
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
@@ -542,8 +629,8 @@ function CodiMyListScreen({ navigation, route }) {
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.pants);
-                                        setModalImageVisible(true);
-
+                                        setDetailCategoryList(pantsDetailCategory);
+                                        setModalCategoryVisible(true);
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
@@ -572,7 +659,8 @@ function CodiMyListScreen({ navigation, route }) {
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.outer);
-                                        setModalImageVisible(true);
+                                        setDetailCategoryList(outerDetailCategory);
+                                        setModalCategoryVisible(true);
 
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
@@ -602,7 +690,8 @@ function CodiMyListScreen({ navigation, route }) {
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.shoes);
-                                        setModalImageVisible(true);
+                                        setDetailCategoryList(shoesDetailCategory);
+                                        setModalCategoryVisible(true);
 
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
@@ -632,7 +721,8 @@ function CodiMyListScreen({ navigation, route }) {
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.hat);
-                                        setModalImageVisible(true);
+                                        setDetailCategoryList(headwearDetailCategory);
+                                        setModalCategoryVisible(true);
 
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
@@ -662,7 +752,8 @@ function CodiMyListScreen({ navigation, route }) {
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.bag);
-                                        setModalImageVisible(true);
+                                        setDetailCategoryList(bagDetailCategory);
+                                        setModalCategoryVisible(true);
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
@@ -718,8 +809,8 @@ function CodiMyListScreen({ navigation, route }) {
                             <ItemBox>
                                 <TouchableHighlight onPress={() => {
                                     setUploadCategory(CategoryEngText.accessory);
-                                    setModalImageVisible(true);
-
+                                    setDetailCategoryList(accessoryDetailCategory);
+                                    setModalCategoryVisible(true);
                                 }}>
                                     <Ionicons name={'ios-add'} size={50} color={"black"} />
                                 </TouchableHighlight>
@@ -747,8 +838,8 @@ function CodiMyListScreen({ navigation, route }) {
                         >
                         <Text style={styles.textStyle}>닫기</Text>
                         </TouchableHighlight>
+                    </ScrollView>
                     </View>
-                </ScrollView>
                 </View>
             </Modal>
             <ScrollView
