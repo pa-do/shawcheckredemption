@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         elevation: 5,
       },
       openButton: {
-		width: 250,
+		    width: 250,
         height: 40,
         backgroundColor: '#191970',
         borderRadius: 20,
@@ -94,4 +94,20 @@ const personalStyles = StyleSheet.create({
     height: Dimensions.get('window').height + 300
   }
 })
-export { styles, formStyles, personalStyles };
+
+const gridStyles = StyleSheet.create({
+  col: {
+    backgroundColor: 'black',
+    width: '33%',
+    height: '100%',
+    margin: 1,
+    padding: 0,
+  },
+  row: {
+    backgroundColor: 'red',
+    width: '100%',
+    height: '30%',
+  }
+
+})
+export { styles, formStyles, personalStyles, gridStyles };

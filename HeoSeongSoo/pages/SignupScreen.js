@@ -101,12 +101,16 @@ function SignupScreen({ navigation, route }) {
                 switch (res.data){
                     case ('봄웜톤(spring)'):
                         color = 'spring';
+                        break;
                     case ('여름쿨톤(summer)'):
                         color = 'summer';
+                        break;
                     case ('가을웜톤(fall)'):
                         color = 'fall';
+                        break;
                     case ('겨울쿨톤(winter)'):
                         color = 'winter';
+                        break;
                 }
                 navigation.dispatch(
                     StackActions.replace("PersonalColor", {color: color})
