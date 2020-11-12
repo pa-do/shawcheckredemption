@@ -3,6 +3,7 @@ import { StyleSheet, Modal, Text, TouchableHighlight, TouchableWithoutFeedback, 
 import axios from 'axios'
 import styled from 'styled-components/native';
 import Constants from 'expo-constants'
+import { StackActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput } from 'react-native-paper';
 import { styles, formStyles, gridStyles } from '../components/StyleSheetComponent';
@@ -153,9 +154,8 @@ function CodiFormScreen({ navigation }) {
                 }
             })
             setUserItems(itemData);
-            console.log(userItems, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< my item list')
         })
-        .catch(err => console.log(err.response.data))
+        .catch(err => console.error(err))
     }
 
     const openItemModal = async () => {
@@ -225,17 +225,15 @@ function CodiFormScreen({ navigation }) {
 
         axios.post(ServerUrl.url + 'wear/coordi/', uploadData, requestHeaders)
         .then(res => {
-            console.log(res)
             navigation.dispatch(
-                StackActions.replace("피드")
-            );
+                StackActions.replace('My page')
+            )
         })
-        .catch(err => console.error(err.response))
+        .catch(err => console.error(err))
     }
     
     const ModalItemGrid = () => {
         const items = modalItems;
-        console.log(items, '<<<<<<<<<<<<< items')
         const itemsList = [];
         for (let i = 0; i <= parseInt(items?.length / 3); i++) {
             let startPoint = (i * 3);
@@ -249,7 +247,7 @@ function CodiFormScreen({ navigation }) {
             try {
                 itemsList.push(items.slice(startPoint, endPoint));
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         }
         return (

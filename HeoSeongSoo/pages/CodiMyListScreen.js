@@ -1,7 +1,8 @@
 import React from  'react';
 import { Text, View, Modal, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 import NormalButton from '../components/buttons/NormalButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
@@ -16,6 +17,7 @@ import LogoutButton from '../components/mypage/LogoutButton';
 import UserName from '../components/mypage/UserName';
 import UserPersonalColor from '../components/mypage/UserPersonalColor';
 import MypageButton from '../components/mypage/MypageButton';
+import { Dimensions } from 'react-native';
 
 const UserProfileImg = styled.Image`
     width: 120px;
@@ -120,6 +122,7 @@ const heartCodiText = '하트코디 보기';
 function CodiMyListScreen({ navigation, route }) {
     const [UserData, setUserData] = React.useState(null);
     const [modalVisible, setModalVisible] = React.useState(false);
+    const [indicatorVisible, setIndicatorVisible] = React.useState(false);
     const [modalImageVisible, setModalImageVisible] = React.useState(false);
     const [modalColorVisible, setModalColorVisible] = React.useState(false);
     const [modalCategoryVisible, setModalCategoryVisible] = React.useState(false);
@@ -158,6 +161,7 @@ function CodiMyListScreen({ navigation, route }) {
     }
 
     const dataUpload = async image => {
+        setIndicatorVisible(true);
         let userToken = await getUserToken();
         const imageUri = image.uri
         // imageUri 서버에 업로드 uploadCategory 첨부, 후 모달 재오픈
@@ -215,7 +219,8 @@ function CodiMyListScreen({ navigation, route }) {
             setUploadedItemPk(res.data.pk);
             setModalColorVisible(true);
         })
-        .catch(err => console.error(err.response))
+        .catch(err => console.error(err))
+        setIndicatorVisible(false);
     }
 
     const patchItemColor = async () => {
@@ -255,12 +260,11 @@ function CodiMyListScreen({ navigation, route }) {
             }
             try {
                 const heartResponse = await axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
-                console.log(heartResponse.data, '<<<<<<<<<<<<<<<<<<<<<<<<<< like')
                 setLikeCodis(heartResponse.data);
                 setMyOrLikeVisible(true);
                 setShowData(heartResponse.data);
             } catch (error) {
-                console.error(error, '<<<<<<<<<<<<<<<<<<< like error');
+                console.error(error);
             }
         });
         return unsubscribe;
@@ -287,7 +291,7 @@ function CodiMyListScreen({ navigation, route }) {
             .then(res => {
                 setUserData(res.data);
             })
-            .catch(err => {console.error(err.response.data)})
+            .catch(err => {console.error(err)})
 
         };
         dataAsync();
@@ -329,7 +333,7 @@ function CodiMyListScreen({ navigation, route }) {
             })
             setUserItems(itemData);
         })
-        .catch(err => console.error(err.response.data))
+        .catch(err => console.error(err))
     }
 
     const pickImage = async () => {
@@ -371,7 +375,7 @@ function CodiMyListScreen({ navigation, route }) {
             .then(res => {
                 setUserData(res.data);
             })
-            .catch(err => console.error(err.response.data))
+            .catch(err => console.error(err))
         }
     }
 
@@ -400,11 +404,29 @@ function CodiMyListScreen({ navigation, route }) {
         setModalItemCategoryVisible(true);
     }
 
+    const deleteItem = async item => {
+        let userToken = await getUserToken();
+
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`
+            }
+        }
+        axios.delete(ServerUrl.url + `wear/userclothes/${item.id}`, requestHeaders)
+        .then(res => {
+            setModalItems(null);
+            setModalItemCategoryVisible(false);
+            openItemModal();
+        })
+        .catch(err => console.error(err))
+
+    }
+
     const ModalItemGrid = () => {
         const items = modalItems;
         const itemsList = [];
         for (let i = 0; i <= parseInt(items?.length / 3); i++) {
-            let startPoint = (i * 3);
+            let startPoint = (i * 3) ;
             let endPoint = (i * 3) + 3;
             if (endPoint > items?.length) {
                 endPoint = endPoint - 1;
@@ -414,6 +436,7 @@ function CodiMyListScreen({ navigation, route }) {
             }
             try {
                 itemsList.push(items.slice(startPoint, endPoint));
+                
             } catch (error) {
                 console.error(error);
             }
@@ -427,8 +450,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 return (
                                     <TouchableWithoutFeedback
                                         key={item.id}
-                                        onPress={() => {
-                                        }}>
+                                        onPress={() => deleteItem(item)}>
                                         <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
                                     </TouchableWithoutFeedback>
                                 );
@@ -469,7 +491,7 @@ function CodiMyListScreen({ navigation, route }) {
                                             key={item.id}
                                             style={{marginBottom: 5}}
                                             onPress={() => {
-                                                navigation.navigate('Detail', {item: item});
+                                                navigation.navigate('Detail',{ item: item });
                                             }}>
                                             <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
                                         </TouchableWithoutFeedback>
@@ -484,6 +506,24 @@ function CodiMyListScreen({ navigation, route }) {
 
     return (
         <TopContainer>
+            {/* 액티비티 인디케이터 모달 */}
+            <Modal
+                transparent={true}
+                visible={indicatorVisible}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <ActivityIndicator
+                            style={{marginBottom: 12}}
+                            animating={true}
+                            transparent={true}
+                            color={Colors.red800}
+                            size={'large'}
+                        />
+                        <Text>처리 중입니다</Text>
+                    </View>
+                </View>
+            </Modal>
             {/* 디테일 카테고리 선택을 위한 모달 */}
             <Modal
                 animationType="slide"
@@ -593,7 +633,7 @@ function CodiMyListScreen({ navigation, route }) {
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
-                                navigation.navigate('Camera', {backScreen: 'My Page'});
+                                navigation.navigate('Camera', { backScreen: 'My Page' });
                                 setModalItemCategoryVisible(false);
                                 setModalImageVisible(false);
                             }}
@@ -628,17 +668,15 @@ function CodiMyListScreen({ navigation, route }) {
                 transparent={true}
                 visible={modalItemCategoryVisible}
             >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
+                <View style={{ ...styles.centeredView }}>
+                    <View style={{ ...styles.modalClosetView, alignItems: 'flex-end' }}>
                         <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                            style={{width: 25, marginBottom: 15, marginRight: 0, paddingRight: 0}}
                             onPress={() => {
                                 setModalItems(null);
-
                                 setModalItemCategoryVisible(false);
-                            }}
-                        >
-                                <Text style={styles.textStyle}>닫기</Text>
+                            }}>
+                                <AntDesign name="closecircleo" size={24} color="black" />
                         </TouchableHighlight>
                     {modalItems === null ? (
                         <>
@@ -744,16 +782,17 @@ function CodiMyListScreen({ navigation, route }) {
                         </>
                         ) : (
                             <>
-                                <TouchableHighlight
-                                    style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                <TouchableHighlight                             
+                                    style={{width: 25, position: 'absolute', top: 35, left: 35, marginBottom: 15, marginLeft:0, paddingLeft: 0}}
                                     onPress={() => {
                                         setModalItems(null);
                                     }}
                                 >
-                                    <Text style={styles.textStyle}>이전</Text>
+                                    <AntDesign name="leftcircleo" size={24} color="black" />
                                 </TouchableHighlight>
                                 <TouchableHighlight
-                                    style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                     style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                    // style={{position: 'absolute', top: 35, left: Dimensions.get('window').width * 0.5 - 50, marginBottom: 15,}}
                                     onPress={() => {
                                         if (uploadCategory === CategoryEngText.watch){
                                             setModalImageVisible(true);
@@ -763,7 +802,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         }
                                     }}
                                 >
-                                        <Text style={styles.textStyle}>아이템 등록</Text>
+                                        <MaterialIcons name="add-circle-outline" size={24} color="black" />
                                 </TouchableHighlight>
                                 <ModalItemGrid/>
                             </>
@@ -817,7 +856,7 @@ function CodiMyListScreen({ navigation, route }) {
                         <MypageButton
                             value="coordi"
                             onPress={() => {
-                                navigation.navigate('Form')
+                                navigation.navigate('Form');
                             }}
                         ></MypageButton>
                     </View>

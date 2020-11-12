@@ -15,7 +15,6 @@ import WebViewScreen from './pages/WebViewScreen';
 import CameraScreen from './pages/CameraScreen';
 import LoginScreen from './pages/LoginScreen';
 import SignupScreen from './pages/SignupScreen';
-import SignupScreen2 from './pages/SignupScreen2';
 import PersonalColorScreen from './pages/PersonalColorScreen';
 import AuthContext from './components/AuthContext';
 import { navigationRef } from './components/RootNavigation';
@@ -36,32 +35,30 @@ const MyTheme = {
   },
 };
 
-function StackScreen1() {
+function RecTap() {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{headerShown: false}} name="추천" component={HomeScreen} />
-      <Stack.Screen name="RecList" component={CodiRecListScreen} />
       <Stack.Screen name="ImgUpload" component={ImgUploadForRecScreen} />
+      <Stack.Screen name="RecList" component={CodiRecListScreen} />
     </Stack.Navigator>
   );
 }
 
-function StackScreen2() {
+function AllTap() {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{headerShown: false}} name="All" component={CodiAllListScreen} />
       <Stack.Screen name="Detail" component={CodiDetailScreen} />
-      <Stack.Screen name="Form" component={CodiFormScreen} />
     </Stack.Navigator>
   );
 }
 
-function StackScreen3() {
+function MyTap() {
   return (
     <Stack.Navigator>
-      <Stack.Screen options={{headerShown: false}} name="My Page" component={CodiMyListScreen} />
+      <Stack.Screen options={{headerShown: false}} name="My page" component={CodiMyListScreen} />
       <Stack.Screen name="Detail" component={CodiDetailScreen} />
-      <Stack.Screen options={{headerShown: false}} name="Camera" component={CameraScreen} />
       <Stack.Screen name="Form" component={CodiFormScreen} />
     </Stack.Navigator>
   );
@@ -94,9 +91,9 @@ function TabScreen() {
         inactiveTintColor: 'gray',
       }}
     >
-        <Tab.Screen options={{headerShown: false}} name="추천" component={StackScreen1} />
-        <Tab.Screen options={{headerShown: false}} name="피드" component={StackScreen2} />
-        <Tab.Screen options={{headerShown: false}} name="내정보" component={StackScreen3} />
+        <Tab.Screen options={{headerShown: false}} name="추천" component={RecTap} />
+        <Tab.Screen options={{headerShown: false}} name="피드" component={AllTap} />
+        <Tab.Screen options={{headerShown: false}} name="내정보" component={MyTap} />
     </Tab.Navigator>
   )
 }
@@ -202,9 +199,9 @@ function App() {
           ) : 
           (
             <>
-              <Stack.Screen name="TapScreen" component={TabScreen} options={{headerShown: false}}/>
-              <Stack.Screen options={{headerShown: false}} name="Sign up2" component={SignupScreen2} />
+              <Stack.Screen name="TabScreen" component={TabScreen} options={{headerShown: false}}/>
               <Stack.Screen options={{headerShown: false}} name="PersonalColor" component={PersonalColorScreen} />
+              <Stack.Screen options={{headerShown: false}} name="Camera" component={CameraScreen} />
               <Stack.Screen options={{headerShown: false}} name="WebView" component={WebViewScreen} />
             </>
           )}

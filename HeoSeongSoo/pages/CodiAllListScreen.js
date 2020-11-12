@@ -30,7 +30,7 @@ function CodiAllListScreen({ navigation }) {
             .then(res => {
                 setAllCodiList(res.data);
             })
-            .catch(err => console.error(err.response))
+            .catch(err => console.error(err))
         })
         return unsubscribe;
     }, [])

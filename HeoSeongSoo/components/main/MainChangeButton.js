@@ -5,7 +5,8 @@ import { TouchableHighlight } from 'react-native';
 function MainChangeButton(props) {
     return (
         <TouchableHighlight
-        style={{marginRight: 5}}
+        
+        style={{marginRight: 5, width: 50}}
         underlayColor="none"
         onPress={props.onPress}
         >
