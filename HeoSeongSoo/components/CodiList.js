@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, TouchableWithoutFeedback  } from 'react-native';
 import styled from 'styled-components/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios'
 
 // 전체 코디리스트의 개별 아이템입니다.
 
@@ -49,7 +51,7 @@ const contentText = styled.Text`
 function CodiList(props) {
     const [codiItem, setCodiItem] = React.useState(props.item);
     const [itemLike, setLikeItem] = React.useState({liked: props.item.liked, likes: props.item.likes})
-    function changeHeart() {
+    async function changeHeart() {
         if (itemLike.liked){
             setLikeItem({
                 liked: !itemLike.liked,
@@ -63,6 +65,24 @@ function CodiList(props) {
         }
         // axios 요청으로 하트 변경사항 저장
         // codiItem.id와 itemLike 전송
+        let userToken;
+        try {
+            userToken = await AsyncStorage.getItem('userToken');
+        } catch (e) {
+        // Restoring token failed
+        }
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`,
+            }
+        }
+        // axios 요청으로 하트 변경사항 저장
+        // codiItem.id와 itemLike 전송
+        axios.post(ServerUrl.url + `wear/likecoordi/${codiSetDetail.id}`, requestHeaders)
+        .then(res => {
+            console.log(res.data)
+        })
+        .catch(err => console.error(err))
     }
     return (
         <CodiItemCard>

@@ -10,7 +10,8 @@ import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import AuthContext from '../components/AuthContext';
 import { ServerUrl, CategoryText, CategoryEngText } from '../components/TextComponent';
-import { styles } from '../components/StyleSheetComponent';
+import { styles, gridStyles } from '../components/StyleSheetComponent';
+import RowContainer from '../components/RowContainer';
 
 const UserProfileImg = styled.Image`
     width: 150px;
@@ -22,8 +23,8 @@ const UserProfileImg = styled.Image`
 const CodiItemImg = styled.Image`
     margin: 3px;
     width: 31%;
-    height: 150px;
-    resize-mode: cover;
+    height: 150;
+    resize-mode: center;
 `;
 
 const UserProfileContainer = styled.View`
@@ -81,6 +82,27 @@ const SelectColorContainer = styled.View`
     align-items: center;
 `;
 
+const accessoryDetailCategory = ['벨트', '넥타이', '머플러']
+
+const headwearDetailCategory = ['캡/야구 모자', '헌팅/베레', '페도라', '버킷/사파리햇', '비니', '트루퍼',
+'기타 모자']
+
+const bagDetailCategory = ['백팩', '메신저/크로스백', '숄더/토트백', '에코백', '보스턴/드럼/더플백',
+'웨이스트백', '클러치백', '파우치백', '브리프케이스']
+
+const topDetailCategory = ['반팔 티셔츠', '긴팔 티셔츠', '민소매 티셔츠', '셔츠/블라우스', '피케/카라 티셔츠',
+'맨투맨/스웨트셔츠', '후드 티셔츠', '니트/스웨터']
+
+const shoesDetailCategory = ['캔버스/단화', '러닝화/피트니스화', '구두', '부츠', '로퍼',
+'모카신/보트 슈즈', '샌들', '슬리퍼']
+
+const pantsDetailCategory = ['데님 팬츠', '코튼 팬츠', '슈트 팬츠/슬랙스', '트레이닝/조거 팬츠', '숏 팬츠']
+
+const outerDetailCategory = ['후드 집업', '블루종/MA-1', '레더/라이더스 재킷', '트러커 재킷', '슈트/블레이저 재킷',
+'카디건', '아노락 재킷', '플리스', '트레이닝 재킷', '스타디움 재킷', '환절기 코트', '겨울 싱글 코트',
+'겨울 기타 코트', '롱 패딩/롱 헤비 아우터', '숏 패딩/숏 헤비 아우터', '패딩 베스트', '베스트', '사파리/헌팅 재킷',
+'나일론/코치 재킷']
+
 const colorRGB = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91], [0, 0, 0], 
 [156, 35, 54], [232, 4, 22], [215, 64, 97], [223, 24, 149], [247, 17, 158],
 [255, 163, 182], [220, 166, 156], [250, 171, 141], [237, 104, 89], [254, 124, 0],
@@ -98,7 +120,12 @@ function CodiMyListScreen({ navigation, route }) {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [modalImageVisible, setModalImageVisible] = React.useState(false);
     const [modalColorVisible, setModalColorVisible] = React.useState(false);
+    const [modalCategoryVisible, setModalCategoryVisible] = React.useState(false);
+    const [modalItemCategoryVisible, setModalItemCategoryVisible] = React.useState(false);
+    const [modalItems, setModalItems] = React.useState(null);
     const [myOrLikeVisible, setMyOrLikeVisible] = React.useState(false);
+    const [detailCategory, setDetailCategory] = React.useState(null);
+    const [detailCategoryList, setDetailCategoryList] = React.useState([]);
     const [uploadedColor, setUploadedColor] = React.useState(null);
     const [uploadedItemPk, setUploadedItemPk] = React.useState(null);
     const [uploadCategory, setUploadCategory] = React.useState();
@@ -109,12 +136,12 @@ function CodiMyListScreen({ navigation, route }) {
     const [buttonText, setButtonText] = React.useState('하트코디 보기');
     const [isLoading, setIsLoading] = React.useState(false);
     const [index, setIndex] = React.useState(0);
-
+    
     const { signOut } = React.useContext(AuthContext);
  
     React.useEffect(() => {
-        console.log('image upload from camera')
         if (route.params?.image.uri !== undefined){
+            console.log('image upload from camera')
             dataUpload(route.params?.image);
         }
     }, [route.params?.image]);
@@ -142,11 +169,11 @@ function CodiMyListScreen({ navigation, route }) {
                 "Content-Type": "multipart/form-data",
             }
         }
-
+        console.log(userToken, '<<<<<<<<<<<<<<<<<<<<<<< userToken')
         const itemImage = {
             uri: imageUri,
             type: 'image/jpeg',
-            name: 'item.jpg',
+            name: `${UserData.username}${Date.now()}.jpg`,
         }
         let categoryNum = 0
         switch (uploadCategory) {
@@ -178,13 +205,19 @@ function CodiMyListScreen({ navigation, route }) {
         const data = new FormData();
         data.append('img', itemImage);
         data.append('category', categoryNum);
+        if (categoryNum === 7) {
+            data.append('subcategory', 0)
+        } else {
+            data.append('subcategory', detailCategory);
+        }
+        console.log(data, '<<<<<<<<<<, upload data')
 
         axios.post(ServerUrl.url +'wear/userclothes/', data, requestHeaders)
         .then(res => {
             console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<< return data')
             // setUploadedColor([res.data.R, res.data.G, res.data.B]);
-            setUploadedColor([255, 255, 255]);
-            setUploadedItemPk(res.data.id);
+            setUploadedColor([res.data.R, res.data.G, res.data.B]);
+            setUploadedItemPk(res.data.pk);
             setModalColorVisible(true);
         })
         .catch(err => console.error(err.response))
@@ -192,6 +225,7 @@ function CodiMyListScreen({ navigation, route }) {
 
     const patchItemColor = async () => {
         let userToken = await getUserToken();
+        console.log(userToken, '<<<<<<<<<<<<<<<<<<<<<<< userToken')
         const requestHeaders = {
             headers: {
                 Authorization: `JWT ${userToken}`,
@@ -206,10 +240,10 @@ function CodiMyListScreen({ navigation, route }) {
         axios.put(ServerUrl.url + `wear/userclothes/${uploadedItemPk}`, data, requestHeaders)
         .then(res => {
             console.log(res.data)
-            modalColorVisible(false);
-            modalVisible(true);
+            setModalColorVisible(false);
+            openItemModal();
         })
-        .catch(err => console.error(err.response.data))
+        .catch(err => console.error(err))
     }
 
     React.useEffect(() => {
@@ -229,12 +263,27 @@ function CodiMyListScreen({ navigation, route }) {
             })
             .catch(err => {console.log(err.response.data)})
             // 하트 리스트 요청
-            getLikeCodis(requestHeaders);
+            // getLikeCodis(requestHeaders);
+            getListData(requestHeaders);
+            getLikeData(requestHeaders);
         };
         dataAsync();
     }, []);
 
-    const getLikeCodis = requestHeaders => {
+    const getListData = requestHeaders => {
+        axios.get(ServerUrl.url + 'wear/listcoordi/', requestHeaders)
+        .then(res => {
+            console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<< show datas')
+            // TODO Infinite scroll index control
+            // setIndex(index + 9);
+            // const newShowData = [...showData, res.data]
+            setCodis(res.data);
+            setShowData(res.data);
+        })
+        .catch(err => console.error(err))
+    }
+
+    const getLikeData = requestHeaders => {
         axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
         .then(res => {
             console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< like list')
@@ -287,12 +336,43 @@ function CodiMyListScreen({ navigation, route }) {
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
-          aspect: [4, 3],
+          aspect: [4, 4],
           quality: 1,
         });
         if (!result.cancelled) {
             // 서버에 result 업로드
             dataUpload(result);
+        }
+    }
+
+    const pickUserImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 4],
+          quality: 1,
+        });
+        if (!result.cancelled) {
+            // 서버에 result 업로드
+            let userToken = await getUserToken();
+            const requestHeaders = {
+                headers: {
+                    Authorization: `JWT ${userToken}`
+                }
+            }
+            const userImage = {
+                uri: result.uri,
+                type: 'image/jpeg',
+                name: `${UserData.username}${Date.now()}.jpg`,
+            }
+            const fd = new FormData();
+            fd.append('profile_image', userImage);
+            axios.patch(ServerUrl.url + 'rest-auth/user/', fd, requestHeaders)
+            .then(res => {
+                console.log(res.data);
+                setUserData(res.data);
+            })
+            .catch(err => console.error(err.response.data))
         }
     }
 
@@ -316,7 +396,48 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
         getUserItems(requestHeaders);
-        setModalVisible(true);
+        setModalItemCategoryVisible(true);
+    }
+
+    const ModalItemGrid = () => {
+        const items = modalItems;
+        console.log(items, '<<<<<<<<<<<<< items')
+        const itemsList = [];
+        for (let i = 0; i <= parseInt(items?.length / 3); i++) {
+            let startPoint = (i * 3);
+            let endPoint = (i * 3) + 3;
+            if (endPoint > items?.length) {
+                endPoint = endPoint - 1;
+                if (endPoint > items?.length) {
+                    endPoint = endPoint - 1;
+                }
+            }
+            try {
+                itemsList.push(items.slice(startPoint, endPoint));
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        return (
+            <>
+                {itemsList.map((tempItems, index) => {
+                    return (
+                        <GridRowContainer key={index}>
+                            {tempItems.map(item => {
+                                return (
+                                    <TouchableWithoutFeedback
+                                        key={item.id}
+                                        onPress={() => {
+                                        }}>
+                                        <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
+                                    </TouchableWithoutFeedback>
+                                );
+                            })}
+                        </GridRowContainer>
+                    )
+                })}
+            </>
+        );
     }
 
 
@@ -352,7 +473,7 @@ function CodiMyListScreen({ navigation, route }) {
                                             onPress={() => {
                                                 navigation.navigate('Detail', {item: item});
                                             }}>
-                                            <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
+                                            <CodiItemImg source={{uri: ServerUrl.url + item.img}}/>
                                         </TouchableWithoutFeedback>
                                     );
                                 })}
@@ -372,6 +493,62 @@ function CodiMyListScreen({ navigation, route }) {
 
     return (
         <TopContainer>
+            {/* 디테일 카테고리 선택을 위한 모달 */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalCategoryVisible}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text>카테고리를 선택해주세요.</Text>
+                        <Container>
+                            <ScrollView
+                                horizontal={true}
+                            >
+                                {detailCategoryList.map((item, index) => {
+                                    return (
+                                        <TouchableHighlight
+                                            onPress={() => {
+                                                setDetailCategory(index);
+                                            }}
+                                            key={index}
+                                        >
+                                            {detailCategory === index ?
+                                                <View style={{margin: 7, backgroundColor: 'rgb(234, 152, 90)'}}>
+                                                    <Text style={{fontSize: 25}}>{item}</Text>
+                                                </View>
+                                            :
+                                                <View style={{margin: 7}}>
+                                                    <Text style={{fontSize: 25}}>{item}</Text>
+                                                </View>                     
+                                            }
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </ScrollView>
+                        </Container>
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                            onPress={() => {
+                                setModalCategoryVisible(false);
+                                setModalImageVisible(true);
+                            }}
+                        >
+                            <Text style={styles.textStyle}>확정</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                            onPress={() => {
+                                setDetailCategory(null);
+                                setModalCategoryVisible(false);
+                            }}
+                        >
+                            <Text style={styles.textStyle}>닫기</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </Modal>
             {/* 색상 컨펌을 위한 모달 */}
              <Modal
                 animationType="slide"
@@ -443,7 +620,8 @@ function CodiMyListScreen({ navigation, route }) {
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
-                                setModalImageVisible(!modalVisible);
+                                setModalImageVisible(false);
+                                setDetailCategory(null);
                             }}
                         >
                             <Text style={styles.textStyle}>닫기</Text>
@@ -453,27 +631,29 @@ function CodiMyListScreen({ navigation, route }) {
             </Modal>
             {/* 아이템 모달 */}
             <Modal
-                animationType="slide"
+                style={{margin: 0}}
+                animationType="fade"
                 transparent={true}
                 visible={modalVisible}
             >
                 <View style={styles.centeredView}>
-                <ScrollView>
                     <View style={styles.modalView}>
+                    <ScrollView>
 
                         <Text style={styles.modalText}>{CategoryText.top}</Text>
                         <Container>
                             <ScrollView
                                 horizontal={true}
                             >
-                                    <TouchableHighlight onPress={() => {
-                                        setUploadCategory(CategoryEngText.top);
-                                        setModalImageVisible(true);
-                                    }}>
-                                            <ItemBox>
+                                <TouchableHighlight onPress={() => {
+                                    setUploadCategory(CategoryEngText.top);
+                                    setDetailCategoryList(topDetailCategory);
+                                    setModalCategoryVisible(true);
+                                }}>
+                                    <ItemBox>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
-                                </ItemBox>
-                                    </TouchableHighlight>
+                                    </ItemBox>
+                                </TouchableHighlight>
                                 {userItems.tops?.map((item, index) => {
                                     return (
                                         <ItemBox key={index}>
@@ -497,8 +677,8 @@ function CodiMyListScreen({ navigation, route }) {
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.pants);
-                                        setModalImageVisible(true);
-
+                                        setDetailCategoryList(pantsDetailCategory);
+                                        setModalCategoryVisible(true);
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
@@ -527,7 +707,8 @@ function CodiMyListScreen({ navigation, route }) {
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.outer);
-                                        setModalImageVisible(true);
+                                        setDetailCategoryList(outerDetailCategory);
+                                        setModalCategoryVisible(true);
 
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
@@ -557,7 +738,8 @@ function CodiMyListScreen({ navigation, route }) {
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.shoes);
-                                        setModalImageVisible(true);
+                                        setDetailCategoryList(shoesDetailCategory);
+                                        setModalCategoryVisible(true);
 
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
@@ -587,7 +769,8 @@ function CodiMyListScreen({ navigation, route }) {
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.hat);
-                                        setModalImageVisible(true);
+                                        setDetailCategoryList(headwearDetailCategory);
+                                        setModalCategoryVisible(true);
 
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
@@ -617,7 +800,8 @@ function CodiMyListScreen({ navigation, route }) {
                                 <ItemBox>
                                     <TouchableHighlight onPress={() => {
                                         setUploadCategory(CategoryEngText.bag);
-                                        setModalImageVisible(true);
+                                        setDetailCategoryList(bagDetailCategory);
+                                        setModalCategoryVisible(true);
                                     }}>
                                         <Ionicons name={'ios-add'} size={50} color={"black"} />
                                     </TouchableHighlight>
@@ -673,8 +857,8 @@ function CodiMyListScreen({ navigation, route }) {
                             <ItemBox>
                                 <TouchableHighlight onPress={() => {
                                     setUploadCategory(CategoryEngText.accessory);
-                                    setModalImageVisible(true);
-
+                                    setDetailCategoryList(accessoryDetailCategory);
+                                    setModalCategoryVisible(true);
                                 }}>
                                     <Ionicons name={'ios-add'} size={50} color={"black"} />
                                 </TouchableHighlight>
@@ -702,8 +886,155 @@ function CodiMyListScreen({ navigation, route }) {
                         >
                         <Text style={styles.textStyle}>닫기</Text>
                         </TouchableHighlight>
+                    </ScrollView>
                     </View>
-                </ScrollView>
+                </View>
+            </Modal>
+            {/* 아이템 카테고리 모달 */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalItemCategoryVisible}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                            onPress={() => {
+                                setModalItems(null);
+                                setModalItemCategoryVisible(false);
+                            }}
+                        >
+                                <Text style={styles.textStyle}>닫기</Text>
+                        </TouchableHighlight>
+                    {modalItems === null ? (
+                        <>
+                        <GridRowContainer style={gridStyles.row}>
+                            <TouchableWithoutFeedback
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.hat);
+                                    setDetailCategoryList(headwearDetailCategory);
+                                    setModalItems(userItems.hats);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.hat }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.top);
+                                    setDetailCategoryList(topDetailCategory);
+                                    setModalItems(userItems.tops);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.top }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.outer);
+                                    setDetailCategoryList(outerDetailCategory);
+                                    setModalItems(userItems.outers);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.outer }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </GridRowContainer>
+                        <GridRowContainer style={gridStyles.row}>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.accessory);
+                                    setDetailCategoryList(accessoryDetailCategory);
+                                    setModalItems(userItems.accs);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.accessory }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.pants);
+                                    setDetailCategoryList(pantsDetailCategory)
+                                    setModalItems(userItems.pants);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.pants }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.bag);
+                                    setDetailCategoryList(bagDetailCategory);
+                                    setModalItems(userItems.bags);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.bag }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </GridRowContainer>
+                        <GridRowContainer style={gridStyles.row}>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.watch);
+                                    setModalItems(userItems.watches);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.watch }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                    setUploadCategory(CategoryEngText.shoes);
+                                    setDetailCategoryList(shoesDetailCategory);
+                                    setModalItems(userItems.shoes);
+                                }}>
+                                <View style={gridStyles.col}>
+                                    <Text style={styles.textStyle}>{ CategoryText.shoes }</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback
+                                style={gridStyles.col}
+                                onPress={() => {
+                                }}>
+                                <View style={gridStyles.col}>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </GridRowContainer>
+                        </>
+                        ) : (
+                            <>
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                    onPress={() => {
+                                        setModalItems(null);
+                                    }}
+                                >
+                                        <Text style={styles.textStyle}>이전</Text>
+                                </TouchableHighlight>
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                    onPress={() => {
+                                        if (uploadCategory === CategoryEngText.watch){
+                                            setModalImageVisible(true);
+                                        } else {
+                                            setModalCategoryVisible(true);
+                                        }
+                                    }}
+                                >
+                                        <Text style={styles.textStyle}>아이템 등록</Text>
+                                </TouchableHighlight>
+                                <ModalItemGrid/>
+                            </>
+                        )}
+                    </View>
                 </View>
             </Modal>
             <ScrollView
@@ -713,29 +1044,20 @@ function CodiMyListScreen({ navigation, route }) {
                     // console.log(Math.floor(paddingToBottom) + "-" + Math.floor(e.nativeEvent.contentOffset.y) + "-" + Math.floor(e.nativeEvent.contentSize.height));
                     if (!isLoading && e.nativeEvent.contentOffset.y + paddingToBottom >= e.nativeEvent.contentSize.height) {
                         console.log('at the end');
-                        setIsLoading(true);
-                        let url = '';
-                        // 내 코디를 보는 상태 or 하트 코디를 보는 상태 url을 다르게 요청
-                        if (buttonText === myCodiText) {
-                            // url = ServerUrl.url + ''
-                        } else {
-                            // url = ServerUrl.url + ''
-                        }
-                        axios.get(url)
-                        .then(res => {
-                            setIndex(index + 9);
-                            const newShowData = [...showData, res.data]
-                            setShowData(newShowData);
-                            setIsLoading(false);
-                        })
-                        .catch(err => console.error(err))
+                        getShowData();
                     }
                 }}
             >
             <UserProfileContainer>
-                <UserProfileImg
-                    source={{uri: UserData?.profile_image}}
-                />
+                <TouchableHighlight
+                    onPress={() => {
+                        pickUserImage();
+                    }}
+                >
+                    <UserProfileImg
+                        source={{uri: UserData?.profile_image}}
+                    />
+                </TouchableHighlight>
                 <UserProfileTextContainer>
                     <Text>
                         {UserData?.nickname}

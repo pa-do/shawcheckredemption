@@ -25,12 +25,12 @@ function CodiAllListScreen({ navigation }) {
 
     React.useEffect(() => {
         // 서버에서 모든 코디 리스트를 최신 날짜 순으로 가져옵니다.
-        axios.get(ServerUrl.url + '')
+        axios.get(ServerUrl.url + 'wear/coordi/')
         .then(res => {
             console.log(res.data, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< res.data')
             setAllCodiList(res.data);
         })
-        .catch(err => console.error(err))
+        .catch(err => console.error(err.response))
     }, [])
 
     if (allCodiList.length !== 0) {

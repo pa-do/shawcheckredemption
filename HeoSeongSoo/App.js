@@ -59,8 +59,8 @@ function StackScreen3() {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{headerShown: false}} name="My Page" component={CodiMyListScreen} />
+      <Stack.Screen name="Detail" component={CodiDetailScreen} />
       <Stack.Screen options={{headerShown: false}} name="Camera" component={CameraScreen} />
-      <Stack.Screen options={{headerShown: false}} name="PersonalColor" component={PersonalColorScreen} />
       <Stack.Screen name="Form" component={CodiFormScreen} />
     </Stack.Navigator>
   );
@@ -203,6 +203,7 @@ function App() {
             <>
               <Stack.Screen name="TapScreen" component={TabScreen} options={{headerShown: false}}/>
               <Stack.Screen options={{headerShown: false}} name="Sign up2" component={SignupScreen2} />
+              <Stack.Screen options={{headerShown: false}} name="PersonalColor" component={PersonalColorScreen} />
               <Stack.Screen options={{headerShown: false}} name="WebView" component={WebViewScreen} />
             </>
           )}
