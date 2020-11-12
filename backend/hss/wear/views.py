@@ -184,7 +184,7 @@ class Coordi(APIView):
         ---
     """
     def get(self, request):
-        serializer = UserMergeSerializer(UserCoordi.objects.filter(c_code=1), many=True, context={'request': request})
+        serializer = UserMergeSerializer(UserCoordi.objects.filter(c_code=1).order_by('-id'), many=True, context={'request': request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     def post(self, request, format=None):
@@ -349,10 +349,12 @@ def like_list(request):
         if serializer.data['shoes'] > -1:
             A = Shoes.objects.get(pk=serializer.data['shoes'])
             data['shoes'] = ShoesSerializer(A).data
-        print(serializer.data)
         c_user = get_object_or_404(User, pk=serializer.data['user'])
         user_data = UserSerializer(c_user)
-        like.append({'id':i['coordi_num'], 'user':user_data.data, 'img':cloth.img, 'data': data})
+        chk = LikeCoordi.objects.filter(user=user, coordi_num=i['coordi_num'])
+        liked = 1 if chk.exists() else 0
+        count = LikeCoordi.objects.filter(coordi_num=i['coordi_num'])
+        like.append({'id':i['coordi_num'], 'user':user_data.data, 'img':cloth.img, 'liked': liked, 'like_count': len(count),'data': data})
     return Response(like)
 
 
