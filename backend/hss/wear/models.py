@@ -131,4 +131,4 @@ class UserCoordi(models.Model):
 # 좋아요 등록
 class LikeCoordi(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    coordi_num = models.IntegerField()
+    coordi_num = models.ForeignKey(UserCoordi, on_delete=models.CASCADE)
