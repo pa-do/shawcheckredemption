@@ -482,11 +482,11 @@ function CodiFormScreen({ navigation }) {
                 onChangeText={text => setContent(text)}
                 style={{marginHorizontal: 22, marginVertical: 22, padding: 0, backgroundColor: "#F2F2F2"}}
             />
-            <Text>코디의 색감을 선택해주세요</Text>
+            <Text style={{marginHorizontal: 22}}>코디의 색감을 선택해주세요</Text>
             <Container>
                 <ScrollView
                     horizontal={true}
-                    style={{marginHorizontal: 22}}
+                    style={{marginHorizontal: 22, marginVertical: 11}}
                     showsHorizontalScrollIndicator={false}
                 >
                 {colorRGB.map((item, index) => {
@@ -508,7 +508,7 @@ function CodiFormScreen({ navigation }) {
                 })}
                 </ScrollView>
             </Container>
-            <Text>코디의 스타일을 선택해주세요</Text>
+            <Text style={{marginHorizontal: 22}}>코디의 스타일을 선택해주세요</Text>
             <Container>
                 <ScrollView
                     horizontal={true}

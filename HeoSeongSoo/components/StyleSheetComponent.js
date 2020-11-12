@@ -99,14 +99,14 @@ const gridStyles = StyleSheet.create({
   col: {
     backgroundColor: 'black',
     width: '33%',
-    height: '100%',
+    height: undefined,
+    aspectRatio: 1 / 1,
     margin: 1,
     padding: 0,
   },
   row: {
-    backgroundColor: 'red',
     width: '100%',
-    height: '30%',
+    backgroundColor: 'red',
   }
 
 })
