@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
 import { Dimensions } from 'react-native';
 // 모든 스타일을 관리하는 컴포넌트
 
@@ -8,6 +9,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 22,
+      },
+      modalClosetView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        // alignItems: 'flex-end',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
       },
       modalView: {
         margin: 20,
@@ -87,7 +103,7 @@ const personalStyles = StyleSheet.create({
   },
   imageStyles: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height + 300
+    height: Dimensions.get('screen').height + 300
   }
 })
 

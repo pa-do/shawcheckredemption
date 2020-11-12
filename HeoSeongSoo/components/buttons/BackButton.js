@@ -1,11 +1,12 @@
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';  
-import { TouchableHighlight } from 'react-native';
+import { TouchableHighlight, Text } from 'react-native';
+import Constants from 'expo-constants';
 
 function BackButton(props) {
     return (
         <TouchableHighlight
-        style={{position: 'absolute', zIndex: 1, top: 15, left: 10}}
+        style={{position: 'absolute', zIndex: 1, top: Constants.statusBarHeight, left: 10, width: 50, height: 50}}
         underlayColor="none"
         onPress={props.onPress} >
             <Ionicons name="ios-arrow-dropleft" size={50} color="black" />
