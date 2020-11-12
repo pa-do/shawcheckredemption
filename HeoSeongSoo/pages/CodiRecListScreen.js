@@ -2,6 +2,7 @@ import React from  'react';
 import { Text, TouchableWithoutFeedback } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
+import axios from 'axios';
 import NormalButton from '../components/buttons/NormalButton';
 import Container from '../components/Container';
 import RowContainer from '../components/RowContainer';
@@ -38,7 +39,7 @@ function CodiRecListScreen({ navigation, route}) {
         }
         // axios 요청으로 하트 변경사항 저장
         // codiItem.id와 itemLike 전송
-        axios.post(ServerUrl.url + `wear/likecoordi/${codiItem.id}`, null, requestHeaders)
+        axios.post(ServerUrl.url + `wear/likecoordi/${showData.id}`, null, requestHeaders)
         .then(res => {
             console.log(res.data)
             if (res.data === '좋아요 삭제.'){
@@ -87,7 +88,7 @@ function CodiRecListScreen({ navigation, route}) {
             />
             <TouchableWithoutFeedback onPress={changeHeart}>
                 <TextContainer>
-                    <Text>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</Text>
+                    <Text>{itemLike.liked ? '❤️' : '💜'}</Text>
                 </TextContainer>
             </TouchableWithoutFeedback>
             <RowContainer>
