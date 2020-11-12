@@ -51,6 +51,7 @@ function StackScreen2() {
     <Stack.Navigator>
       <Stack.Screen options={{headerShown: false}} name="All" component={CodiAllListScreen} />
       <Stack.Screen name="Detail" component={CodiDetailScreen} />
+      <Stack.Screen name="Form" component={CodiFormScreen} />
     </Stack.Navigator>
   );
 }
