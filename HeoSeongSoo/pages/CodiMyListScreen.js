@@ -631,6 +631,8 @@ function CodiMyListScreen({ navigation, route }) {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
+                        <Text style={styles.textStyle, {color: 'black'}}>* 옷과 구분되는 배경의 이미지를 올려주세요</Text>
+                        <Text style={styles.textStyle, {color: 'black'}}>* 주름지지 않고 펴진 옷이면 좋아요</Text>
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
