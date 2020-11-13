@@ -1,5 +1,5 @@
 import React from  'react';
-import { Text, View, Modal, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground } from 'react-native';
+import { Text, View, Modal, Image, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground } from 'react-native';
 import { Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { ActivityIndicator, Colors, Button } from 'react-native-paper';
@@ -11,7 +11,7 @@ import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import AuthContext from '../components/AuthContext';
 import { ServerUrl, CategoryText, CategoryEngText } from '../components/TextComponent';
-import { styles, gridStyles } from '../components/StyleSheetComponent';
+import { styles, gridStyles, formStyles } from '../components/StyleSheetComponent';
 import RowContainer from '../components/RowContainer';
 import LogoutButton from '../components/mypage/LogoutButton';
 import UserName from '../components/mypage/UserName';
@@ -691,7 +691,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.hats);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.hat }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/headwear.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -702,7 +705,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.tops);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.top }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/top.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -713,7 +719,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.outers);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.outer }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/outer.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                         </GridRowContainer>
@@ -726,7 +735,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.accs);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.accessory }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/accessory.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -737,7 +749,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.pants);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.pants }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/pants.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -748,7 +763,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.bags);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.bag }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/bag.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                         </GridRowContainer>
@@ -760,7 +778,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.watches);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.watch }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/watch.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -771,7 +792,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.shoes);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.shoes }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/shoes.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
