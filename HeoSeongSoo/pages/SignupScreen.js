@@ -153,28 +153,38 @@ function SignupScreen({ navigation, route }) {
                             style={{ width: '60%', backgroundColor: 'rgba(0, 0, 0, 0)'}}
                             theme={{colors: {primary: '#0d3754'}}}
                         />
-                        <Button
-                            mode="text"
-                            onPress={() => {
-                                setAccountError(null);
-                                setAccountPass(null);
-                                if (textAccount !== ''){
-                                    axios.get(ServerUrl.url + `accounts/chk/${textAccount}`)
-                                    .then(res => {
-                                        if (res.data === '사용 할 수 있는 아이디입니다.') {
-                                            setAccountPass(res.data);
-                                        } else {
-                                            setAccountError(res.data);
-                                        }
-                                    })
-                                    .catch(err => console.error(err))
-                                } 
-                            }}
-                            style={{paddingVertical: 8, width: '25%', backgroundColor: '#0d3754'}}
-                            labelStyle={{color: 'white'}}
-                        >
-                            중복확인
-                        </Button>
+                        {accountPass === null ?
+                            <Button
+                                mode="text"
+                                onPress={() => {
+                                    setAccountError(null);
+                                    setAccountPass(null);
+                                    if (textAccount !== ''){
+                                        axios.get(ServerUrl.url + `accounts/chk/${textAccount}`)
+                                        .then(res => {
+                                            if (res.data === '사용 할 수 있는 아이디입니다.') {
+                                                setAccountPass(res.data);
+                                            } else {
+                                                setAccountError(res.data);
+                                            }
+                                        })
+                                        .catch(err => console.error(err))
+                                    } 
+                                }}
+                                style={{paddingVertical: 8, width: '25%', backgroundColor: '#0d3754'}}
+                                labelStyle={{color: 'white'}}
+                            >
+                                중복확인
+                            </Button>
+                        :
+                            <Button
+                                mode="text"
+                                style={{paddingVertical: 8, width: '25%', borderWidth: 1, borderColor: '#2db400'}}
+                                labelStyle={{color: '#2db400'}}
+                            >
+                                확인완료
+                            </Button>
+                        }
                         
                     </View>
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -280,6 +290,7 @@ function SignupScreen({ navigation, route }) {
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
+                                <Text style={styles.textStyle, {color: 'black'}}>*얼굴의 정면이 완전히 나온 사진을 올려주세요</Text>
                                 <TouchableHighlight
                                     style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                                     onPress={() => {

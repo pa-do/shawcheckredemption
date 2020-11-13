@@ -38,7 +38,23 @@ const SelectColorContainer = styled.View`
     background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
     width: 50px;
     height: 50px;
-    border: ${props => props.borderSize}px solid black;
+    border-radius: 150px;
+    border: ${props => props.borderSize}px solid ${props => {
+        let selected = '#ff7f00'
+        if (props.borderSize === 3) {
+            if (props.R === 0 && props.G === 0 && props.B === 0) {
+                return selected
+            } else if (props.R === 33 && props.G === 35 && props.B === 34) {
+                return selected
+            } else if (props.R === 35 && props.G === 40 && props.B === 51) {
+                return selected
+            } else if (props.R === 38 && props.G === 58 && props.B === 84) {
+
+            }
+        } else {
+            return 'black'
+        }
+    }};
     margin: 3px;
     align-items: center;
 `;
@@ -540,7 +556,7 @@ function CodiFormScreen({ navigation }) {
                 >
                 {colorRGB.map((item, index) => {
                     return (
-                        <TouchableHighlight
+                        <TouchableWithoutFeedback
                             key={index}
                             onPress={() => {
                                 setSelectedColor(color_name[index]);
@@ -550,10 +566,10 @@ function CodiFormScreen({ navigation }) {
                         {selectedColorRGB[0] === item[0] && selectedColorRGB[1] === item[1] && selectedColorRGB[2] === item[2] ? 
                             <SelectColorContainer borderSize={3} R={item[0]} G={item[1]} B={item[2]} />
                             :
-                            <SelectColorContainer borderSize={1} R={item[0]} G={item[1]} B={item[2]} />
+                            <SelectColorContainer borderSize={0} R={item[0]} G={item[1]} B={item[2]} />
                         }
 
-                        </TouchableHighlight>
+                        </TouchableWithoutFeedback>
                     );
                 })}
                 </ScrollView>

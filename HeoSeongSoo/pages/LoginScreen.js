@@ -62,10 +62,8 @@ function LoginScreen({ navigation }) {
                             username: textAccount,
                             password: textPassword
                         }
-                        console.log(loginData)
                         axios.post(ServerUrl.url + 'rest-auth/login/', loginData)
                         .then(res => {
-                            console.log()
                             signIn(res.data.token);
                         })
                         .catch(err => {
