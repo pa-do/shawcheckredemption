@@ -212,32 +212,37 @@ class Coordi(APIView):
         serializer = CoordiSerializer(data=request.data)
         merged = Image.new('RGBA', (150 * 3, 150 * 3), (250,250,250,0))
         i, j = 0, 0
+        need = 0
         for idx, value in request.data.items():
             if idx == 'color' or idx == 'style' or idx == 'content':
+                continue
+            if value == '-1':
                 continue
             if idx == 'headwear':
                 i, j = 0, 0
             elif idx == 'top':
                 i, j = 0, 1
+                need += 1
             elif idx == 'outer':
                 i, j = 0, 2
             elif idx == 'acc':
                 i, j = 1, 0
             elif idx == 'pants':
                 i, j = 1, 1
+                need += 1
             elif idx == 'bag':
                 i, j = 1, 2
             elif idx == 'watch':
                 i, j = 2, 0
             elif idx == 'shoes':
                 i, j = 2, 1
-            if value == '-1':
-                continue
+                need += 1
 
             A = UserClothes.objects.get(pk=value)
             im = Image.open(A.img)
             merged.paste(im, (150 * j, 150 * i))
-
+        if need < 3:
+            return HttpResponse('상의, 하의, 신발 값이 필요합니다.')
         now = datetime.datetime.now()
         nowDate = now.strftime('%M%H%S')
         targeturl = "usercoordi/" + user.username + '_' + nowDate + '.png'
