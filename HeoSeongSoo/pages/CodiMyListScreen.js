@@ -2,7 +2,7 @@ import React from  'react';
 import { Text, View, Modal, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground } from 'react-native';
 import { Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { ActivityIndicator, Colors } from 'react-native-paper';
+import { ActivityIndicator, Colors, Button } from 'react-native-paper';
 import NormalButton from '../components/buttons/NormalButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
@@ -18,6 +18,7 @@ import UserName from '../components/mypage/UserName';
 import UserPersonalColor from '../components/mypage/UserPersonalColor';
 import MypageButton from '../components/mypage/MypageButton';
 import { Dimensions } from 'react-native';
+import { Entypo } from '@expo/vector-icons'; 
 
 const UserProfileImg = styled.Image`
     width: 120px;
@@ -864,25 +865,65 @@ function CodiMyListScreen({ navigation, route }) {
                     </View>
                 </UserProfileTextContainer>
             </UserProfileContainer>
-            <RowContainer>
+            <RowContainer style={{marginTop: 50, borderBottomColor: '#c9a502', borderBottomWidth: 1}}>
                 {myOrLikeVisible ? 
-                    <NormalButton onPress={setMyCodiVisible}>
-                        {myCodiText}
-                    </NormalButton>
+                    <Button
+                    onPress={setMyCodiVisible}
+                    theme={{colors: {primary: 'white'}}}
+                    style={{width: '50%', alignItems: 'center'}}>
+                        <View
+                        theme={{colors: {primary: 'white'}}}
+                        style={{justifyContent: 'flex-end', alignItems: 'center'}}>
+                            <Text style={{color: '#8a8a8a', fontWeight: 'bold'}}>
+                                {myCodiText}
+                            </Text>
+                            <Entypo name="dot-single" size={24} color="#8a8a8a" />
+                        </View>
+                    </Button>
                 :
-                    <NormalButton 
-                        onPress={setMyCodiVisible}>
-                        선택됨
-                    </NormalButton>
+                    <Button // 선택됨
+                    onPress={setMyCodiVisible}
+                    theme={{colors: {primary: 'white'}}}
+                    style={{width: '50%', alignItems: 'center'}}>
+                        <View
+                        theme={{colors: {primary: 'white'}}}
+                        style={{justifyContent: 'flex-end', alignItems: 'center'}}>
+                            <Text style={{color: '#c9a502', fontSize: 15, fontWeight: 'bold'}}>
+                                {myCodiText}
+                            </Text>
+                            <Entypo name="dot-single" size={24} color="#c9a502" />
+                        </View>
+                    </Button>
                 }
+                
                 {!myOrLikeVisible ? 
-                    <NormalButton onPress={setHeartCodiVisible}>
-                        {heartCodiText}
-                    </NormalButton>
+                    <Button
+                    onPress={setHeartCodiVisible}
+                    theme={{colors: {primary: 'white'}}}
+                    style={{width: '50%', alignItems: 'center'}}>
+                        <View
+                        theme={{colors: {primary: 'white'}}}
+                        style={{justifyContent: 'flex-end', alignItems: 'center'}}>
+                            <Text style={{color: '#8a8a8a', fontWeight: 'bold'}}>
+                                {heartCodiText}
+                            </Text>
+                            <Entypo name="dot-single" size={24} color="#8a8a8a" />
+                        </View>
+                    </Button>
                 :
-                    <NormalButton onPress={setHeartCodiVisible}>
-                        선택됨
-                    </NormalButton>
+                    <Button // 선택됨
+                    onPress={setHeartCodiVisible}
+                    theme={{colors: {primary: 'white'}}}
+                    style={{width: '50%', alignItems: 'center'}}>
+                        <View
+                        theme={{colors: {primary: 'white'}}}
+                        style={{justifyContent: 'flex-end', alignItems: 'center'}}>
+                            <Text style={{color: '#c9a502', fontSize: 15, fontWeight: 'bold'}}>
+                                {heartCodiText}
+                            </Text>
+                            <Entypo name="dot-single" size={24} color="#c9a502" />
+                        </View>
+                    </Button>
                 }
             </RowContainer>
                 <MyOrLike />
