@@ -101,7 +101,7 @@ function CodiList(props) {
                 underlayColor="none"
                 >
                     <HeartContainer style={{justifyContent: 'center', alignItems: 'center'}}>
-                       {itemLike.liked ? <AntDesign name="pushpin" size={40} color="#dbb91f" /> : <AntDesign name="pushpino" size={40} color="#dbb91f"  />}
+                       {itemLike.liked ? <AntDesign name="pushpin" size={40} color="#c9a502" /> : <AntDesign name="pushpino" size={40} color="#dbb91f"  />}
                        <Text style={{fontSize: 17}}>{ itemLike.likes }</Text>
                     </HeartContainer>
                 </TouchableHighlight>
