@@ -21,5 +21,7 @@ urlpatterns = [
     path('likelist/', views.like_list),
     # 코디 추천
     path('recommand/', views.recommand),
-    # path('guidetour/<int:tour_pk>', views.guidetour),
+    # 인피니트 코디뷰
+    path('infinite/<int:idx>', views.infinite),
+
 ]
