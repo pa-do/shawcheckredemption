@@ -431,3 +431,18 @@ def recommand(request):
     
     result = coordiset.run_self(user_info, user)
     return Response(result)
+
+# 코디 전부 가져오기(인피니트)
+@api_view(['GET'])
+def infinite(request, idx):
+    """
+        사람들이 올린 코디를 인덱스로 줌
+
+        ---
+        # 내용
+            pk 값을 파라미터로 보내면 됨
+    """
+    coordi = UserCoordi.objects.filter(c_code=1).order_by('-id')[idx:idx+6]
+    serializer = UserMergeSerializer(coordi, many=True, context={'request': request})
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
+    
