@@ -867,9 +867,9 @@ function CodiMyListScreen({ navigation, route }) {
             </UserProfileContainer>
             <RowContainer style={{marginTop: 50, borderBottomColor: '#c9a502', borderBottomWidth: 1}}>
                 {myOrLikeVisible ? 
-                    <Button
+                    <TouchableHighlight
                     onPress={setMyCodiVisible}
-                    theme={{colors: {primary: 'white'}}}
+                    underlayColor="none"
                     style={{width: '50%', alignItems: 'center'}}>
                         <View
                         theme={{colors: {primary: 'white'}}}
@@ -879,11 +879,11 @@ function CodiMyListScreen({ navigation, route }) {
                             </Text>
                             <Entypo name="dot-single" size={24} color="#8a8a8a" />
                         </View>
-                    </Button>
+                    </TouchableHighlight>
                 :
-                    <Button // 선택됨
+                    <TouchableHighlight // 선택됨
                     onPress={setMyCodiVisible}
-                    theme={{colors: {primary: 'white'}}}
+                    underlayColor="none"
                     style={{width: '50%', alignItems: 'center'}}>
                         <View
                         theme={{colors: {primary: 'white'}}}
@@ -893,13 +893,13 @@ function CodiMyListScreen({ navigation, route }) {
                             </Text>
                             <Entypo name="dot-single" size={24} color="#c9a502" />
                         </View>
-                    </Button>
+                    </TouchableHighlight>
                 }
                 
                 {!myOrLikeVisible ? 
-                    <Button
+                    <TouchableHighlight
                     onPress={setHeartCodiVisible}
-                    theme={{colors: {primary: 'white'}}}
+                    underlayColor="none"
                     style={{width: '50%', alignItems: 'center'}}>
                         <View
                         theme={{colors: {primary: 'white'}}}
@@ -909,11 +909,11 @@ function CodiMyListScreen({ navigation, route }) {
                             </Text>
                             <Entypo name="dot-single" size={24} color="#8a8a8a" />
                         </View>
-                    </Button>
+                    </TouchableHighlight>
                 :
-                    <Button // 선택됨
+                    <TouchableHighlight // 선택됨
                     onPress={setHeartCodiVisible}
-                    theme={{colors: {primary: 'white'}}}
+                    underlayColor="none"
                     style={{width: '50%', alignItems: 'center'}}>
                         <View
                         theme={{colors: {primary: 'white'}}}
@@ -923,7 +923,7 @@ function CodiMyListScreen({ navigation, route }) {
                             </Text>
                             <Entypo name="dot-single" size={24} color="#c9a502" />
                         </View>
-                    </Button>
+                    </TouchableHighlight>
                 }
             </RowContainer>
                 <MyOrLike />

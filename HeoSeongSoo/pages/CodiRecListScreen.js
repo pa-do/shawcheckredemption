@@ -1,17 +1,35 @@
 import React from  'react';
-import { Text, TouchableWithoutFeedback } from 'react-native';
+import { Text, TouchableWithoutFeedback, Dimensions, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import axios from 'axios';
-import NormalButton from '../components/buttons/NormalButton';
-import Container from '../components/Container';
+import BackButton from '../components/buttons/BackButton';
+import NextButton from '../components/buttons/NextButton';
 import RowContainer from '../components/RowContainer';
 import { ServerUrl } from '../components/TextComponent';
+import Constants from 'expo-constants';
 
-const CodiItemImg = styled.Image`
+const Container = styled.SafeAreaView`
+    flex: 1;
+    background-color: #f00;
+    justify-content: center;
+    align-items: center;
+    padding-top: ${Constants.statusBarHeight}px;
+`;
+
+const View = styled.View`
     width: 100%;
     height: 50%;
-    resize-mode: contain;
+    background-color: #0f0;
+    justify-content: center;
+    align-items: center;
+`;
+
+const CodiItemImg = styled.Image`
+    width: 300px;
+    height: 300px;
+    resize-mode: cover;
+
 `;
 
 const TextContainer = styled.View`
@@ -82,18 +100,24 @@ function CodiRecListScreen({ navigation, route}) {
             <Text>
                 { showData.user }
             </Text>
-            <CodiItemImg
-                source={{uri: ServerUrl.mediaUrl + showData.img}}
-            />
+            <View>
+                <RowContainer>
+                    <View style={{position: 'absolute', backgroundColor: '#FFFFFF', left: 0, top: 50, height: 30, width: 30}}>
+                        <BackButton onPress={changeMinusShowData}></BackButton>
+                    </View>
+                    <CodiItemImg
+                        source={{uri: ServerUrl.mediaUrl + showData.img}}
+                    />
+                    <View style={{position: 'absolute', backgroundColor: '#FFFFFF', left: 0, top: 50, height: 30, width: 30}}>
+                        <NextButton onPress={changePlusShowData}></NextButton>
+                    </View>                    
+                </RowContainer>
+            </View>
             <TouchableWithoutFeedback onPress={changeHeart}>
                 <TextContainer>
                     <Text>{itemLike.liked ? '❤️' : '💜'}</Text>
                 </TextContainer>
             </TouchableWithoutFeedback>
-            <RowContainer>
-                <NormalButton onPress={changeMinusShowData}>이전</NormalButton>
-                <NormalButton onPress={changePlusShowData}>다음</NormalButton>
-            </RowContainer>
         </Container>
     )
 }
