@@ -309,39 +309,63 @@ function SignupScreen({ navigation, route }) {
                             </View>
                         </View>
                     </Modal>
-                    <TextInput
-                        label="Nickname"
-                        value={textNickname}
-                        onChangeText={text => setTextNickname(text)}
-                    />
-                    {nicknameError !== null ? <ErrorMsg>{ nicknameError }</ErrorMsg> : null}
-                    {userImage && <Image source={{ uri: userImage }} style={{ width: 150, height: 150, resizeMode: 'center' }} />}
-                    <Button
-                        icon="account-circle-outline"
-                        mode="outlined"
-                        onPress={() => {
-                            setModalImageVisible(true);
-                        }}
-                    >
-                        퍼스널 컬러 진단을 위한 사진 업로드
-                    </Button>
-                    {imageError && <ErrorMsg>{ imageError }</ErrorMsg>}
-                    <Button
-                        icon="account-plus"
-                        mode="contained"
-                        onPress={() => {
-                            if (textNickname.length === 0) {
-                                setNicknameError('닉네임을 입력해주세요.')
-                            } else if (userImage === null) {
-                                setimageError('이미지를 등록해주세요. 이미지는 저장되지 않습니다.')
-                            } else {
-                                patchUserNickname();
-                                getUserPersonalColor();
-                            }
-                        }}
-                    >
-                        제출
-                    </Button>
+                    <BackButton 
+                    onPress={() => navigation.goBack()}
+                    ></BackButton>
+                    <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'flex-end'}}>
+                        <TextInput
+                            label="닉네임"
+                            value={textNickname}
+                            onChangeText={text => setTextNickname(text)}
+                            style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)'}}
+                            theme={{colors: {primary: '#0d3754'}}}
+                        />
+                    </View>
+                    <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'flex-end'}}>
+                        {nicknameError !== null ? <ErrorMsg style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)', marginLeft: 20}}>{ nicknameError }</ErrorMsg> : null}
+                    </View>
+                    <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+                        <Button
+                            mode="outlined"
+                            onPress={() => {
+                                setModalImageVisible(true);
+                            }}
+                            style={{borderWidth: 1, borderColor: '#0d3754', width: '85%', marginBottom: 15}}
+                            labelStyle={{fontSize:16, color: '#0d3754'}}
+                            theme={{colors: {primary: 'rgba(0, 0, 0, 0)'}}}
+                        >
+                            퍼스널 컬러 진단을 위한 사진 업로드
+                        </Button>
+                    </View>
+                    
+                        {userImage && 
+                        <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+                            <Image source={{ uri: userImage }} style={{ width: '85%', height: 200, resizeMode: 'center' }}/>
+                        </View>
+                        }
+                    <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'flex-end'}}>
+                        {imageError && <ErrorMsg style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)'}}>{ imageError }</ErrorMsg>}
+                    </View>
+                    <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 50}}>
+                        <Button
+                            mode="outlined"
+                            onPress={() => {
+                                if (textNickname.length === 0) {
+                                    setNicknameError('닉네임을 입력해주세요.')
+                                } else if (userImage === null) {
+                                    setimageError('이미지를 등록해주세요. 이미지는 저장되지 않습니다.')
+                                } else {
+                                    patchUserNickname();
+                                    getUserPersonalColor();
+                                }
+                            }}
+                            style={{borderWidth: 1, borderColor: '#0d3754', width: '85%', marginBottom: 15}}
+                            labelStyle={{fontSize:16, color: '#0d3754'}}
+                            theme={{colors: {primary: 'rgba(0, 0, 0, 0)'}}}
+                        >
+                            진단 시작!
+                        </Button>
+                    </View>
                 </>
             )}
         </Container>
