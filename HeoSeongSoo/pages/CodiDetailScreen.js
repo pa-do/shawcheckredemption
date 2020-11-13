@@ -149,6 +149,7 @@ function CodiDetailScreen({ navigation, route }) {
             </ContentText>
             <ScrollView>
                 {itemDataList.map(item => {
+                    console.log(item)
                     if (Object.keys(item).length !== 0) {
                         return (
                             <>
