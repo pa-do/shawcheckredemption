@@ -4,7 +4,8 @@ import styled from 'styled-components/native';
 
 
 const Label = styled.Text`
-    font-size: 18px;
+    font-size: 13px;
+    color: #404040;
 `;
 
 function UserPersonalColor(props) {
@@ -20,7 +21,7 @@ function UserPersonalColor(props) {
         padding: 3, 
         flexWrap:'wrap', 
         marginVertical:10, 
-        width: 120, 
+        width: 80, 
         justifyContent: 'center', 
         alignItems: 'center',
         backgroundColor: bgColor,
