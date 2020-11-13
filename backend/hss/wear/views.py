@@ -193,7 +193,6 @@ class Coordi(APIView):
 
             ---
             # 내용
-                반드시 순서에 맞춰서 보내주세요
                 { headwear : pk,
                 top : pk,
                 outer : pk,
@@ -211,7 +210,7 @@ class Coordi(APIView):
         User = get_user_model()
         user = get_object_or_404(User, pk=request.user.pk)
         serializer = CoordiSerializer(data=request.data)
-        merged = Image.new('RGBA', (300 * 3, 300 * 3), (250,250,250,0))
+        merged = Image.new('RGBA', (150 * 3, 150 * 3), (250,250,250,0))
         i, j = 0, 0
         for idx, value in request.data.items():
             if idx == 'color' or idx == 'style' or idx == 'content':
@@ -237,8 +236,7 @@ class Coordi(APIView):
 
             A = UserClothes.objects.get(pk=value)
             im = Image.open(A.img)
-            im = im.resize((300, 300))
-            merged.paste(im, (300 * j, 300 * i))
+            merged.paste(im, (150 * j, 150 * i))
 
         now = datetime.datetime.now()
         nowDate = now.strftime('%M%H%S')
@@ -363,6 +361,23 @@ def like_list(request):
 # 추천 받기
 @api_view(['POST'])
 def recommand(request):
+    """
+        코디 추천받는 API
+
+        ---
+        # 내용
+            { headwear : pk,
+                top : pk,
+                outer : pk,
+                acc : pk,
+                pants : pk,
+                bag : pk,
+                watch : pk,
+                shoes : pk,
+                who : string
+                where : string
+            }   pk 값 없으면 -1  // 5개의 추천 이미지와 pk값 리턴됨
+    """
     from wear import coordiset
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)

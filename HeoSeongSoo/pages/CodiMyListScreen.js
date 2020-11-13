@@ -1,6 +1,6 @@
 import React from  'react';
 import { Text, View, Modal, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import NormalButton from '../components/buttons/NormalButton';
@@ -17,6 +17,7 @@ import LogoutButton from '../components/mypage/LogoutButton';
 import UserName from '../components/mypage/UserName';
 import UserPersonalColor from '../components/mypage/UserPersonalColor';
 import MypageButton from '../components/mypage/MypageButton';
+import { Dimensions } from 'react-native';
 
 const UserProfileImg = styled.Image`
     width: 120px;
@@ -425,7 +426,7 @@ function CodiMyListScreen({ navigation, route }) {
         const items = modalItems;
         const itemsList = [];
         for (let i = 0; i <= parseInt(items?.length / 3); i++) {
-            let startPoint = (i * 3);
+            let startPoint = (i * 3) ;
             let endPoint = (i * 3) + 3;
             if (endPoint > items?.length) {
                 endPoint = endPoint - 1;
@@ -435,6 +436,7 @@ function CodiMyListScreen({ navigation, route }) {
             }
             try {
                 itemsList.push(items.slice(startPoint, endPoint));
+                
             } catch (error) {
                 console.error(error);
             }
@@ -668,16 +670,15 @@ function CodiMyListScreen({ navigation, route }) {
                 transparent={true}
                 visible={modalItemCategoryVisible}
             >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
+                <View style={{ ...styles.centeredView }}>
+                    <View style={{ ...styles.modalClosetView, alignItems: 'flex-end' }}>
                         <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                            style={{width: 25, marginBottom: 15, marginRight: 0, paddingRight: 0}}
                             onPress={() => {
                                 setModalItems(null);
                                 setModalItemCategoryVisible(false);
-                            }}
-                        >
-                                <Text style={styles.textStyle}>닫기</Text>
+                            }}>
+                                <AntDesign name="closecircleo" size={24} color="black" />
                         </TouchableHighlight>
                     {modalItems === null ? (
                         <>
@@ -783,16 +784,17 @@ function CodiMyListScreen({ navigation, route }) {
                         </>
                         ) : (
                             <>
-                                <TouchableHighlight
-                                    style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                <TouchableHighlight                             
+                                    style={{width: 25, position: 'absolute', top: 35, left: 35, marginBottom: 15, marginLeft:0, paddingLeft: 0}}
                                     onPress={() => {
                                         setModalItems(null);
                                     }}
                                 >
-                                    <Text style={styles.textStyle}>이전</Text>
+                                    <AntDesign name="leftcircleo" size={24} color="black" />
                                 </TouchableHighlight>
                                 <TouchableHighlight
-                                    style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                     style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                    // style={{position: 'absolute', top: 35, left: Dimensions.get('window').width * 0.5 - 50, marginBottom: 15,}}
                                     onPress={() => {
                                         if (uploadCategory === CategoryEngText.watch){
                                             setModalImageVisible(true);
@@ -802,7 +804,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         }
                                     }}
                                 >
-                                        <Text style={styles.textStyle}>아이템 등록</Text>
+                                        <MaterialIcons name="add-circle-outline" size={24} color="black" />
                                 </TouchableHighlight>
                                 <ModalItemGrid/>
                             </>

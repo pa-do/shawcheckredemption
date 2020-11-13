@@ -1259,8 +1259,7 @@ def run_self(user_info, user):
             else:
                 imgpath = './media/' + idx + '/' + A.img
                 im = Image.open(imgpath)
-            im = im.resize((300, 300))
-            merged.paste(im, (300 * j, 300 * i))
+            merged.paste(im, (150 * j, 150 * i))
 
         now = datetime.datetime.now()
         nowDate = now.strftime('%M%H%S')
