@@ -1,15 +1,17 @@
 import React from  'react';
-import { Text, TouchableWithoutFeedback, ScrollView, StyleSheet, View } from 'react-native';
+import { Text, TouchableWithoutFeedback, ScrollView, StyleSheet, View, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Container from '../components/Container';
 import axios from 'axios'
 import styled from 'styled-components/native';
 import { ServerUrl } from '../components/TextComponent';
+import { AntDesign } from '@expo/vector-icons'; 
 
 // 코디의 디테일 페이지입니다.
 
 // 코디 이미지
 const CodiItemImg = styled.Image`
+    marginVertical: 10px;
     width: 100%;
     height: 50%;
     resize-mode: contain;
@@ -17,9 +19,9 @@ const CodiItemImg = styled.Image`
 
 // 하트를 품은 뷰
 const HeartContainer = styled.View`
-    margin: 5px;
     flex-direction: row;
     justify-content: space-between;
+    margin-horizontal: 5px;
 `;
 
 // 하트 텍스트
@@ -31,6 +33,7 @@ const HeartText = styled.Text`
 const ItemContainer = styled.View`
     margin: 5px;
     flex-direction: column;
+    
 `;
 
 // content 값을 보여주는 태그
@@ -133,17 +136,25 @@ function CodiDetailScreen({ navigation, route }) {
                 source={{uri: ServerUrl.mediaUrl + codiSetDetail.img}}
             />
                 <HeartContainer>
-                    <TouchableWithoutFeedback onPress={changeHeart}>
-                            <HeartText>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</HeartText>
-                    </TouchableWithoutFeedback>
+                    <TouchableHighlight 
+                    onPress={changeHeart} 
+                    underlayColor="none"
+                    >
+                        <HeartContainer style={{justifyContent: 'flex-start', alignItems: 'center'}}>
+                            {itemLike.liked ? <AntDesign name="pushpin" size={40} color="#dbb91f" /> : <AntDesign name="pushpino" size={40} color="#dbb91f"  />}
+                            <Text style={{fontSize: 17}}>  { itemLike.likes }</Text>
+                        </HeartContainer>
+                    </TouchableHighlight>
                     {userData?.username === codiSetDetail.user.username ? 
-                        <TouchableWithoutFeedback onPress={deleteCodi}>
-                                <HeartText style={{color: 'red'}}>삭제</HeartText>
+                        <TouchableWithoutFeedback onPress={deleteCodi}
+                        style={{justifyContent: 'flex-start', alignItems: 'center'}}>
+                            <AntDesign name="delete" size={40} color="#dbb91f" />
                         </TouchableWithoutFeedback>
                     :
                         null
                     }
-                </HeartContainer>
+                    </HeartContainer>
+    
             <ContentText>
                 {codiSetDetail.content}
             </ContentText>

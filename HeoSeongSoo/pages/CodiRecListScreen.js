@@ -3,15 +3,13 @@ import { Text, TouchableWithoutFeedback, Dimensions, TouchableHighlight } from '
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import axios from 'axios';
-import BackButton from '../components/buttons/BackButton';
-import NextButton from '../components/buttons/NextButton';
 import RowContainer from '../components/RowContainer';
 import { ServerUrl } from '../components/TextComponent';
 import Constants from 'expo-constants';
+import { Ionicons, AntDesign } from '@expo/vector-icons';  
 
 const Container = styled.SafeAreaView`
     flex: 1;
-    background-color: #f00;
     justify-content: center;
     align-items: center;
     padding-top: ${Constants.statusBarHeight}px;
@@ -20,14 +18,14 @@ const Container = styled.SafeAreaView`
 const View = styled.View`
     width: 100%;
     height: 50%;
-    background-color: #0f0;
     justify-content: center;
     align-items: center;
 `;
 
 const CodiItemImg = styled.Image`
-    width: 300px;
-    height: 300px;
+    width: 70%;
+    height: undefined;
+    aspectRatio: 1;
     resize-mode: cover;
 
 `;
@@ -35,6 +33,10 @@ const CodiItemImg = styled.Image`
 const TextContainer = styled.View`
     margin: 5px;
     justify-content: space-between;
+`;
+
+const HeartContainer = styled.View`
+    margin: 5px;
 `;
 
 function CodiRecListScreen({ navigation, route}) {
@@ -101,23 +103,31 @@ function CodiRecListScreen({ navigation, route}) {
                 { showData.user }
             </Text>
             <View>
-                <RowContainer>
-                    <View style={{position: 'absolute', backgroundColor: '#FFFFFF', left: 0, top: 50, height: 30, width: 30}}>
-                        <BackButton onPress={changeMinusShowData}></BackButton>
-                    </View>
+                    <TouchableHighlight
+                        style={{position: 'absolute', zIndex: 1, top: Dimensions.get('window').width * 0.25, left: 0, width: 50, height: 50, alignItems: 'center'}}
+                        underlayColor="none"
+                        onPress={changeMinusShowData} >
+                        <Ionicons name="ios-arrow-dropleft" size={50} color="black" />
+                    </TouchableHighlight>
                     <CodiItemImg
                         source={{uri: ServerUrl.mediaUrl + showData.img}}
                     />
-                    <View style={{position: 'absolute', backgroundColor: '#FFFFFF', left: 0, top: 50, height: 30, width: 30}}>
-                        <NextButton onPress={changePlusShowData}></NextButton>
-                    </View>                    
-                </RowContainer>
+                    <TouchableHighlight
+                        style={{position: 'absolute', zIndex: 1, top: Dimensions.get('window').width * 0.25, right: 0, width: 50, height: 50, alignItems: 'center'}}
+                        underlayColor="none"
+                        onPress={changePlusShowData} >
+                        <Ionicons name="ios-arrow-dropright" size={50} color="black" />
+                    </TouchableHighlight>
+                    <TouchableHighlight 
+                        onPress={changeHeart} 
+                        style={{position: 'absolute', zIndex: 1, bottom: 20, right: 80}}
+                        underlayColor="none"
+                        >
+                        <HeartContainer style={{justifyContent: 'center', alignItems: 'center'}}>
+                            {itemLike.liked ? <AntDesign name="pushpin" size={40} color="#dbb91f" /> : <AntDesign name="pushpino" size={40} color="#dbb91f"  />}
+                        </HeartContainer>
+                    </TouchableHighlight>
             </View>
-            <TouchableWithoutFeedback onPress={changeHeart}>
-                <TextContainer>
-                    <Text>{itemLike.liked ? '❤️' : '💜'}</Text>
-                </TextContainer>
-            </TouchableWithoutFeedback>
         </Container>
     )
 }
