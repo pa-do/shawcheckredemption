@@ -56,12 +56,25 @@
 
 ## 팀 구성원 및 업무 분장
 
-| Back-End    | Front-End       | A.I.               |
-| ----------- | --------------- | ------------------ |
-| 허성수 (AI) | 조규성 (부팀장) | 박도희 (팀장)      |
-|             |                 | 박인영 (깃 마스터) |
+**박도희**
 
+- 팀장
+- 이미지프로세싱
 
+**조규성**
+
+- 부팀장
+- Frontend 전반
+
+**박인영**
+
+- 깃마스터
+- 추천 알고리즘 설계
+
+**허성수**
+
+- Backend API 전반
+- 이미지 해싱
 
 ---
 
@@ -69,7 +82,8 @@
 
 ## 와이어 프레임
 
-- ![wireframe_flow](doc/wireframe_flow.png)
+![wireframe_flow](doc/wireframe_flow.png)
+
 - [와이어프레임.pdf](doc/와이어프레임.pdf) 
 - [화면설계.pdf](doc/화면설계.pdf) 
 
@@ -109,7 +123,7 @@ image hash 기법을 통해 유저가 올린 사진과 DB의 데이터간 유사
 
 ## 개발 스택 및 프레임 워크
 
-![stack](C:\Users\multicampus\Desktop\프로젝트 HSS\doc\stack.png)
+![stack](/doc/stack.png)
 
 ---
 
