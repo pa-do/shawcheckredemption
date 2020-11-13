@@ -392,7 +392,10 @@ function CodiFormScreen({ navigation }) {
                     {hatImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + hatImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.hat }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/headwear.png')}
+                        />
                     }
                 </TouchableHighlight>
 
@@ -412,7 +415,10 @@ function CodiFormScreen({ navigation }) {
                     {topImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + topImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.top }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/top.png')}
+                        />
                     }
                 </TouchableHighlight>
 
@@ -432,7 +438,10 @@ function CodiFormScreen({ navigation }) {
                     {outerImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + outerImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.outer }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/outer.png')}
+                        />
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -454,7 +463,10 @@ function CodiFormScreen({ navigation }) {
                     {AccImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + AccImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.accessory }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/accessory.png')}
+                        />
                     }
                 </TouchableHighlight>
 
@@ -473,7 +485,10 @@ function CodiFormScreen({ navigation }) {
                     {pantsImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + pantsImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.pants }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/pants.png')}
+                        />
                     }
                 </TouchableHighlight>
 
@@ -492,7 +507,10 @@ function CodiFormScreen({ navigation }) {
                     {bagImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + bagImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.bag }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/bag.png')}
+                        />
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -513,7 +531,10 @@ function CodiFormScreen({ navigation }) {
                     {watchImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + watchImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.watch }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/watch.png')}
+                        />
                     }
                 </TouchableHighlight>
 
@@ -532,7 +553,10 @@ function CodiFormScreen({ navigation }) {
                     {shoesImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + shoesImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.shoes }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/shoes.png')}
+                        />
                     }
                 </TouchableHighlight>
             

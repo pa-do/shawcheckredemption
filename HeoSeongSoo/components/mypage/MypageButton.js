@@ -7,7 +7,7 @@ function MypageButton(props) {
         <TouchableHighlight
         value={props.value}
         underlayColor= 'none'
-        style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center', width: 50, height: 50, marginRight: '2%', padding: 0}}
+        style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center', width: 40, height: 40, margin: '2%'}}
         onPress={props.onPress} 
         >   
             {/* value가 closet일 경우 */}
