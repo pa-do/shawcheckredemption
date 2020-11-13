@@ -108,7 +108,7 @@ class UserClothes(models.Model):
     img = models.ImageField(upload_to="Myclothes/%Y/%m/%d")
     category = models.IntegerField()
     subcategory = models.IntegerField()
-    color = models.CharField(max_length=5, blank=True)
+    color = models.CharField(max_length=10, blank=True)
 
 # 사용자가 등록한 코디
 class UserCoordi(models.Model):
@@ -122,7 +122,7 @@ class UserCoordi(models.Model):
     top = models.IntegerField(null=True, blank=True)
     watch = models.IntegerField(null=True, blank=True)
     img = models.CharField(max_length=100, blank=True)
-    color = models.CharField(max_length=5, blank=True)
+    color = models.CharField(max_length=10, blank=True)
     style = models.CharField(max_length=50, blank=True)
     content = models.TextField(blank=True)
     c_code = models.IntegerField(null=True, blank=True)
