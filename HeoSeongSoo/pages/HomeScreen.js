@@ -89,7 +89,7 @@ function HomeScreen({ navigation }) {
                     source={require('../assets/font_logo.png')}
                 />
             </View>
-            <Container>
+            <Container style={{margin: 15, borderColor: '#c9a502', borderWidth: 1, borderRadius: 20}}>
             {value === 'none' ? (
                 <>
                         <MainText>어디에 가시나요?</MainText>
