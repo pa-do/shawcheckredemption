@@ -1,5 +1,5 @@
 import React from  'react';
-import { Text, TouchableWithoutFeedback, Dimensions, TouchableHighlight } from 'react-native';
+import { Text, Image, View, TouchableWithoutFeedback, Dimensions, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
 import axios from 'axios';
@@ -8,6 +8,8 @@ import { ServerUrl } from '../components/TextComponent';
 import Constants from 'expo-constants';
 import { Ionicons, AntDesign } from '@expo/vector-icons';  
 
+import * as Animatable from 'react-native-animatable';
+
 const Container = styled.SafeAreaView`
     flex: 1;
     justify-content: center;
@@ -15,7 +17,7 @@ const Container = styled.SafeAreaView`
     padding-top: ${Constants.statusBarHeight}px;
 `;
 
-const View = styled.View`
+const CodiView = styled.View`
     width: 100%;
     height: 50%;
     justify-content: center;
@@ -23,7 +25,7 @@ const View = styled.View`
 `;
 
 const CodiItemImg = styled.Image`
-    width: 70%;
+    width: 90%;
     height: undefined;
     aspectRatio: 1;
     resize-mode: cover;
@@ -36,7 +38,8 @@ const TextContainer = styled.View`
 `;
 
 const HeartContainer = styled.View`
-    margin: 5px;
+    flex-direction: row;
+    margin-horizontal: 5px;
 `;
 
 function CodiRecListScreen({ navigation, route}) {
@@ -44,6 +47,9 @@ function CodiRecListScreen({ navigation, route}) {
     const [showIndex, setShowIndex] = React.useState(0)
     const [showData, setShowData] = React.useState(recommendations[0]);
     const [itemLike, setLikeItem] = React.useState({liked: showData?.liked, likes:showData?.likes})
+    const AnimationRef = React.useRef();
+
+    navigation.setOptions({title: `추천받은 코디`});
 
     async function changeHeart() {
         let userToken;
@@ -72,6 +78,9 @@ function CodiRecListScreen({ navigation, route}) {
                     likes: itemLike.likes + 1
                 })
             }
+            if(AnimationRef) {
+                AnimationRef.current?.rubberBand();
+                }
         })
         .catch(err => console.error(err))
         // axios 요청으로 하트 변경사항 저장
@@ -99,35 +108,58 @@ function CodiRecListScreen({ navigation, route}) {
 
     return (
         <Container>
-            <Text>
-                { showData.user }
-            </Text>
-            <View>
+            <View style={{flexDirection:'row', flexWrap:'wrap', alignItems: 'center', marginBottom: 20}}>
+                <Text style={{fontSize: 18}}>마음에 드는 코디에 단추(</Text>
+                <Image
+                    style={{width: 40, height: 40, resizeMode: 'center'}}
+                    source={require('../assets/buttono.png')}/> 
+                <Text style={{fontSize: 18}}>)를 달아주세요!</Text>
+            </View>
+            <CodiView>
                     <TouchableHighlight
                         style={{position: 'absolute', zIndex: 1, top: Dimensions.get('window').width * 0.25, left: 0, width: 50, height: 50, alignItems: 'center'}}
                         underlayColor="none"
                         onPress={changeMinusShowData} >
                         <Ionicons name="ios-arrow-dropleft" size={50} color="black" />
                     </TouchableHighlight>
-                    <CodiItemImg
-                        source={{uri: ServerUrl.mediaUrl + showData.img}}
-                    />
+                    <CodiView style={{
+                        width: '70%',
+                        height: '100%', 
+                        backgroundColor: 'white',
+                        borderRadius: 20,
+                        borderWidth: 1,
+                        borderColor: '#c9a502'}}>
+                        <CodiItemImg
+                            source={{uri: ServerUrl.mediaUrl + showData.img}}
+                        />
+                    </CodiView>
+                    
+                    <TouchableHighlight 
+                    onPress={changeHeart} 
+                    underlayColor="none"
+                    style={{position: 'absolute', zIndex: 1, bottom: 10, right: 5, marginHorizontal: '15%'}}
+                    >
+                        <HeartContainer style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'flex-end', alignItems: 'center'}}>
+                            <Animatable.View ref={AnimationRef}>
+                            {itemLike.liked ? 
+                            <Image
+                                style={{width: 40, height: 40, resizeMode: 'center'}}
+                                source={require('../assets/buttono.png')}/> 
+                            : 
+                            <Image
+                                style={{width: 40, height: 40, resizeMode: 'center'}}
+                                source={require('../assets/button.png')}/>}
+                            </Animatable.View>
+                        </HeartContainer>
+                    </TouchableHighlight>
                     <TouchableHighlight
                         style={{position: 'absolute', zIndex: 1, top: Dimensions.get('window').width * 0.25, right: 0, width: 50, height: 50, alignItems: 'center'}}
                         underlayColor="none"
                         onPress={changePlusShowData} >
                         <Ionicons name="ios-arrow-dropright" size={50} color="black" />
                     </TouchableHighlight>
-                    <TouchableHighlight 
-                        onPress={changeHeart} 
-                        style={{position: 'absolute', zIndex: 1, bottom: 20, right: 80}}
-                        underlayColor="none"
-                        >
-                        <HeartContainer style={{justifyContent: 'center', alignItems: 'center'}}>
-                            {itemLike.liked ? <AntDesign name="pushpin" size={40} color="#dbb91f" /> : <AntDesign name="pushpino" size={40} color="#dbb91f"  />}
-                        </HeartContainer>
-                    </TouchableHighlight>
-            </View>
+                    
+            </CodiView>
         </Container>
     )
 }

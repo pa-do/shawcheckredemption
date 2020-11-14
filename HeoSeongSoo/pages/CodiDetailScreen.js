@@ -7,6 +7,8 @@ import styled from 'styled-components/native';
 import { ServerUrl } from '../components/TextComponent';
 import { AntDesign } from '@expo/vector-icons'; 
 
+import * as Animatable from 'react-native-animatable';
+
 // 코디의 디테일 페이지입니다.
 
 // 코디 이미지
@@ -51,6 +53,7 @@ function CodiDetailScreen({ navigation, route }) {
     const [itemLike, setLikeItem] = React.useState({liked: route.params.item.liked, likes: route.params.item.like_count});
     const [itemDataList, setItemDataList] = React.useState([]);
     const [userData, setUserData] = React.useState(null);
+    const AnimationRef = React.useRef();
 
     React.useEffect(() => {
         navigation.setOptions({title: `${route.params.item.user.nickname}님의 코디`});
@@ -116,6 +119,9 @@ function CodiDetailScreen({ navigation, route }) {
                     likes: itemLike.likes + 1
                 })
             }
+            if(AnimationRef) {
+                AnimationRef.current?.rubberBand();
+                }
         })
         .catch(err => console.error(err))
     }
@@ -131,6 +137,7 @@ function CodiDetailScreen({ navigation, route }) {
     let nullCount = 0
     return (
         <>
+            <ScrollView>
             <View style={{borderRadius: 20, height:300, margin:20, padding:10, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1}}>
                 <CodiItemImg
                     source={{uri: ServerUrl.mediaUrl + codiSetDetail.img}}
@@ -143,32 +150,31 @@ function CodiDetailScreen({ navigation, route }) {
                     >
                         <HeartContainer style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center'}}>
                             <Text style={{fontSize: 17}}>  { itemLike.likes }</Text>
+                            <Animatable.View ref={AnimationRef}>
                             {itemLike.liked ? 
-                            <Image
-                                style={{width: 40, height: 40, resizeMode: 'center'}}
-                                source={require('../assets/buttono.png')}/> 
-                            : 
-                            <Image
-                                style={{width: 40, height: 40, resizeMode: 'center'}}
-                                source={require('../assets/button.png')}/>}
+                                <Image
+                                    style={{width: 40, height: 40, resizeMode: 'center'}}
+                                    source={require('../assets/buttono.png')}/> 
+                                : 
+                                <Image
+                                    style={{width: 40, height: 40, resizeMode: 'center'}}
+                                    source={require('../assets/button.png')}/>}
+                            </Animatable.View>
                         </HeartContainer>
                     </TouchableHighlight>
                 </HeartContainer>
             </View>
-            <View style={{marginHorizontal: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1, minHeight: 100}}>
-                {userData?.username === codiSetDetail.user.username ? 
-                    <TouchableHighlight onPress={deleteCodi} style={{marginBottom: 10}}>
-                        <AntDesign name="delete" size={30} color="#0d3754" />
-                    </TouchableHighlight>
-                :
-                    null
-                }
+            {codiSetDetail.content ? 
+            <View style={{marginHorizontal: 20, marginBottom: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1, minHeight: 100}}>
                 <ContentText>
                     {codiSetDetail.content}
                 </ContentText>
             </View>
-            
-            <ScrollView style={{margin: 20}}>
+            :
+            null}
+
+            {itemDataList.length ? 
+            <ScrollView style={{marginHorizontal: 20, marginBottom: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1}}>
                 {itemDataList.map(item => {
                     console.log(item)
                     if (Object.keys(item).length !== 0) {
@@ -195,6 +201,21 @@ function CodiDetailScreen({ navigation, route }) {
                     }
                 })}
                 {nullCount === 5 ? <Text>등록된 상품의 정보가 없어요</Text> : null}
+            </ScrollView>
+            :
+            null}
+
+            {userData?.username === codiSetDetail.user.username ? 
+                    <TouchableHighlight 
+                    onPress={deleteCodi} 
+                    style={{marginHorizontal: 20, marginBottom: 20, padding: 10, justifyContent: 'center', alignItems: 'center'}}
+                    underlayColor="none"
+                    >
+                        <AntDesign name="delete" size={30} color="#0d3754" />
+                    </TouchableHighlight>
+                :
+                    null
+                }
             </ScrollView>
         </>
     )

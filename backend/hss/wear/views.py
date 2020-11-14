@@ -286,7 +286,7 @@ def list_coordi(request):
     """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    coordi = UserCoordi.objects.filter(user=user, c_code=1)
+    coordi = UserCoordi.objects.filter(user=user, c_code=1).order_by('-id')
     serializer = UserMergeSerializer(coordi, many=True, context={'request': request})
     return Response(serializer.data)
 
@@ -323,7 +323,7 @@ def like_list(request):
     """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    clothes = LikeCoordi.objects.filter(user=user).values()
+    clothes = LikeCoordi.objects.filter(user=user).order_by('-id').values()
     like = []
     for i in clothes:
         data = {}
