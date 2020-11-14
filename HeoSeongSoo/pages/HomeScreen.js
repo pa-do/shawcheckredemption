@@ -3,15 +3,13 @@ import axios from 'axios';
 import styled from 'styled-components/native';
 import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, Image } from 'react-native';
+import { View, Image, ToastAndroid, BackHandler } from 'react-native';
 import Container from '../components/Container';
 import AuthContext from '../components/AuthContext';
 import { ServerUrl, RadioButtonText } from '../components/TextComponent';
 import MainText from '../components/main/MainText';
 import MainSelectText from '../components/main/MainSelectText';
 import MainChangeButton from '../components/main/MainChangeButton';
-import MypageButton from '../components/mypage/MypageButton';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const TopContainer = styled.SafeAreaView`
     flex: 1;

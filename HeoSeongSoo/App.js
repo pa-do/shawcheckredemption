@@ -172,7 +172,6 @@ function App() {
       }
       dispatch({ type: 'RESTORE_TOKEN', token: userToken });
     };
-
     bootstrapAsync();
     setTimeout(() => {
       SplashScreen.hideAsync();
