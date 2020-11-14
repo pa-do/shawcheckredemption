@@ -55,12 +55,6 @@ const GridRowContainer = styled.View`
     padding: 1px;
 `;
 
-const ItemBox = styled.View`
-    width: 50px;
-    height: 50px;
-    align-items: center;
-`;
-
 const ColorContainer = styled.View`
     background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
     width: 200px;
@@ -830,7 +824,7 @@ function CodiMyListScreen({ navigation, route }) {
                 </View>
             </Modal>
             <ScrollView>
-            <View style={{flexDirection:'row', marginTop: 10, flexWrap:'wrap', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white'}}>
+            <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white'}}>
                 <MypageButton
                     value="closet"
                     onPress={() => {
@@ -838,6 +832,10 @@ function CodiMyListScreen({ navigation, route }) {
                         openItemModal();
                     }}
                 ></MypageButton>
+                <Image
+                    style={{width: '70%',resizeMode: 'center'}}
+                    source={require('../assets/font_logo.png')}
+                />
                 <MypageButton
                     value="coordi"
                     onPress={() => {
@@ -859,28 +857,27 @@ function CodiMyListScreen({ navigation, route }) {
                         style={{borderWidth: 1, borderColor: 'rgb(242, 242, 242)'}}
                     />
                 </TouchableHighlight>
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center'}}>
                     <TouchableHighlight
                         onPress={() => {
                             navigation.navigate('PersonalColor', {color: UserData?.color})
                         }}
                         underlayColor="none"
+                        style={{marginRight: 10}}
                     >
                         <UserPersonalColor>
                             {UserData?.color}
                         </UserPersonalColor>
                     </TouchableHighlight>
-                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
-                        <UserName>
+                    <UserName>
                             {UserData?.nickname}
-                        </UserName>
-                        <LogoutButton
-                            onPress={() => {
-                                signOut();
-                            }}
-                        >
-                        </LogoutButton>
-                    </View>
+                    </UserName>
+                    <LogoutButton
+                        onPress={() => {
+                            signOut();
+                        }}
+                    >
+                    </LogoutButton>
                 </View>
             </View>
             <RowContainer style={{marginTop: 10, borderBottomColor: '#c9a502', borderBottomWidth: 1}}>

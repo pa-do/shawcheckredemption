@@ -1,5 +1,5 @@
 import React from  'react';
-import { Text, TouchableWithoutFeedback, ScrollView, StyleSheet, View, TouchableHighlight } from 'react-native';
+import { Text, Image, TouchableWithoutFeedback, ScrollView, StyleSheet, View, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Container from '../components/Container';
 import axios from 'axios'
@@ -11,9 +11,8 @@ import { AntDesign } from '@expo/vector-icons';
 
 // 코디 이미지
 const CodiItemImg = styled.Image`
-    marginVertical: 10px;
     width: 100%;
-    height: 50%;
+    height: 100%;
     resize-mode: contain;
 `;
 
@@ -132,28 +131,40 @@ function CodiDetailScreen({ navigation, route }) {
     let nullCount = 0
     return (
         <>
-            <CodiItemImg
-                source={{uri: ServerUrl.mediaUrl + codiSetDetail.img}}
-            />
+            <View style={{borderRadius: 20, height:300, margin:20, padding:10, backgroundColor: 'white'}}>
+                <CodiItemImg
+                    source={{uri: ServerUrl.mediaUrl + codiSetDetail.img}}
+                />
                 <HeartContainer>
                     <TouchableHighlight 
                     onPress={changeHeart} 
                     underlayColor="none"
+                    style={{position: 'absolute', zIndex: 1, bottom: 10, right: 0}}
                     >
-                        <HeartContainer style={{justifyContent: 'flex-start', alignItems: 'center'}}>
-                            {itemLike.liked ? <AntDesign name="pushpin" size={40} color="#dbb91f" /> : <AntDesign name="pushpino" size={40} color="#dbb91f"  />}
+                        <HeartContainer style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center'}}>
                             <Text style={{fontSize: 17}}>  { itemLike.likes }</Text>
+                            {itemLike.liked ? 
+                            <Image
+                                style={{width: 40, height: 40, resizeMode: 'center'}}
+                                source={require('../assets/buttono.png')}/> 
+                            : 
+                            <Image
+                                style={{width: 40, height: 40, resizeMode: 'center'}}
+                                source={require('../assets/button.png')}/>}
                         </HeartContainer>
                     </TouchableHighlight>
-                    {userData?.username === codiSetDetail.user.username ? 
-                        <TouchableWithoutFeedback onPress={deleteCodi}
-                        style={{justifyContent: 'flex-start', alignItems: 'center'}}>
-                            <AntDesign name="delete" size={40} color="#dbb91f" />
-                        </TouchableWithoutFeedback>
-                    :
-                        null
-                    }
-                    </HeartContainer>
+                </HeartContainer>
+            </View>
+            
+            
+            {userData?.username === codiSetDetail.user.username ? 
+                <TouchableWithoutFeedback onPress={deleteCodi}
+                style={{justifyContent: 'flex-start', alignItems: 'center'}}>
+                    <AntDesign name="delete" size={40} color="#dbb91f" />
+                </TouchableWithoutFeedback>
+            :
+                null
+            }
     
             <ContentText>
                 {codiSetDetail.content}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableWithoutFeedback, TouchableHighlight  } from 'react-native';
+import { Text, View, Image, TouchableWithoutFeedback, TouchableHighlight  } from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
@@ -97,18 +97,25 @@ function CodiList(props) {
                 </TouchableWithoutFeedback>
                 <TouchableHighlight 
                 onPress={changeHeart} 
-                style={{position: 'absolute', zIndex: 1, bottom: 10, right: 10}}
+                style={{position: 'absolute', zIndex: 1, bottom: 10, right: 0}}
                 underlayColor="none"
                 >
-                    <HeartContainer style={{justifyContent: 'center', alignItems: 'center'}}>
-                       {itemLike.liked ? <AntDesign name="pushpin" size={40} color="#c9a502" /> : <AntDesign name="pushpino" size={40} color="#dbb91f"  />}
-                       <Text style={{fontSize: 17}}>{ itemLike.likes }</Text>
+                    <HeartContainer style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{fontSize: 17}}>{ itemLike.likes }</Text>
+                        {itemLike.liked ? 
+                        <Image
+                            style={{width: 40, height: 40, resizeMode: 'center'}}
+                            source={require('../assets/buttono.png')}/> 
+                        : 
+                        <Image
+                            style={{width: 40, height: 40, resizeMode: 'center'}}
+                            source={require('../assets/button.png')}/> }
                     </HeartContainer>
                 </TouchableHighlight>
             </CodiListItem>
             <ContentContainer>
                 <Text numberOfLines={2} style={{flexDirection:'row', flexWrap:'wrap'}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 18}}>{codiItem.user.nickname} </Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 18}}>{codiItem.user.nickname}</Text>
                     <Text>({ codiItem.color } { codiItem.style })  </Text>
                     <Text>{ codiItem.content }</Text>
                 </Text>
