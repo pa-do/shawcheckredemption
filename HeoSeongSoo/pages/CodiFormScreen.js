@@ -243,7 +243,6 @@ function CodiFormScreen({ navigation }) {
 
         axios.post(ServerUrl.url + 'wear/coordi/', uploadData, requestHeaders)
         .then(res => {
-            console.log(res.data)
             navigation.dispatch(
                 StackActions.replace('My page')
             )

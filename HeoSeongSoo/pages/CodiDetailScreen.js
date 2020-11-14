@@ -62,14 +62,14 @@ function CodiDetailScreen({ navigation, route }) {
     React.useEffect(() => {
         const data = route.params.item.data;
         const dataList = [];
-        data?.top ? dataList.push(data.top) : null;
-        data?.pants ? dataList.push(data?.pants) : null;
-        data?.shoes ? dataList.push(data?.shoes) : null;
-        data?.outer ? dataList.push(data?.outer) : null;
-        data?.headwear ? dataList.push(data?.headwear) : null;
-        data?.bag ? dataList.push(data?.bag) : null;
-        data?.watch ? dataList.push(data?.watch) : null;
-        data?.acc ? dataList.push(data?.acc) : null;
+        data?.top ? dataList.push({...data.top, category: 'top'}) : null;
+        data?.pants ? dataList.push({...data.pants, category: 'pants'}) : null;
+        data?.shoes ? dataList.push({...data.shoes, category: 'shoes'}) : null;
+        data?.outer ? dataList.push({...data.outer, category: 'outer'}) : null;
+        data?.headwear ? dataList.push({...data.headwear, category: 'headwear'}) : null;
+        data?.bag ? dataList.push({...data.bag, category: 'bag'}) : null;
+        data?.watch ? dataList.push({...data.watch, category: 'watch'}) : null;
+        data?.acc ? dataList.push({...data.acc, category: 'acc'}) : null;
         setItemDataList(dataList);
 
         const dataAsync = async () => {
@@ -176,7 +176,6 @@ function CodiDetailScreen({ navigation, route }) {
             {itemDataList.length ? 
             <ScrollView style={{marginHorizontal: 20, marginBottom: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1}}>
                 {itemDataList.map(item => {
-                    console.log(route.params.item.data)
                     if (Object.keys(item).length !== 0) {
                         return (
                             <>
@@ -187,15 +186,19 @@ function CodiDetailScreen({ navigation, route }) {
                                 navigation.navigate('WebView', { url: item.url })
                             }}>
                                 <ItemContainer>
-                                    <Text style={{fontWeight: 'bold'}}>{item.style}</Text>
-                                    {/* https://k3d205.p.ssafy.io/media/top/20.png */}
-                                    {/* 피드끝까지내려갔을때 마진 */}
-                                    {/* <CodiItemImg
-                                        source={{uri: ServerUrl.mediaUrl + '/' + route.params.item.data + codiSetDetail.img}}
-                                    /> */}
-                                    <Text>{item.brand}</Text>
-                                    <Text>{item.item}</Text>
-                                    <Text>{item.price} 원</Text>
+                                    <View style={{flexDirection: 'row',}}>
+                                        <CodiItemImg
+                                            style={{width: 65, height: 65, marginVertical: 3, marginHorizontal: 7}}
+                                            source={{uri: ServerUrl.mediaUrl + '/' + item.category + '/' + item.img}}
+                                            // source={{uri: 'https://k3d205.p.ssafy.io/media/top/20.png'}}
+                                        />
+                                        <View>
+                                            <Text style={{fontWeight: 'bold'}}>{item.style}</Text>
+                                            <Text>{item.brand}</Text>
+                                            <Text>{item.item}</Text>
+                                            <Text>{item.price} 원</Text>
+                                        </View>
+                                    </View>
                                 </ItemContainer>
                             </TouchableWithoutFeedback>
                             <Seperator/>

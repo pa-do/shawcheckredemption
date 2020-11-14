@@ -21,7 +21,6 @@ function CodiAllListScreen({ navigation }) {
     }, [])
 
     React.useEffect(() => {
-        console.log(refreshing)
     }, [refreshing])
 
     const getData = () => {

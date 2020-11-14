@@ -146,7 +146,6 @@ function CodiMyListScreen({ navigation, route }) {
  
     React.useEffect(() => {
         if (route.params?.image.uri !== undefined){
-            console.log('image upload from camera')
             dataUpload(route.params?.image);
         }
     }, [route.params?.image]);
