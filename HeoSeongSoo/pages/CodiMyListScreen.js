@@ -65,14 +65,32 @@ const ColorContainer = styled.View`
     background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
     width: 200px;
     height: 200px;
-    border: 1px solid black;
+    border-radius: 150px;
+    border: 1px solid;
+    border-color: rgb(199, 199, 204);
 `;
 
 const SelectColorContainer = styled.View`
     background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
     width: 50px;
     height: 50px;
-    border: 1px solid black;
+    border-radius: 150px;
+    border: ${props => props.borderSize}px solid ${props => {
+        let selected = '#ff7f00'
+        if (props.borderSize === 3) {
+            if (props.R === 0 && props.G === 0 && props.B === 0) {
+                return selected
+            } else if (props.R === 33 && props.G === 35 && props.B === 34) {
+                return selected
+            } else if (props.R === 35 && props.G === 40 && props.B === 51) {
+                return selected
+            } else if (props.R === 38 && props.G === 58 && props.B === 84) {
+
+            }
+        } else {
+            return 'black'
+        }
+    }};
     margin: 3px;
     align-items: center;
 `;
@@ -561,7 +579,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 setModalImageVisible(true);
                             }}
                         >
-                            <Text style={styles.textStyle}>확정</Text>
+                            <Text style={styles.textStyle}>등록</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
@@ -582,13 +600,14 @@ function CodiMyListScreen({ navigation, route }) {
                 visible={modalColorVisible}
             >
                 <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text>이 색감이 맞나요?</Text>
+                    <View style={{ ...styles.modalView, backgroundColor: 'rgb(242, 242, 242)' }}>
+                        <Text style={{marginVertical: 5}}>이 색감이 맞나요?</Text>
                         {uploadedColor && <ColorContainer R={uploadedColor[0]} G={uploadedColor[1]}  B={uploadedColor[2]} />}
-                        <Text>아니라면 색을 골라주세요</Text>
+                        <Text style={{marginVertical: 5}}>아니라면 색을 골라주세요</Text>
                         <Container>
                             <ScrollView
                                 horizontal={true}
+                                showsHorizontalScrollIndicator={false}
                             >
                                 {colorRGB.map((item, index) => {
                                     return (
@@ -598,14 +617,14 @@ function CodiMyListScreen({ navigation, route }) {
                                             }}
                                             key={index}
                                         >
-                                            <SelectColorContainer R={item[0]} G={item[1]} B={item[2]} />
+                                            <SelectColorContainer borderSize={0} R={item[0]} G={item[1]} B={item[2]} />
                                         </TouchableHighlight>
                                     );
                                 })}
                             </ScrollView>
                         </Container>
                         <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                            style={{ ...styles.recButton }}
                             onPress={() => {
                                 patchItemColor();
                             }}
