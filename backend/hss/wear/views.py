@@ -389,8 +389,13 @@ def recommand(request):
     # 기존 추천 이미지 삭제
     remains = UserCoordi.objects.filter(c_code=0, user=user).values()
     for i in remains:
-        remain = 123
-
+        rchk = LikeCoordi.objects.filter(coordi_num_id = i['id'])
+        if rchk.exists():
+            continue
+        remain = UserCoordi.objects.get(id=i['id'])
+        remainS = CoordiListSerializer(remain)
+        os.remove("./media/"+str(remainS.data['img']))
+        remain.delete()
     who = request.data['who']
     where = request.data['where']
     now = datetime.datetime.now()
