@@ -1,5 +1,5 @@
 import React from  'react';
-import { Text, View, Modal, Image, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground } from 'react-native';
+import { Text, View, Modal, Image, Alert, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
 import { Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { ActivityIndicator, Colors, Button } from 'react-native-paper';
@@ -85,6 +85,11 @@ const SelectColorContainer = styled.View`
     align-items: center;
 `;
 
+const ErrorMsg = styled.Text`
+    color: red;
+    font-size: 12px;
+`;
+
 const accessoryDetailCategory = ['벨트', '넥타이', '머플러']
 
 const headwearDetailCategory = ['캡/야구 모자', '헌팅/베레', '페도라', '버킷/사파리햇', '비니', '트루퍼',
@@ -122,7 +127,6 @@ const heartCodiText = '하트코디 보기';
 
 function CodiMyListScreen({ navigation, route }) {
     const [UserData, setUserData] = React.useState(null);
-    const [modalVisible, setModalVisible] = React.useState(false);
     const [indicatorVisible, setIndicatorVisible] = React.useState(false);
     const [modalImageVisible, setModalImageVisible] = React.useState(false);
     const [modalColorVisible, setModalColorVisible] = React.useState(false);
@@ -139,8 +143,8 @@ function CodiMyListScreen({ navigation, route }) {
     const [likeCodis, setLikeCodis] = React.useState([]);
     const [userItems, setUserItems] = React.useState({});
     const [showData, setShowData] = React.useState([]);
-    const [buttonText, setButtonText] = React.useState(myCodiText);
-    const [isLoading, setIsLoading] = React.useState(false);
+
+    const [detailCategoryError, setDetailCategoryError] = React.useState(null);
     
     const { signOut } = React.useContext(AuthContext);
  
@@ -149,7 +153,20 @@ function CodiMyListScreen({ navigation, route }) {
             dataUpload(route.params?.image);
         }
     }, [route.params?.image]);
-    
+
+    const createTwoButtonAlert = item =>
+        Alert.alert(
+        "의상을 삭제하시겠습니까?",
+        '"내가 곧 스타일이다" - CoCo Chanel',
+        [
+            {
+            text: "취소",
+            style: "cancel"
+            },
+            { text: "삭제", onPress: () => deleteItem(item) }
+        ],
+        { cancelable: false }
+    );
     const getUserToken = async () => {
         let userToken;
         try {
@@ -218,9 +235,12 @@ function CodiMyListScreen({ navigation, route }) {
             setUploadedColor([res.data.R, res.data.G, res.data.B]);
             setUploadedItemPk(res.data.pk);
             setModalColorVisible(true);
+            setIndicatorVisible(false);
         })
-        .catch(err => console.error(err))
-        setIndicatorVisible(false);
+        .catch(err => {
+            console.error(err)
+            setIndicatorVisible(false);
+        })
     }
 
     const patchItemColor = async () => {
@@ -239,7 +259,8 @@ function CodiMyListScreen({ navigation, route }) {
         axios.put(ServerUrl.url + `wear/userclothes/${uploadedItemPk}`, data, requestHeaders)
         .then(res => {
             setModalColorVisible(false);
-            openItemModal();
+            refreshItems();
+            setModalItemCategoryVisible(true);
         })
         .catch(err => console.error(err))
     }
@@ -260,6 +281,7 @@ function CodiMyListScreen({ navigation, route }) {
             }
             try {
                 const heartResponse = await axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
+                console.log(heartResponse)
                 setLikeCodis(heartResponse.data);
                 setMyOrLikeVisible(true);
                 setShowData(heartResponse.data);
@@ -336,11 +358,80 @@ function CodiMyListScreen({ navigation, route }) {
         .catch(err => console.error(err))
     }
 
+    const refreshItems = async () => {
+        let userToken = await getUserToken();
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`
+            }
+        }
+        axios.get(ServerUrl.url + 'wear/mylist/', requestHeaders)
+        .then(res => {
+            const itemData = {
+                tops: [], pants: [], outers: [], shoes: [], hats: [], bags: [], watches: [], accs: []
+            }
+            Object.entries(res.data).map(entry => {
+                switch (entry[0]) {
+                    case "1":
+                        itemData.hats = entry[1].slice();
+                        break;
+                    case "2":
+                        itemData.tops = entry[1].slice();
+                        break;
+                    case "3":
+                        itemData.outers = entry[1].slice();
+                        break;
+                    case "4":
+                        itemData.accs = entry[1].slice();
+                        break;
+                    case "5":
+                        itemData.pants = entry[1].slice();
+                        break;
+                    case "6":
+                        itemData.bags = entry[1].slice();
+                        break;
+                    case "7":
+                        itemData.watches = entry[1].slice();
+                        break;
+                    case "8":
+                        itemData.shoes = entry[1].slice();
+                        break;
+                }
+            })
+            setUserItems(itemData);
+            switch (uploadCategory) {
+                case CategoryEngText.top:
+                    setModalItems(itemData.tops)
+                    break;
+                case CategoryEngText.pants:
+                    setModalItems(itemData.pants)
+                    break;
+                case CategoryEngText.shoes:
+                    setModalItems(itemData.shoes)
+                    break;
+                case CategoryEngText.outer:
+                    setModalItems(itemData.outers)
+                    break;
+                case CategoryEngText.hat:
+                    setModalItems(itemData.hats)
+                    break;
+                case CategoryEngText.bag:
+                    setModalItems(itemData.bags)
+                    break;
+                case CategoryEngText.watch:
+                    setModalItems(itemData.watches)
+                    break;
+                case CategoryEngText.accessory:
+                    setModalItems(itemData.accs)
+                    break;
+            }
+        })
+        .catch(err => console.error(err))
+    }
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 4],
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
           quality: 1,
         });
         if (!result.cancelled) {
@@ -414,9 +505,8 @@ function CodiMyListScreen({ navigation, route }) {
         }
         axios.delete(ServerUrl.url + `wear/userclothes/${item.id}`, requestHeaders)
         .then(res => {
-            setModalItems(null);
-            setModalItemCategoryVisible(false);
-            openItemModal();
+            refreshItems();
+            setModalItemCategoryVisible(true);
         })
         .catch(err => console.error(err))
 
@@ -451,7 +541,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 return (
                                     <TouchableWithoutFeedback
                                         key={item.id}
-                                        onPress={() => deleteItem(item)}>
+                                        onPress={() => createTwoButtonAlert(item)}>
                                         <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
                                     </TouchableWithoutFeedback>
                                 );
@@ -566,6 +656,7 @@ function CodiMyListScreen({ navigation, route }) {
                     <TouchableHighlight
                         style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
                         onPress={() => {
+                            setDetailCategoryError(null);
                             setDetailCategory(null);
                             setModalCategoryVisible(false);
                         }}
@@ -624,11 +715,17 @@ function CodiMyListScreen({ navigation, route }) {
                                 })}
                             </ScrollView> */}
                         </Container>
+                        {detailCategoryError && <ErrorMsg>{ detailCategoryError }</ErrorMsg>}
                         <TouchableHighlight
                             style={{ ...styles.recButton, backgroundColor: '#0d3754' }}
                             onPress={() => {
-                                setModalCategoryVisible(false);
-                                setModalImageVisible(true);
+                                if (detailCategory === undefined || detailCategory === null) {
+                                    return setDetailCategoryError('카테고리를 선택해주세요.')
+                                } else {
+                                    setDetailCategoryError(null);
+                                    setModalCategoryVisible(false);
+                                    setModalImageVisible(true);
+                                }
                             }}
                         >
                             <Text style={styles.textStyle}>등록</Text>
@@ -912,7 +1009,7 @@ function CodiMyListScreen({ navigation, route }) {
                 <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center'}}>
                     <TouchableHighlight
                         onPress={() => {
-                            navigation.navigate('PersonalColor', {color: UserData?.color})
+                            navigation.navigate('Personal', {color: UserData?.color})
                         }}
                         underlayColor="none"
                         style={{marginRight: 10}}

@@ -194,7 +194,6 @@ function SignupScreen({ navigation, route }) {
                     </View>
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
                         {accountError && <ErrorMsg style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)', marginLeft: 20}}>{ accountError }</ErrorMsg>}
-                        {accountPass && <PassMsg style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)', marginLeft: 20}}>{ accountPass }</PassMsg>}
                     </View>
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
                         <TextInput
