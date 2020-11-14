@@ -5,7 +5,7 @@ function MainSelectText(props) {
     return (
         <Button
         value={props.value}
-        style={{borderWidth: 1, borderColor: '#0d3754', width: 200, marginBottom: 15}}
+        style={{borderWidth: 1, borderColor: '#c9a502', width: 200, marginBottom: 15, backgroundColor: 'white'}}
         labelStyle={{fontSize:20, fontWeight: 'bold', color: '#0d3754'}}
         onPress={props.onPress}
         theme={{colors: {primary: 'rgba(0, 0, 0, 0)'}}}

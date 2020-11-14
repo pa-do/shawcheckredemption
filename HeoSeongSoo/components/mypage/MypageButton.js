@@ -7,14 +7,14 @@ function MypageButton(props) {
         <TouchableHighlight
         value={props.value}
         underlayColor= 'none'
-        style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center', width: 40, height: 40, margin: '2%'}}
+        style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center', width: 35, height: 35, margin: '2%'}}
         onPress={props.onPress} 
         >   
             {/* value가 closet일 경우 */}
             {props.value === 'closet' ? (
                 <>  
                     <Image
-                        style={{width: '100%', height: '100%', resizeMode: 'center'}}
+                        style={{width: '95%', height: '95%', resizeMode: 'center'}}
                         source={require('../../assets/items/closet.png')}
                     />
                 </>
@@ -22,7 +22,7 @@ function MypageButton(props) {
                 (
                 <>  
                     <Image
-                        style={{width: '100%', height: '100%', resizeMode: 'center'}}
+                        style={{width: '95%', height: '95%', resizeMode: 'center'}}
                         source={require('../../assets/items/coordiPlus.png')}
                     />
                 </>

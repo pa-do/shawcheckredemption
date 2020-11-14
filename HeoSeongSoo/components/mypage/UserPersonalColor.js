@@ -1,12 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components/native';
+import { Text } from 'react-native';
 
 
-const Label = styled.Text`
-    font-size: 13px;
-    color: #404040;
-`;
 
 function UserPersonalColor(props) {
 
@@ -17,33 +14,32 @@ function UserPersonalColor(props) {
     {props.children === 'winter' ? bgColor = '#c4c4c4' : null}
 
     return (
-        <View style={{flexDirection:'row', 
-        padding: 3, 
+        <View style={{flexDirection:'row',  
         flexWrap:'wrap', 
-        marginVertical:10, 
-        width: 80, 
         justifyContent: 'center', 
         alignItems: 'center',
         backgroundColor: bgColor,
         borderRadius:20}}>
             {props.children === 'spring' ? (
                 <>  
-                    <Label>봄웜톤 🌱</Label>
+
+                    <Text style={{ padding:5}}>🌱</Text>
+
                 </>
                 ) : null}
             {props.children === 'summer' ? (
                 <>  
-                    <Label>여름쿨톤 ☀️</Label>
+                    <Text style={{ padding:5}}>☀️</Text>
                 </>
                 ) : null}
             {props.children === 'fall' ? (
                 <>  
-                    <Label>가을웜톤 🍁</Label>
+                    <Text style={{ padding:5}}>🍁</Text>
                 </>
                 ) : null}
             {props.children === 'winter' ? (
                 <>  
-                    <Label>겨울쿨톤 ❄️</Label>
+                    <Text style={{ padding:5}}>❄️</Text>
                 </>
                 ) : null}
 
