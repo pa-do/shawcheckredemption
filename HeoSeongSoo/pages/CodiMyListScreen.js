@@ -34,6 +34,7 @@ const CodiItemImg = styled.Image`
     height: undefined;
     aspectRatio: 1;
     resize-mode: center;
+    background-color: white;
 `;
 
 const TopContainer = styled.SafeAreaView`
@@ -532,7 +533,7 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
         return (
-            <ScrollView style={{width: Dimensions.get('window').width * 0.7}} showsHorizontalScrollIndicator={false}>
+            <ScrollView style={{width: Dimensions.get('window').width * 0.7, backgroundColor: 'rgb(242, 242, 242)'}} showsHorizontalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
                     return (
                         <GridRowContainer 
