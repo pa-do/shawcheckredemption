@@ -118,6 +118,15 @@ const gridStyles = StyleSheet.create({
     padding: 10,
     alignContent: 'center',
   },
+  col2: {
+    backgroundColor: 'white',
+    width: '33%',
+    height: undefined,
+    aspectRatio: 1 / 1,
+    marginHorizontal: 1,
+    padding: 10,
+    alignContent: 'center',
+  },
   row: {
     width: '100%',
   }
