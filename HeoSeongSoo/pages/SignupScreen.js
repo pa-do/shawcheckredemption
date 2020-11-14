@@ -277,7 +277,7 @@ function SignupScreen({ navigation, route }) {
                                     style={{marginBottom: 12}}
                                     animating={true}
                                     transparent={true}
-                                    color={Colors.red800}
+                                    color={'#c9a502'}
                                     size={'large'}
                                 />
                                 <Text>퍼스널 컬러를 분석중입니다</Text>

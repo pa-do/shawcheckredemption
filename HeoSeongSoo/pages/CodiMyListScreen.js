@@ -643,7 +643,7 @@ function CodiMyListScreen({ navigation, route }) {
                             style={{marginBottom: 12}}
                             animating={true}
                             transparent={true}
-                            color={Colors.red800}
+                            color={'#c9a502'}
                             size={'large'}
                         />
                         <Text>처리 중입니다</Text>
@@ -663,6 +663,7 @@ function CodiMyListScreen({ navigation, route }) {
                         onPress={() => {
                             setDetailCategoryError(null);
                             setDetailCategory(null);
+                            setModalItemCategoryVisible(true);
                             setModalCategoryVisible(false);
                         }}>
                             <AntDesign name="closecircleo" size={24} color="black" />
@@ -790,9 +791,9 @@ function CodiMyListScreen({ navigation, route }) {
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
-                                navigation.navigate('Camera', { backScreen: 'My Page' });
                                 setModalItemCategoryVisible(false);
                                 setModalImageVisible(false);
+                                navigation.navigate('Camera', { backScreen: 'My Page' });
                             }}
                         >
                             <Text style={styles.textStyle}>카메라</Text>
@@ -800,9 +801,9 @@ function CodiMyListScreen({ navigation, route }) {
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
-                                pickImage();
                                 setModalItemCategoryVisible(false);
                                 setModalImageVisible(false);
+                                pickImage();
                             }}
                         >
                             <Text style={styles.textStyle}>갤러리에서 가져오기</Text>
@@ -811,6 +812,7 @@ function CodiMyListScreen({ navigation, route }) {
                             style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
                                 setModalImageVisible(false);
+                                setModalItemCategoryVisible(true);
                                 setDetailCategory(null);
                             }}
                         >
@@ -975,9 +977,12 @@ function CodiMyListScreen({ navigation, route }) {
                                     style={{position: 'absolute', top: 25, left: Dimensions.get('window').width * 0.5 - 45, marginBottom: 15, margirnHorizontal: 0, paddingHorizontal: 0}}
                                     onPress={() => {
                                         if (uploadCategory === CategoryEngText.watch){
+                                            setModalCategoryVisible(false);
+                                            setModalItemCategoryVisible(false);
                                             setModalImageVisible(true);
                                         } else {
                                             setDetailCategory(null);
+                                            setModalItemCategoryVisible(false);
                                             setModalCategoryVisible(true);
                                         }
                                     }}
