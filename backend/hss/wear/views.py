@@ -386,6 +386,16 @@ def recommand(request):
     from wear import coordiset
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
+    # 기존 추천 이미지 삭제
+    remains = UserCoordi.objects.filter(c_code=0, user=user).values()
+    for i in remains:
+        rchk = LikeCoordi.objects.filter(coordi_num_id = i['id'])
+        if rchk.exists():
+            continue
+        remain = UserCoordi.objects.get(id=i['id'])
+        remainS = CoordiListSerializer(remain)
+        os.remove("./media/"+str(remainS.data['img']))
+        remain.delete()
     who = request.data['who']
     where = request.data['where']
     now = datetime.datetime.now()

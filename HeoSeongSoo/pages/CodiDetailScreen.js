@@ -208,6 +208,8 @@ function CodiDetailScreen({ navigation, route }) {
                             }}>
                                 <ItemContainer>
                                     <Text style={{fontWeight: 'bold'}}>{item.style}</Text>
+                                    {/* https://k3d205.p.ssafy.io/media/top/20.png */}
+                                    {/* 피드끝까지내려갔을때 마진 */}
                                     <Text>{item.brand}</Text>
                                     <Text>{item.item}</Text>
                                     <Text>{item.price} 원</Text>

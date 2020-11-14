@@ -222,7 +222,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
     }
 
     return (
-        <ScrollView>
+        <View style={{margin: 15, borderColor: '#c9a502', borderWidth: 1, borderRadius: 20}}>
                 {/* 액티비티 인디케이터 모달 */}
                 <Modal
                     transparent={true}
@@ -261,14 +261,12 @@ function ImgUploadForRecScreen({ navigation, route }) {
                         </View>
                     </View>
                 </Modal>
-            <View style={styles.centeredView}>
-            
-            </View>
-            <Text style={{color: 'black', textAlign: 'center', paddingVertical: 15, marginBottom: 22}}>
+
+            <Text style={{color: 'black', textAlign: 'center', paddingVertical: 10, marginVertical: 20}}>
                 착용할 의류를 옷장에서 가져오세요! {"\n"}
                 (착용할 의류가 없으면 그냥 '추천받기'를 눌러요!)
             </Text>
-            <View style={{height: Dimensions.get('window').height}}>
+            <View>
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
@@ -285,7 +283,6 @@ function ImgUploadForRecScreen({ navigation, route }) {
                             style={formStyles.uploadedItem}
                             source={require('../assets/items/headwear.png')}
                         />
-                        // <Text style={styles.uploadboxText}>{ CategoryText.hat }</Text>
                     }
                 </TouchableHighlight>
 
@@ -306,7 +303,6 @@ function ImgUploadForRecScreen({ navigation, route }) {
                             style={formStyles.uploadedItem}
                             source={require('../assets/items/top.png')}
                         />
-                        // <Text style={styles.uploadboxText}>{ CategoryText.top }</Text>
                     }
                 </TouchableHighlight>
 
@@ -325,7 +321,6 @@ function ImgUploadForRecScreen({ navigation, route }) {
                             style={formStyles.uploadedItem}
                             source={require('../assets/items/outer.png')}
                         />
-                        // <Text style={styles.uploadboxText}>{ CategoryText.outer }</Text>
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -346,7 +341,6 @@ function ImgUploadForRecScreen({ navigation, route }) {
                             style={formStyles.uploadedItem}
                             source={require('../assets/items/accessory.png')}
                         />
-                        // <Text style={styles.uploadboxText}>{ CategoryText.accessory }</Text>
                     }
                 </TouchableHighlight>
 
@@ -365,7 +359,6 @@ function ImgUploadForRecScreen({ navigation, route }) {
                             style={formStyles.uploadedItem}
                             source={require('../assets/items/pants.png')}
                         />
-                        // <Text style={styles.uploadboxText}>{ CategoryText.pants }</Text>
                     }
                 </TouchableHighlight>
 
@@ -384,7 +377,6 @@ function ImgUploadForRecScreen({ navigation, route }) {
                             style={formStyles.uploadedItem}
                             source={require('../assets/items/bag.png')}
                         />
-                        // <Text style={styles.uploadboxText}>{ CategoryText.bag }</Text>
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -405,7 +397,6 @@ function ImgUploadForRecScreen({ navigation, route }) {
                             style={formStyles.uploadedItem}
                             source={require('../assets/items/watch.png')}
                         />
-                        // <Text style={styles.uploadboxText}>{ CategoryText.watch }</Text>
                     }
                 </TouchableHighlight>
 
@@ -424,24 +415,26 @@ function ImgUploadForRecScreen({ navigation, route }) {
                             style={formStyles.uploadedItem}
                             source={require('../assets/items/shoes.png')}
                         />
-                        // <Text style={styles.uploadboxText}>{ CategoryText.shoes }</Text>
                     }
                 </TouchableHighlight>
             
                 <View style={formStyles.uploadBox}/>
             </RowContainer>
-
-            <TouchableHighlight
-                style={styles.recButton}
-                onPress={() => {
-                    setIndicatorVisible(true);
-                    recommendationRequest();
-                }}
-            >
-                <Text style={styles.textStyle}>추천받기</Text>
-            </TouchableHighlight>
+            
+            <View style={{marginVertical: 20}}>
+                <TouchableHighlight
+                    style={styles.recButton}
+                    onPress={() => {
+                        setIndicatorVisible(true);
+                        recommendationRequest();
+                    }}
+                >
+                    <Text style={styles.textStyle}>추천받기</Text>
+                </TouchableHighlight>
+            </View>
+            
         </View>
-        </ScrollView>
+        </View>
     )
 }
 

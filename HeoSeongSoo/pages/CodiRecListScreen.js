@@ -32,11 +32,6 @@ const CodiItemImg = styled.Image`
 
 `;
 
-const TextContainer = styled.View`
-    margin: 5px;
-    justify-content: space-between;
-`;
-
 const HeartContainer = styled.View`
     flex-direction: row;
     margin-horizontal: 5px;

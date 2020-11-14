@@ -328,6 +328,7 @@ function SignupScreen({ navigation, route }) {
                         <TextInput
                             label="닉네임"
                             value={textNickname}
+                            secureTextEntry={false}
                             onChangeText={text => setTextNickname(text)}
                             style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)'}}
                             theme={{colors: {primary: '#0d3754'}}}
