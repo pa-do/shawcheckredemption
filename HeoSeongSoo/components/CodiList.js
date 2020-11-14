@@ -13,6 +13,8 @@ const CodiItemCard = styled.View`
     margin: 15px 10px;
     padding: 10px;
     background-color: white;
+    border-color: #c9a502;
+    border-width: 1;
 `;
 
 // 이미지를 감싸는 뷰

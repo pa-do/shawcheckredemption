@@ -493,6 +493,36 @@ function CodiMyListScreen({ navigation, route }) {
 
     return (
         <TopContainer>
+            <View 
+            style={{
+                flexDirection:'row', 
+                flexWrap:'wrap', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                backgroundColor: 'white', 
+                borderBottomColor: '#c9a502', 
+                borderBottomWidth: 1,
+                borderTopColor: '#c9a502', 
+                borderTopWidth: 1
+                }}>
+                <MypageButton
+                    value="closet"
+                    onPress={() => {
+                        // UserItems 데이터를 수신합니다.
+                        openItemModal();
+                    }}
+                ></MypageButton>
+                <Image
+                    style={{width: '70%',resizeMode: 'center'}}
+                    source={require('../assets/font_logo.png')}
+                />
+                <MypageButton
+                    value="coordi"
+                    onPress={() => {
+                        navigation.navigate('Form');
+                    }}
+                ></MypageButton>
+            </View>
             {/* 액티비티 인디케이터 모달 */}
             <Modal
                 transparent={true}
@@ -824,27 +854,8 @@ function CodiMyListScreen({ navigation, route }) {
                 </View>
             </Modal>
             <ScrollView>
-            <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white'}}>
-                <MypageButton
-                    value="closet"
-                    onPress={() => {
-                        // UserItems 데이터를 수신합니다.
-                        openItemModal();
-                    }}
-                ></MypageButton>
-                <Image
-                    style={{width: '70%',resizeMode: 'center'}}
-                    source={require('../assets/font_logo.png')}
-                />
-                <MypageButton
-                    value="coordi"
-                    onPress={() => {
-                        navigation.navigate('Form');
-                    }}
-                ></MypageButton>
-            </View>
             
-            <View style={{alignItems: 'center', paddingVertical: 15, backgroundColor: 'white', borderTopColor: '#c9a502', borderBottomColor: '#c9a502', borderTopWidth: 1, borderBottomWidth: 1}}>
+            <View style={{alignItems: 'center', paddingVertical: 15, backgroundColor: 'white', borderBottomColor: '#c9a502', borderBottomWidth: 1}}>
                 <TouchableHighlight
                     onPress={() => {
                         pickUserImage();
