@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SplashScreen from 'expo-splash-screen';
 import HomeScreen from './pages/HomeScreen';
 import CodiAllListScreen from './pages/CodiAllListScreen';
 import CodiDetailScreen from './pages/CodiDetailScreen';
@@ -153,6 +154,11 @@ function App() {
   React.useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
+      try {
+        await SplashScreen.preventAutoHideAsync();
+      } catch (e) {
+        console.warn(e);
+      }
       let userToken;
 
       try {
@@ -168,6 +174,9 @@ function App() {
     };
 
     bootstrapAsync();
+    setTimeout(() => {
+      SplashScreen.hideAsync();
+    }, 1000);
   }, []);
 
   const authContext = React.useMemo(
@@ -200,7 +209,6 @@ function App() {
           (
             <>
               <Stack.Screen name="TabScreen" component={TabScreen} options={{headerShown: false}}/>
-              <Stack.Screen options={{headerShown: false}} name="PersonalColor" component={PersonalColorScreen} />
               <Stack.Screen options={{headerShown: false}} name="Camera" component={CameraScreen} />
               <Stack.Screen options={{headerShown: false}} name="WebView" component={WebViewScreen} />
             </>

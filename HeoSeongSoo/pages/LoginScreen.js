@@ -64,7 +64,11 @@ function LoginScreen({ navigation }) {
                         }
                         axios.post(ServerUrl.url + 'rest-auth/login/', loginData)
                         .then(res => {
-                            signIn(res.data.token);
+                            if (res.data.user.color === "") {
+                                navigation.navigate('Sign up', {nickname: res.data.user.username, userToken: res.data.token});
+                            } else {
+                                signIn(res.data.token);
+                            }
                         })
                         .catch(err => {
                             console.error(err.response.data)

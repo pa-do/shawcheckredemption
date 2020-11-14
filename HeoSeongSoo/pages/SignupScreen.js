@@ -5,7 +5,6 @@ import styled from 'styled-components/native';
 import { StackActions } from '@react-navigation/native';
 import { TextInput, Button, ActivityIndicator, Colors } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
-import AuthContext from '../components/AuthContext';
 import axios from 'axios';
 import { ServerUrl } from '../components/TextComponent';
 import { styles } from '../components/StyleSheetComponent';
@@ -43,8 +42,6 @@ function SignupScreen({ navigation, route }) {
     const [imageError, setimageError] = React.useState(null);
     const [passwordError, setPasswordError] = React.useState(null);
 
-    const { signUp } = React.useContext(AuthContext);
-
     React.useEffect(() => {
         const imageUri = route.params?.image?.uri
         setUserImage(imageUri);
@@ -67,7 +64,12 @@ function SignupScreen({ navigation, route }) {
         .then(res => {
             // empty
         })
-        .catch(err => console.error(err))
+        .catch(err => {
+            console.error(err)
+            if (err.response.data.nickname[0] === "이 필드의 글자 수가 20 이하인지 확인하십시오."){
+                setNicknameError('닉네임은 20글자 이하로 입력해주세요.')
+            }
+        })
     }
 
     const getUserPersonalColor = () => {
@@ -112,7 +114,7 @@ function SignupScreen({ navigation, route }) {
                         break;
                 }
                 navigation.dispatch(
-                    StackActions.replace("PersonalColor", {color: color})
+                    StackActions.replace("PersonalColor", {color: color, userToken: userToken})
                 );
             }
             setIndicatorVisible(false);
@@ -361,10 +363,10 @@ function SignupScreen({ navigation, route }) {
                         <Button
                             mode="outlined"
                             onPress={() => {
-                                if (textNickname.length === 0) {
-                                    setNicknameError('닉네임을 입력해주세요.')
-                                } else if (userImage === null) {
-                                    setimageError('이미지를 등록해주세요. 이미지는 저장되지 않습니다.')
+                                if (textNickname.length < 3) {
+                                    return setNicknameError('닉네임을 3글자 이상 입력해주세요.')
+                                } else if (userImage === undefined || userImage === null) {
+                                    return setimageError('이미지를 등록해주세요. 이미지는 저장되지 않습니다.')
                                 } else {
                                     patchUserNickname();
                                     getUserPersonalColor();
