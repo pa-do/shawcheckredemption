@@ -176,7 +176,7 @@ function CodiDetailScreen({ navigation, route }) {
             {itemDataList.length ? 
             <ScrollView style={{marginHorizontal: 20, marginBottom: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1}}>
                 {itemDataList.map(item => {
-                    console.log(itemDataList)
+                    console.log(route.params.item.data)
                     if (Object.keys(item).length !== 0) {
                         return (
                             <>
