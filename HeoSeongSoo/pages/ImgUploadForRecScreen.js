@@ -239,7 +239,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                                 color={Colors.red800}
                                 size={'large'}
                             />
-                            <Text style={{fontSize: 10}}>{namedText[randomIndex]}</Text>
+                            <Text>{namedText[randomIndex]}</Text>
                         </View>
                     </View>
                 </Modal>
