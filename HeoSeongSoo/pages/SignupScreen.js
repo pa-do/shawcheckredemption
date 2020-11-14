@@ -9,6 +9,9 @@ import axios from 'axios';
 import { ServerUrl } from '../components/TextComponent';
 import { styles } from '../components/StyleSheetComponent';
 import BackButton from '../components/buttons/BackButton';
+import { AntDesign } from '@expo/vector-icons';
+import { Dimensions } from 'react-native';
+
 
 const Container = styled.SafeAreaView`
     flex: 1;
@@ -238,17 +241,13 @@ function SignupScreen({ navigation, route }) {
                                         password1: textPassword,
                                         password2: textPasswordConfrim
                                     }
-                                    console.log(signupData);
-                                    console.log(ServerUrl.url + 'rest-auth/registration/');
                                     // 회원가입 로직 -> 닉네임, 아이디 중복 확인 처리
                                     axios.post(ServerUrl.url + 'rest-auth/registration/', signupData)
                                     .then(res => {
-                                        console.log(res)
                                         setTextNickname(textAccount);
                                         setUserToken(res.data.token);
                                     })
                                     .catch(err => {
-                                        console.log(err)
                                         if (err.response.data?.username) {
                                             setAccountError(err.response.data?.username[0])
                                         } else if (err.response.data?.password1) {
@@ -291,9 +290,19 @@ function SignupScreen({ navigation, route }) {
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.textStyle, {color: 'black'}}>*얼굴의 정면이 완전히 나온 사진을 올려주세요</Text>
+
                                 <TouchableHighlight
-                                    style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                                    style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
+                                    underlayColor="none"
+                                    onPress={() => {
+                                        setModalImageVisible(!modalImageVisible);
+                                    }}>
+                                        <AntDesign name="closecircleo" size={24} color="black" />
+                                </TouchableHighlight>
+
+                                <Text style={styles.textStyle, {color: 'black', marginBottom: 7}}>*얼굴의 정면이 완전히 나온 사진을 올려주세요</Text>
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton }}
                                     onPress={() => {
                                         navigation.navigate('Camera', {backScreen: 'Sign up'});
                                         setModalImageVisible(!modalImageVisible);
@@ -302,21 +311,13 @@ function SignupScreen({ navigation, route }) {
                                     <Text style={styles.textStyle}>카메라</Text>
                                 </TouchableHighlight>
                                 <TouchableHighlight
-                                    style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                                    style={{ ...styles.openButton }}
                                     onPress={() => {
                                         pickImage();
                                         setModalImageVisible(!modalImageVisible);
                                     }}
                                 >
                                     <Text style={styles.textStyle}>갤러리에서 가져오기</Text>
-                                </TouchableHighlight>
-                                <TouchableHighlight
-                                    style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                                    onPress={() => {
-                                        setModalImageVisible(!modalImageVisible);
-                                    }}
-                                >
-                                    <Text style={styles.textStyle}>닫기</Text>
                                 </TouchableHighlight>
                             </View>
                         </View>
