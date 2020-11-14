@@ -131,7 +131,7 @@ function CodiDetailScreen({ navigation, route }) {
     let nullCount = 0
     return (
         <>
-            <View style={{borderRadius: 20, height:300, margin:20, padding:10, backgroundColor: 'white'}}>
+            <View style={{borderRadius: 20, height:300, margin:20, padding:10, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1}}>
                 <CodiItemImg
                     source={{uri: ServerUrl.mediaUrl + codiSetDetail.img}}
                 />
@@ -155,21 +155,20 @@ function CodiDetailScreen({ navigation, route }) {
                     </TouchableHighlight>
                 </HeartContainer>
             </View>
+            <View style={{marginHorizontal: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1, minHeight: 100}}>
+                {userData?.username === codiSetDetail.user.username ? 
+                    <TouchableHighlight onPress={deleteCodi} style={{marginBottom: 10}}>
+                        <AntDesign name="delete" size={30} color="#0d3754" />
+                    </TouchableHighlight>
+                :
+                    null
+                }
+                <ContentText>
+                    {codiSetDetail.content}
+                </ContentText>
+            </View>
             
-            
-            {userData?.username === codiSetDetail.user.username ? 
-                <TouchableWithoutFeedback onPress={deleteCodi}
-                style={{justifyContent: 'flex-start', alignItems: 'center'}}>
-                    <AntDesign name="delete" size={40} color="#dbb91f" />
-                </TouchableWithoutFeedback>
-            :
-                null
-            }
-    
-            <ContentText>
-                {codiSetDetail.content}
-            </ContentText>
-            <ScrollView>
+            <ScrollView style={{margin: 20}}>
                 {itemDataList.map(item => {
                     console.log(item)
                     if (Object.keys(item).length !== 0) {

@@ -1,5 +1,5 @@
 import React from  'react';
-import { Text, View, FlatList, RefreshControl } from 'react-native';
+import { Text, Image, View, FlatList, RefreshControl } from 'react-native';
 import Constants from 'expo-constants';
 import styled from 'styled-components/native';
 import axios from 'axios';
@@ -66,6 +66,23 @@ function CodiAllListScreen({ navigation }) {
 
     return (
         <TopContainer>
+            <View
+            style={{
+                flexDirection:'row', 
+                flexWrap:'wrap', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                backgroundColor: 'white', 
+                borderBottomColor: '#c9a502', 
+                borderBottomWidth: 1,
+                borderTopColor: '#c9a502', 
+                borderTopWidth: 1
+                }}>
+                <Image
+                    style={{width: '70%',resizeMode: 'center'}}
+                    source={require('../assets/font_logo.png')}
+                />
+            </View>
             <FlatList
                 keyExtractor={item => item.img.toString()}
                 data={allCodiList}
