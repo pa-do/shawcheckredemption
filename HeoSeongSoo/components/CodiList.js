@@ -6,6 +6,8 @@ import axios from 'axios'
 import { ServerUrl } from '../components/TextComponent';
 import { AntDesign } from '@expo/vector-icons'; 
 
+import * as Animatable from 'react-native-animatable';
+
 // 전체 코디리스트의 개별 아이템입니다.
 
 // 카드의 전체 레이아웃
@@ -55,6 +57,8 @@ const ContentText = styled.Text`
 function CodiList(props) {
     const [codiItem, setCodiItem] = React.useState(props.item);
     const [itemLike, setLikeItem] = React.useState({liked: props.item.liked ? true : false, likes: props.item.like_count})
+    const AnimationRef = React.useRef();
+
     async function changeHeart() {
         // axios 요청으로 하트 변경사항 저장
         // codiItem.id와 itemLike 전송
@@ -84,6 +88,9 @@ function CodiList(props) {
                     likes: itemLike.likes + 1
                 })
             }
+            if(AnimationRef) {
+                AnimationRef.current?.rubberBand();
+                }
         })
         .catch(err => console.error(err))
     }
@@ -104,14 +111,17 @@ function CodiList(props) {
                 >
                     <HeartContainer style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center'}}>
                         <Text style={{fontSize: 17}}>{ itemLike.likes }</Text>
+                        <Animatable.View ref={AnimationRef}>
                         {itemLike.liked ? 
-                        <Image
-                            style={{width: 40, height: 40, resizeMode: 'center'}}
-                            source={require('../assets/buttono.png')}/> 
-                        : 
-                        <Image
-                            style={{width: 40, height: 40, resizeMode: 'center'}}
-                            source={require('../assets/button.png')}/> }
+                            <Image
+                                style={{width: 40, height: 40, resizeMode: 'center'}}
+                                source={require('../assets/buttono.png')}/> 
+                            : 
+                            <Image
+                                style={{width: 40, height: 40, resizeMode: 'center'}}
+                                source={require('../assets/button.png')}/>}
+                        </Animatable.View>
+
                     </HeartContainer>
                 </TouchableHighlight>
             </CodiListItem>
@@ -121,7 +131,6 @@ function CodiList(props) {
                     <Text>({ codiItem.color } { codiItem.style })  </Text>
                     <Text>{ codiItem.content }</Text>
                 </Text>
-                
             </ContentContainer>
         </CodiItemCard>
     )
