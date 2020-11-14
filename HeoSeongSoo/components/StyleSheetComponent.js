@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
       openButton: {
 		    width: 250,
         height: 40,
-        backgroundColor: '#191970',
+        backgroundColor: '#0d3754',
         borderRadius: 20,
         padding: 10,
         elevation: 2,
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
           paddingVertical: 15,
           paddingHorizontal: 40,
           elevation: 2,
+          marginTop: 22,
           marginBottom: 10,
         },
       textStyle: {

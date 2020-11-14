@@ -10,6 +10,7 @@ import { styles, formStyles, gridStyles } from '../components/StyleSheetComponen
 import { CategoryEngText, CategoryText } from '../components/TextComponent';
 import { ServerUrl } from '../components/TextComponent';
 import RowContainer from '../components/RowContainer';
+import { AntDesign } from '@expo/vector-icons';
 
 const Container = styled.SafeAreaView`
     flex-direction: row;
@@ -64,8 +65,8 @@ const SlectStyleText = styled.Text`
 `;
 
 const GridRowContainer = styled.View`
-    flex: 1;
     flex-direction: row;
+    padding: 1px;
 `;
 
 const color_name = ['흰색', '라이트그레이', '회색', '다크 그레이', '검정색', '딥레드', '빨간색', 
@@ -93,7 +94,8 @@ const styleList = ['formal', 'casual', 'street', 'sporty', 'dandy']
 const CodiItemImg = styled.Image`
     margin: 3px;
     width: 31%;
-    height: 150px;
+    height: undefined;
+    aspectRatio:1 ;
     resize-mode: center;
 `;
 
@@ -268,7 +270,6 @@ function CodiFormScreen({ navigation }) {
 
         axios.post(ServerUrl.url + 'wear/coordi/', uploadData, requestHeaders)
         .then(res => {
-            console.log(res.data)
             navigation.dispatch(
                 StackActions.replace('My page')
             )
@@ -295,10 +296,10 @@ function CodiFormScreen({ navigation }) {
             }
         }
         return (
-            <ScrollView>
+            <ScrollView style={{width: Dimensions.get('window').width * 0.7}} showsVerticalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
                     return (
-                        <GridRowContainer key={index}>
+                        <GridRowContainer style={gridStyles.row} key={index}>
                             {tempItems.map(item => {
                                 return (
                                     <TouchableWithoutFeedback
@@ -388,13 +389,13 @@ function CodiFormScreen({ navigation }) {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: 'red' }}
+                            style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
+                            underlayColor="none"
                             onPress={() => {
                                 setModalItems(null);
                                 setModalItemCategoryVisible(false);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>닫기</Text>
+                            }}>
+                                <AntDesign name="closecircleo" size={24} color="black" />
                         </TouchableHighlight>
                         <ModalItemGrid/>
                     </View>
