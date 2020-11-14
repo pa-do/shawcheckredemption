@@ -573,7 +573,9 @@ function CodiMyListScreen({ navigation, route }) {
                         onPress={() => {
                             setDetailCategory(null);
                             setModalCategoryVisible(false);
-                        }}>
+                        }}
+                        underlayColor="none"
+                        >
                             <AntDesign name="closecircleo" size={24} color="black" />
                     </TouchableHighlight>
                         <Text>카테고리를 선택해주세요.</Text>
@@ -735,7 +737,9 @@ function CodiMyListScreen({ navigation, route }) {
                             onPress={() => {
                                 setModalItems(null);
                                 setModalItemCategoryVisible(false);
-                            }}>
+                            }}
+                            underlayColor="none"
+                            >
                                 <AntDesign name="closecircleo" size={24} color="black" />
                         </TouchableHighlight>
                     {modalItems === null ? (
@@ -871,6 +875,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     onPress={() => {
                                         setModalItems(null);
                                     }}
+                                    underlayColor="none"
                                 >
                                     <AntDesign name="leftcircleo" size={24} color="black" />
                                 </TouchableHighlight>
@@ -884,6 +889,7 @@ function CodiMyListScreen({ navigation, route }) {
                                             setModalCategoryVisible(true);
                                         }
                                     }}
+                                    underlayColor="none"
                                 >
                                         <MaterialIcons name="add-circle-outline" size={45} color="black" />
                                 </TouchableHighlight>
