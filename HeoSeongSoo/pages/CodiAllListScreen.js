@@ -115,7 +115,7 @@ function CodiAllListScreen({ navigation, route }) {
                 backgroundColor: 'white', 
                 borderBottomColor: '#c9a502', 
                 borderTopColor: '#c9a502', 
-                borderWidth: 1
+                borderWidth: 1,
                 }}>
                 <Image
                     style={{width: '70%',resizeMode: 'center'}}
@@ -135,6 +135,7 @@ function CodiAllListScreen({ navigation, route }) {
                                     tintColor='#ff0000'
                                 />}
             />
+            {/* <View style={{height: 100, backgroundColor: 'red'}}><Text>yee</Text></View> */}
         </TopContainer>
     )
 }
