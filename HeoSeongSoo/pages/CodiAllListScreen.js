@@ -138,7 +138,6 @@ function CodiAllListScreen({ navigation, route }) {
                     style={{paddingBottom: 200, marginBottom: 100}}
                 />
             </View>
-            {/* <View style={{height: 100, backgroundColor: 'red'}}><Text>yee</Text></View> */}
         </TopContainer>
     )
 }
