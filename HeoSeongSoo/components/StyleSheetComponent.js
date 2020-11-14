@@ -103,7 +103,8 @@ const personalStyles = StyleSheet.create({
   },
   imageStyles: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('screen').height + 300
+    height: Dimensions.get('screen').height + 300,
+    resizeMode: 'stretch'
   }
 })
 

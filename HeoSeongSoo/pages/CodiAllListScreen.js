@@ -1,5 +1,5 @@
 import React from  'react';
-import { Text, Image, View, FlatList, RefreshControl } from 'react-native';
+import { Text, Image, View, ScrollView, FlatList, RefreshControl } from 'react-native';
 import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
@@ -122,19 +122,22 @@ function CodiAllListScreen({ navigation, route }) {
                     source={require('../assets/font_logo.png')}
                 />
             </View>
-            <FlatList
-                keyExtractor={item => item?.img.toString()}
-                data={allCodiList}
-                renderItem={renderItem}
-                onEndReached={infiniteHandler}
-                showsVerticalScrollIndicator ={false}
-                refreshControl={<RefreshControl
-                                    refreshing={refreshing}
-                                    onRefresh={refreshHandler}
-                                    colors={['red', 'red', 'red']}
-                                    tintColor='#ff0000'
-                                />}
-            />
+            <View>
+                <FlatList
+                    keyExtractor={item => item?.img.toString()}
+                    data={allCodiList}
+                    renderItem={renderItem}
+                    onEndReached={infiniteHandler}
+                    showsVerticalScrollIndicator ={false}
+                    refreshControl={<RefreshControl
+                                        refreshing={refreshing}
+                                        onRefresh={refreshHandler}
+                                        colors={['red', 'red', 'red']}
+                                        tintColor='#ff0000'
+                                    />}
+                    style={{paddingBottom: 200, marginBottom: 100}}
+                />
+            </View>
             {/* <View style={{height: 100, backgroundColor: 'red'}}><Text>yee</Text></View> */}
         </TopContainer>
     )
