@@ -690,10 +690,19 @@ function CodiMyListScreen({ navigation, route }) {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.textStyle, {color: 'black'}}>* 옷과 구분되는 배경의 이미지를 올려주세요</Text>
-                        <Text style={styles.textStyle, {color: 'black'}}>* 주름지지 않고 펴진 옷이면 좋아요</Text>
                         <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                            style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
+                            underlayColor="none"
+                            onPress={() => {
+                                setModalImageVisible(false);
+                                setDetailCategory(null);
+                            }}>
+                                <AntDesign name="closecircleo" size={24} color="black" />
+                        </TouchableHighlight>
+                        <Text style={styles.textStyle, {color: 'black'}}>* 옷과 구분되는 배경의 이미지를 올려주세요</Text>
+                        <Text style={styles.textStyle, {color: 'black', marginBottom: 5}}>* 주름지지 않고 펴진 옷이면 좋아요</Text>
+                        <TouchableHighlight
+                            style={{ ...styles.openButton }}
                             onPress={() => {
                                 navigation.navigate('Camera', { backScreen: 'My Page' });
                                 setModalItemCategoryVisible(false);
@@ -703,7 +712,7 @@ function CodiMyListScreen({ navigation, route }) {
                             <Text style={styles.textStyle}>카메라</Text>
                         </TouchableHighlight>
                         <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                            style={{ ...styles.openButton }}
                             onPress={() => {
                                 pickImage();
                                 setModalItemCategoryVisible(false);
@@ -711,15 +720,6 @@ function CodiMyListScreen({ navigation, route }) {
                             }}
                         >
                             <Text style={styles.textStyle}>갤러리에서 가져오기</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
-                            onPress={() => {
-                                setModalImageVisible(false);
-                                setDetailCategory(null);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>닫기</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
