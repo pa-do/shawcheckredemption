@@ -685,7 +685,7 @@ function CodiMyListScreen({ navigation, route }) {
                 <View style={{ ...styles.centeredView }}>
                     <View style={{ ...styles.modalClosetView, alignItems: 'flex-end' }}>
                         <TouchableHighlight
-                            style={{width: 25, marginBottom: 15, marginRight: 0, paddingRight: 0}}
+                            style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
                             onPress={() => {
                                 setModalItems(null);
                                 setModalItemCategoryVisible(false);
@@ -821,7 +821,7 @@ function CodiMyListScreen({ navigation, route }) {
                         ) : (
                             <>
                                 <TouchableHighlight                             
-                                    style={{width: 25, position: 'absolute', top: 35, left: 35, marginBottom: 15, marginLeft:0, paddingLeft: 0}}
+                                    style={{position: 'absolute', top: 35, left: 35, marginBottom: 15, marginLeft:0, paddingLeft: 0}}
                                     onPress={() => {
                                         setModalItems(null);
                                     }}
@@ -829,8 +829,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     <AntDesign name="leftcircleo" size={24} color="black" />
                                 </TouchableHighlight>
                                 <TouchableHighlight
-                                     style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
-                                    // style={{position: 'absolute', top: 35, left: Dimensions.get('window').width * 0.5 - 50, marginBottom: 15,}}
+                                    style={{position: 'absolute', top: 25, left: Dimensions.get('window').width * 0.5 - 45, marginBottom: 15, margirnHorizontal: 0, paddingHorizontal: 0}}
                                     onPress={() => {
                                         if (uploadCategory === CategoryEngText.watch){
                                             setModalImageVisible(true);
@@ -840,7 +839,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         }
                                     }}
                                 >
-                                        <MaterialIcons name="add-circle-outline" size={24} color="black" />
+                                        <MaterialIcons name="add-circle-outline" size={45} color="black" />
                                 </TouchableHighlight>
                                 <ModalItemGrid/>
                             </>
