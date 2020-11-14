@@ -3,7 +3,7 @@ import { Text, Image, TouchableWithoutFeedback, ScrollView, StyleSheet, View, To
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
 import styled from 'styled-components/native';
-import { ServerUrl } from '../components/TextComponent';
+import { ServerUrl, CategoryText } from '../components/TextComponent';
 import { AntDesign } from '@expo/vector-icons'; 
 
 import * as Animatable from 'react-native-animatable';
@@ -33,6 +33,10 @@ const HeartText = styled.Text`
 const ItemContainer = styled.View`
     margin: 5px;
     flex-direction: column;
+    border-color: rgb(242, 242, 242);
+    border-width: 1px;
+    border-radius: 20px;
+    padding: 5px;
     
 `;
 
@@ -213,16 +217,15 @@ function CodiDetailScreen({ navigation, route }) {
                                             source={{uri: ServerUrl.mediaUrl + '/' + item.category + '/' + item.img}}
                                             // source={{uri: 'https://k3d205.p.ssafy.io/media/top/20.png'}}
                                         />
-                                        <View>
-                                            <Text style={{fontWeight: 'bold'}}>{item.style}</Text>
-                                            <Text>{item.brand}</Text>
-                                            <Text>{item.item}</Text>
-                                            <Text>{item.price} 원</Text>
+                                        <View style={{width: '70%'}}>
+                                            <Text style={{fontWeight: 'bold'}}>{CategoryText[item.category]}</Text>
+                                            <Text numberOfLines={1} ellipsizeMode='tail'>{item.brand}</Text>
+                                            <Text numberOfLines={1} ellipsizeMode='tail'>{item.item}</Text>
+                                            <Text numberOfLines={1} ellipsizeMode='tail'>{item.price} 원</Text>
                                         </View>
                                     </View>
                                 </ItemContainer>
                             </TouchableWithoutFeedback>
-                            <Seperator/>
                             </>
                         )
                     } else {

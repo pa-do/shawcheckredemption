@@ -296,7 +296,7 @@ function CodiFormScreen({ navigation }) {
             }
         }
         return (
-            <ScrollView style={{width: Dimensions.get('window').width * 0.7}} showsVerticalScrollIndicator={false}>
+            <ScrollView style={{width: Dimensions.get('window').width * 0.7, backgroundColor: 'rgb(242, 242, 242)'}} showsVerticalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
                     return (
                         <GridRowContainer style={gridStyles.row} key={index}>
@@ -308,7 +308,7 @@ function CodiFormScreen({ navigation }) {
                                             setImageUri(uploadCategory, item);
                                             setModalItemCategoryVisible(false);
                                         }}>
-                                        <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
+                                        <CodiItemImg style={{backgroundColor:'white'}} source={{uri: ServerUrl.mediaUrl + item.img}}/>
                                     </TouchableWithoutFeedback>
                                 );
                             })}

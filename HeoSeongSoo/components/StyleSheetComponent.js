@@ -103,13 +103,23 @@ const personalStyles = StyleSheet.create({
   },
   imageStyles: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('screen').height + 300
+    height: Dimensions.get('screen').height + 300,
+    resizeMode: 'stretch'
   }
 })
 
 const gridStyles = StyleSheet.create({
   col: {
     backgroundColor: '#DDDDDD',
+    width: '33%',
+    height: undefined,
+    aspectRatio: 1 / 1,
+    marginHorizontal: 1,
+    padding: 10,
+    alignContent: 'center',
+  },
+  col2: {
+    backgroundColor: 'white',
     width: '33%',
     height: undefined,
     aspectRatio: 1 / 1,

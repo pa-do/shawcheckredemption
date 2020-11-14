@@ -34,6 +34,7 @@ const CodiItemImg = styled.Image`
     height: undefined;
     aspectRatio: 1;
     resize-mode: center;
+    background-color: white;
 `;
 
 const TopContainer = styled.SafeAreaView`
@@ -531,7 +532,7 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
         return (
-            <ScrollView style={{width: Dimensions.get('window').width * 0.7}} showsHorizontalScrollIndicator={false}>
+            <ScrollView style={{width: Dimensions.get('window').width * 0.7, backgroundColor: 'rgb(242, 242, 242)'}} showsHorizontalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
                     return (
                         <GridRowContainer 
@@ -823,7 +824,7 @@ function CodiMyListScreen({ navigation, route }) {
                 transparent={true}
                 visible={modalItemCategoryVisible}
             >
-                <View style={{ ...styles.centeredView }}>                                                                                                                                  
+                <View style={{ ...styles.centeredView }}>                                                                                                                                
                     <View style={{ ...styles.modalClosetView, alignItems: 'flex-end' }}>
                         <TouchableHighlight
                             style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
@@ -836,15 +837,15 @@ function CodiMyListScreen({ navigation, route }) {
                                 <AntDesign name="closecircleo" size={24} color="black" />
                         </TouchableHighlight>
                     {modalItems === null ? (
-                        <>
-                        <GridRowContainer style={gridStyles.row}>
+                        <> 
+                        <GridRowContainer style={gridStyles.row, {backgroundColor:'#0d3754'}}>
                             <TouchableWithoutFeedback
                                 onPress={() => {
                                     setUploadCategory(CategoryEngText.hat);
                                     setDetailCategoryList(headwearDetailCategory);
                                     setModalItems(userItems.hats);
                                 }}>
-                                <View style={gridStyles.col}>
+                                <View style={gridStyles.col2}>
                                     <Image
                                         style={formStyles.uploadedItem}
                                         source={require('../assets/items/headwear.png')}
@@ -858,7 +859,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setDetailCategoryList(topDetailCategory);
                                     setModalItems(userItems.tops);
                                 }}>
-                                <View style={gridStyles.col}>
+                                <View style={gridStyles.col2}>
                                     <Image
                                         style={formStyles.uploadedItem}
                                         source={require('../assets/items/top.png')}
@@ -872,7 +873,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setDetailCategoryList(outerDetailCategory);
                                     setModalItems(userItems.outers);
                                 }}>
-                                <View style={gridStyles.col}>
+                                <View style={gridStyles.col2}>
                                     <Image
                                         style={formStyles.uploadedItem}
                                         source={require('../assets/items/outer.png')}
@@ -880,7 +881,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 </View>
                             </TouchableWithoutFeedback>
                         </GridRowContainer>
-                        <GridRowContainer style={gridStyles.row}>
+                        <GridRowContainer style={gridStyles.row, {backgroundColor:'#0d3754'}}>
                             <TouchableWithoutFeedback
                                 style={gridStyles.col}
                                 onPress={() => {
@@ -888,7 +889,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setDetailCategoryList(accessoryDetailCategory);
                                     setModalItems(userItems.accs);
                                 }}>
-                                <View style={gridStyles.col}>
+                                <View style={gridStyles.col2}>
                                     <Image
                                         style={formStyles.uploadedItem}
                                         source={require('../assets/items/accessory.png')}
@@ -902,7 +903,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setDetailCategoryList(pantsDetailCategory)
                                     setModalItems(userItems.pants);
                                 }}>
-                                <View style={gridStyles.col}>
+                                <View style={gridStyles.col2}>
                                     <Image
                                         style={formStyles.uploadedItem}
                                         source={require('../assets/items/pants.png')}
@@ -916,7 +917,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setDetailCategoryList(bagDetailCategory);
                                     setModalItems(userItems.bags);
                                 }}>
-                                <View style={gridStyles.col}>
+                                <View style={gridStyles.col2}>
                                     <Image
                                         style={formStyles.uploadedItem}
                                         source={require('../assets/items/bag.png')}
@@ -924,14 +925,14 @@ function CodiMyListScreen({ navigation, route }) {
                                 </View>
                             </TouchableWithoutFeedback>
                         </GridRowContainer>
-                        <GridRowContainer style={gridStyles.row}>
+                        <GridRowContainer style={gridStyles.row, {backgroundColor:'#0d3754'}}>
                             <TouchableWithoutFeedback
-                                style={gridStyles.col}
+                                style={gridStyles.col, {backgroundColor:'white'}}
                                 onPress={() => {
                                     setUploadCategory(CategoryEngText.watch);
                                     setModalItems(userItems.watches);
                                 }}>
-                                <View style={gridStyles.col}>
+                                <View style={gridStyles.col2}>
                                     <Image
                                         style={formStyles.uploadedItem}
                                         source={require('../assets/items/watch.png')}
@@ -945,7 +946,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     setDetailCategoryList(shoesDetailCategory);
                                     setModalItems(userItems.shoes);
                                 }}>
-                                <View style={gridStyles.col}>
+                                <View style={gridStyles.col2}>
                                     <Image
                                         style={formStyles.uploadedItem}
                                         source={require('../assets/items/shoes.png')}
@@ -956,7 +957,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 style={gridStyles.col}
                                 onPress={() => {
                                 }}>
-                                <View style={gridStyles.col}>
+                                <View style={gridStyles.col2}>
                                 </View>
                             </TouchableWithoutFeedback>
                         </GridRowContainer>

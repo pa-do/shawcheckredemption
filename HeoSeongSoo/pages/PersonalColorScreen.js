@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Image, View } from 'react-native';
+import { ScrollView, Image, View, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 import AuthContext from '../components/AuthContext';
 import BackButton from '../components/buttons/BackButton';
@@ -22,7 +22,7 @@ function PersonalColorScreen({ navigation, route }) {
     return (
         <ScrollView>
             <View
-                style={personalStyles.imageContainer, {backgroundColor:'white', flex: 1, marginTop: Constants.statusBarHeight}}
+                style={personalStyles.imageContainer, {flex: 1, marginTop: Constants.statusBarHeight}}
             >
                 <BackButton 
                 onPress={() => moveBack()}
@@ -32,6 +32,7 @@ function PersonalColorScreen({ navigation, route }) {
                         style={personalStyles.imageStyles}
                         source={require('../assets/personal/spring.png')}
                     />
+                    
                 :
                     null
                 }
