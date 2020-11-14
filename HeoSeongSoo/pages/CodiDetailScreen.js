@@ -7,6 +7,8 @@ import styled from 'styled-components/native';
 import { ServerUrl } from '../components/TextComponent';
 import { AntDesign } from '@expo/vector-icons'; 
 
+import * as Animatable from 'react-native-animatable';
+
 // 코디의 디테일 페이지입니다.
 
 // 코디 이미지
@@ -51,6 +53,7 @@ function CodiDetailScreen({ navigation, route }) {
     const [itemLike, setLikeItem] = React.useState({liked: route.params.item.liked, likes: route.params.item.like_count});
     const [itemDataList, setItemDataList] = React.useState([]);
     const [userData, setUserData] = React.useState(null);
+    const AnimationRef = React.useRef();
 
     React.useEffect(() => {
         navigation.setOptions({title: `${route.params.item.user.nickname}님의 코디`});
@@ -116,6 +119,9 @@ function CodiDetailScreen({ navigation, route }) {
                     likes: itemLike.likes + 1
                 })
             }
+            if(AnimationRef) {
+                AnimationRef.current?.rubberBand();
+                }
         })
         .catch(err => console.error(err))
     }
@@ -143,14 +149,16 @@ function CodiDetailScreen({ navigation, route }) {
                     >
                         <HeartContainer style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center'}}>
                             <Text style={{fontSize: 17}}>  { itemLike.likes }</Text>
+                            <Animatable.View ref={AnimationRef}>
                             {itemLike.liked ? 
-                            <Image
-                                style={{width: 40, height: 40, resizeMode: 'center'}}
-                                source={require('../assets/buttono.png')}/> 
-                            : 
-                            <Image
-                                style={{width: 40, height: 40, resizeMode: 'center'}}
-                                source={require('../assets/button.png')}/>}
+                                <Image
+                                    style={{width: 40, height: 40, resizeMode: 'center'}}
+                                    source={require('../assets/buttono.png')}/> 
+                                : 
+                                <Image
+                                    style={{width: 40, height: 40, resizeMode: 'center'}}
+                                    source={require('../assets/button.png')}/>}
+                            </Animatable.View>
                         </HeartContainer>
                     </TouchableHighlight>
                 </HeartContainer>
