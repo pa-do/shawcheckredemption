@@ -678,12 +678,12 @@ function CodiMyListScreen({ navigation, route }) {
                                             key={index}
                                         >
                                             {detailCategory === index ?
-                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
-                                                    <Text style={{fontSize: 17}}>{item}</Text>
+                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgb(13, 55, 84)', borderColor: '#c9a502', borderWidth: 1, borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17, color: 'white'}}>{item}</Text>
                                                 </View>
                                             :
-                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
-                                                    <Text style={{fontSize: 17}}>{item}</Text>
+                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center',backgroundColor: 'white', borderColor: '#c9a502', borderWidth: 1, borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17, color: 'rgb(13, 55, 84)'}}>{item}</Text>
                                                 </View>                     
                                             }
                                         </TouchableHighlight>
@@ -721,7 +721,7 @@ function CodiMyListScreen({ navigation, route }) {
                             style={{ ...styles.recButton, backgroundColor: '#0d3754' }}
                             onPress={() => {
                                 if (detailCategory === undefined || detailCategory === null) {
-                                    return setDetailCategoryError('카테고리를 선택해주세요.')
+                                    return setDetailCategoryError('카테고리를 선택해주세요')
                                 } else {
                                     setDetailCategoryError(null);
                                     setModalCategoryVisible(false);
