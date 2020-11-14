@@ -1,5 +1,5 @@
 import React from  'react';
-import { Text, View, Modal, Image, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground } from 'react-native';
+import { Text, View, Modal, Image, Alert, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
 import { Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { ActivityIndicator, Colors, Button } from 'react-native-paper';
@@ -32,8 +32,10 @@ const CodiItemImg = styled.Image`
     margin-top: 2px;
     margin-left: 2px;
     margin-right: 2px;
+    margin-bottom: 2px;
     width: 33%;
-    height: 150px;
+    height: undefined;
+    aspectRatio: 1;
     resize-mode: center;
     background-color: white;
 `;
@@ -46,33 +48,43 @@ const TopContainer = styled.SafeAreaView`
 const Container = styled.SafeAreaView`
     flex-direction: row;
     width: 100%;
-    height: 80px;
 `;
 
 const GridRowContainer = styled.View`
-    flex: 0.252;
     flex-direction: row;
     padding: 1px;
-`;
-
-const ItemBox = styled.View`
-    width: 50px;
-    height: 50px;
-    align-items: center;
 `;
 
 const ColorContainer = styled.View`
     background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
     width: 200px;
     height: 200px;
-    border: 1px solid black;
+    border-radius: 150px;
+    border: 1px solid;
+    border-color: rgb(199, 199, 204);
 `;
 
 const SelectColorContainer = styled.View`
     background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
     width: 50px;
     height: 50px;
-    border: 1px solid black;
+    border-radius: 150px;
+    border: ${props => props.borderSize}px solid ${props => {
+        let selected = '#ff7f00'
+        if (props.borderSize === 3) {
+            if (props.R === 0 && props.G === 0 && props.B === 0) {
+                return selected
+            } else if (props.R === 33 && props.G === 35 && props.B === 34) {
+                return selected
+            } else if (props.R === 35 && props.G === 40 && props.B === 51) {
+                return selected
+            } else if (props.R === 38 && props.G === 58 && props.B === 84) {
+
+            }
+        } else {
+            return 'black'
+        }
+    }};
     margin: 3px;
     align-items: center;
 `;
@@ -146,7 +158,20 @@ function CodiMyListScreen({ navigation, route }) {
             dataUpload(route.params?.image);
         }
     }, [route.params?.image]);
-    
+
+    const createTwoButtonAlert = item =>
+        Alert.alert(
+        "의상을 삭제하시겠습니까?",
+        '"내가 곧 스타일이다" - CoCo Chanel',
+        [
+            {
+            text: "취소",
+            style: "cancel"
+            },
+            { text: "삭제", onPress: () => deleteItem(item) }
+        ],
+        { cancelable: false }
+    );
     const getUserToken = async () => {
         let userToken;
         try {
@@ -261,6 +286,7 @@ function CodiMyListScreen({ navigation, route }) {
             }
             try {
                 const heartResponse = await axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
+                console.log(heartResponse)
                 setLikeCodis(heartResponse.data);
                 setMyOrLikeVisible(true);
                 setShowData(heartResponse.data);
@@ -484,9 +510,8 @@ function CodiMyListScreen({ navigation, route }) {
         }
         axios.delete(ServerUrl.url + `wear/userclothes/${item.id}`, requestHeaders)
         .then(res => {
-            setModalItems(null);
-            setModalItemCategoryVisible(false);
-            openItemModal();
+            refreshItems();
+            setModalItemCategoryVisible(true);
         })
         .catch(err => console.error(err))
 
@@ -512,15 +537,16 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
         return (
-            <ScrollView>
+            <ScrollView style={{width: Dimensions.get('window').width * 0.7}} showsVerticalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
                     return (
-                        <GridRowContainer key={index}>
+                        <GridRowContainer 
+                        key={index}>
                             {tempItems.map(item => {
                                 return (
                                     <TouchableWithoutFeedback
                                         key={item.id}
-                                        onPress={() => deleteItem(item)}>
+                                        onPress={() => createTwoButtonAlert(item)}>
                                         <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
                                     </TouchableWithoutFeedback>
                                 );
@@ -576,6 +602,36 @@ function CodiMyListScreen({ navigation, route }) {
 
     return (
         <TopContainer>
+            <View 
+            style={{
+                flexDirection:'row', 
+                flexWrap:'wrap', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                backgroundColor: 'white', 
+                borderBottomColor: '#c9a502', 
+                borderBottomWidth: 1,
+                borderTopColor: '#c9a502', 
+                borderTopWidth: 1
+                }}>
+                <MypageButton
+                    value="closet"
+                    onPress={() => {
+                        // UserItems 데이터를 수신합니다.
+                        openItemModal();
+                    }}
+                ></MypageButton>
+                <Image
+                    style={{width: '70%',resizeMode: 'center'}}
+                    source={require('../assets/font_logo.png')}
+                />
+                <MypageButton
+                    value="coordi"
+                    onPress={() => {
+                        navigation.navigate('Form');
+                    }}
+                ></MypageButton>
+            </View>
             {/* 액티비티 인디케이터 모달 */}
             <Modal
                 transparent={true}
@@ -601,12 +657,44 @@ function CodiMyListScreen({ navigation, route }) {
                 visible={modalCategoryVisible}
             >
                 <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
+                    <View style={{...styles.modalView}}>
+                    <TouchableHighlight
+                        style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
+                        onPress={() => {
+                            setDetailCategoryError(null);
+                            setDetailCategory(null);
+                            setModalCategoryVisible(false);
+                        }}>
+                            <AntDesign name="closecircleo" size={24} color="black" />
+                    </TouchableHighlight>
+                        <Text>카테고리를 선택해주세요.</Text>
                         <Container>
-                            <ScrollView
+                            <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical: 5}}>
+                                {detailCategoryList.map((item, index) => {
+                                    return (
+                                        <TouchableHighlight
+                                            underlayColor="none"
+                                            onPress={() => {
+                                                setDetailCategory(index);
+                                            }}
+                                            key={index}
+                                        >
+                                            {detailCategory === index ?
+                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17}}>{item}</Text>
+                                                </View>
+                                            :
+                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17}}>{item}</Text>
+                                                </View>                     
+                                            }
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </View>
+                            {/* <ScrollView
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
-
                             >
                                 {detailCategoryList.map((item, index) => {
                                     return (
@@ -617,22 +705,22 @@ function CodiMyListScreen({ navigation, route }) {
                                             key={index}
                                         >
                                             {detailCategory === index ?
-                                                <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 200, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
-                                                    <Text style={{fontSize: 20}}>{item}</Text>
+                                                <View style={{marginVertical: 10, marginHorizontal: 5, paddingHorizontal: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17}}>{item}</Text>
                                                 </View>
                                             :
-                                                <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 200, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
-                                                    <Text style={{fontSize: 20}}>{item}</Text>
+                                                <View style={{marginVertical: 10, marginHorizontal: 5, paddingHorizontal: 5, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17}}>{item}</Text>
                                                 </View>                     
                                             }
                                         </TouchableHighlight>
                                     );
                                 })}
-                            </ScrollView>
+                            </ScrollView> */}
                         </Container>
                         {detailCategoryError && <ErrorMsg>{ detailCategoryError }</ErrorMsg>}
                         <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#0d3754', marginTop: 12 }}
+                            style={{ ...styles.recButton, backgroundColor: '#0d3754' }}
                             onPress={() => {
                                 if (detailCategory === undefined || detailCategory === null) {
                                     return setDetailCategoryError('카테고리를 선택해주세요.')
@@ -643,17 +731,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 }
                             }}
                         >
-                            <Text style={styles.textStyle}>확정</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
-                            onPress={() => {
-                                setDetailCategoryError(null);
-                                setDetailCategory(null);
-                                setModalCategoryVisible(false);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>닫기</Text>
+                            <Text style={styles.textStyle}>등록</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
@@ -665,13 +743,14 @@ function CodiMyListScreen({ navigation, route }) {
                 visible={modalColorVisible}
             >
                 <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text>이 색감이 맞나요?</Text>
+                    <View style={{ ...styles.modalView, backgroundColor: 'rgb(242, 242, 242)' }}>
+                        <Text style={{marginVertical: 5}}>이 색감이 맞나요?</Text>
                         {uploadedColor && <ColorContainer R={uploadedColor[0]} G={uploadedColor[1]}  B={uploadedColor[2]} />}
-                        <Text>아니라면 색을 골라주세요</Text>
+                        <Text style={{marginVertical: 5}}>아니라면 색을 골라주세요</Text>
                         <Container>
                             <ScrollView
                                 horizontal={true}
+                                showsHorizontalScrollIndicator={false}
                             >
                                 {colorRGB.map((item, index) => {
                                     return (
@@ -681,14 +760,14 @@ function CodiMyListScreen({ navigation, route }) {
                                             }}
                                             key={index}
                                         >
-                                            <SelectColorContainer R={item[0]} G={item[1]} B={item[2]} />
+                                            <SelectColorContainer borderSize={0} R={item[0]} G={item[1]} B={item[2]} />
                                         </TouchableHighlight>
                                     );
                                 })}
                             </ScrollView>
                         </Container>
                         <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                            style={{ ...styles.recButton }}
                             onPress={() => {
                                 patchItemColor();
                             }}
@@ -749,7 +828,7 @@ function CodiMyListScreen({ navigation, route }) {
                 <View style={{ ...styles.centeredView }}>
                     <View style={{ ...styles.modalClosetView, alignItems: 'flex-end' }}>
                         <TouchableHighlight
-                            style={{width: 25, marginBottom: 15, marginRight: 0, paddingRight: 0}}
+                            style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
                             onPress={() => {
                                 setModalItems(null);
                                 setModalItemCategoryVisible(false);
@@ -885,7 +964,7 @@ function CodiMyListScreen({ navigation, route }) {
                         ) : (
                             <>
                                 <TouchableHighlight                             
-                                    style={{width: 25, position: 'absolute', top: 35, left: 35, marginBottom: 15, marginLeft:0, paddingLeft: 0}}
+                                    style={{position: 'absolute', top: 35, left: 35, marginBottom: 15, marginLeft:0, paddingLeft: 0}}
                                     onPress={() => {
                                         setModalItems(null);
                                     }}
@@ -893,8 +972,7 @@ function CodiMyListScreen({ navigation, route }) {
                                     <AntDesign name="leftcircleo" size={24} color="black" />
                                 </TouchableHighlight>
                                 <TouchableHighlight
-                                     style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
-                                    // style={{position: 'absolute', top: 35, left: Dimensions.get('window').width * 0.5 - 50, marginBottom: 15,}}
+                                    style={{position: 'absolute', top: 25, left: Dimensions.get('window').width * 0.5 - 45, marginBottom: 15, margirnHorizontal: 0, paddingHorizontal: 0}}
                                     onPress={() => {
                                         if (uploadCategory === CategoryEngText.watch){
                                             setModalImageVisible(true);
@@ -904,7 +982,7 @@ function CodiMyListScreen({ navigation, route }) {
                                         }
                                     }}
                                 >
-                                        <MaterialIcons name="add-circle-outline" size={24} color="black" />
+                                        <MaterialIcons name="add-circle-outline" size={45} color="black" />
                                 </TouchableHighlight>
                                 <ModalItemGrid/>
                             </>
@@ -913,23 +991,8 @@ function CodiMyListScreen({ navigation, route }) {
                 </View>
             </Modal>
             <ScrollView>
-            <View style={{flexDirection:'row', marginTop: 10, flexWrap:'wrap', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white'}}>
-                <MypageButton
-                    value="closet"
-                    onPress={() => {
-                        // UserItems 데이터를 수신합니다.
-                        openItemModal();
-                    }}
-                ></MypageButton>
-                <MypageButton
-                    value="coordi"
-                    onPress={() => {
-                        navigation.navigate('Form');
-                    }}
-                ></MypageButton>
-            </View>
             
-            <View style={{alignItems: 'center', paddingVertical: 15, backgroundColor: 'white', borderTopColor: '#c9a502', borderBottomColor: '#c9a502', borderTopWidth: 1, borderBottomWidth: 1}}>
+            <View style={{alignItems: 'center', paddingVertical: 15, backgroundColor: 'white', borderBottomColor: '#c9a502', borderBottomWidth: 1}}>
                 <TouchableHighlight
                     onPress={() => {
                         pickUserImage();
@@ -942,28 +1005,27 @@ function CodiMyListScreen({ navigation, route }) {
                         style={{borderWidth: 1, borderColor: 'rgb(242, 242, 242)'}}
                     />
                 </TouchableHighlight>
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center'}}>
                     <TouchableHighlight
                         onPress={() => {
-                            navigation.navigate('PersonalColor', {color: UserData?.color})
+                            navigation.navigate('Personal', {color: UserData?.color})
                         }}
                         underlayColor="none"
+                        style={{marginRight: 10}}
                     >
                         <UserPersonalColor>
                             {UserData?.color}
                         </UserPersonalColor>
                     </TouchableHighlight>
-                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
-                        <UserName>
+                    <UserName>
                             {UserData?.nickname}
-                        </UserName>
-                        <LogoutButton
-                            onPress={() => {
-                                signOut();
-                            }}
-                        >
-                        </LogoutButton>
-                    </View>
+                    </UserName>
+                    <LogoutButton
+                        onPress={() => {
+                            signOut();
+                        }}
+                    >
+                    </LogoutButton>
                 </View>
             </View>
             <RowContainer style={{marginTop: 10, borderBottomColor: '#c9a502', borderBottomWidth: 1}}>
