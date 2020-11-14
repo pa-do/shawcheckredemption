@@ -209,7 +209,6 @@ function App() {
           (
             <>
               <Stack.Screen name="TabScreen" component={TabScreen} options={{headerShown: false}}/>
-              <Stack.Screen options={{headerShown: false}} name="PersonalColor" component={PersonalColorScreen} />
               <Stack.Screen options={{headerShown: false}} name="Camera" component={CameraScreen} />
               <Stack.Screen options={{headerShown: false}} name="WebView" component={WebViewScreen} />
             </>
