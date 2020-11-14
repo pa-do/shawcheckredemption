@@ -1,7 +1,6 @@
 import React from  'react';
 import { Text, TouchableWithoutFeedback, ScrollView, StyleSheet, View, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Container from '../components/Container';
 import axios from 'axios'
 import styled from 'styled-components/native';
 import { ServerUrl } from '../components/TextComponent';
@@ -108,14 +107,16 @@ function CodiDetailScreen({ navigation, route }) {
         .then(res => {
             if (res.data === '좋아요 삭제.'){
                 setLikeItem({
-                    liked: !itemLike.liked,
+                    liked: false,
                     likes: itemLike.likes - 1
                 })
+                route.params.changeLike(codiSetDetail.id, 0, itemLike.likes - 1);  
             } else {
                 setLikeItem({
-                    liked: !itemLike.liked,
+                    liked: true,
                     likes: itemLike.likes + 1
                 })
+                route.params.changeLike(codiSetDetail.id, 1, itemLike.likes + 1);
             }
         })
         .catch(err => console.error(err))
@@ -125,11 +126,18 @@ function CodiDetailScreen({ navigation, route }) {
         const requestHeaders = await getToken();
         axios.delete(ServerUrl.url + `wear/coordi/${codiSetDetail.id}`, requestHeaders)
         .then(res => {
+            try{
+                route.params.refresh(codiSetDetail.id);
+            } catch {
+                // empty
+            }
             navigation.goBack();
         })
         .catch(err => console.error(err))
     }
+
     let nullCount = 0
+
     return (
         <>
             <CodiItemImg

@@ -73,15 +73,16 @@ function CodiList(props) {
         .then(res => {
             if (res.data === '좋아요 삭제.'){
                 setLikeItem({
-                    liked: !itemLike.liked,
+                    liked: false,
                     likes: itemLike.likes - 1
                 })
             } else {
                 setLikeItem({
-                    liked: !itemLike.liked,
+                    liked: true,
                     likes: itemLike.likes + 1
                 })
             }
+            props.changeLikeStat(codiItem.id, !itemLike.liked);
         })
         .catch(err => console.error(err))
     }
