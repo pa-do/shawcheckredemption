@@ -1,7 +1,6 @@
 import React from  'react';
 import { Text, Image, TouchableWithoutFeedback, ScrollView, StyleSheet, View, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Container from '../components/Container';
 import axios from 'axios'
 import styled from 'styled-components/native';
 import { ServerUrl } from '../components/TextComponent';
@@ -108,20 +107,35 @@ function CodiDetailScreen({ navigation, route }) {
         // codiItem.id와 itemLike 전송
         axios.post(ServerUrl.url + `wear/likecoordi/${codiSetDetail.id}`, null, requestHeaders)
         .then(res => {
-            if (res.data === '좋아요 삭제.'){
-                setLikeItem({
-                    liked: !itemLike.liked,
-                    likes: itemLike.likes - 1
-                })
-            } else {
-                setLikeItem({
-                    liked: !itemLike.liked,
-                    likes: itemLike.likes + 1
-                })
-            }
             if(AnimationRef) {
                 AnimationRef.current?.rubberBand();
+            }
+            if (res.data === '좋아요 삭제.'){
+                setLikeItem({
+                    liked: false,
+                    likes: itemLike.likes - 1
+                })
+                try {
+                    if (route.params.changeLike !== undefined){
+                        route.params.changeLike(codiSetDetail.id, 0, itemLike.likes - 1);                      
+                    }
+                } catch (err) {
+                    console.err(err);
                 }
+            } else {
+                setLikeItem({
+                    liked: true,
+                    likes: itemLike.likes + 1
+                })
+                try {
+                    if (route.params.changeLike !== undefined){
+                        route.params.changeLike(codiSetDetail.id, 1, itemLike.likes + 1);
+                    }
+                } catch (err){
+                    console.err(err);
+                }
+            }
+
         })
         .catch(err => console.error(err))
     }
@@ -130,11 +144,18 @@ function CodiDetailScreen({ navigation, route }) {
         const requestHeaders = await getToken();
         axios.delete(ServerUrl.url + `wear/coordi/${codiSetDetail.id}`, requestHeaders)
         .then(res => {
+            try{
+                route.params.refresh(codiSetDetail.id);
+            } catch {
+                // empty
+            }
             navigation.goBack();
         })
         .catch(err => console.error(err))
     }
+
     let nullCount = 0
+
     return (
         <>
             <ScrollView>
@@ -149,7 +170,7 @@ function CodiDetailScreen({ navigation, route }) {
                     style={{position: 'absolute', zIndex: 1, bottom: 10, right: 0}}
                     >
                         <HeartContainer style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center'}}>
-                            <Text style={{fontSize: 17}}>  { itemLike.likes }</Text>
+                            <Text style={{fontSize: 17}}></Text>
                             <Animatable.View ref={AnimationRef}>
                             {itemLike.liked ? 
                                 <Image
@@ -176,7 +197,6 @@ function CodiDetailScreen({ navigation, route }) {
             {itemDataList.length ? 
             <ScrollView style={{marginHorizontal: 20, marginBottom: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1}}>
                 {itemDataList.map(item => {
-                    console.log(route.params.item.data)
                     if (Object.keys(item).length !== 0) {
                         return (
                             <>

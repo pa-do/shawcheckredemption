@@ -12,7 +12,11 @@ function PersonalColorScreen({ navigation, route }) {
     const { signUp } = React.useContext(AuthContext);
 
     function moveBack() {
-        signUp(userToken);
+        if (userToken === undefined || userToken === null) {
+            navigation.goBack();
+        } else {
+            signUp(userToken);
+        }
     }
 
     return (

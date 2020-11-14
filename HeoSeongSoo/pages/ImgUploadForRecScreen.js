@@ -3,7 +3,7 @@ import { Text, View, Modal, TouchableHighlight, TouchableWithoutFeedback, Image,
 import styled from 'styled-components/native';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CategoryText, ServerUrl, CategoryEngText } from '../components/TextComponent';
+import { ServerUrl, CategoryEngText } from '../components/TextComponent';
 import { styles, formStyles } from '../components/StyleSheetComponent';
 import RowContainer from '../components/RowContainer';
 import axios from 'axios';
@@ -20,6 +20,16 @@ const GridRowContainer = styled.View`
     flex-direction: row;
 `;
 
+const namedText = [
+    '"패션은 느낌입니다. 이유가 있어선 안 되죠" - Christian Dior',
+    '"패션은 변하지만 스타일은 영원하다" - Coco Chanel',
+    '"패션은 스스로에 대한 자신감이다" - Paul Smith',
+    '"누가 감히 무엇이 다른 무엇보다 훨씬 세련되었다고 말할 수 있는가" - Miguel Adrover',
+    '"보여지는 것 이상의 것을 얻으려면 이면에 자신감이 바탕이 되어야 한다" - candace bushnell',
+    '"오늘 최악의 적을 만날 것처럼 차려입어라" - Coco Chanel',
+    '"스타일이란 말 없이 당신에 대해 말하는 방법이다" - Rachel Zoe'
+]
+
 function ImgUploadForRecScreen({ navigation, route }) {
     const [uploadCategory, setUploadCategory] = React.useState();
     const [value, setValue] = React.useState([route.params.value, route.params.secondValue]);
@@ -35,6 +45,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
     const [bagImage, setBagImage] = React.useState(null);
     const [watchImage, setWatchImage] = React.useState(null);
     const [AccImage, setAccImage] = React.useState(null);
+    const [randomIndex, setRandomIndex] = React.useState(0);
 
     
     const recommendationRequest = async () => {
@@ -72,8 +83,16 @@ function ImgUploadForRecScreen({ navigation, route }) {
         })
     }
 
+    function getRandomArbitrary(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+
     React.useEffect(() => {
         navigation.setOptions({title: `착용할 의류 선택하기`});
+        setRandomIndex(getRandomArbitrary(0, 7));
+        // console.log(getRandomArbitrary(0, 7))
         getUserItems();
     }, []);
 
@@ -218,7 +237,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                                 color={Colors.red800}
                                 size={'large'}
                             />
-                            <Text>처리 중입니다</Text>
+                            <Text>{namedText[randomIndex]}</Text>
                         </View>
                     </View>
                 </Modal>

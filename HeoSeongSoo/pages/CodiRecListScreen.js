@@ -44,7 +44,9 @@ function CodiRecListScreen({ navigation, route}) {
     const [itemLike, setLikeItem] = React.useState({liked: showData?.liked, likes:showData?.likes})
     const AnimationRef = React.useRef();
 
-    navigation.setOptions({title: `추천받은 코디`});
+    React.useEffect(() => {
+        navigation.setOptions({title: `추천받은 코디`});
+    }, []);
 
     async function changeHeart() {
         let userToken;

@@ -97,17 +97,23 @@ const CodiItemImg = styled.Image`
     resize-mode: center;
 `;
 
+const ErrorMsg = styled.Text`
+    color: red;
+    font-size: 12px;
+`;
+
 function CodiFormScreen({ navigation }) {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [modalCategoryVisible, setModalCategoryVisible] = React.useState(false);
     const [modalItemCategoryVisible, setModalItemCategoryVisible] = React.useState(false);
+    const [errorMsg, setErrorMsg] = React.useState(null);
     const [detailCategory, setDetailCategory] = React.useState(null);
     const [detailCategoryList, setDetailCategoryList] = React.useState([]);
     const [modalItems, setModalItems] = React.useState(null);
     const [uploadCategory, setUploadCategory] = React.useState();
     const [content, setContent] = React.useState('');
-    const [selectedStyle, setSelectedStyle] = React.useState('');
-    const [selectedColor, setSelectedColor] = React.useState('');
+    const [selectedStyle, setSelectedStyle] = React.useState(null);
+    const [selectedColor, setSelectedColor] = React.useState(null);
     const [selectedColorRGB, setSelectedColorRGB] = React.useState([]);
     const [userItems, setUserItems] = React.useState({});
     const [hatImage, setHatImage] = React.useState(null);
@@ -214,6 +220,7 @@ function CodiFormScreen({ navigation }) {
 
 
     const createSet = async () => {
+        setErrorMsg(null);
         // 저장된 이미지들을 취합합니다.
         let userToken;
         try {
@@ -228,16 +235,36 @@ function CodiFormScreen({ navigation }) {
         }
         const uploadData = new FormData();
         uploadData.append('headwear', hatImage ? hatImage.id : -1);
-        uploadData.append('top', topImage ? topImage.id : -1);
+        if (topImage === null || topImage === undefined) {
+            return setErrorMsg('상의는 꼭 입고다니세요 ㅠㅠ')
+        } else {
+            uploadData.append('top', topImage ? topImage.id : -1);
+        }
         uploadData.append('outer', outerImage ? outerImage.id : -1);
         uploadData.append('acc', AccImage ? AccImage.id : -1);
-        uploadData.append('pants', pantsImage ? pantsImage.id : -1);
+        if (pantsImage === null || pantsImage === undefined) {
+            return setErrorMsg('바지를 입지 않고 나가시면 형사처벌을 받을 수 있습니다')
+        } else {
+            uploadData.append('pants', pantsImage ? pantsImage.id : -1);
+        }
         uploadData.append('bag', bagImage ? bagImage.id : -1);
         uploadData.append('watch', watchImage ? watchImage.id : -1);
-        uploadData.append('shoes', shoesImage ? shoesImage.id : -1);
+        if (shoesImage === null || shoesImage === undefined) {
+            return setErrorMsg('건강에는 좋지만 발을 다칠 수 있어요')
+        } else {
+            uploadData.append('shoes', shoesImage ? shoesImage.id : -1);
+        }
         uploadData.append('content', content);
-        uploadData.append('style', selectedStyle);
-        uploadData.append('color', selectedColor);
+        if (selectedStyle === undefined || selectedStyle === null) {
+            return setErrorMsg('스타일을 선택해주세요')
+        } else {
+            uploadData.append('style', selectedStyle);
+        }
+        if (selectedColor === undefined || selectedColor === null) {
+            return setErrorMsg('코디의 전체적 색감을 알려주세요')
+        } else {
+            uploadData.append('color', selectedColor);
+        }
 
         axios.post(ServerUrl.url + 'wear/coordi/', uploadData, requestHeaders)
         .then(res => {
@@ -628,6 +655,9 @@ function CodiFormScreen({ navigation }) {
                     })}
                 </ScrollView>
             </Container>
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                {errorMsg !== null ? <ErrorMsg style={{ backgroundColor: 'rgba(0, 0, 0, 0)', alignItems: 'center'}}>{ errorMsg }</ErrorMsg> : null}
+            </View>
             <TouchableHighlight
                 style={styles.recButton}
                 onPress={createSet}
