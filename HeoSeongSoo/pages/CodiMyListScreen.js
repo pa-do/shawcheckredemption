@@ -32,8 +32,10 @@ const CodiItemImg = styled.Image`
     margin-top: 2px;
     margin-left: 2px;
     margin-right: 2px;
+    margin-bottom: 2px;
     width: 33%;
-    height: 150px;
+    height: undefined;
+    aspectRatio: 1;
     resize-mode: center;
     background-color: white;
 `;
@@ -50,7 +52,6 @@ const Container = styled.SafeAreaView`
 `;
 
 const GridRowContainer = styled.View`
-    flex: 0.252;
     flex-direction: row;
     padding: 1px;
 `;
@@ -453,10 +454,11 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
         return (
-            <ScrollView>
+            <ScrollView style={{width: Dimensions.get('window').width * 0.7}} showsVerticalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
                     return (
-                        <GridRowContainer key={index}>
+                        <GridRowContainer 
+                        key={index}>
                             {tempItems.map(item => {
                                 return (
                                     <TouchableWithoutFeedback
