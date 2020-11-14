@@ -25,9 +25,10 @@ const CategoryText = {
     shoes: '신발',
     outer: '외투',
     hat: '모자',
+    headwear: '모자',
     bag: '가방',
     watch: '시계',
-    accessory: '악세서리'
+    accessory: '액세서리'
 }
 
 const CategoryEngText = {
