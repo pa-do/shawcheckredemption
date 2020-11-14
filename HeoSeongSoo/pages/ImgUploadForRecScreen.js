@@ -182,7 +182,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
             }
         }
         return (
-            <ScrollView style={{width: Dimensions.get('window').width * 0.7}} showsHorizontalScrollIndicator={false}>
+            <ScrollView style={{width: Dimensions.get('window').width * 0.7}} showsVerticalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
                     return (
                         <GridRowContainer style={gridStyles.row} key={index}>
