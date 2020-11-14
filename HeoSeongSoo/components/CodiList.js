@@ -6,6 +6,8 @@ import axios from 'axios'
 import { ServerUrl } from '../components/TextComponent';
 import { AntDesign } from '@expo/vector-icons'; 
 
+import * as Animatable from 'react-native-animatable';
+
 // 전체 코디리스트의 개별 아이템입니다.
 
 // 카드의 전체 레이아웃
@@ -112,7 +114,7 @@ function CodiList(props) {
                     <Text>({ codiItem.color } { codiItem.style })  </Text>
                     <Text>{ codiItem.content }</Text>
                 </Text>
-                
+                <Animatable.Text animation="rubberBand" easing="ease-out" iterationCount="infinite" style={{ textAlign: 'center' }}>❤️</Animatable.Text>
             </ContentContainer>
         </CodiItemCard>
     )
