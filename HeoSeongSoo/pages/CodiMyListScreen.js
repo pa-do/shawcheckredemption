@@ -48,7 +48,6 @@ const TopContainer = styled.SafeAreaView`
 const Container = styled.SafeAreaView`
     flex-direction: row;
     width: 100%;
-    height: 80px;
 `;
 
 const GridRowContainer = styled.View`
@@ -544,13 +543,43 @@ function CodiMyListScreen({ navigation, route }) {
                 visible={modalCategoryVisible}
             >
                 <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
+                    <View style={{...styles.modalView}}>
+                    <TouchableHighlight
+                        style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
+                        onPress={() => {
+                            setDetailCategory(null);
+                            setModalCategoryVisible(false);
+                        }}>
+                            <AntDesign name="closecircleo" size={24} color="black" />
+                    </TouchableHighlight>
                         <Text>카테고리를 선택해주세요.</Text>
                         <Container>
-                            <ScrollView
+                            <View style={{flexDirection: 'row', flexWrap: 'wrap', marginVertical: 5}}>
+                                {detailCategoryList.map((item, index) => {
+                                    return (
+                                        <TouchableHighlight
+                                            underlayColor="none"
+                                            onPress={() => {
+                                                setDetailCategory(index);
+                                            }}
+                                            key={index}
+                                        >
+                                            {detailCategory === index ?
+                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17}}>{item}</Text>
+                                                </View>
+                                            :
+                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17}}>{item}</Text>
+                                                </View>                     
+                                            }
+                                        </TouchableHighlight>
+                                    );
+                                })}
+                            </View>
+                            {/* <ScrollView
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
-
                             >
                                 {detailCategoryList.map((item, index) => {
                                     return (
@@ -561,36 +590,27 @@ function CodiMyListScreen({ navigation, route }) {
                                             key={index}
                                         >
                                             {detailCategory === index ?
-                                                <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 200, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
-                                                    <Text style={{fontSize: 20}}>{item}</Text>
+                                                <View style={{marginVertical: 10, marginHorizontal: 5, paddingHorizontal: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17}}>{item}</Text>
                                                 </View>
                                             :
-                                                <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 200, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
-                                                    <Text style={{fontSize: 20}}>{item}</Text>
+                                                <View style={{marginVertical: 10, marginHorizontal: 5, paddingHorizontal: 5, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17}}>{item}</Text>
                                                 </View>                     
                                             }
                                         </TouchableHighlight>
                                     );
                                 })}
-                            </ScrollView>
+                            </ScrollView> */}
                         </Container>
                         <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#0d3754' }}
+                            style={{ ...styles.recButton, backgroundColor: '#0d3754' }}
                             onPress={() => {
                                 setModalCategoryVisible(false);
                                 setModalImageVisible(true);
                             }}
                         >
                             <Text style={styles.textStyle}>등록</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
-                            onPress={() => {
-                                setDetailCategory(null);
-                                setModalCategoryVisible(false);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>닫기</Text>
                         </TouchableHighlight>
                     </View>
                 </View>

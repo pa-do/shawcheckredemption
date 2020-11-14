@@ -56,8 +56,7 @@ const styles = StyleSheet.create({
           paddingVertical: 15,
           paddingHorizontal: 40,
           elevation: 2,
-          marginTop: 22,
-          marginBottom: 22,
+          marginBottom: 10,
         },
       textStyle: {
         color: 'white',
