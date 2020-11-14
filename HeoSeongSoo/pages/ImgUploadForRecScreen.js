@@ -4,20 +4,23 @@ import styled from 'styled-components/native';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CategoryText, ServerUrl, CategoryEngText } from '../components/TextComponent';
-import { styles, formStyles } from '../components/StyleSheetComponent';
+import { styles, formStyles, gridStyles } from '../components/StyleSheetComponent';
 import RowContainer from '../components/RowContainer';
 import axios from 'axios';
+import { AntDesign } from '@expo/vector-icons';
+
 
 const CodiItemImg = styled.Image`
     margin: 3px;
     width: 31%;
-    height: 150px;
+    height: undefined;
+    aspectRatio: 1;
     resize-mode: center;
 `;
 
 const GridRowContainer = styled.View`
-    flex: 1;
     flex-direction: row;
+    padding: 1px;
 `;
 
 function ImgUploadForRecScreen({ navigation, route }) {
@@ -179,10 +182,10 @@ function ImgUploadForRecScreen({ navigation, route }) {
             }
         }
         return (
-            <ScrollView>
+            <ScrollView style={{width: Dimensions.get('window').width * 0.7}} showsHorizontalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
                     return (
-                        <GridRowContainer key={index}>
+                        <GridRowContainer style={gridStyles.row} key={index}>
                             {tempItems.map(item => {
                                 return (
                                     <TouchableWithoutFeedback
@@ -229,14 +232,16 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
+
                             <TouchableHighlight
-                                style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
+                                underlayColor="none"
                                 onPress={() => {
                                     setModalItems(null);
                                     setModalVisible(false);
                                 }}
                             >
-                                    <Text style={styles.textStyle}>닫기</Text>
+                                <AntDesign name="closecircleo" size={24} color="black" />
                             </TouchableHighlight>                            
                             <ModalItemGrid/>
                         </View>
@@ -253,7 +258,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.hat);
                         openItemModal();
@@ -272,7 +277,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.top);
                         openItemModal();
@@ -293,7 +298,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.outer);
                         openItemModal();
@@ -314,7 +319,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.accessory);
                         openItemModal();
@@ -333,7 +338,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.pants);
                         openItemModal();
@@ -352,7 +357,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={async () => {
                         setUploadCategory(CategoryEngText.bag);
                         await openItemModal();
@@ -373,7 +378,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.watch);
                         openItemModal();
@@ -392,7 +397,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.shoes);
                         openItemModal();

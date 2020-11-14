@@ -29,15 +29,11 @@ const UserProfileImg = styled.Image`
 `;
 
 const CodiItemImg = styled.Image`
-    margin-top: 2px;
-    margin-left: 2px;
-    margin-right: 2px;
-    margin-bottom: 2px;
-    width: 33%;
+    margin: 3px;
+    width: 31%;
     height: undefined;
     aspectRatio: 1;
     resize-mode: center;
-    background-color: white;
 `;
 
 const TopContainer = styled.SafeAreaView`
@@ -447,7 +443,7 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
         return (
-            <ScrollView style={{width: Dimensions.get('window').width * 0.7}} showsVerticalScrollIndicator={false}>
+            <ScrollView style={{width: Dimensions.get('window').width * 0.7}} showsHorizontalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
                     return (
                         <GridRowContainer 
@@ -730,7 +726,7 @@ function CodiMyListScreen({ navigation, route }) {
                 transparent={true}
                 visible={modalItemCategoryVisible}
             >
-                <View style={{ ...styles.centeredView }}>
+                <View style={{ ...styles.centeredView }}>                                                                                                                                  
                     <View style={{ ...styles.modalClosetView, alignItems: 'flex-end' }}>
                         <TouchableHighlight
                             style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
