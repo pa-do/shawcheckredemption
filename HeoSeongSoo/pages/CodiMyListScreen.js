@@ -1,5 +1,5 @@
 import React from  'react';
-import { Text, View, Modal, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground } from 'react-native';
+import { Text, View, Modal, Image, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, ImageBackground } from 'react-native';
 import { Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { ActivityIndicator, Colors, Button } from 'react-native-paper';
@@ -11,7 +11,7 @@ import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import AuthContext from '../components/AuthContext';
 import { ServerUrl, CategoryText, CategoryEngText } from '../components/TextComponent';
-import { styles, gridStyles } from '../components/StyleSheetComponent';
+import { styles, gridStyles, formStyles } from '../components/StyleSheetComponent';
 import RowContainer from '../components/RowContainer';
 import LogoutButton from '../components/mypage/LogoutButton';
 import UserName from '../components/mypage/UserName';
@@ -21,29 +21,21 @@ import { Dimensions } from 'react-native';
 import { Entypo } from '@expo/vector-icons'; 
 
 const UserProfileImg = styled.Image`
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     border-radius: 150px;
     resize-mode: cover;
     margin-left: 5px;
 `;
 
 const CodiItemImg = styled.Image`
-    margin: 1px;
-    width: 31%;
+    margin-top: 2px;
+    margin-left: 2px;
+    margin-right: 2px;
+    width: 33%;
     height: 150px;
     resize-mode: center;
-`;
-
-const UserProfileContainer = styled.View`
-    flex-direction: row;
-    margin-top: 30px;
-`;
-
-const UserProfileTextContainer = styled.View`
-    flex-direction: column;
-    width: 100%;
-    margin-left: 20px;
+    background-color: white;
 `;
 
 const TopContainer = styled.SafeAreaView`
@@ -691,7 +683,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.hats);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.hat }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/headwear.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -702,7 +697,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.tops);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.top }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/top.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -713,7 +711,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.outers);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.outer }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/outer.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                         </GridRowContainer>
@@ -726,7 +727,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.accs);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.accessory }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/accessory.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -737,7 +741,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.pants);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.pants }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/pants.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -748,7 +755,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.bags);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.bag }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/bag.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                         </GridRowContainer>
@@ -760,7 +770,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.watches);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.watch }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/watch.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -771,7 +784,10 @@ function CodiMyListScreen({ navigation, route }) {
                                     setModalItems(userItems.shoes);
                                 }}>
                                 <View style={gridStyles.col}>
-                                    <Text style={styles.uploadboxText}>{ CategoryText.shoes }</Text>
+                                    <Image
+                                        style={formStyles.uploadedItem}
+                                        source={require('../assets/items/shoes.png')}
+                                    />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback
@@ -814,7 +830,23 @@ function CodiMyListScreen({ navigation, route }) {
                 </View>
             </Modal>
             <ScrollView>
-            <UserProfileContainer>
+            <View style={{flexDirection:'row', marginTop: 10, flexWrap:'wrap', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white'}}>
+                <MypageButton
+                    value="closet"
+                    onPress={() => {
+                        // UserItems 데이터를 수신합니다.
+                        openItemModal();
+                    }}
+                ></MypageButton>
+                <MypageButton
+                    value="coordi"
+                    onPress={() => {
+                        navigation.navigate('Form');
+                    }}
+                ></MypageButton>
+            </View>
+            
+            <View style={{alignItems: 'center', paddingVertical: 15, backgroundColor: 'white', borderTopColor: '#c9a502', borderBottomColor: '#c9a502', borderTopWidth: 1, borderBottomWidth: 1}}>
                 <TouchableHighlight
                     onPress={() => {
                         pickUserImage();
@@ -824,20 +856,10 @@ function CodiMyListScreen({ navigation, route }) {
                 >
                     <UserProfileImg
                         source={{uri: UserData?.profile_image}}
+                        style={{borderWidth: 1, borderColor: 'rgb(242, 242, 242)'}}
                     />
                 </TouchableHighlight>
-                <UserProfileTextContainer style={{justifyContent: 'center'}}>
-                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
-                        <UserName>
-                            {UserData?.nickname}
-                        </UserName>
-                        <LogoutButton
-                            onPress={() => {
-                                signOut();
-                            }}
-                        >
-                        </LogoutButton>
-                    </View>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
                     <TouchableHighlight
                         onPress={() => {
                             navigation.navigate('PersonalColor', {color: UserData?.color})
@@ -849,23 +871,19 @@ function CodiMyListScreen({ navigation, route }) {
                         </UserPersonalColor>
                     </TouchableHighlight>
                     <View style={{flexDirection:'row', flexWrap:'wrap'}}>
-                        <MypageButton
-                            value="closet"
+                        <UserName>
+                            {UserData?.nickname}
+                        </UserName>
+                        <LogoutButton
                             onPress={() => {
-                                // UserItems 데이터를 수신합니다.
-                                openItemModal();
+                                signOut();
                             }}
-                        ></MypageButton>
-                        <MypageButton
-                            value="coordi"
-                            onPress={() => {
-                                navigation.navigate('Form');
-                            }}
-                        ></MypageButton>
+                        >
+                        </LogoutButton>
                     </View>
-                </UserProfileTextContainer>
-            </UserProfileContainer>
-            <RowContainer style={{marginTop: 50, borderBottomColor: '#c9a502', borderBottomWidth: 1}}>
+                </View>
+            </View>
+            <RowContainer style={{marginTop: 10, borderBottomColor: '#c9a502', borderBottomWidth: 1}}>
                 {myOrLikeVisible ? 
                     <TouchableHighlight
                     onPress={setMyCodiVisible}
