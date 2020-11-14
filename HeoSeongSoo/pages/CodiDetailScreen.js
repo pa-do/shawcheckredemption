@@ -176,7 +176,7 @@ function CodiDetailScreen({ navigation, route }) {
             {itemDataList.length ? 
             <ScrollView style={{marginHorizontal: 20, marginBottom: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1}}>
                 {itemDataList.map(item => {
-                    console.log(itemDataList)
+                    console.log(route.params.item.data)
                     if (Object.keys(item).length !== 0) {
                         return (
                             <>
@@ -190,6 +190,9 @@ function CodiDetailScreen({ navigation, route }) {
                                     <Text style={{fontWeight: 'bold'}}>{item.style}</Text>
                                     {/* https://k3d205.p.ssafy.io/media/top/20.png */}
                                     {/* 피드끝까지내려갔을때 마진 */}
+                                    {/* <CodiItemImg
+                                        source={{uri: ServerUrl.mediaUrl + '/' + route.params.item.data + codiSetDetail.img}}
+                                    /> */}
                                     <Text>{item.brand}</Text>
                                     <Text>{item.item}</Text>
                                     <Text>{item.price} 원</Text>
