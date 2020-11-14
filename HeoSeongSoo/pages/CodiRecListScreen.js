@@ -8,6 +8,8 @@ import { ServerUrl } from '../components/TextComponent';
 import Constants from 'expo-constants';
 import { Ionicons, AntDesign } from '@expo/vector-icons';  
 
+import * as Animatable from 'react-native-animatable';
+
 const Container = styled.SafeAreaView`
     flex: 1;
     justify-content: center;
@@ -45,6 +47,7 @@ function CodiRecListScreen({ navigation, route}) {
     const [showIndex, setShowIndex] = React.useState(0)
     const [showData, setShowData] = React.useState(recommendations[0]);
     const [itemLike, setLikeItem] = React.useState({liked: showData?.liked, likes:showData?.likes})
+    const AnimationRef = React.useRef();
 
     navigation.setOptions({title: `추천받은 코디`});
 
@@ -75,6 +78,9 @@ function CodiRecListScreen({ navigation, route}) {
                     likes: itemLike.likes + 1
                 })
             }
+            if(AnimationRef) {
+                AnimationRef.current?.rubberBand();
+                }
         })
         .catch(err => console.error(err))
         // axios 요청으로 하트 변경사항 저장
@@ -134,6 +140,7 @@ function CodiRecListScreen({ navigation, route}) {
                     style={{position: 'absolute', zIndex: 1, bottom: 10, right: 5, marginHorizontal: '15%'}}
                     >
                         <HeartContainer style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'flex-end', alignItems: 'center'}}>
+                            <Animatable.View ref={AnimationRef}>
                             {itemLike.liked ? 
                             <Image
                                 style={{width: 40, height: 40, resizeMode: 'center'}}
@@ -142,6 +149,7 @@ function CodiRecListScreen({ navigation, route}) {
                             <Image
                                 style={{width: 40, height: 40, resizeMode: 'center'}}
                                 source={require('../assets/button.png')}/>}
+                            </Animatable.View>
                         </HeartContainer>
                     </TouchableHighlight>
                     <TouchableHighlight
