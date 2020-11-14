@@ -622,7 +622,7 @@ function CodiFormScreen({ navigation }) {
                                     </View>
                                 :
                                     <View style={{marginVertical: 10, marginHorizontal: 5, padding: 5, width: 90, alignItems: 'center', justifyContent: 'center',backgroundColor: 'white', borderColor: '#c9a502', borderWidth: 1, borderRadius: 50}}>
-                                        <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
+                                        <SlectStyleText style={{color: '#0d3754'}} StyleText>{styleKor[index]}</SlectStyleText>
                                     </View>                     
                                 }
                             </TouchableOpacity>

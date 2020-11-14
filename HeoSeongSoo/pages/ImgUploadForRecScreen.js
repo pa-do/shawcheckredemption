@@ -206,7 +206,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
     }
 
     return (
-        <ScrollView>
+        <View style={{margin: 15, borderColor: '#c9a502', borderWidth: 1, borderRadius: 20}}>
                 {/* 액티비티 인디케이터 모달 */}
                 <Modal
                     transparent={true}
@@ -247,14 +247,12 @@ function ImgUploadForRecScreen({ navigation, route }) {
                         </View>
                     </View>
                 </Modal>
-            <View style={styles.centeredView}>
-            
-            </View>
-            <Text style={{color: 'black', textAlign: 'center', paddingVertical: 15, marginBottom: 22}}>
+
+            <Text style={{color: 'black', textAlign: 'center', paddingVertical: 10, marginVertical: 20}}>
                 착용할 의류를 옷장에서 가져오세요! {"\n"}
                 (착용할 의류가 없으면 그냥 '추천받기'를 눌러요!)
             </Text>
-            <View style={{height: Dimensions.get('window').height}}>
+            <View>
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
@@ -409,7 +407,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 <View style={formStyles.uploadBox}/>
             </RowContainer>
             
-            <View style={{marginTop: 20}}>
+            <View style={{marginVertical: 20}}>
                 <TouchableHighlight
                     style={styles.recButton}
                     onPress={() => {
@@ -422,7 +420,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
             </View>
             
         </View>
-        </ScrollView>
+        </View>
     )
 }
 
