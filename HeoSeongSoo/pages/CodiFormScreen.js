@@ -60,7 +60,7 @@ const SelectColorContainer = styled.View`
 `;
 
 const SlectStyleText = styled.Text`
-    font-size: 25px;
+    font-size: 20px;
 `;
 
 const GridRowContainer = styled.View`
@@ -376,7 +376,7 @@ function CodiFormScreen({ navigation }) {
             </Modal>
             </TopContainer>
             <ScrollView>
-            <View style={{height: Dimensions.get('window').height + 150, marginVertical: 0}}>
+            <View style={{marginVertical: 20}}>
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
@@ -615,11 +615,11 @@ function CodiFormScreen({ navigation }) {
                                 }}
                             >
                                 {selectedStyle === item ?
-                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 90, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
-                                        <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
+                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 5, width: 90, alignItems: 'center', justifyContent: 'center', backgroundColor: '#0d3754', borderColor: '#c9a502', borderWidth: 1, borderRadius: 50}}>
+                                        <SlectStyleText StyleText style={{color: 'white'}}>{styleKor[index]}</SlectStyleText>
                                     </View>
                                 :
-                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 90, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
+                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 5, width: 90, alignItems: 'center', justifyContent: 'center',backgroundColor: 'white', borderColor: '#c9a502', borderWidth: 1, borderRadius: 50}}>
                                         <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
                                     </View>                     
                                 }

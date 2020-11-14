@@ -131,6 +131,7 @@ function CodiDetailScreen({ navigation, route }) {
     let nullCount = 0
     return (
         <>
+            <ScrollView>
             <View style={{borderRadius: 20, height:300, margin:20, padding:10, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1}}>
                 <CodiItemImg
                     source={{uri: ServerUrl.mediaUrl + codiSetDetail.img}}
@@ -155,20 +156,17 @@ function CodiDetailScreen({ navigation, route }) {
                     </TouchableHighlight>
                 </HeartContainer>
             </View>
-            <View style={{marginHorizontal: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1, minHeight: 100}}>
-                {userData?.username === codiSetDetail.user.username ? 
-                    <TouchableHighlight onPress={deleteCodi} style={{marginBottom: 10}}>
-                        <AntDesign name="delete" size={30} color="#0d3754" />
-                    </TouchableHighlight>
-                :
-                    null
-                }
+            {codiSetDetail.content ? 
+            <View style={{marginHorizontal: 20, marginBottom: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1, minHeight: 100}}>
                 <ContentText>
                     {codiSetDetail.content}
                 </ContentText>
             </View>
-            
-            <ScrollView style={{margin: 20}}>
+            :
+            null}
+
+            {itemDataList.length ? 
+            <ScrollView style={{marginHorizontal: 20, marginBottom: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1}}>
                 {itemDataList.map(item => {
                     console.log(item)
                     if (Object.keys(item).length !== 0) {
@@ -195,6 +193,21 @@ function CodiDetailScreen({ navigation, route }) {
                     }
                 })}
                 {nullCount === 5 ? <Text>등록된 상품의 정보가 없어요</Text> : null}
+            </ScrollView>
+            :
+            null}
+
+            {userData?.username === codiSetDetail.user.username ? 
+                    <TouchableHighlight 
+                    onPress={deleteCodi} 
+                    style={{marginHorizontal: 20, marginBottom: 20, padding: 10, justifyContent: 'center', alignItems: 'center'}}
+                    underlayColor="none"
+                    >
+                        <AntDesign name="delete" size={30} color="#0d3754" />
+                    </TouchableHighlight>
+                :
+                    null
+                }
             </ScrollView>
         </>
     )
