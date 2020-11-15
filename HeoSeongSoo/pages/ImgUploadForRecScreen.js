@@ -202,22 +202,29 @@ function ImgUploadForRecScreen({ navigation, route }) {
         return (
             <ScrollView style={{width: Dimensions.get('window').width * 0.7, backgroundColor: 'rgb(242, 242, 242)'}} showsVerticalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
-                    return (
-                        <GridRowContainer style={gridStyles.row} key={index}>
-                            {tempItems.map(item => {
-                                return (
-                                    <TouchableWithoutFeedback
-                                        key={item.id}
-                                        onPress={() => {
-                                            setImageUri(uploadCategory, item);
-                                            setModalVisible(false);
-                                        }}>
-                                        <CodiItemImg style={{backgroundColor:'white'}} source={{uri: ServerUrl.mediaUrl + item.img}}/>
-                                    </TouchableWithoutFeedback>
-                                );
-                            })}
-                        </GridRowContainer>
-                    )
+                    if (tempItems.length !== 0) {
+                        return (
+                            <GridRowContainer style={gridStyles.row} key={index}>
+                                {tempItems.map(item => {
+                                    return (
+                                        <TouchableWithoutFeedback
+                                            key={item.id}
+                                            onPress={() => {
+                                                setImageUri(uploadCategory, item);
+                                                setModalVisible(false);
+                                            }}>
+                                            <CodiItemImg style={{backgroundColor:'white'}} source={{uri: ServerUrl.mediaUrl + item.img}}/>
+                                        </TouchableWithoutFeedback>
+                                    );
+                                })}
+                            </GridRowContainer>
+                        )
+                    } else {
+                        return (
+                            <Text style={{margin: 10, fontSize: 12}} key={index}>내정보에서 옷장을 클릭해 아이템을 등록해 주세요</Text>
+                        )
+                    }
+                    
                 })}
             </ScrollView>
         );
@@ -250,7 +257,6 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-
                             <TouchableHighlight
                                 style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
                                 underlayColor="none"
@@ -267,7 +273,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 </Modal>
 
             <Text style={{color: 'black', textAlign: 'center', paddingVertical: 10, marginVertical: 20}}>
-                착용할 의류를 옷장에서 가져오세요! {"\n"}
+                착용할 의류를 옷장에서 가져오세요{"\n"}
                 (착용할 의류가 없으면 그냥 '추천받기'를 눌러요!)
             </Text>
             <View>

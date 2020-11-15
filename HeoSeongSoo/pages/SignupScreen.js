@@ -276,7 +276,7 @@ function SignupScreen({ navigation, route }) {
                                     style={{marginBottom: 12}}
                                     animating={true}
                                     transparent={true}
-                                    color={Colors.red800}
+                                    color={'#c9a502'}
                                     size={'large'}
                                 />
                                 <Text>퍼스널 컬러를 분석중입니다</Text>
@@ -339,6 +339,11 @@ function SignupScreen({ navigation, route }) {
                         {nicknameError !== null ? <ErrorMsg style={{ width: '85%', backgroundColor: 'rgba(0, 0, 0, 0)', marginLeft: 20}}>{ nicknameError }</ErrorMsg> : null}
                     </View>
                     <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+                        <View style={{marginBottom: 10, borderColor: '#c9a502', backgroundColor:'white', alignItems: 'center', borderRadius: 20, borderWidth: 1, paddingVertical: 10, paddingHorizontal: 20}}>
+                            <Text>퍼스널 컬러란?</Text>
+                            <Text style={{fontSize: 12}}>개인이 가진 신체의 색과 어울리는 색을 뜻하며,</Text>
+                            <Text style={{fontSize: 12}}>이를 통해 효과적인 이미지 메이킹이 가능합니다</Text>
+                        </View>
                         <Button
                             mode="outlined"
                             onPress={() => {
@@ -350,11 +355,12 @@ function SignupScreen({ navigation, route }) {
                         >
                             퍼스널 컬러 진단을 위한 사진 업로드
                         </Button>
+                        
                     </View>
                     
                         {userImage && 
                         <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
-                            <Image source={{ uri: userImage }} style={{ width: '85%', height: 200, resizeMode: 'center' }}/>
+                            <Image source={{ uri: userImage }} style={{ width: '85%', height: 200, resizeMode: 'contain' }}/>
                         </View>
                         }
                     <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'flex-end'}}>

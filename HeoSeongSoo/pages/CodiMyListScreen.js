@@ -157,7 +157,7 @@ function CodiMyListScreen({ navigation, route }) {
 
     const createTwoButtonAlert = item =>
         Alert.alert(
-        "의상을 삭제하시겠습니까?",
+        "아이템을 삭제하시겠습니까?",
         '"내가 곧 스타일이다" - CoCo Chanel',
         [
             {
@@ -792,8 +792,8 @@ function CodiMyListScreen({ navigation, route }) {
                             }}>
                                 <AntDesign name="closecircleo" size={24} color="black" />
                         </TouchableHighlight>
-                        <Text style={styles.textStyle, {color: 'black'}}>* 옷과 구분되는 배경의 이미지를 올려주세요</Text>
-                        <Text style={styles.textStyle, {color: 'black', marginBottom: 5}}>* 주름지지 않고 펴진 옷이면 좋아요</Text>
+                        <Text style={styles.textStyle, {color: 'black'}}>* 아이템 색상이 잘 드러나는 사진을 올려주세요</Text>
+                        <Text style={styles.textStyle, {color: 'black', marginBottom: 5}}>* 옷걸이에 걸어 구김이 없을수록 좋습니다</Text>
                         <TouchableHighlight
                             style={{ ...styles.openButton }}
                             onPress={() => {
