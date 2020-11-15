@@ -1200,7 +1200,7 @@ def run_self(user_info, user):
             one_set[item] = -2
     
         serializer = CoordiSerializer(data=one_set)
-        merged = Image.new('RGBA', (300 * 3, 300 * 3), (250,250,250,0))
+        merged = Image.new('RGBA', (150 * 3, 150 * 3), (250,250,250,0))
         i, j = 0, 0
         for idx, value in one_set.items():
             chk = 0
@@ -1259,8 +1259,7 @@ def run_self(user_info, user):
             else:
                 imgpath = './media/' + idx + '/' + A.img
                 im = Image.open(imgpath)
-            im = im.resize((300, 300))
-            merged.paste(im, (300 * j, 300 * i))
+            merged.paste(im, (150 * j, 150 * i))
 
         now = datetime.datetime.now()
         nowDate = now.strftime('%M%H%S')

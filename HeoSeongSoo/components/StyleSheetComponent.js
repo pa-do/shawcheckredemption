@@ -1,8 +1,6 @@
 import { StyleSheet } from 'react-native';
-import Constants from 'expo-constants'
+import Constants from 'expo-constants';
 import { Dimensions } from 'react-native';
-import AuthContext from './AuthContext';
-
 // 모든 스타일을 관리하는 컴포넌트
 
 const styles = StyleSheet.create({
@@ -12,12 +10,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 22,
       },
+      modalClosetView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        // alignItems: 'flex-end',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
       modalView: {
         margin: 20,
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 35,
-        alignItems: 'stretch',
+        alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -30,7 +43,7 @@ const styles = StyleSheet.create({
       openButton: {
 		    width: 250,
         height: 40,
-        backgroundColor: '#191970',
+        backgroundColor: '#0d3754',
         borderRadius: 20,
         padding: 10,
         elevation: 2,
@@ -44,7 +57,7 @@ const styles = StyleSheet.create({
           paddingHorizontal: 40,
           elevation: 2,
           marginTop: 22,
-          marginBottom: 22,
+          marginBottom: 10,
         },
       textStyle: {
         color: 'white',
@@ -87,26 +100,35 @@ const personalStyles = StyleSheet.create({
   imageContainer: {
     width: '90%', 
     backgroundColor: '#000000', 
-    marginTop: Constants.statusBarHeight,
   },
   imageStyles: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height + 300
+    height: Dimensions.get('screen').height + 300,
+    resizeMode: 'stretch'
   }
 })
 
 const gridStyles = StyleSheet.create({
   col: {
-    backgroundColor: 'black',
+    backgroundColor: '#DDDDDD',
     width: '33%',
-    height: '100%',
-    margin: 1,
-    padding: 0,
+    height: undefined,
+    aspectRatio: 1 / 1,
+    marginHorizontal: 1,
+    padding: 10,
+    alignContent: 'center',
+  },
+  col2: {
+    backgroundColor: 'white',
+    width: '33%',
+    height: undefined,
+    aspectRatio: 1 / 1,
+    marginHorizontal: 1,
+    padding: 10,
+    alignContent: 'center',
   },
   row: {
-    backgroundColor: 'red',
     width: '100%',
-    height: '30%',
   }
 
 })

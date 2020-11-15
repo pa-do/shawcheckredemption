@@ -1,26 +1,38 @@
 import React from 'react';
-import { ScrollView, Image, View, Dimensions, Button } from 'react-native';
-import PersonalColorBackButton from '../components/mypage/PersonalColorBackButton';
+import { ScrollView, Image, View, Dimensions } from 'react-native';
+import Constants from 'expo-constants';
+import AuthContext from '../components/AuthContext';
+import BackButton from '../components/buttons/BackButton';
 import { personalStyles } from '../components/StyleSheetComponent';
 
 function PersonalColorScreen({ navigation, route }) {
     const [color, setColor] = React.useState(route.params.color);
+    const [userToken, setUserToken] = React.useState(route.params.userToken);
+
+    const { signUp } = React.useContext(AuthContext);
+
     function moveBack() {
-        navigation.goBack();
+        if (userToken === undefined || userToken === null) {
+            navigation.goBack();
+        } else {
+            signUp(userToken);
+        }
     }
+
     return (
         <ScrollView>
             <View
-                style={personalStyles.imageContainer, {backgroundColor:'white', flex: 1}}
+                style={personalStyles.imageContainer, {flex: 1, marginTop: Constants.statusBarHeight}}
             >
-                <PersonalColorBackButton 
+                <BackButton 
                 onPress={() => moveBack()}
-                ></PersonalColorBackButton>
+                ></BackButton>
                 {color === 'spring' ? 
                     <Image
                         style={personalStyles.imageStyles}
                         source={require('../assets/personal/spring.png')}
                     />
+                    
                 :
                     null
                 }
@@ -50,12 +62,6 @@ function PersonalColorScreen({ navigation, route }) {
                 }
 
             </View>
-            <Button
-                title={'확인'}
-                onPress={() => {
-                    navigation.goBack();
-                }}
-            >확인</Button>
         </ScrollView>
     );
 }

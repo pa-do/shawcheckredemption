@@ -1,14 +1,16 @@
 import React from 'react';
-import { StyleSheet, Modal, Text, TouchableHighlight, TouchableOpacity, View, Image, ScrollView, Dimensions, ImageBackground } from 'react-native';
+import { StyleSheet, Modal, Text, TouchableHighlight, TouchableWithoutFeedback, TouchableOpacity, View, Image, ScrollView, Dimensions, ImageBackground } from 'react-native';
 import axios from 'axios'
 import styled from 'styled-components/native';
 import Constants from 'expo-constants'
+import { StackActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput } from 'react-native-paper';
-import { styles, formStyles } from '../components/StyleSheetComponent';
+import { styles, formStyles, gridStyles } from '../components/StyleSheetComponent';
 import { CategoryEngText, CategoryText } from '../components/TextComponent';
 import { ServerUrl } from '../components/TextComponent';
 import RowContainer from '../components/RowContainer';
+import { AntDesign } from '@expo/vector-icons';
 
 const Container = styled.SafeAreaView`
     flex-direction: row;
@@ -37,13 +39,34 @@ const SelectColorContainer = styled.View`
     background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
     width: 50px;
     height: 50px;
-    border: ${props => props.borderSize}px solid black;
+    border-radius: 150px;
+    border: ${props => props.borderSize}px solid ${props => {
+        let selected = '#ff7f00'
+        if (props.borderSize === 3) {
+            if (props.R === 0 && props.G === 0 && props.B === 0) {
+                return selected
+            } else if (props.R === 33 && props.G === 35 && props.B === 34) {
+                return selected
+            } else if (props.R === 35 && props.G === 40 && props.B === 51) {
+                return selected
+            } else if (props.R === 38 && props.G === 58 && props.B === 84) {
+
+            }
+        } else {
+            return 'black'
+        }
+    }};
     margin: 3px;
     align-items: center;
 `;
 
 const SlectStyleText = styled.Text`
-    font-size: 25px;
+    font-size: 20px;
+`;
+
+const GridRowContainer = styled.View`
+    flex-direction: row;
+    padding: 1px;
 `;
 
 const color_name = ['흰색', '라이트그레이', '회색', '다크 그레이', '검정색', '딥레드', '빨간색', 
@@ -68,11 +91,31 @@ const colorRGB = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91
 const styleKor = ['포멀', '캐쥬얼', '스트릿', '스포티', '댄디']
 const styleList = ['formal', 'casual', 'street', 'sporty', 'dandy']
 
+const CodiItemImg = styled.Image`
+    margin: 3px;
+    width: 31%;
+    height: undefined;
+    aspectRatio:1 ;
+    resize-mode: center;
+`;
+
+const ErrorMsg = styled.Text`
+    color: red;
+    font-size: 12px;
+`;
+
 function CodiFormScreen({ navigation }) {
     const [modalVisible, setModalVisible] = React.useState(false);
+    const [modalCategoryVisible, setModalCategoryVisible] = React.useState(false);
+    const [modalItemCategoryVisible, setModalItemCategoryVisible] = React.useState(false);
+    const [errorMsg, setErrorMsg] = React.useState(null);
+    const [detailCategory, setDetailCategory] = React.useState(null);
+    const [detailCategoryList, setDetailCategoryList] = React.useState([]);
+    const [modalItems, setModalItems] = React.useState(null);
+    const [uploadCategory, setUploadCategory] = React.useState();
     const [content, setContent] = React.useState('');
-    const [selectedStyle, setSelectedStyle] = React.useState('');
-    const [selectedColor, setSelectedColor] = React.useState('');
+    const [selectedStyle, setSelectedStyle] = React.useState(null);
+    const [selectedColor, setSelectedColor] = React.useState(null);
     const [selectedColorRGB, setSelectedColorRGB] = React.useState([]);
     const [userItems, setUserItems] = React.useState({});
     const [hatImage, setHatImage] = React.useState(null);
@@ -86,9 +129,21 @@ function CodiFormScreen({ navigation }) {
 
     React.useEffect(() => {
         navigation.setOptions({title: `내 코디 등록하기`});
+        getUserItems();
     }, []);
 
-    const getUserItems = requestHeaders => {
+    const getUserItems = async () => {
+        let userToken;
+        try {
+            userToken = await AsyncStorage.getItem('userToken');
+        } catch (e) {
+            // Restoring token failed
+        }
+        const requestHeaders = {
+            headers: {
+                Authorization: `JWT ${userToken}`
+            }
+        }
         axios.get(ServerUrl.url + 'wear/mylist/', requestHeaders)
         .then(res => {
             const itemData = {
@@ -123,25 +178,12 @@ function CodiFormScreen({ navigation }) {
                 }
             })
             setUserItems(itemData);
-            console.log(userItems, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< my item list')
         })
-        .catch(err => console.log(err.response.data))
+        .catch(err => console.error(err))
     }
 
     const openItemModal = async () => {
-        let userToken;
-        try {
-            userToken = await AsyncStorage.getItem('userToken');
-        } catch (e) {
-            // Restoring token failed
-        }
-        const requestHeaders = {
-            headers: {
-                Authorization: `JWT ${userToken}`
-            }
-        }
-        getUserItems(requestHeaders);
-        setModalVisible(true);
+        setModalItemCategoryVisible(true);
     }
 
     const setImageUri = (uploadCategory, item) => {
@@ -180,6 +222,7 @@ function CodiFormScreen({ navigation }) {
 
 
     const createSet = async () => {
+        setErrorMsg(null);
         // 저장된 이미지들을 취합합니다.
         let userToken;
         try {
@@ -194,71 +237,85 @@ function CodiFormScreen({ navigation }) {
         }
         const uploadData = new FormData();
         uploadData.append('headwear', hatImage ? hatImage.id : -1);
-        uploadData.append('top', topImage ? topImage.id : -1);
+        if (topImage === null || topImage === undefined) {
+            return setErrorMsg('상의는 꼭 입고다니세요 ㅠㅠ')
+        } else {
+            uploadData.append('top', topImage ? topImage.id : -1);
+        }
         uploadData.append('outer', outerImage ? outerImage.id : -1);
         uploadData.append('acc', AccImage ? AccImage.id : -1);
-        uploadData.append('pants', pantsImage ? pantsImage.id : -1);
+        if (pantsImage === null || pantsImage === undefined) {
+            return setErrorMsg('바지를 입지 않고 나가시면 형사처벌을 받을 수 있습니다')
+        } else {
+            uploadData.append('pants', pantsImage ? pantsImage.id : -1);
+        }
         uploadData.append('bag', bagImage ? bagImage.id : -1);
         uploadData.append('watch', watchImage ? watchImage.id : -1);
-        uploadData.append('shoes', shoesImage ? shoesImage.id : -1);
+        if (shoesImage === null || shoesImage === undefined) {
+            return setErrorMsg('건강에는 좋지만 발을 다칠 수 있어요')
+        } else {
+            uploadData.append('shoes', shoesImage ? shoesImage.id : -1);
+        }
         uploadData.append('content', content);
-        uploadData.append('style', selectedStyle);
-        uploadData.append('color', selectedColor);
+        if (selectedStyle === undefined || selectedStyle === null) {
+            return setErrorMsg('스타일을 선택해주세요')
+        } else {
+            uploadData.append('style', selectedStyle);
+        }
+        if (selectedColor === undefined || selectedColor === null) {
+            return setErrorMsg('코디의 전체적 색감을 알려주세요')
+        } else {
+            uploadData.append('color', selectedColor);
+        }
 
-        // const uploadData = {
-        //     headwear: hatImage ? hatImage.id : -1,
-        //     top: topImage ? topImage.id : -1,
-        //     outer: outerImage ? outerImage.id : -1,
-        //     acc: AccImage ? AccImage.id : -1,
-        //     pants: pantsImage ? pantsImage.id : -1,
-        //     bag: bagImage ? bagImage.id : -1,
-        //     watch: watchImage ? watchImage.id : -1,
-        //     shoes: shoesImage ? shoesImage.id : -1,
-        //     content: content,
-        //     style: selectedStyle,
-        //     color: selectedColor
-        // }
-        console.log()
-        // uploadData.push({headwear: hatImage ? hatImage.id : -1})
-        // uploadData.push({top: topImage ? topImage.id : -1})
-        // uploadData.push({outer: outerImage ? outerImage.id : -1})
-        // uploadData.push({acc: AccImage ? AccImage.id : -1})
-        // uploadData.push({pants: pantsImage ? pantsImage.id : -1})
-        // uploadData.push({bag: bagImage ? bagImage.id : -1})
-        // uploadData.push({watch: watchImage ? watchImage.id : -1})
-        // uploadData.push({shoes: shoesImage ? shoesImage.id : -1})
-
-        console.log(uploadData, ServerUrl.url + 'wear/createcoordi/')
-        axios.post(ServerUrl.url + 'wear/createcoordi/', uploadData, requestHeaders)
+        axios.post(ServerUrl.url + 'wear/coordi/', uploadData, requestHeaders)
         .then(res => {
-            console.log(res)
-            // navigation.navigate('All')
+            navigation.dispatch(
+                StackActions.replace('My page')
+            )
         })
-        .catch(err => console.error(err.response))
+        .catch(err => console.error(err))
     }
     
-    const OneOfItems = ({item, image}) => {
-        return(
-            <>
-                {item.id === image?.id ?
-                    <ItemBox>
-                        <ImageBackground 
-                            style={{ width: "100%", height: "100%", borderWidth: 5, borderColor: "rgb(234, 152, 90)" }}
-                            source={{uri : ServerUrl.mediaUrl + item.img}}
-                            resizeMode="cover"
-                        />
-                    </ItemBox>
-                    :
-                    <ItemBox>
-                        <ImageBackground 
-                            style={{ width: "100%", height: "100%" }}
-                            imageStyle={{ borderRadius: 5}}
-                            source={{uri : ServerUrl.mediaUrl + item.img}}
-                            resizeMode="cover"
-                        />
-                    </ItemBox>
+    const ModalItemGrid = () => {
+        const items = modalItems;
+        const itemsList = [];
+        for (let i = 0; i <= parseInt(items?.length / 3); i++) {
+            let startPoint = (i * 3);
+            let endPoint = (i * 3) + 3;
+            if (endPoint > items?.length) {
+                endPoint = endPoint - 1;
+                if (endPoint > items?.length) {
+                    endPoint = endPoint - 1;
                 }
-            </>
+            }
+            try {
+                itemsList.push(items.slice(startPoint, endPoint));
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        return (
+            <ScrollView style={{width: Dimensions.get('window').width * 0.7, backgroundColor: 'rgb(242, 242, 242)'}} showsVerticalScrollIndicator={false}>
+                {itemsList.map((tempItems, index) => {
+                    return (
+                        <GridRowContainer style={gridStyles.row} key={index}>
+                            {tempItems.map(item => {
+                                return (
+                                    <TouchableWithoutFeedback
+                                        key={item.id}
+                                        onPress={() => {
+                                            setImageUri(uploadCategory, item);
+                                            setModalItemCategoryVisible(false);
+                                        }}>
+                                        <CodiItemImg style={{backgroundColor:'white'}} source={{uri: ServerUrl.mediaUrl + item.img}}/>
+                                    </TouchableWithoutFeedback>
+                                );
+                            })}
+                        </GridRowContainer>
+                    )
+                })}
+            </ScrollView>
         );
     }
     return (
@@ -267,210 +324,107 @@ function CodiFormScreen({ navigation }) {
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={modalVisible}
+                visible={modalCategoryVisible}
             >
                 <View style={styles.centeredView}>
-                <ScrollView>
                     <View style={styles.modalView}>
-
-                        <Text style={styles.modalText}>{CategoryText.top}</Text>
+                        <Text>카테고리를 선택해주세요.</Text>
                         <Container>
                             <ScrollView
                                 horizontal={true}
                             >
-                                {userItems.tops?.map(item => {
+                                {detailCategoryList.map((item, index) => {
                                     return (
                                         <TouchableHighlight
-                                            key={item.id}
                                             onPress={() => {
-                                                setImageUri(CategoryEngText.top, item);
+                                                setDetailCategory(index);
                                             }}
+                                            key={index}
                                         >
-                                            <OneOfItems item={item} image={topImage}/>
+                                        {detailCategory === index ?
+                                            <View style={{margin: 7, backgroundColor: 'rgb(234, 152, 90)'}}>
+                                                <Text style={{fontSize: 25}}>{item}</Text>
+                                            </View>
+                                        :
+                                            <View style={{margin: 7}}>
+                                                <Text style={{fontSize: 25}}>{item}</Text>
+                                            </View>                     
+                                        }
+
                                         </TouchableHighlight>
                                     );
                                 })}
                             </ScrollView>
                         </Container>
-                        <Seperator/>
-
-                        <Text style={styles.modalText}>{CategoryText.pants}</Text>
-                        <Container>
-                            <ScrollView
-                                horizontal={true}
-                            >
-                                {userItems.pants?.map(item => {
-                                    return (
-                                        <TouchableHighlight
-                                            key={item.id}
-                                            onPress={() => {
-                                                setImageUri(CategoryEngText.pants, item);
-                                            }}
-                                        >
-                                            <OneOfItems item={item} image={pantsImage}/>
-                                        </TouchableHighlight>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-
-                        <Text style={styles.modalText}>{CategoryText.outer}</Text>
-                        <Container>
-                            <ScrollView
-                                    horizontal={true}
-                                >
-                                {userItems.outers?.map(item => {
-                                    return (
-                                        <TouchableHighlight
-                                            key={item.id}
-                                            onPress={() => {
-                                                setImageUri(CategoryEngText.outer, item);
-                                            }}
-                                        >
-                                            <OneOfItems item={item} image={outerImage}/>
-                                        </TouchableHighlight>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-
-                        <Text style={styles.modalText}>{CategoryText.shoes}</Text>
-                        <Container>
-                            <ScrollView
-                                    horizontal={true}
-                                >
-                                {userItems.shoes?.map(item => {
-                                    return (
-                                        <TouchableHighlight
-                                            key={item.id}
-                                            onPress={() => {
-                                                setImageUri(CategoryEngText.shoes, item);
-                                            }}
-                                        >
-                                            <OneOfItems item={item} image={shoesImage}/>
-                                        </TouchableHighlight>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-
-                        <Text style={styles.modalText}>{CategoryText.hat}</Text>
-                        <Container>
-                            <ScrollView
-                                    horizontal={true}
-                                >
-                                {userItems.hats?.map(item => {
-                                    return (
-                                        <TouchableHighlight
-                                            key={item.id}
-                                            onPress={() => {
-                                                setImageUri(CategoryEngText.hat, item);
-                                            }}
-                                        >
-                                            <OneOfItems item={item} image={hatImage}/>
-                                        </TouchableHighlight>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-                        
-                        <Text style={styles.modalText}>{CategoryText.bag}</Text>
-                        <Container>
-                            <ScrollView
-                                    horizontal={true}
-                                >
-                                {userItems.bags?.map(item => {
-                                    return (
-                                        <TouchableHighlight
-                                            key={item.id}
-                                            onPress={() => {
-                                                setImageUri(CategoryEngText.bag, item);
-                                            }}
-                                        >
-                                            <OneOfItems item={item} image={bagImage}/>
-                                        </TouchableHighlight>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-                        <Text style={styles.modalText}>{CategoryText.watch}</Text>
-                        <Container>
-                            <ScrollView
-                                horizontal={true}
-                            >
-                                {userItems.watches?.map(item => {
-                                    return (
-                                        <TouchableHighlight
-                                            key={item.id}
-                                            onPress={() => {
-                                                setImageUri(CategoryEngText.watch, item);
-                                            }}
-                                        >
-                                            <OneOfItems item={item} image={watchImage}/>
-                                        </TouchableHighlight>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
-
-                        <Text style={styles.modalText}>{CategoryText.accessory}</Text>
-                        <Container>
-                            <ScrollView
-                                horizontal={true}
-                            >
-                                {userItems.accs?.map(item => {
-                                    return (
-                                        <TouchableHighlight
-                                            key={item.id}
-                                            onPress={() => {
-                                                setImageUri(CategoryEngText.accessory, item);
-                                            }}
-                                        >
-                                            <OneOfItems item={item} image={AccImage}/>
-                                        </TouchableHighlight>
-                                    );
-                                })}
-                            </ScrollView>
-                        </Container>
-                        <Seperator/>
 
                         <TouchableHighlight
-                            style={{ ...styles.openButton, }}
+                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
                             onPress={() => {
-                                setModalVisible(false);
+                                setModalCategoryVisible(false);
+                                setModalImageVisible(true);
+                            }}
+                        >
+                            <Text style={styles.textStyle}>확정</Text>
+                        </TouchableHighlight>
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+
+                            onPress={() => {
+                                setDetailCategory(null);
+                                setModalCategoryVisible(false);
+
                             }}
                         >
                         <Text style={styles.textStyle}>닫기</Text>
                         </TouchableHighlight>
                     </View>
-                </ScrollView>
+                    </View>
+            </Modal>
+            {/* 아이템 모달 */}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalItemCategoryVisible}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <TouchableHighlight
+                            style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
+                            underlayColor="none"
+                            onPress={() => {
+                                setModalItems(null);
+                                setModalItemCategoryVisible(false);
+                            }}>
+                                <AntDesign name="closecircleo" size={24} color="black" />
+                        </TouchableHighlight>
+                        <ModalItemGrid/>
+                    </View>
+
                 </View>
             </Modal>
             </TopContainer>
             <ScrollView>
-            <View style={{height: Dimensions.get('window').height + 150}}>
+            <View style={{marginVertical: 20}}>
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        openItemModal();
+                        if (hatImage !== null) {
+                            setHatImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.hat);
+                            openItemModal();
+                            setModalItems(userItems.hats);
+                        }
                     }}>
                     {hatImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + hatImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.hat }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/headwear.png')}
+                        />
                     }
                 </TouchableHighlight>
 
@@ -478,13 +432,22 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        openItemModal();
+                        if (topImage !== null) {
+                            setTopImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.top);
+                            openItemModal();
+                            setModalItems(userItems.tops);
+                        }
                     }}>
                     
                     {topImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + topImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.top }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/top.png')}
+                        />
                     }
                 </TouchableHighlight>
 
@@ -492,12 +455,22 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        openItemModal();
+                        if (outerImage !== null) {
+                            setOuterImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.outer);
+                            openItemModal();
+                            setModalItems(userItems.outers);
+                        }
+
                     }}>
                     {outerImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + outerImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.outer }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/outer.png')}
+                        />
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -507,12 +480,22 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        openItemModal();
+                        if (AccImage !== null) {
+                            setAccImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.accessory);
+                            openItemModal();
+                            setModalItems(userItems.accs);
+                        }
+
                     }}>
                     {AccImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + AccImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.accessory }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/accessory.png')}
+                        />
                     }
                 </TouchableHighlight>
 
@@ -520,25 +503,43 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        openItemModal();
+                        if (pantsImage !== null) {
+                            setPantsImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.pants);
+                            openItemModal();
+                            setModalItems(userItems.pants);
+                        }
                     }}>
                     {pantsImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + pantsImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.pants }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/pants.png')}
+                        />
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
-                    onPress={() => {
-                        openItemModal();
+                    onPress={async () => {
+                        if (bagImage !== null) {
+                            setBagImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.bag);
+                            await openItemModal();
+                            setModalItems(userItems.bags);
+                        }
                     }}>
                     {bagImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + bagImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.bag }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/bag.png')}
+                        />
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -548,12 +549,21 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        openItemModal();
+                        if (watchImage !== null) {
+                            setWatchImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.watch);
+                            openItemModal();
+                            setModalItems(userItems.watches);
+                        }
                     }}>
                     {watchImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + watchImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.watch }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/watch.png')}
+                        />
                     }
                 </TouchableHighlight>
 
@@ -561,12 +571,21 @@ function CodiFormScreen({ navigation }) {
                     style={formStyles.uploadBox}
                     underlayColor="#DDDDDD"
                     onPress={() => {
-                        openItemModal();
+                        if (shoesImage !== null) {
+                            setShoesImage(null);
+                        } else {
+                            setUploadCategory(CategoryEngText.shoes);
+                            openItemModal();
+                            setModalItems(userItems.shoes);
+                        }
                     }}>
                     {shoesImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + shoesImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.shoes }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/shoes.png')}
+                        />
                     }
                 </TouchableHighlight>
             
@@ -575,7 +594,7 @@ function CodiFormScreen({ navigation }) {
             <TextInput
                 multiline
                 theme={{ colors: { primary: "#0d3754" }}}
-                numberOfLines={4}
+                numberOfLines={2}
                 label="코디를 소개해주세요"
                 value={content}
                 onChangeText={text => setContent(text)}
@@ -585,11 +604,12 @@ function CodiFormScreen({ navigation }) {
             <Container style={{marginBottom: 22, alignItems: 'center', justifyContent: 'center'}}>
                 <ScrollView
                     horizontal={true}
-                    // style={{marginHorizontal: 22}}
+                    style={{marginHorizontal: 22}}
+                    showsHorizontalScrollIndicator={false}
                 >
                 {colorRGB.map((item, index) => {
                     return (
-                        <TouchableHighlight
+                        <TouchableWithoutFeedback
                             key={index}
                             onPress={() => {
                                 setSelectedColor(color_name[index]);
@@ -599,10 +619,10 @@ function CodiFormScreen({ navigation }) {
                         {selectedColorRGB[0] === item[0] && selectedColorRGB[1] === item[1] && selectedColorRGB[2] === item[2] ? 
                             <SelectColorContainer borderSize={3} R={item[0]} G={item[1]} B={item[2]} />
                             :
-                            <SelectColorContainer borderSize={1} R={item[0]} G={item[1]} B={item[2]} />
+                            <SelectColorContainer borderSize={0} R={item[0]} G={item[1]} B={item[2]} />
                         }
 
-                        </TouchableHighlight>
+                        </TouchableWithoutFeedback>
                     );
                 })}
                 </ScrollView>
@@ -612,6 +632,7 @@ function CodiFormScreen({ navigation }) {
                 <ScrollView
                     horizontal={true}
                     style={{marginHorizontal: 22}}
+                    showsHorizontalScrollIndicator={false}
                 >
                     {styleList.map((item, index) => {
                         return(
@@ -622,12 +643,12 @@ function CodiFormScreen({ navigation }) {
                                 }}
                             >
                                 {selectedStyle === item ?
-                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 90, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
-                                        <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
+                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 5, width: 90, alignItems: 'center', justifyContent: 'center', backgroundColor: '#0d3754', borderColor: '#c9a502', borderWidth: 1, borderRadius: 50}}>
+                                        <SlectStyleText StyleText style={{color: 'white'}}>{styleKor[index]}</SlectStyleText>
                                     </View>
                                 :
-                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 1, width: 90, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
-                                        <SlectStyleText StyleText>{styleKor[index]}</SlectStyleText>
+                                    <View style={{marginVertical: 10, marginHorizontal: 5, padding: 5, width: 90, alignItems: 'center', justifyContent: 'center',backgroundColor: 'white', borderColor: '#c9a502', borderWidth: 1, borderRadius: 50}}>
+                                        <SlectStyleText style={{color: '#0d3754'}} StyleText>{styleKor[index]}</SlectStyleText>
                                     </View>                     
                                 }
                             </TouchableOpacity>
@@ -635,6 +656,9 @@ function CodiFormScreen({ navigation }) {
                     })}
                 </ScrollView>
             </Container>
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                {errorMsg !== null ? <ErrorMsg style={{ backgroundColor: 'rgba(0, 0, 0, 0)', alignItems: 'center'}}>{ errorMsg }</ErrorMsg> : null}
+            </View>
             <TouchableHighlight
                 style={styles.recButton}
                 onPress={createSet}

@@ -1,21 +1,28 @@
 import React from 'react';
-import { Text, TouchableWithoutFeedback  } from 'react-native';
+import { Text, View, Image, TouchableWithoutFeedback, TouchableHighlight  } from 'react-native';
 import styled from 'styled-components/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
 import { ServerUrl } from '../components/TextComponent';
+import { AntDesign } from '@expo/vector-icons'; 
+
+import * as Animatable from 'react-native-animatable';
 
 // 전체 코디리스트의 개별 아이템입니다.
 
 // 카드의 전체 레이아웃
 const CodiItemCard = styled.View`
-    margin: 10px;
-    border: 2px #000000 solid;
+    margin: 15px 10px;
+    padding: 10px;
+    background-color: white;
+    border-color: #c9a502;
+    border-width: 1;
 `;
 
 // 이미지를 감싸는 뷰
 const CodiListItem = styled.View`
-    height: 250px;
+    margin-top: 10px;
+    height: 300px;
 `;
 
 // 코디의 이미지
@@ -28,8 +35,6 @@ const CodiItemImg = styled.Image`
 // 하트를 품은 뷰
 const HeartContainer = styled.View`
     margin: 5px;
-    flex-direction: row;
-    justify-content: space-between;
 `;
 
 // 하트 텍스트
@@ -52,6 +57,8 @@ const ContentText = styled.Text`
 function CodiList(props) {
     const [codiItem, setCodiItem] = React.useState(props.item);
     const [itemLike, setLikeItem] = React.useState({liked: props.item.liked ? true : false, likes: props.item.like_count})
+    const AnimationRef = React.useRef();
+
     async function changeHeart() {
         // axios 요청으로 하트 변경사항 저장
         // codiItem.id와 itemLike 전송
@@ -70,24 +77,26 @@ function CodiList(props) {
         // codiItem.id와 itemLike 전송
         axios.post(ServerUrl.url + `wear/likecoordi/${codiItem.id}`, null, requestHeaders)
         .then(res => {
-            console.log(res.data)
             if (res.data === '좋아요 삭제.'){
                 setLikeItem({
-                    liked: !itemLike.liked,
+                    liked: false,
                     likes: itemLike.likes - 1
                 })
             } else {
                 setLikeItem({
-                    liked: !itemLike.liked,
+                    liked: true,
                     likes: itemLike.likes + 1
                 })
+            }
+            props.changeLikeStat(codiItem.id, !itemLike.liked);
+            if(AnimationRef) {
+                AnimationRef.current?.rubberBand();
             }
         })
         .catch(err => console.error(err))
     }
     return (
-        <CodiItemCard>
-            <Text style={{margin: 3, fontWeight: 'bold'}}>{codiItem.user.nickname}</Text>
+        <CodiItemCard style={{borderRadius: 20}}>
             <CodiListItem>
                 <TouchableWithoutFeedback onPress={props.imgOnPress}>
                     <CodiItemImg
@@ -96,17 +105,34 @@ function CodiList(props) {
                     }}
                     />
                 </TouchableWithoutFeedback>
+                <TouchableHighlight 
+                onPress={changeHeart} 
+                style={{position: 'absolute', zIndex: 1, bottom: 10, right: 0}}
+                underlayColor="none"
+                >
+                    <HeartContainer style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{fontSize: 17}}>{ itemLike.likes }</Text>
+                        <Animatable.View ref={AnimationRef}>
+                        {itemLike.liked ? 
+                            <Image
+                                style={{width: 40, height: 40, resizeMode: 'center'}}
+                                source={require('../assets/buttono.png')}/> 
+                            : 
+                            <Image
+                                style={{width: 40, height: 40, resizeMode: 'center'}}
+                                source={require('../assets/button.png')}/>}
+                        </Animatable.View>
+
+                    </HeartContainer>
+                </TouchableHighlight>
             </CodiListItem>
-            <TouchableWithoutFeedback onPress={changeHeart}>
-                <HeartContainer>
-                    <HeartText>{itemLike.liked ? '❤️' : '💜'}{ itemLike.likes }</HeartText>
-                </HeartContainer>
-            </TouchableWithoutFeedback>
             <ContentContainer>
-                <ContentText>{ codiItem.content }</ContentText>
+                <Text numberOfLines={2} style={{flexDirection:'row', flexWrap:'wrap'}}>
+                    <Text style={{fontWeight: 'bold', fontSize: 18}}>{codiItem.user.nickname}</Text>
+                    <Text>({ codiItem.color } { codiItem.style })  </Text>
+                    <Text>{ codiItem.content }</Text>
+                </Text>
             </ContentContainer>
-                <ContentText>{ codiItem.style }</ContentText>
-                <ContentText>{ codiItem.color }</ContentText>
         </CodiItemCard>
     )
 }

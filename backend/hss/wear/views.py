@@ -193,7 +193,6 @@ class Coordi(APIView):
 
             ---
             # 내용
-                반드시 순서에 맞춰서 보내주세요
                 { headwear : pk,
                 top : pk,
                 outer : pk,
@@ -211,35 +210,39 @@ class Coordi(APIView):
         User = get_user_model()
         user = get_object_or_404(User, pk=request.user.pk)
         serializer = CoordiSerializer(data=request.data)
-        merged = Image.new('RGBA', (300 * 3, 300 * 3), (250,250,250,0))
+        merged = Image.new('RGBA', (150 * 3, 150 * 3), (250,250,250,0))
         i, j = 0, 0
+        need = 0
         for idx, value in request.data.items():
             if idx == 'color' or idx == 'style' or idx == 'content':
+                continue
+            if value == '-1':
                 continue
             if idx == 'headwear':
                 i, j = 0, 0
             elif idx == 'top':
                 i, j = 0, 1
+                need += 1
             elif idx == 'outer':
                 i, j = 0, 2
             elif idx == 'acc':
                 i, j = 1, 0
             elif idx == 'pants':
                 i, j = 1, 1
+                need += 1
             elif idx == 'bag':
                 i, j = 1, 2
             elif idx == 'watch':
                 i, j = 2, 0
             elif idx == 'shoes':
                 i, j = 2, 1
-            if value == '-1':
-                continue
+                need += 1
 
             A = UserClothes.objects.get(pk=value)
             im = Image.open(A.img)
-            im = im.resize((300, 300))
-            merged.paste(im, (300 * j, 300 * i))
-
+            merged.paste(im, (150 * j, 150 * i))
+        if need < 3:
+            return HttpResponse('상의, 하의, 신발 값이 필요합니다.')
         now = datetime.datetime.now()
         nowDate = now.strftime('%M%H%S')
         targeturl = "usercoordi/" + user.username + '_' + nowDate + '.png'
@@ -283,7 +286,7 @@ def list_coordi(request):
     """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    coordi = UserCoordi.objects.filter(user=user, c_code=1)
+    coordi = UserCoordi.objects.filter(user=user, c_code=1).order_by('-id')
     serializer = UserMergeSerializer(coordi, many=True, context={'request': request})
     return Response(serializer.data)
 
@@ -320,7 +323,7 @@ def like_list(request):
     """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    clothes = LikeCoordi.objects.filter(user=user).values()
+    clothes = LikeCoordi.objects.filter(user=user).order_by('-id').values()
     like = []
     for i in clothes:
         data = {}
@@ -363,9 +366,36 @@ def like_list(request):
 # 추천 받기
 @api_view(['POST'])
 def recommand(request):
+    """
+        코디 추천받는 API
+
+        ---
+        # 내용
+            { headwear : pk,
+                top : pk,
+                outer : pk,
+                acc : pk,
+                pants : pk,
+                bag : pk,
+                watch : pk,
+                shoes : pk,
+                who : string
+                where : string
+            }   pk 값 없으면 -1  // 5개의 추천 이미지와 pk값 리턴됨
+    """
     from wear import coordiset
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
+    # 기존 추천 이미지 삭제
+    remains = UserCoordi.objects.filter(c_code=0, user=user).values()
+    for i in remains:
+        rchk = LikeCoordi.objects.filter(coordi_num_id = i['id'])
+        if rchk.exists():
+            continue
+        remain = UserCoordi.objects.get(id=i['id'])
+        remainS = CoordiListSerializer(remain)
+        os.remove("./media/"+str(remainS.data['img']))
+        remain.delete()
     who = request.data['who']
     where = request.data['where']
     now = datetime.datetime.now()
@@ -416,3 +446,18 @@ def recommand(request):
     
     result = coordiset.run_self(user_info, user)
     return Response(result)
+
+# 코디 전부 가져오기(인피니트)
+@api_view(['GET'])
+def infinite(request, idx):
+    """
+        사람들이 올린 코디를 인덱스로 줌
+
+        ---
+        # 내용
+            pk 값을 파라미터로 보내면 됨
+    """
+    coordi = UserCoordi.objects.filter(c_code=1).order_by('-id')[idx:idx+6]
+    serializer = UserMergeSerializer(coordi, many=True, context={'request': request})
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
+    

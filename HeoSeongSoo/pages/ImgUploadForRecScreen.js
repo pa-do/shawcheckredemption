@@ -1,27 +1,62 @@
 import React from  'react';
 import { Text, View, Modal, TouchableHighlight, TouchableWithoutFeedback, Image, ScrollView, Dimensions  } from 'react-native';
 import styled from 'styled-components/native';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CategoryText, ServerUrl, CategoryEngText } from '../components/TextComponent';
-import { styles, formStyles } from '../components/StyleSheetComponent';
+import { ServerUrl, CategoryEngText } from '../components/TextComponent';
+import { styles, formStyles, gridStyles } from '../components/StyleSheetComponent';
 import RowContainer from '../components/RowContainer';
 import axios from 'axios';
+import { AntDesign } from '@expo/vector-icons';
+
 
 const CodiItemImg = styled.Image`
     margin: 3px;
     width: 31%;
-    height: 150px;
+    height: undefined;
+    aspectRatio: 1;
     resize-mode: center;
 `;
 
 const GridRowContainer = styled.View`
-    flex: 1;
     flex-direction: row;
+    padding: 1px;
 `;
+
+const namedFirstText = [
+    '"패션은 느낌입니다. 이유가 있어선 안 되죠"',
+    '"패션은 변하지만 스타일은 영원하다"',
+    '"패션은 스스로에 대한 자신감이다"',
+    '"누가 감히 무엇이 다른 무엇보다',
+    '"보여지는 것 이상의 것을 얻으려면',
+    '"오늘 최악의 적을 만날 것처럼 차려입어라"',
+    '"스타일이란 말 없이 당신에 대해 말하는 방법이다"'
+]
+
+const namedSecondText = [
+    '- Christian Dior',
+    '- Coco Chanel',
+    ' - Paul Smith',
+    '훨씬 세련되었다고 말할 수 있는가"',
+    '이면에 자신감이 바탕이 되어야 한다"',
+    '- Coco Chanel',
+    '- Rachel Zoe'
+]
+
+const namedThirdText = [
+    '',
+    '',
+    '',
+    '- Miguel Adrover',
+    ' - candace bushnell',
+    '',
+    ''
+]
 
 function ImgUploadForRecScreen({ navigation, route }) {
     const [uploadCategory, setUploadCategory] = React.useState();
     const [value, setValue] = React.useState([route.params.value, route.params.secondValue]);
+    const [indicatorVisible, setIndicatorVisible] = React.useState(false);
     const [modalVisible, setModalVisible] = React.useState(false);
     const [userItems, setUserItems] = React.useState({});
     const [modalItems, setModalItems] = React.useState(null);
@@ -33,9 +68,11 @@ function ImgUploadForRecScreen({ navigation, route }) {
     const [bagImage, setBagImage] = React.useState(null);
     const [watchImage, setWatchImage] = React.useState(null);
     const [AccImage, setAccImage] = React.useState(null);
+    const [randomIndex, setRandomIndex] = React.useState(0);
 
     
     const recommendationRequest = async () => {
+        setRandomIndex(getRandomArbitrary(0, 7));
         let userToken;
         try {
             userToken = await AsyncStorage.getItem('userToken');
@@ -61,14 +98,24 @@ function ImgUploadForRecScreen({ navigation, route }) {
         // 서버로 이미지를 보내고 결과를 받아옵니다.
         axios.post(ServerUrl.url + 'wear/recommand/', uploadData, requestHeaders)
         .then(res => {
-            console.log(res.data)
             navigation.navigate('RecList', {rec: res.data});
+            setIndicatorVisible(false);
         })
-        .catch(err => console.error(err, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< rec error'))
+        .catch(err => {
+            setIndicatorVisible(false);
+            console.error(err)
+        })
+    }
+
+    function getRandomArbitrary(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
     }
 
     React.useEffect(() => {
         navigation.setOptions({title: `착용할 의류 선택하기`});
+        setRandomIndex(getRandomArbitrary(0, 7));
         getUserItems();
     }, []);
 
@@ -151,14 +198,12 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 }
             })
             setUserItems(itemData);
-            console.log(userItems, '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< my item list')
         })
-        .catch(err => console.log(err.response.data))
+        .catch(err => console.error(err))
     }
 
     const ModalItemGrid = () => {
         const items = modalItems;
-        console.log(items, '<<<<<<<<<<<<< items')
         const itemsList = [];
         for (let i = 0; i <= parseInt(items?.length / 3); i++) {
             let startPoint = (i * 3);
@@ -172,14 +217,14 @@ function ImgUploadForRecScreen({ navigation, route }) {
             try {
                 itemsList.push(items.slice(startPoint, endPoint));
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         }
         return (
-            <ScrollView>
+            <ScrollView style={{width: Dimensions.get('window').width * 0.7, backgroundColor: 'rgb(242, 242, 242)'}} showsVerticalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
                     return (
-                        <GridRowContainer key={index}>
+                        <GridRowContainer style={gridStyles.row} key={index}>
                             {tempItems.map(item => {
                                 return (
                                     <TouchableWithoutFeedback
@@ -188,7 +233,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
                                             setImageUri(uploadCategory, item);
                                             setModalVisible(false);
                                         }}>
-                                        <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
+                                        <CodiItemImg style={{backgroundColor:'white'}} source={{uri: ServerUrl.mediaUrl + item.img}}/>
                                     </TouchableWithoutFeedback>
                                 );
                             })}
@@ -200,7 +245,27 @@ function ImgUploadForRecScreen({ navigation, route }) {
     }
 
     return (
-        <ScrollView>
+        <View style={{margin: 15, borderColor: '#c9a502', borderWidth: 1, borderRadius: 20}}>
+                {/* 액티비티 인디케이터 모달 */}
+                <Modal
+                    transparent={true}
+                    visible={indicatorVisible}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <ActivityIndicator
+                                style={{marginBottom: 15}}
+                                animating={true}
+                                transparent={true}
+                                color={'#c9a502'}
+                                size={'large'}
+                            />
+                            <Text>{namedFirstText[randomIndex]}</Text>
+                            <Text>{namedSecondText[randomIndex]}</Text>
+                            <Text>{namedThirdText[randomIndex]}</Text>
+                        </View>
+                    </View>
+                </Modal>
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -208,31 +273,31 @@ function ImgUploadForRecScreen({ navigation, route }) {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
+
                             <TouchableHighlight
-                                style={{ ...styles.openButton, backgroundColor: '#ff00ff' }}
+                                style={{width: Dimensions.get('window').width * 0.7, marginBottom: 15, marginRight: 0, paddingRight: 0, alignItems: 'flex-end'}}
+                                underlayColor="none"
                                 onPress={() => {
                                     setModalItems(null);
                                     setModalVisible(false);
                                 }}
                             >
-                                    <Text style={styles.textStyle}>닫기</Text>
-                            </TouchableHighlight>
+                                <AntDesign name="closecircleo" size={24} color="black" />
+                            </TouchableHighlight>                            
                             <ModalItemGrid/>
                         </View>
                     </View>
                 </Modal>
-            <View style={styles.centeredView}>
-            
-            </View>
-            <Text style={{color: 'black', textAlign: 'center', paddingVertical: 15, marginBottom: 22}}>
+
+            <Text style={{color: 'black', textAlign: 'center', paddingVertical: 10, marginVertical: 20}}>
                 착용할 의류를 옷장에서 가져오세요! {"\n"}
                 (착용할 의류가 없으면 그냥 '추천받기'를 눌러요!)
             </Text>
-            <View style={{height: Dimensions.get('window').height}}>
+            <View>
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.hat);
                         openItemModal();
@@ -241,13 +306,16 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {hatImage !== null ? 
                         <Image source={{ uri: hatImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.hat }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/headwear.png')}
+                        />
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.top);
                         openItemModal();
@@ -258,13 +326,16 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {topImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + topImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.top }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/top.png')}
+                        />
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.outer);
                         openItemModal();
@@ -273,7 +344,10 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {outerImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + outerImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.outer }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/outer.png')}
+                        />
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -281,7 +355,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.accessory);
                         openItemModal();
@@ -290,13 +364,16 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {AccImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + AccImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.accessory }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/accessory.png')}
+                        />
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.pants);
                         openItemModal();
@@ -305,13 +382,16 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {pantsImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + pantsImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.pants }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/pants.png')}
+                        />
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={async () => {
                         setUploadCategory(CategoryEngText.bag);
                         await openItemModal();
@@ -320,7 +400,10 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {bagImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + bagImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.bag }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/bag.png')}
+                        />
                     }
                 </TouchableHighlight>
             </RowContainer>
@@ -328,7 +411,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
             <RowContainer style={formStyles.RowContainerHeight}>
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.watch);
                         openItemModal();
@@ -337,13 +420,16 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {watchImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + watchImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.watch }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/watch.png')}
+                        />
                     }
                 </TouchableHighlight>
 
                 <TouchableHighlight
                     style={formStyles.uploadBox}
-                    underlayColor="#DDDDDD"
+                    underlayColor="none"
                     onPress={() => {
                         setUploadCategory(CategoryEngText.shoes);
                         openItemModal();
@@ -352,21 +438,30 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     {shoesImage !== null ? 
                         <Image source={{ uri: ServerUrl.mediaUrl + shoesImage.img }} style={formStyles.uploadedItem} /> 
                     : 
-                        <Text style={styles.uploadboxText}>{ CategoryText.shoes }</Text>
+                        <Image
+                            style={formStyles.uploadedItem}
+                            source={require('../assets/items/shoes.png')}
+                        />
                     }
                 </TouchableHighlight>
             
                 <View style={formStyles.uploadBox}/>
             </RowContainer>
-
-            <TouchableHighlight
-                style={styles.recButton}
-                onPress={recommendationRequest}
-            >
-                <Text style={styles.textStyle}>추천받기</Text>
-            </TouchableHighlight>
+            
+            <View style={{marginVertical: 20}}>
+                <TouchableHighlight
+                    style={styles.recButton}
+                    onPress={() => {
+                        setIndicatorVisible(true);
+                        recommendationRequest();
+                    }}
+                >
+                    <Text style={styles.textStyle}>추천받기</Text>
+                </TouchableHighlight>
+            </View>
+            
         </View>
-        </ScrollView>
+        </View>
     )
 }
 

@@ -25,7 +25,7 @@ function CameraScreen({ navigation, route }) {
     }
     return (
         <View style={{ flex: 1 }}>
-            <Camera style={{ flex: 1 }} type={type} ref={ref => {
+            <Camera style={{ flex: 0.8 }} type={type} ref={ref => {
             setCameraRef(ref) ;
         }}>
             <View
@@ -36,7 +36,7 @@ function CameraScreen({ navigation, route }) {
                 }}>
                 <TouchableOpacity
                 style={{
-                    flex: 0.1,
+                    flex: 0,
                     alignSelf: 'flex-end'
                 }}
                 onPress={() => {
@@ -48,7 +48,11 @@ function CameraScreen({ navigation, route }) {
                 }}>
                 <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Flip </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{alignSelf: 'center'}} onPress={async() => {
+
+            </View>
+            </Camera>
+            <View style={{flex: 0.2, justifyContent: 'center'}}>
+            <TouchableOpacity style={{alignSelf: 'center'}} onPress={async() => {
                 if(cameraRef){
                     let photo = await cameraRef.takePictureAsync({ quality: 0.5 });
                     navigation.navigate(route.params.backScreen, {image: photo})
@@ -62,9 +66,9 @@ function CameraScreen({ navigation, route }) {
                 <View style={{ 
                     borderWidth: 2,
                     // borderRadius:"50%",
-                    borderColor: 'white',
-                    height: 50,
-                    width:50,
+                    borderColor: 'black',
+                    height: 80,
+                    width: 80,
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center'}}
@@ -73,14 +77,13 @@ function CameraScreen({ navigation, route }) {
                         borderWidth: 2,
                         // borderRadius:"50%",
                         borderColor: 'white',
-                        height: 40,
-                        width:40,
-                        backgroundColor: 'white'}} >
+                        height: 60,
+                        width:60,
+                        backgroundColor: 'black'}} >
                     </View>
                 </View>
                 </TouchableOpacity>
             </View>
-            </Camera>
         </View>
     );
 }
