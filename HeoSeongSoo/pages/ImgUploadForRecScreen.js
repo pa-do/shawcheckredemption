@@ -23,14 +23,34 @@ const GridRowContainer = styled.View`
     padding: 1px;
 `;
 
-const namedText = [
-    '"패션은 느낌입니다. 이유가 있어선 안 되죠" - Christian Dior',
-    '"패션은 변하지만 스타일은 영원하다" - Coco Chanel',
-    '"패션은 스스로에 대한 자신감이다" - Paul Smith',
-    '"누가 감히 무엇이 다른 무엇보다 훨씬 세련되었다고 말할 수 있는가" - Miguel Adrover',
-    '"보여지는 것 이상의 것을 얻으려면 이면에 자신감이 바탕이 되어야 한다" - candace bushnell',
-    '"오늘 최악의 적을 만날 것처럼 차려입어라" - Coco Chanel',
-    '"스타일이란 말 없이 당신에 대해 말하는 방법이다" - Rachel Zoe'
+const namedFirstText = [
+    '"패션은 느낌입니다. 이유가 있어선 안 되죠"',
+    '"패션은 변하지만 스타일은 영원하다"',
+    '"패션은 스스로에 대한 자신감이다"',
+    '"누가 감히 무엇이 다른 무엇보다',
+    '"보여지는 것 이상의 것을 얻으려면',
+    '"오늘 최악의 적을 만날 것처럼 차려입어라"',
+    '"스타일이란 말 없이 당신에 대해 말하는 방법이다"'
+]
+
+const namedSecondText = [
+    '- Christian Dior',
+    '- Coco Chanel',
+    ' - Paul Smith',
+    '훨씬 세련되었다고 말할 수 있는가"',
+    '이면에 자신감이 바탕이 되어야 한다"',
+    '- Coco Chanel',
+    '- Rachel Zoe'
+]
+
+const namedThirdText = [
+    '',
+    '',
+    '',
+    '- Miguel Adrover',
+    ' - candace bushnell',
+    '',
+    ''
 ]
 
 function ImgUploadForRecScreen({ navigation, route }) {
@@ -52,6 +72,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
 
     
     const recommendationRequest = async () => {
+        setRandomIndex(getRandomArbitrary(0, 7));
         let userToken;
         try {
             userToken = await AsyncStorage.getItem('userToken');
@@ -240,13 +261,15 @@ function ImgUploadForRecScreen({ navigation, route }) {
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <ActivityIndicator
-                                style={{marginBottom: 12}}
+                                style={{marginBottom: 15}}
                                 animating={true}
                                 transparent={true}
-                                color={Colors.red800}
+                                color={'#c9a502'}
                                 size={'large'}
                             />
-                            <Text>{namedText[randomIndex]}</Text>
+                            <Text>{namedFirstText[randomIndex]}</Text>
+                            <Text>{namedSecondText[randomIndex]}</Text>
+                            <Text>{namedThirdText[randomIndex]}</Text>
                         </View>
                     </View>
                 </Modal>

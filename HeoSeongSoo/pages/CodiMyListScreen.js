@@ -282,7 +282,6 @@ function CodiMyListScreen({ navigation, route }) {
             }
             try {
                 const heartResponse = await axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
-                console.log(heartResponse)
                 setLikeCodis(heartResponse.data);
                 setMyOrLikeVisible(true);
                 setShowData(heartResponse.data);
@@ -639,7 +638,7 @@ function CodiMyListScreen({ navigation, route }) {
                             style={{marginBottom: 12}}
                             animating={true}
                             transparent={true}
-                            color={Colors.red800}
+                            color={'#c9a502'}
                             size={'large'}
                         />
                         <Text>처리 중입니다</Text>
@@ -659,6 +658,7 @@ function CodiMyListScreen({ navigation, route }) {
                         onPress={() => {
                             setDetailCategoryError(null);
                             setDetailCategory(null);
+                            setModalItemCategoryVisible(true);
                             setModalCategoryVisible(false);
                         }}
                         underlayColor="none"
@@ -678,12 +678,12 @@ function CodiMyListScreen({ navigation, route }) {
                                             key={index}
                                         >
                                             {detailCategory === index ?
-                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13, 55, 84, 0.5)', borderRadius: 50}}>
-                                                    <Text style={{fontSize: 17}}>{item}</Text>
+                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgb(13, 55, 84)', borderColor: '#c9a502', borderWidth: 1, borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17, color: 'white'}}>{item}</Text>
                                                 </View>
                                             :
-                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(100, 100, 100, 0.5)', borderRadius: 50}}>
-                                                    <Text style={{fontSize: 17}}>{item}</Text>
+                                                <View style={{marginVertical: 3, marginHorizontal: 5, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center',backgroundColor: 'white', borderColor: '#c9a502', borderWidth: 1, borderRadius: 50}}>
+                                                    <Text style={{fontSize: 17, color: 'rgb(13, 55, 84)'}}>{item}</Text>
                                                 </View>                     
                                             }
                                         </TouchableHighlight>
@@ -721,7 +721,7 @@ function CodiMyListScreen({ navigation, route }) {
                             style={{ ...styles.recButton, backgroundColor: '#0d3754' }}
                             onPress={() => {
                                 if (detailCategory === undefined || detailCategory === null) {
-                                    return setDetailCategoryError('카테고리를 선택해주세요.')
+                                    return setDetailCategoryError('카테고리를 선택해주세요')
                                 } else {
                                     setDetailCategoryError(null);
                                     setModalCategoryVisible(false);
@@ -788,6 +788,7 @@ function CodiMyListScreen({ navigation, route }) {
                             underlayColor="none"
                             onPress={() => {
                                 setModalImageVisible(false);
+                                setModalItemCategoryVisible(true);
                                 setDetailCategory(null);
                             }}>
                                 <AntDesign name="closecircleo" size={24} color="black" />
@@ -797,9 +798,9 @@ function CodiMyListScreen({ navigation, route }) {
                         <TouchableHighlight
                             style={{ ...styles.openButton }}
                             onPress={() => {
-                                navigation.navigate('Camera', { backScreen: 'My Page' });
                                 setModalItemCategoryVisible(false);
                                 setModalImageVisible(false);
+                                navigation.navigate('Camera', { backScreen: 'My Page' });
                             }}
                         >
                             <Text style={styles.textStyle}>카메라</Text>
@@ -807,9 +808,9 @@ function CodiMyListScreen({ navigation, route }) {
                         <TouchableHighlight
                             style={{ ...styles.openButton }}
                             onPress={() => {
-                                pickImage();
                                 setModalItemCategoryVisible(false);
                                 setModalImageVisible(false);
+                                pickImage();
                             }}
                         >
                             <Text style={styles.textStyle}>갤러리에서 가져오기</Text>
@@ -976,9 +977,12 @@ function CodiMyListScreen({ navigation, route }) {
                                     style={{position: 'absolute', top: 25, left: Dimensions.get('window').width * 0.5 - 45, marginBottom: 15, margirnHorizontal: 0, paddingHorizontal: 0}}
                                     onPress={() => {
                                         if (uploadCategory === CategoryEngText.watch){
+                                            setModalCategoryVisible(false);
+                                            setModalItemCategoryVisible(false);
                                             setModalImageVisible(true);
                                         } else {
                                             setDetailCategory(null);
+                                            setModalItemCategoryVisible(false);
                                             setModalCategoryVisible(true);
                                         }
                                     }}

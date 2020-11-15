@@ -1,5 +1,5 @@
 import React from  'react';
-import { Text, Image, TouchableWithoutFeedback, ScrollView, StyleSheet, View, TouchableHighlight } from 'react-native';
+import { Alert, Text, Image, TouchableWithoutFeedback, ScrollView, StyleSheet, View, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios'
 import styled from 'styled-components/native';
@@ -88,6 +88,20 @@ function CodiDetailScreen({ navigation, route }) {
         };
         dataAsync();
     }, []);
+
+    const createTwoButtonAlert = () =>
+        Alert.alert(
+        "",
+        "의상을 삭제하시겠습니까?",
+        [
+            {
+            text: "취소",
+            style: "cancel"
+            },
+            { text: "삭제", onPress: () => deleteCodi() }
+        ],
+        { cancelable: false }
+    );
     
     async function getToken() {
         let userToken;
@@ -239,7 +253,7 @@ function CodiDetailScreen({ navigation, route }) {
 
             {userData?.username === codiSetDetail.user.username ? 
                     <TouchableHighlight 
-                    onPress={deleteCodi} 
+                    onPress={createTwoButtonAlert} 
                     style={{marginHorizontal: 20, marginBottom: 20, padding: 10, justifyContent: 'center', alignItems: 'center'}}
                     underlayColor="none"
                     >
