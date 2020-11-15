@@ -132,8 +132,8 @@ function CodiAllListScreen({ navigation, route }) {
                     refreshControl={<RefreshControl
                                         refreshing={refreshing}
                                         onRefresh={refreshHandler}
-                                        colors={['red', 'red', 'red']}
-                                        tintColor='#ff0000'
+                                        colors={'#c9a502'}
+                                        tintColor='#c9a502'
                                     />}
                     style={{paddingBottom: 200, marginBottom: 100}}
                 />

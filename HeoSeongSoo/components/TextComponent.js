@@ -42,4 +42,12 @@ const CategoryEngText = {
     accessory: 'acc',
 }
 
-export { ServerUrl, RadioButtonText, CategoryText, CategoryEngText }
+const StyleText = {
+    formal: '포멀',
+    casual: '캐쥬얼',
+    street: '스트릿',
+    sporty: '스포티',
+    dandy: '댄디'
+}
+
+export { ServerUrl, RadioButtonText, CategoryText, CategoryEngText, StyleText }
