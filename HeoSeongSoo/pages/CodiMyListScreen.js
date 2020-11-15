@@ -123,8 +123,8 @@ const colorRGB = [[255, 255, 255], [217, 217, 215], [156, 156, 155], [83, 86, 91
 [161, 116, 0], [215, 154, 47], [201, 180, 149], [232, 195, 129],
 [61, 63, 107], [97, 134, 176], [38, 58, 84], [35, 40, 51], [33, 35, 34]]
 
-const myCodiText = '내 코디 보기';
-const heartCodiText = '하트코디 보기';
+const myCodiText = '내 코디';
+const heartCodiText = '버튼 코디';
 
 function CodiMyListScreen({ navigation, route }) {
     const [UserData, setUserData] = React.useState(null);
@@ -534,20 +534,26 @@ function CodiMyListScreen({ navigation, route }) {
         return (
             <ScrollView style={{width: Dimensions.get('window').width * 0.7, backgroundColor: 'rgb(242, 242, 242)'}} showsHorizontalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
-                    return (
-                        <GridRowContainer 
-                        key={index}>
-                            {tempItems.map(item => {
-                                return (
-                                    <TouchableWithoutFeedback
-                                        key={item.id}
-                                        onPress={() => createTwoButtonAlert(item)}>
-                                        <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
-                                    </TouchableWithoutFeedback>
-                                );
-                            })}
-                        </GridRowContainer>
-                    )
+                    if (tempItems.length !== 0) {
+                        return (
+                            <GridRowContainer 
+                            key={index}>
+                                {tempItems.map(item => {
+                                    return (
+                                        <TouchableWithoutFeedback
+                                            key={item.id}
+                                            onPress={() => createTwoButtonAlert(item)}>
+                                            <CodiItemImg source={{uri: ServerUrl.mediaUrl + item.img}}/>
+                                        </TouchableWithoutFeedback>
+                                    );
+                                })}
+                            </GridRowContainer>
+                        )
+                    } else {
+                        return (
+                            <Text style={{margin: 10, fontSize: 12}} key={index}>아이템을 등록해 주세요</Text>
+                        )
+                    }
                 })}
             </ScrollView>
         );
@@ -800,7 +806,7 @@ function CodiMyListScreen({ navigation, route }) {
                             onPress={() => {
                                 setModalItemCategoryVisible(false);
                                 setModalImageVisible(false);
-                                navigation.navigate('Camera', { backScreen: 'My Page' });
+                                navigation.navigate('Camera', { backScreen: 'My page' });
                             }}
                         >
                             <Text style={styles.textStyle}>카메라</Text>
