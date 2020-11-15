@@ -92,7 +92,7 @@ function CodiDetailScreen({ navigation, route }) {
     const createTwoButtonAlert = () =>
         Alert.alert(
         "",
-        "의상을 삭제하시겠습니까?",
+        "코디를 삭제하시겠습니까?",
         [
             {
             text: "취소",
