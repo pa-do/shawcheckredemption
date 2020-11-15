@@ -534,7 +534,7 @@ function CodiMyListScreen({ navigation, route }) {
         return (
             <ScrollView style={{width: Dimensions.get('window').width * 0.7, backgroundColor: 'rgb(242, 242, 242)'}} showsHorizontalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
-                    if (tempItems.length !== 0) {
+                    if (tempItems.length !== 0 || index !== 0) {
                         return (
                             <GridRowContainer 
                             key={index}>

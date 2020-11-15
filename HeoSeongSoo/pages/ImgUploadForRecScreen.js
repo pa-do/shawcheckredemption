@@ -223,7 +223,7 @@ function ImgUploadForRecScreen({ navigation, route }) {
         return (
             <ScrollView style={{width: Dimensions.get('window').width * 0.7, backgroundColor: 'rgb(242, 242, 242)'}} showsVerticalScrollIndicator={false}>
                 {itemsList.map((tempItems, index) => {
-                    if (tempItems.length !== 0) {
+                    if (tempItems.length !== 0 || index !== 0) {
                         return (
                             <GridRowContainer style={gridStyles.row} key={index}>
                                 {tempItems.map(item => {
