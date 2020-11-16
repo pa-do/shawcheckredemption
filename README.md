@@ -70,7 +70,7 @@
 
 ## 와이어 프레임
 
-![wireframe_flow](doc/wireframe_flow.png)
+![wireframe_flow](doc/wireframe.jpg)
 
 - [와이어프레임.pdf](doc/와이어프레임.pdf)
 - [화면설계.pdf](doc/화면설계.pdf)
