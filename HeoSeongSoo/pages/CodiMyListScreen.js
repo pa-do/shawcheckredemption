@@ -800,7 +800,7 @@ function CodiMyListScreen({ navigation, route }) {
                             onPress={() => {
                                 setModalItemCategoryVisible(false);
                                 setModalImageVisible(false);
-                                navigation.navigate('Camera', { backScreen: 'My Page' });
+                                navigation.navigate('Camera', { backScreen: 'My page' });
                             }}
                         >
                             <Text style={styles.textStyle}>카메라</Text>
