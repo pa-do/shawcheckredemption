@@ -12,8 +12,7 @@
 # => 타겟 스타일 나옴
 
 # 유저가 가진 옷을 선택했을 경우
-# 해당 옷의 분류(상의, 하의) 내에서 타겟 스타일 + 유저의 옷 컬러로 최대 20개를 뽑는다
-# (20개 이상일 경우 random을 돌린다)
+# 해당 옷의 분류(상의, 하의) 내에서 타겟 스타일 + 유저의 옷 컬러가 일치하는 아이템을 뽑는다
 # 유사도 측정을 돌려 상위 5개를 추린다.
 
 
@@ -199,6 +198,7 @@ def set_top(user_info):
                 for color in target_color:
                     if color in personal_color:
                         item[1] += 10
+                        break
 
             # 스타일 가중치
             target_style = target.style.split(", ")
@@ -236,6 +236,7 @@ def set_top(user_info):
                 target += 1
             else:
                 break
+            
         random.shuffle(result)
         result = result[:5]
         return result # 5개 리턴
@@ -336,6 +337,7 @@ def set_pants(user_info, top):
             for color in target_color:
                 if color in personal_color:
                     item[1] += 10
+                    break
 
             # 스타일 가중치
             target_style = target.style.split(", ")
@@ -362,17 +364,20 @@ def set_pants(user_info, top):
             
 
         items.sort(key=lambda x: x[1], reverse=True)
-        result = [items[0][0]]
-        
-        target = 1
+        result = []
+        for i in range(5):
+            result.append(items[i][0])
+        target = 5
         while True:
-            if items[0][1] == items[target][1]:
+            if items[4][1] == 0:
+                break
+            elif items[4][1] == items[target][1]:
                 result.append(items[target][0])
                 target += 1
             else:
                 break
-        random.shuffle(result)
 
+        random.shuffle(result)
         result = result[0]
         return result # 1개 리턴
 
@@ -446,7 +451,7 @@ def set_shoes(user_info, pants):
             if color not in ["검정색", "회색", "다크 그레이", "라이트 그레이", "네이비"]:
                 danger.append(color)
         
-        
+
         items = []
         for i in shoes:
             target_category_items = Shoes.objects.filter(category=i)
@@ -456,11 +461,15 @@ def set_shoes(user_info, pants):
         for item in items:
             target = Shoes.objects.get(pk=item[0])
             
+            if item[0] in [15, 27, 38,]:
+                continue
+
             # 컬러 가중치
             target_color = target.color.split()
             for color in target_color:
                 if color in personal_color:
                     item[1] += 10
+                    break
 
             # 스타일 가중치
             target_style = target.style.split(", ")
@@ -487,17 +496,20 @@ def set_shoes(user_info, pants):
             
 
         items.sort(key=lambda x: x[1], reverse=True)
-        result = [items[0][0]]
-        
-        target = 1
+        result = []
+        for i in range(5):
+            result.append(items[i][0])
+        target = 5
         while True:
-            if items[0][1] == items[target][1]:
+            if items[4][1] == 0:
+                break
+            elif items[4][1] == items[target][1]:
                 result.append(items[target][0])
                 target += 1
             else:
                 break
-        random.shuffle(result)
 
+        random.shuffle(result)
         result = result[0]
         return result # 1개 리턴
 
@@ -624,6 +636,7 @@ def set_outer(user_info, top):
                 for color in target_color:
                     if color in personal_color:
                         item[1] += 10
+                        break
 
                 # 스타일 가중치
                 target_style = target.style.split(", ")
@@ -650,17 +663,20 @@ def set_outer(user_info, top):
                 
 
             items.sort(key=lambda x: x[1], reverse=True)
-            result = [items[0][0]]
-            
-            target = 1
+            result = []
+            for i in range(5):
+                result.append(items[i][0])
+            target = 5
             while True:
-                if items[0][1] == items[target][1]:
+                if items[4][1] == 0:
+                    break
+                elif items[4][1] == items[target][1]:
                     result.append(items[target][0])
                     target += 1
                 else:
                     break
-            random.shuffle(result)
 
+            random.shuffle(result)
             result = result[0]
             return result # 1개 리턴
 
@@ -755,6 +771,7 @@ def set_bag(user_info, shoes):
                 for color in target_color:
                     if color in personal_color:
                         item[1] += 10
+                        break
 
                 # 스타일 가중치
                 target_style = target.style.split(", ")
@@ -786,17 +803,20 @@ def set_bag(user_info, shoes):
                 
 
             items.sort(key=lambda x: x[1], reverse=True)
-            result = [items[0][0]]
-            
-            target = 1
+            result = []
+            for i in range(5):
+                result.append(items[i][0])
+            target = 5
             while True:
-                if items[0][1] == items[target][1]:
+                if items[4][1] == 0:
+                    break
+                elif items[4][1] == items[target][1]:
                     result.append(items[target][0])
                     target += 1
                 else:
                     break
-            random.shuffle(result)
 
+            random.shuffle(result)
             result = result[0]
             return result # 1개 리턴
 
@@ -861,6 +881,7 @@ def set_watch(user_info, shoes):
                 for color in target_color:
                     if color in personal_color:
                         item[1] += 10
+                        break
 
                 # 스타일 가중치
                 target_style = target.style.split(", ")
@@ -883,17 +904,21 @@ def set_watch(user_info, shoes):
                         item[1] += 20
 
             items.sort(key=lambda x: x[1], reverse=True)
-            result = [items[0][0]]
-            
-            target = 1
+            result = []
+            for i in range(5):
+                result.append(items[i][0])
+
+            target = 5
             while True:
-                if items[0][1] == items[target][1]:
+                if items[4][1] == 0:
+                    break
+                elif items[4][1] == items[target][1]:
                     result.append(items[target][0])
                     target += 1
                 else:
                     break
-            random.shuffle(result)
 
+            random.shuffle(result)
             result = result[0]
             return result # 1개 리턴
 
@@ -983,6 +1008,7 @@ def set_headwear(user_info, shoes):
                 for color in target_color:
                     if color in personal_color:
                         item[1] += 10
+                        break
 
                 # 스타일 가중치
                 target_style = target.style.split(", ")
@@ -1005,17 +1031,21 @@ def set_headwear(user_info, shoes):
                 
 
             items.sort(key=lambda x: x[1], reverse=True)
-            result = [items[0][0]]
-            
-            target = 1
+            result = []
+            for i in range(5):
+                result.append(items[i][0])
+
+            target = 5
             while True:
-                if items[0][1] == items[target][1]:
+                if items[4][1] == 0:
+                    break
+                elif items[4][1] == items[target][1]:
                     result.append(items[target][0])
                     target += 1
                 else:
                     break
-            random.shuffle(result)
 
+            random.shuffle(result)
             result = result[0]
             return result # 1개 리턴
 
@@ -1103,6 +1133,7 @@ def set_acc(user_info, top):
                 for color in target_color:
                     if color in personal_color:
                         item[1] += 10
+                        break
 
                 # 스타일 가중치
                 target_style = target.style.split(", ")
@@ -1124,17 +1155,20 @@ def set_acc(user_info, top):
                 
 
             items.sort(key=lambda x: x[1], reverse=True)
-            result = [items[0][0]]
+            result = []
+            for i in range(5):
+                result.append(items[i][0])
             
-            target = 1
+            target = 5
             while True:
-                if items[0][1] == items[target][1]:
+                if items[4][1] == 0:
+                    break
+                elif items[4][1] == items[target][1]:
                     result.append(items[target][0])
                     target += 1
                 else:
                     break
             random.shuffle(result)
-
             result = result[0]
             return result # 1개 리턴
 
@@ -1271,10 +1305,6 @@ def run_self(user_info, user):
             result.append({'id' : uimg.id, 'img' : targeturl})
     
     return result
-
-
-
-
 
 
 

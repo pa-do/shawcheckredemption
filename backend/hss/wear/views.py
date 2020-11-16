@@ -434,16 +434,15 @@ def recommand(request):
         user_pick_item['shoes'] = [A.subcategory, A.color, A.img]
 
 
-    ######################### 유저에게 받는 데이터 #############################
-    user_info = {
-        "who": who,
-        "where": where,
-        "weather": weather,
-        "user_pick_item": user_pick_item,
-        "user_personal_color": user.color
-    }
-    ###########################################################################
-    
+    # ######################### 유저에게 받는 데이터 #############################
+    # user_info = {
+    #     "who": who,
+    #     "where": where,
+    #     "weather": weather,
+    #     "user_pick_item": user_pick_item,
+    #     "user_personal_color": user.color
+    # }
+    # ###########################################################################
     result = coordiset.run_self(user_info, user)
     return Response(result)
 
