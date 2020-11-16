@@ -236,6 +236,7 @@ def set_top(user_info):
                 target += 1
             else:
                 break
+            
         random.shuffle(result)
         result = result[:5]
         return result # 5개 리턴
@@ -375,8 +376,8 @@ def set_pants(user_info, top):
                 target += 1
             else:
                 break
-        random.shuffle(result)
 
+        random.shuffle(result)
         result = result[0]
         return result # 1개 리턴
 
@@ -507,8 +508,8 @@ def set_shoes(user_info, pants):
                 target += 1
             else:
                 break
-        random.shuffle(result)
 
+        random.shuffle(result)
         result = result[0]
         return result # 1개 리턴
 
@@ -674,8 +675,8 @@ def set_outer(user_info, top):
                     target += 1
                 else:
                     break
-            random.shuffle(result)
 
+            random.shuffle(result)
             result = result[0]
             return result # 1개 리턴
 
@@ -814,8 +815,8 @@ def set_bag(user_info, shoes):
                     target += 1
                 else:
                     break
-            random.shuffle(result)
 
+            random.shuffle(result)
             result = result[0]
             return result # 1개 리턴
 
@@ -907,7 +908,6 @@ def set_watch(user_info, shoes):
             for i in range(5):
                 result.append(items[i][0])
 
-            random.shuffle(result)
             target = 5
             while True:
                 if items[4][1] == 0:
@@ -917,6 +917,8 @@ def set_watch(user_info, shoes):
                     target += 1
                 else:
                     break
+
+            random.shuffle(result)
             result = result[0]
             return result # 1개 리턴
 
@@ -1033,7 +1035,6 @@ def set_headwear(user_info, shoes):
             for i in range(5):
                 result.append(items[i][0])
 
-            random.shuffle(result)
             target = 5
             while True:
                 if items[4][1] == 0:
@@ -1043,6 +1044,8 @@ def set_headwear(user_info, shoes):
                     target += 1
                 else:
                     break
+
+            random.shuffle(result)
             result = result[0]
             return result # 1개 리턴
 
@@ -1156,7 +1159,6 @@ def set_acc(user_info, top):
             for i in range(5):
                 result.append(items[i][0])
             
-            random.shuffle(result)
             target = 5
             while True:
                 if items[4][1] == 0:
@@ -1166,6 +1168,7 @@ def set_acc(user_info, top):
                     target += 1
                 else:
                     break
+            random.shuffle(result)
             result = result[0]
             return result # 1개 리턴
 

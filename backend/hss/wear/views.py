@@ -364,7 +364,7 @@ def like_list(request):
 
 
 # 추천 받기
-# @api_view(['POST'])
+@api_view(['POST'])
 def recommand(request):
     """
         코디 추천받는 API
