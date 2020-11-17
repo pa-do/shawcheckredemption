@@ -1,8 +1,8 @@
 import React from  'react';
 import { Text, View, Modal, Image, Alert, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
-import { Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { ActivityIndicator, Colors, Button } from 'react-native-paper';
+import { ActivityIndicator, TextInput } from 'react-native-paper';
 import NormalButton from '../components/buttons/NormalButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styled from 'styled-components/native';
@@ -140,6 +140,12 @@ function CodiMyListScreen({ navigation, route }) {
     const [uploadedColor, setUploadedColor] = React.useState(null);
     const [uploadedItemPk, setUploadedItemPk] = React.useState(null);
     const [uploadCategory, setUploadCategory] = React.useState();
+    // 수정 중
+    const [uploadedBrand, setUploadedBrand] = React.useState();
+    const [uploadedItem, setUploadedItem] = React.useState();
+    const [uploadedPrice, setUploadedPrice] = React.useState();
+    const [uploadedUrl, setUploadedUrl] = React.useState();
+    // 수정 중
     const [codis, setCodis] = React.useState([]);
     const [likeCodis, setLikeCodis] = React.useState([]);
     const [userItems, setUserItems] = React.useState({});
@@ -256,11 +262,27 @@ function CodiMyListScreen({ navigation, route }) {
             R: uploadedColor[0],
             G: uploadedColor[1],
             B: uploadedColor[2],
+            // brand: uploadedBrand? uploadedBrand : '',
+            // price: isNaN(parseInt(uploadedPrice))? '' : parseInt(uploadedPrice),
+            // item: uploadedItem? uploadedItem : '',
+            // url: uploadedUrl? uploadedUrl : '',
         }
+
+        // 수정 중
+
+        console.log('>>>>>>>>>>')
+        console.log(data)
+        // 수정 중
+
         axios.put(ServerUrl.url + `wear/userclothes/${uploadedItemPk}`, data, requestHeaders)
         .then(res => {
             setModalColorVisible(false);
             refreshItems();
+            setUploadedBrand();
+            setUploadedItem();
+            setUploadedPrice();
+            setUploadedPrice();
+            setUploadedUrl();
             setModalItemCategoryVisible(true);
         })
         .catch(err => console.error(err))
@@ -748,6 +770,8 @@ function CodiMyListScreen({ navigation, route }) {
             >
                 <View style={styles.centeredView}>
                     <View style={{ ...styles.modalView, backgroundColor: 'rgb(242, 242, 242)' }}>
+                    <ScrollView style={{backgroundColor: 'rgb(242, 242, 242)'}} showsHorizontalScrollIndicator={false}>        
+                        
                         <Text style={{marginVertical: 5}}>이 색감이 맞나요?</Text>
                         {uploadedColor && <ColorContainer R={uploadedColor[0]} G={uploadedColor[1]}  B={uploadedColor[2]} />}
                         <Text style={{marginVertical: 5}}>아니라면 색을 골라주세요</Text>
@@ -770,6 +794,44 @@ function CodiMyListScreen({ navigation, route }) {
                                 })}
                             </ScrollView>
                         </Container>
+                        {/* 수정 중 */}
+                        <TextInput
+                            multiline
+                            theme={{ colors: { primary: "#0d3754" }}}
+                            numberOfLines={1}
+                            label="브랜드"
+                            value={uploadedBrand}
+                            onChangeText={text => setUploadedBrand(text)}
+                            style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2", flex: 1, alignItems: 'stretch'}}
+                        />
+                        <TextInput
+                            multiline
+                            theme={{ colors: { primary: "#0d3754" }}}
+                            numberOfLines={1}
+                            label="제품명"
+                            value={uploadedItem}
+                            onChangeText={text => setUploadedItem(text)}
+                            style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2", flex: 1, alignItems: 'stretch'}}
+                        />
+                        <TextInput
+                            multiline
+                            theme={{ colors: { primary: "#0d3754" }}}
+                            numberOfLines={1}
+                            label="가격"
+                            value={uploadedPrice}
+                            onChangeText={text => setUploadedPrice(text)}
+                            style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2", flex: 1, alignItems: 'stretch'}}
+                        />
+                        <TextInput
+                            multiline
+                            theme={{ colors: { primary: "#0d3754" }}}
+                            numberOfLines={1}
+                            label="링크"
+                            value={uploadedUrl}
+                            onChangeText={text => setUploadedUrl(text)}
+                            style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2", flex: 1, alignItems: 'stretch'}}
+                        />
+                        {/* 수정 중 */}
                         <TouchableHighlight
                             style={{ ...styles.recButton }}
                             onPress={() => {
@@ -778,6 +840,7 @@ function CodiMyListScreen({ navigation, route }) {
                         >
                             <Text style={styles.textStyle}>확정</Text>
                         </TouchableHighlight>
+                    </ScrollView>
                     </View>
                 </View>
             </Modal>
