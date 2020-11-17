@@ -109,6 +109,10 @@ class UserClothes(models.Model):
     category = models.IntegerField()
     subcategory = models.IntegerField()
     color = models.CharField(max_length=10, blank=True)
+    brand = models.CharField(max_length=50, blank=True)
+    item = models.CharField(max_length=100, blank=True)
+    price = models.IntegerField(default=0, blank=True)
+    url = models.CharField(max_length=200, blank=True)
 
 # 사용자가 등록한 코디
 class UserCoordi(models.Model):
