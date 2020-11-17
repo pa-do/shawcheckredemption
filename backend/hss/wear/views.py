@@ -114,6 +114,10 @@ class clothes_detail(APIView):
                     ans = i
                     break
             cloth.color = color_name[ans]
+            cloth.brand = request.data['brand']
+            cloth.item = request.data['item']
+            cloth.price = int(request.data['price'])
+            cloth.url = request.data['url']
             cloth.save()
             # print(cloth.color)
             return HttpResponse('수정 완료')
@@ -435,13 +439,13 @@ def recommand(request):
 
 
     # ######################### 유저에게 받는 데이터 #############################
-    # user_info = {
-    #     "who": who,
-    #     "where": where,
-    #     "weather": weather,
-    #     "user_pick_item": user_pick_item,
-    #     "user_personal_color": user.color
-    # }
+    user_info = {
+        "who": who,
+        "where": where,
+        "weather": weather,
+        "user_pick_item": user_pick_item,
+        "user_personal_color": user.color
+    }
     # ###########################################################################
     result = coordiset.run_self(user_info, user)
     return Response(result)
