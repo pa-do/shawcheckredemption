@@ -26,6 +26,15 @@ function HomeScreen({ navigation }) {
         getUserInfo();
     }, []);
 
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', async () => {
+            setValue('none');
+            setSecondValue('friend');
+        })
+
+        return unsubscribe;
+    }, [navigation])
+
     const getUserInfo = async () => {
         let userToken;
         try {
