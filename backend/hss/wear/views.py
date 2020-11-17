@@ -114,6 +114,10 @@ class clothes_detail(APIView):
                     ans = i
                     break
             cloth.color = color_name[ans]
+            cloth.brand = request.data['brand']
+            cloth.item = request.data['item']
+            cloth.price = int(request.data['price'])
+            cloth.url = request.data['url']
             cloth.save()
             # print(cloth.color)
             return HttpResponse('수정 완료')
