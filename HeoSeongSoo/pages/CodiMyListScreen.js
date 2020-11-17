@@ -54,8 +54,8 @@ const GridRowContainer = styled.View`
 
 const ColorContainer = styled.View`
     background-color: rgb(${props => props.R}, ${props => props.G}, ${props => props.B});
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     border-radius: 150px;
     border: 1px solid;
     border-color: rgb(199, 199, 204);
@@ -764,9 +764,9 @@ function CodiMyListScreen({ navigation, route }) {
                     <View style={{ ...styles.modalView, backgroundColor: 'rgb(242, 242, 242)' }}>
                     <ScrollView style={{backgroundColor: 'rgb(242, 242, 242)'}} showsHorizontalScrollIndicator={false}>        
                         
-                        <Text style={{marginVertical: 5}}>이 색감이 맞나요?</Text>
-                        {uploadedColor && <ColorContainer R={uploadedColor[0]} G={uploadedColor[1]}  B={uploadedColor[2]} />}
-                        <Text style={{marginVertical: 5}}>아니라면 색을 골라주세요</Text>
+                        <Text style={{marginBottom: 5, alignSelf: 'center'}}>이 색감이 맞나요?</Text>
+                        {uploadedColor && <ColorContainer style={{alignSelf: 'center'}} R={uploadedColor[0]} G={uploadedColor[1]}  B={uploadedColor[2]} />}
+                        <Text style={{marginTop: 15, marginBottom: 5, marginRight: 10, color: 'gray', alignSelf: 'flex-end'}}>아니라면 색을 골라주세요</Text>
                         <Container>
                             <ScrollView
                                 horizontal={true}
@@ -786,45 +786,58 @@ function CodiMyListScreen({ navigation, route }) {
                                 })}
                             </ScrollView>
                         </Container>
-                        <TextInput
-                            multiline
-                            theme={{ colors: { primary: "#0d3754" }}}
-                            numberOfLines={1}
-                            label="브랜드"
-                            value={uploadedBrand}
-                            onChangeText={text => setUploadedBrand(text)}
-                            style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2", flex: 1, alignItems: 'stretch'}}
-                        />
-                        <TextInput
-                            multiline
-                            theme={{ colors: { primary: "#0d3754" }}}
-                            numberOfLines={1}
-                            label="제품명"
-                            value={uploadedItem}
-                            onChangeText={text => setUploadedItem(text)}
-                            style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2", flex: 1, alignItems: 'stretch'}}
-                        />
-                        <TextInput
-                            multiline
-                            theme={{ colors: { primary: "#0d3754" }}}
-                            numberOfLines={1}
-                            label="가격"
-                            value={uploadedPrice}
-                            onChangeText={text => setUploadedPrice(text)}
-                            keyboardType = { 'numeric'}
-                            style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2", flex: 1, alignItems: 'stretch'}}
-                        />
-                        <TextInput
-                            multiline
-                            theme={{ colors: { primary: "#0d3754" }}}
-                            numberOfLines={1}
-                            label="링크"
-                            value={uploadedUrl}
-                            onChangeText={text => setUploadedUrl(text)}
-                            style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2", flex: 1, alignItems: 'stretch'}}
-                        />
+                        {/* 수정 중 */}
+                        <Text style={{marginTop: 15, color: 'gray', marginRight: 10, alignSelf: 'flex-end'}}>추가 정보 (선택사항)</Text>
+                        <ScrollView style={{borderWidth: 1, paddingBottom: 20, borderColor: '#c9a502', borderRadius: 20}}>
+                            <TextInput
+                                multiline
+                                theme={{ colors: { primary: "#0d3754" }}}
+                                numberOfLines={1}
+                                label="브랜드"
+                                value={uploadedBrand}
+                                onChangeText={text => setUploadedBrand(text)}
+                                style={{marginHorizontal: 15, marginVertical: 1, height: 50, backgroundColor: "#F2F2F2", flex: 1}}
+                            />
+                            <TextInput
+                                multiline
+                                theme={{ colors: { primary: "#0d3754" }}}
+                                numberOfLines={1}
+                                label="제품명"
+                                value={uploadedItem}
+                                onChangeText={text => setUploadedItem(text)}
+                                style={{marginHorizontal: 15, marginVertical: 1, height: 50, backgroundColor: "#F2F2F2", flex: 1}}
+                            />
+                            <TextInput
+                                multiline
+                                theme={{ colors: { primary: "#0d3754" }}}
+                                numberOfLines={1}
+                                label="가격"
+                                value={uploadedPrice}
+                                onChangeText={text => setUploadedPrice(text)}
+                                keyboardType = { 'numeric'}
+                                style={{marginHorizontal: 15, marginVertical: 1, height: 50, backgroundColor: "#F2F2F2", flex: 1}}
+                            />
+                            <TextInput
+                                multiline
+                                theme={{ colors: { primary: "#0d3754" }}}
+                                numberOfLines={1}
+                                label="링크"
+                                value={uploadedUrl}
+                                onChangeText={text => setUploadedUrl(text)}
+                                style={{marginHorizontal: 15, marginVertical: 1, height: 50, backgroundColor: "#F2F2F2", flex: 1}}
+                            />
+                        </ScrollView>
+                        
+                        {/* 수정 중 */}
                         <TouchableHighlight
-                            style={{ ...styles.recButton }}
+                            style={{alignSelf: 'center',
+                            backgroundColor: '#0d3754',
+                            borderRadius: 5,
+                            paddingVertical: 15,
+                            paddingHorizontal: 40,
+                            elevation: 2,
+                            marginTop: 10,
+                            marginBottom: 1,}}
                             onPress={() => {
                                 patchItemColor();
                             }}
