@@ -258,21 +258,29 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
 
+        // if (isNaN(parseInt(uploadedPrice))) {
+        //     setUploadedPrice();
+        // } else {
+        //     setUploadedPrice(parseInt(uploadedPrice));
+        // }
+        // isNaN(parseInt(uploadedPrice))? undefined : parseInt(uploadedPrice)
+        
+        // brand: uploadedBrand? uploadedBrand: '',
+        // price: uploadedPrice? uploadedPrice: '',
+        // item: uploadedItem? uploadedItem: '',
+        // url: uploadedUrl? uploadedUrl: '',
+        
         const data = {
             R: uploadedColor[0],
             G: uploadedColor[1],
             B: uploadedColor[2],
-            // brand: uploadedBrand? uploadedBrand : '',
-            // price: isNaN(parseInt(uploadedPrice))? '' : parseInt(uploadedPrice),
-            // item: uploadedItem? uploadedItem : '',
-            // url: uploadedUrl? uploadedUrl : '',
+            brand: uploadedBrand? uploadedBrand: ' ',
+            price: parseInt(uploadedPrice)? parseInt(uploadedPrice): 0,
+            item: uploadedItem? uploadedItem: ' ',
+            url: uploadedUrl? uploadedUrl: ' ',
         }
 
-        // 수정 중
-
-        console.log('>>>>>>>>>>')
         console.log(data)
-        // 수정 중
 
         axios.put(ServerUrl.url + `wear/userclothes/${uploadedItemPk}`, data, requestHeaders)
         .then(res => {
@@ -820,6 +828,7 @@ function CodiMyListScreen({ navigation, route }) {
                             label="가격"
                             value={uploadedPrice}
                             onChangeText={text => setUploadedPrice(text)}
+                            keyboardType = { 'numeric'}
                             style={{marginHorizontal: 22, marginVertical: 22, backgroundColor: "#F2F2F2", flex: 1, alignItems: 'stretch'}}
                         />
                         <TextInput
