@@ -140,10 +140,12 @@ function CodiMyListScreen({ navigation, route }) {
     const [uploadedColor, setUploadedColor] = React.useState(null);
     const [uploadedItemPk, setUploadedItemPk] = React.useState(null);
     const [uploadCategory, setUploadCategory] = React.useState();
+    // 수정 중
     const [uploadedBrand, setUploadedBrand] = React.useState();
     const [uploadedItem, setUploadedItem] = React.useState();
     const [uploadedPrice, setUploadedPrice] = React.useState();
     const [uploadedUrl, setUploadedUrl] = React.useState();
+    // 수정 중
     const [codis, setCodis] = React.useState([]);
     const [likeCodis, setLikeCodis] = React.useState([]);
     const [userItems, setUserItems] = React.useState({});
@@ -256,15 +258,29 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
 
+        // if (isNaN(parseInt(uploadedPrice))) {
+        //     setUploadedPrice();
+        // } else {
+        //     setUploadedPrice(parseInt(uploadedPrice));
+        // }
+        // isNaN(parseInt(uploadedPrice))? undefined : parseInt(uploadedPrice)
+        
+        // brand: uploadedBrand? uploadedBrand: '',
+        // price: uploadedPrice? uploadedPrice: '',
+        // item: uploadedItem? uploadedItem: '',
+        // url: uploadedUrl? uploadedUrl: '',
+        
         const data = {
             R: uploadedColor[0],
             G: uploadedColor[1],
             B: uploadedColor[2],
-            brand: uploadedBrand? uploadedBrand: '',
+            brand: uploadedBrand? uploadedBrand: ' ',
             price: parseInt(uploadedPrice)? parseInt(uploadedPrice): 0,
-            item: uploadedItem? uploadedItem: '',
-            url: uploadedUrl? uploadedUrl: '',
+            item: uploadedItem? uploadedItem: ' ',
+            url: uploadedUrl? uploadedUrl: ' ',
         }
+
+        console.log(data)
 
         axios.put(ServerUrl.url + `wear/userclothes/${uploadedItemPk}`, data, requestHeaders)
         .then(res => {
@@ -786,11 +802,9 @@ function CodiMyListScreen({ navigation, route }) {
                                 })}
                             </ScrollView>
                         </Container>
-                        {/* 수정 중 */}
                         <Text style={{marginTop: 15, color: 'gray', marginRight: 10, alignSelf: 'flex-end'}}>추가 정보 (선택사항)</Text>
                         <ScrollView style={{borderWidth: 1, paddingBottom: 20, borderColor: '#c9a502', borderRadius: 20}}>
                             <TextInput
-                                multiline
                                 theme={{ colors: { primary: "#0d3754" }}}
                                 numberOfLines={1}
                                 label="브랜드"
@@ -828,7 +842,6 @@ function CodiMyListScreen({ navigation, route }) {
                             />
                         </ScrollView>
                         
-                        {/* 수정 중 */}
                         <TouchableHighlight
                             style={{alignSelf: 'center',
                             backgroundColor: '#0d3754',
