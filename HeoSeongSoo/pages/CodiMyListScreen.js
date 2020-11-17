@@ -140,12 +140,10 @@ function CodiMyListScreen({ navigation, route }) {
     const [uploadedColor, setUploadedColor] = React.useState(null);
     const [uploadedItemPk, setUploadedItemPk] = React.useState(null);
     const [uploadCategory, setUploadCategory] = React.useState();
-    // 수정 중
     const [uploadedBrand, setUploadedBrand] = React.useState();
     const [uploadedItem, setUploadedItem] = React.useState();
     const [uploadedPrice, setUploadedPrice] = React.useState();
     const [uploadedUrl, setUploadedUrl] = React.useState();
-    // 수정 중
     const [codis, setCodis] = React.useState([]);
     const [likeCodis, setLikeCodis] = React.useState([]);
     const [userItems, setUserItems] = React.useState({});
@@ -258,29 +256,15 @@ function CodiMyListScreen({ navigation, route }) {
             }
         }
 
-        // if (isNaN(parseInt(uploadedPrice))) {
-        //     setUploadedPrice();
-        // } else {
-        //     setUploadedPrice(parseInt(uploadedPrice));
-        // }
-        // isNaN(parseInt(uploadedPrice))? undefined : parseInt(uploadedPrice)
-        
-        // brand: uploadedBrand? uploadedBrand: '',
-        // price: uploadedPrice? uploadedPrice: '',
-        // item: uploadedItem? uploadedItem: '',
-        // url: uploadedUrl? uploadedUrl: '',
-        
         const data = {
             R: uploadedColor[0],
             G: uploadedColor[1],
             B: uploadedColor[2],
-            brand: uploadedBrand? uploadedBrand: ' ',
+            brand: uploadedBrand? uploadedBrand: '',
             price: parseInt(uploadedPrice)? parseInt(uploadedPrice): 0,
-            item: uploadedItem? uploadedItem: ' ',
-            url: uploadedUrl? uploadedUrl: ' ',
+            item: uploadedItem? uploadedItem: '',
+            url: uploadedUrl? uploadedUrl: '',
         }
-
-        console.log(data)
 
         axios.put(ServerUrl.url + `wear/userclothes/${uploadedItemPk}`, data, requestHeaders)
         .then(res => {
