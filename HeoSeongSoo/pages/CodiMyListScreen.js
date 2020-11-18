@@ -261,7 +261,7 @@ function CodiMyListScreen({ navigation, route }) {
             G: uploadedColor[1],
             B: uploadedColor[2],
             brand: uploadedBrand? uploadedBrand: '',
-            price: parseInt(uploadedPrice)? parseInt(uploadedPrice): 0,
+            price: parseInt(uploadedPrice)? parseInt(uploadedPrice): -1,
             item: uploadedItem? uploadedItem: '',
             url: uploadedUrl? uploadedUrl: '',
         }
