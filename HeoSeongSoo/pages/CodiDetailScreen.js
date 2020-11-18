@@ -216,6 +216,7 @@ function CodiDetailScreen({ navigation, route }) {
             <ScrollView style={{marginHorizontal: 20, marginBottom: 20, padding: 10, borderRadius: 20, backgroundColor: 'white', borderColor: '#c9a502', borderWidth:1}}>
                 {itemDataList.map(item => {
                     if (Object.keys(item).length !== 0) {
+                        console.log(item)
                         return (
                             <>
                             <TouchableWithoutFeedback
@@ -244,14 +245,12 @@ function CodiDetailScreen({ navigation, route }) {
                                         }
 
                                         <View style={{width: '70%'}}>
-                                            <Text style={{fontWeight: 'bold'}}>{CategoryText[item.category]}</Text>
-                                            {item.brand.length !== 0 &&
-                                                <Text numberOfLines={1} ellipsizeMode='tail'>{item.brand}</Text>
-                                            }
-                                            {item.item.length !== 0 &&
-                                                <Text numberOfLines={1} ellipsizeMode='tail'>{item.item}</Text>
-                                            }
-                                            {item.price >= 0 &&
+                                            <Text style={{fontWeight: 'bold', marginBottom: 5}}>{CategoryText[item.category]}</Text>
+                                            <Text numberOfLines={1} ellipsizeMode='tail'>{item.brand}</Text>
+                                            <Text numberOfLines={1} ellipsizeMode='tail'>{item.item}</Text>
+                                            { item.price === -1 ?
+                                                <Text style={{opacity: 0}} numberOfLines={1} ellipsizeMode='tail'>{item.price} 원</Text>
+                                                :
                                                 <Text numberOfLines={1} ellipsizeMode='tail'>{item.price} 원</Text>
                                             }
                                         </View>
