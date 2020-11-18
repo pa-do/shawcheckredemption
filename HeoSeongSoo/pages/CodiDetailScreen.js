@@ -246,6 +246,10 @@ function CodiDetailScreen({ navigation, route }) {
 
                                         <View style={{width: '70%'}}>
                                             <Text style={{fontWeight: 'bold', marginBottom: 5}}>{CategoryText[item.category]}</Text>
+                                            {item.price === -1 && item.brand === '' && item.item === '' ?
+                                            <Text>등록된 정보가 없습니다</Text>
+                                            :
+                                            <>
                                             <Text numberOfLines={1} ellipsizeMode='tail'>{item.brand}</Text>
                                             <Text numberOfLines={1} ellipsizeMode='tail'>{item.item}</Text>
                                             { item.price === -1 ?
@@ -253,6 +257,9 @@ function CodiDetailScreen({ navigation, route }) {
                                                 :
                                                 <Text numberOfLines={1} ellipsizeMode='tail'>{item.price} 원</Text>
                                             }
+                                            </>
+                                            }
+                                            
                                         </View>
                                     </View>
                                 </ItemContainer>
