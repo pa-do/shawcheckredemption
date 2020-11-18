@@ -290,9 +290,42 @@ def list_coordi(request):
     """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    coordi = UserCoordi.objects.filter(user=user, c_code=1).order_by('-id')
-    serializer = UserMergeSerializer(coordi, many=True, context={'request': request})
-    return Response(serializer.data)
+    user_data = UserSerializer(user)
+    coordi = UserCoordi.objects.filter(user=user, c_code=1).order_by('-id').values()
+    coordis = []
+    for i in coordi:
+        data = {}
+        if i['headwear'] > -1:
+            A = UserClothes.objects.get(pk=i['headwear'])
+            data['headwear'] = UserClothSerializer(A).data
+        if i['top'] > -1:
+            A = UserClothes.objects.get(pk=i['top'])
+            data['top'] = UserClothSerializer(A).data
+        if i['outer'] > -1:
+            A = UserClothes.objects.get(pk=i['outer'])
+            data['outer'] = UserClothSerializer(A).data
+        if i['acc'] > -1:
+            A = UserClothes.objects.get(pk=i['acc'])
+            data['acc'] = UserClothSerializer(A).data
+        if i['pants'] > -1:
+            A = UserClothes.objects.get(pk=i['pants'])
+            data['pants'] = UserClothSerializer(A).data
+        if i['bag'] > -1:
+            A = UserClothes.objects.get(pk=i['bag'])
+            data['bag'] = UserClothSerializer(A).data
+        if i['watch'] > -1:
+            A = UserClothes.objects.get(pk=i['watch'])
+            data['watch'] = UserClothSerializer(A).data
+        if i['shoes'] > -1:
+            A = UserClothes.objects.get(pk=i['shoes'])
+            data['shoes'] = UserClothSerializer(A).data
+
+        chk = LikeCoordi.objects.filter(user=user, coordi_num=i['id'])
+        liked = 1 if chk.exists() else 0
+        count = LikeCoordi.objects.filter(coordi_num=i['id'])
+        coordis.append({'id':i['id'], 'img': i['img'], 'c_code':i['c_code'], 'user':user_data.data,
+            'color':i['color'], 'style':i['style'], 'content':i['content'], 'liked': liked, 'like_count': len(count),'data': data})
+    return Response(coordis)
 
 # 유저 코디 좋아요
 @api_view(['POST'])
@@ -358,6 +391,31 @@ def like_list(request):
             if serializer.data['shoes'] > -1:
                 A = Shoes.objects.get(pk=serializer.data['shoes'])
                 data['shoes'] = ShoesSerializer(A).data
+        else:
+            if serializer.data['headwear'] > -1:
+                A = UserClothes.objects.get(pk=serializer.data['headwear'])
+                data['headwear'] = UserClothSerializer(A).data
+            if serializer.data['top'] > -1:
+                A = UserClothes.objects.get(pk=serializer.data['top'])
+                data['top'] = UserClothSerializer(A).data
+            if serializer.data['outer'] > -1:
+                A = UserClothes.objects.get(pk=serializer.data['outer'])
+                data['outer'] = UserClothSerializer(A).data
+            if serializer.data['acc'] > -1:
+                A = UserClothes.objects.get(pk=serializer.data['acc'])
+                data['acc'] = UserClothSerializer(A).data
+            if serializer.data['pants'] > -1:
+                A = UserClothes.objects.get(pk=serializer.data['pants'])
+                data['pants'] = UserClothSerializer(A).data
+            if serializer.data['bag'] > -1:
+                A = UserClothes.objects.get(pk=serializer.data['bag'])
+                data['bag'] = UserClothSerializer(A).data
+            if serializer.data['watch'] > -1:
+                A = UserClothes.objects.get(pk=serializer.data['watch'])
+                data['watch'] = UserClothSerializer(A).data
+            if serializer.data['shoes'] > -1:
+                A = UserClothes.objects.get(pk=serializer.data['shoes'])
+                data['shoes'] = UserClothSerializer(A).data
         c_user = get_object_or_404(User, pk=serializer.data['user'])
         user_data = UserSerializer(c_user)
         chk = LikeCoordi.objects.filter(user=user, coordi_num=i['coordi_num_id'])
@@ -460,7 +518,45 @@ def infinite(request, idx):
         # 내용
             pk 값을 파라미터로 보내면 됨
     """
+    User = get_user_model()
+    user = get_object_or_404(User, pk=request.user.pk)
     coordi = UserCoordi.objects.filter(c_code=1).order_by('-id')[idx:idx+6]
-    serializer = UserMergeSerializer(coordi, many=True, context={'request': request})
-    return Response(status=status.HTTP_200_OK, data=serializer.data)
-    
+    coordis = []
+    for i in coordi:
+        try:
+            data = {}
+            if i.headwear > -1:
+                A = UserClothes.objects.get(pk=i.headwear)
+                data['headwear'] = UserClothSerializer(A).data
+            if i.top > -1:
+                A = UserClothes.objects.get(pk=i.top)
+                data['top'] = UserClothSerializer(A).data
+            if i.outer > -1:
+                A = UserClothes.objects.get(pk=i.outer)
+                data['outer'] = UserClothSerializer(A).data
+            if i.acc > -1:
+                A = UserClothes.objects.get(pk=i.acc)
+                data['acc'] = UserClothSerializer(A).data
+            if i.pants > -1:
+                A = UserClothes.objects.get(pk=i.pants)
+                data['pants'] = UserClothSerializer(A).data
+            if i.bag > -1:
+                A = UserClothes.objects.get(pk=i.bag)
+                data['bag'] = UserClothSerializer(A).data
+            if i.watch > -1:
+                A = UserClothes.objects.get(pk=i.watch)
+                data['watch'] = UserClothSerializer(A).data
+            if i.shoes > -1:
+                A = UserClothes.objects.get(pk=i.shoes)
+                data['shoes'] = UserClothSerializer(A).data
+
+            chk = LikeCoordi.objects.filter(user=user, coordi_num=i.id)
+            liked = 1 if chk.exists() else 0
+            count = LikeCoordi.objects.filter(coordi_num=i.id)
+            c_user = get_object_or_404(User, pk=i.user_id)
+            user_data = UserSerializer(c_user)
+            coordis.append({'id':i.id, 'img': i.img, 'c_code':i.c_code, 'user':user_data.data, 'color':i.color,
+                'style':i.style, 'content':i.content, 'liked': liked, 'like_count': len(count),'data': data})
+        except:
+            continue
+    return Response(coordis)
