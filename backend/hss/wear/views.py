@@ -553,7 +553,7 @@ def infinite(request, idx):
             count = LikeCoordi.objects.filter(coordi_num=i.id)
             c_user = get_object_or_404(User, pk=i.user_id)
             user_data = UserSerializer(c_user)
-            coordis.append({'id':i.id, 'img': i.img, 'c_code':i.c_code, 'user':user_data, 'color':i.color,
+            coordis.append({'id':i.id, 'img': i.img, 'c_code':i.c_code, 'user':user_data.data, 'color':i.color,
                 'style':i.style, 'content':i.content, 'liked': liked, 'like_count': len(count),'data': data})
         except:
             continue
