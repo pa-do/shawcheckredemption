@@ -245,9 +245,15 @@ function CodiDetailScreen({ navigation, route }) {
 
                                         <View style={{width: '70%'}}>
                                             <Text style={{fontWeight: 'bold'}}>{CategoryText[item.category]}</Text>
-                                            <Text numberOfLines={1} ellipsizeMode='tail'>{item.brand}</Text>
-                                            <Text numberOfLines={1} ellipsizeMode='tail'>{item.item}</Text>
-                                            <Text numberOfLines={1} ellipsizeMode='tail'>{item.price} 원</Text>
+                                            {item.brand.length !== 0 &&
+                                                <Text numberOfLines={1} ellipsizeMode='tail'>{item.brand}</Text>
+                                            }
+                                            {item.item.length !== 0 &&
+                                                <Text numberOfLines={1} ellipsizeMode='tail'>{item.item}</Text>
+                                            }
+                                            {item.price >= 0 &&
+                                                <Text numberOfLines={1} ellipsizeMode='tail'>{item.price} 원</Text>
+                                            }
                                         </View>
                                     </View>
                                 </ItemContainer>
