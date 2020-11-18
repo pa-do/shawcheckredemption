@@ -222,15 +222,27 @@ function CodiDetailScreen({ navigation, route }) {
                             style={{marginBottom: 5}}
                             key={item.item}
                             onPress={() => {
-                                navigation.navigate('WebView', { url: item.url })
+                                console.log(ServerUrl.ServerUrl + item.img)
+                                if (item.url === "") {
+                                    return
+                                } else {
+                                    navigation.navigate('WebView', { url: item.url });
+                                }
                             }}>
                                 <ItemContainer>
                                     <View style={{flexDirection: 'row',}}>
+                                        {codiSetDetail.c_code === 0 ?
                                         <CodiItemImg
                                             style={{width: 65, height: 65, marginVertical: 3, marginHorizontal: 7}}
                                             source={{uri: ServerUrl.mediaUrl + '/' + item.category + '/' + item.img}}
-                                            // source={{uri: 'https://k3d205.p.ssafy.io/media/top/20.png'}}
                                         />
+                                        :
+                                        <CodiItemImg
+                                            style={{width: 65, height: 65, marginVertical: 3, marginHorizontal: 7}}
+                                            source={{uri: ServerUrl.url + item.img}}
+                                        />
+                                        }
+
                                         <View style={{width: '70%'}}>
                                             <Text style={{fontWeight: 'bold'}}>{CategoryText[item.category]}</Text>
                                             <Text numberOfLines={1} ellipsizeMode='tail'>{item.brand}</Text>
