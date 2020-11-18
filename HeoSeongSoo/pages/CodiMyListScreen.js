@@ -274,10 +274,10 @@ function CodiMyListScreen({ navigation, route }) {
             R: uploadedColor[0],
             G: uploadedColor[1],
             B: uploadedColor[2],
-            brand: uploadedBrand? uploadedBrand: ' ',
+            brand: uploadedBrand? uploadedBrand: '',
             price: parseInt(uploadedPrice)? parseInt(uploadedPrice): 0,
-            item: uploadedItem? uploadedItem: ' ',
-            url: uploadedUrl? uploadedUrl: ' ',
+            item: uploadedItem? uploadedItem: '',
+            url: uploadedUrl? uploadedUrl: '',
         }
 
         console.log(data)
