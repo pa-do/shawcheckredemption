@@ -551,7 +551,9 @@ def infinite(request, idx):
             chk = LikeCoordi.objects.filter(user=user, coordi_num=i.id)
             liked = 1 if chk.exists() else 0
             count = LikeCoordi.objects.filter(coordi_num=i.id)
-            coordis.append({'id':i.id, 'img': i.img, 'user':i.user_id, 'color':i.color,
+            c_user = get_object_or_404(User, pk=i.user_id)
+            user_data = UserSerializer(c_user)
+            coordis.append({'id':i.id, 'img': i.img, 'c_code':i.c_code, 'user':user_data, 'color':i.color,
                 'style':i.style, 'content':i.content, 'liked': liked, 'like_count': len(count),'data': data})
         except:
             continue
