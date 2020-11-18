@@ -229,7 +229,6 @@ function CodiDetailScreen({ navigation, route }) {
                                         <CodiItemImg
                                             style={{width: 65, height: 65, marginVertical: 3, marginHorizontal: 7}}
                                             source={{uri: ServerUrl.mediaUrl + '/' + item.category + '/' + item.img}}
-                                            // source={{uri: 'https://k3d205.p.ssafy.io/media/top/20.png'}}
                                         />
                                         <View style={{width: '70%'}}>
                                             <Text style={{fontWeight: 'bold'}}>{CategoryText[item.category]}</Text>
