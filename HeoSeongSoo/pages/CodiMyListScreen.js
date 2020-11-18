@@ -316,7 +316,7 @@ function CodiMyListScreen({ navigation, route }) {
                 setMyOrLikeVisible(true);
                 setShowData(heartResponse.data);
             } catch (error) {
-                console.error(error.response.data, '<<<<<<<<<<<<<<<<<<')
+                console.error(error)
             }
         });
         return unsubscribe;
