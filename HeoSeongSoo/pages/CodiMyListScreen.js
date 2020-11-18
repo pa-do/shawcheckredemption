@@ -810,7 +810,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 label="브랜드"
                                 value={uploadedBrand}
                                 onChangeText={text => setUploadedBrand(text)}
-                                style={{marginHorizontal: 15, marginVertical: 1, height: 50, backgroundColor: "#F2F2F2", flex: 1}}
+                                style={{marginHorizontal: 15, marginVertical: 1, height: 70, backgroundColor: "#F2F2F2", flex: 1}}
                             />
                             <TextInput
                                 multiline
@@ -819,7 +819,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 label="제품명"
                                 value={uploadedItem}
                                 onChangeText={text => setUploadedItem(text)}
-                                style={{marginHorizontal: 15, marginVertical: 1, height: 50, backgroundColor: "#F2F2F2", flex: 1}}
+                                style={{marginHorizontal: 15, marginVertical: 1, height: 70, backgroundColor: "#F2F2F2", flex: 1}}
                             />
                             <TextInput
                                 multiline
@@ -829,7 +829,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 value={uploadedPrice}
                                 onChangeText={text => setUploadedPrice(text)}
                                 keyboardType = { 'numeric'}
-                                style={{marginHorizontal: 15, marginVertical: 1, height: 50, backgroundColor: "#F2F2F2", flex: 1}}
+                                style={{marginHorizontal: 15, marginVertical: 1, height: 70, backgroundColor: "#F2F2F2", flex: 1}}
                             />
                             <TextInput
                                 multiline
@@ -838,7 +838,7 @@ function CodiMyListScreen({ navigation, route }) {
                                 label="링크"
                                 value={uploadedUrl}
                                 onChangeText={text => setUploadedUrl(text)}
-                                style={{marginHorizontal: 15, marginVertical: 1, height: 50, backgroundColor: "#F2F2F2", flex: 1}}
+                                style={{marginHorizontal: 15, marginVertical: 1, height: 70, backgroundColor: "#F2F2F2", flex: 1}}
                             />
                         </ScrollView>
                         
