@@ -551,7 +551,8 @@ def infinite(request, idx):
             chk = LikeCoordi.objects.filter(user=user, coordi_num=i.id)
             liked = 1 if chk.exists() else 0
             count = LikeCoordi.objects.filter(coordi_num=i.id)
-            coordis.append({'id':i.id, 'img': i.img, 'liked': liked, 'like_count': len(count),'data': data})
+            coordis.append({'id':i.id, 'img': i.img, 'user':i.user_id, 'color':i.color,
+                'style':i.style, 'content':i.content, 'liked': liked, 'like_count': len(count),'data': data})
         except:
             continue
     return Response(coordis)
