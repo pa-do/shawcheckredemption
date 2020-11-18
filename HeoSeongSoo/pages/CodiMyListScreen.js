@@ -763,7 +763,7 @@ function CodiMyListScreen({ navigation, route }) {
             >
                 <View style={styles.centeredView}>
                     <View style={{ ...styles.modalView, backgroundColor: 'rgb(242, 242, 242)' }}>
-                    <ScrollView style={{backgroundColor: 'rgb(242, 242, 242)'}} showsHorizontalScrollIndicator={false}>        
+                    <ScrollView style={{backgroundColor: 'rgb(242, 242, 242)'}} showsVerticalScrollIndicator={false}>        
                         
                         <Text style={{marginBottom: 5, alignSelf: 'center'}}>이 색감이 맞나요?</Text>
                         {uploadedColor && <ColorContainer style={{alignSelf: 'center'}} R={uploadedColor[0]} G={uploadedColor[1]}  B={uploadedColor[2]} />}
