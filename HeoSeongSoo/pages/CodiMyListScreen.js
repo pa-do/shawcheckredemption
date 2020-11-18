@@ -308,7 +308,7 @@ function CodiMyListScreen({ navigation, route }) {
                 const listResponse = await axios.get(ServerUrl.url + 'wear/listcoordi/', requestHeaders)
                 setCodis(listResponse.data)
             } catch (error) {
-                console.error(error);
+                console.error(error)
             }
             try {
                 const heartResponse = await axios.get(ServerUrl.url + 'wear/likelist/', requestHeaders)
@@ -316,7 +316,7 @@ function CodiMyListScreen({ navigation, route }) {
                 setMyOrLikeVisible(true);
                 setShowData(heartResponse.data);
             } catch (error) {
-                console.error(error);
+                console.error(error.response.data, '<<<<<<<<<<<<<<<<<<')
             }
         });
         return unsubscribe;
