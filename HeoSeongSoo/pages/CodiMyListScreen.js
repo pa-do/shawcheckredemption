@@ -780,6 +780,7 @@ function CodiMyListScreen({ navigation, route }) {
                                                 setUploadedColor([item[0], item[1], item[2]]);
                                             }}
                                             key={index}
+                                            underlayColor="none"
                                         >
                                             <SelectColorContainer borderSize={0} R={item[0]} G={item[1]} B={item[2]} />
                                         </TouchableHighlight>
