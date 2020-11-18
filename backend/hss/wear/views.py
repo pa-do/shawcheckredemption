@@ -294,37 +294,40 @@ def list_coordi(request):
     coordi = UserCoordi.objects.filter(user=user, c_code=1).order_by('-id').values()
     coordis = []
     for i in coordi:
-        data = {}
-        if i['headwear'] > -1:
-            A = UserClothes.objects.get(pk=i['headwear'])
-            data['headwear'] = UserClothSerializer(A).data
-        if i['top'] > -1:
-            A = UserClothes.objects.get(pk=i['top'])
-            data['top'] = UserClothSerializer(A).data
-        if i['outer'] > -1:
-            A = UserClothes.objects.get(pk=i['outer'])
-            data['outer'] = UserClothSerializer(A).data
-        if i['acc'] > -1:
-            A = UserClothes.objects.get(pk=i['acc'])
-            data['acc'] = UserClothSerializer(A).data
-        if i['pants'] > -1:
-            A = UserClothes.objects.get(pk=i['pants'])
-            data['pants'] = UserClothSerializer(A).data
-        if i['bag'] > -1:
-            A = UserClothes.objects.get(pk=i['bag'])
-            data['bag'] = UserClothSerializer(A).data
-        if i['watch'] > -1:
-            A = UserClothes.objects.get(pk=i['watch'])
-            data['watch'] = UserClothSerializer(A).data
-        if i['shoes'] > -1:
-            A = UserClothes.objects.get(pk=i['shoes'])
-            data['shoes'] = UserClothSerializer(A).data
+        try:
+            data = {}
+            if i['headwear'] > -1:
+                A = UserClothes.objects.get(pk=i['headwear'])
+                data['headwear'] = UserClothSerializer(A).data
+            if i['top'] > -1:
+                A = UserClothes.objects.get(pk=i['top'])
+                data['top'] = UserClothSerializer(A).data
+            if i['outer'] > -1:
+                A = UserClothes.objects.get(pk=i['outer'])
+                data['outer'] = UserClothSerializer(A).data
+            if i['acc'] > -1:
+                A = UserClothes.objects.get(pk=i['acc'])
+                data['acc'] = UserClothSerializer(A).data
+            if i['pants'] > -1:
+                A = UserClothes.objects.get(pk=i['pants'])
+                data['pants'] = UserClothSerializer(A).data
+            if i['bag'] > -1:
+                A = UserClothes.objects.get(pk=i['bag'])
+                data['bag'] = UserClothSerializer(A).data
+            if i['watch'] > -1:
+                A = UserClothes.objects.get(pk=i['watch'])
+                data['watch'] = UserClothSerializer(A).data
+            if i['shoes'] > -1:
+                A = UserClothes.objects.get(pk=i['shoes'])
+                data['shoes'] = UserClothSerializer(A).data
 
-        chk = LikeCoordi.objects.filter(user=user, coordi_num=i['id'])
-        liked = 1 if chk.exists() else 0
-        count = LikeCoordi.objects.filter(coordi_num=i['id'])
-        coordis.append({'id':i['id'], 'img': i['img'], 'c_code':i['c_code'], 'user':user_data.data,
-            'color':i['color'], 'style':i['style'], 'content':i['content'], 'liked': liked, 'like_count': len(count),'data': data})
+            chk = LikeCoordi.objects.filter(user=user, coordi_num=i['id'])
+            liked = 1 if chk.exists() else 0
+            count = LikeCoordi.objects.filter(coordi_num=i['id'])
+            coordis.append({'id':i['id'], 'img': i['img'], 'c_code':i['c_code'], 'user':user_data.data,
+                'color':i['color'], 'style':i['style'], 'content':i['content'], 'liked': liked, 'like_count': len(count),'data': data})
+        except:
+            continue
     return Response(coordis)
 
 # 유저 코디 좋아요

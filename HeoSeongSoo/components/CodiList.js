@@ -157,7 +157,7 @@ function CodiList(props) {
                 <View style={{flexDirection:'row', flexWrap:'wrap', alignItems: 'center', justifyContent: 'space-between'}}>
                     <View style={{flexDirection:'row', flexWrap:'wrap', alignItems: 'center'}}>
                         <Image
-                            source={{uri: codiItem.user.profile_image}}
+                            source={{uri: ServerUrl.url + codiItem.user.profile_image}}
                             style={{width: 40, height:40, borderRadius: 50, borderWidth: 1, borderColor: 'rgb(242, 242, 242)'}} />
                         <Text style={{fontWeight: 'bold', fontSize: 17, marginHorizontal: 5}}>{codiItem.user.nickname}</Text>
                     </View>
