@@ -245,7 +245,7 @@ function CodiDetailScreen({ navigation, route }) {
                                         }
 
                                         <View style={{width: '70%'}}>
-                                            <Text style={{fontWeight: 'bold'}}>{CategoryText[item.category]}</Text>
+                                            <Text style={{fontWeight: 'bold', marginBottom: 5}}>{CategoryText[item.category]}</Text>
                                             <Text numberOfLines={1} ellipsizeMode='tail'>{item.brand}</Text>
                                             <Text numberOfLines={1} ellipsizeMode='tail'>{item.item}</Text>
                                             { item.price === -1 ?
