@@ -290,6 +290,7 @@ def list_coordi(request):
     """
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
+    user_data = UserSerializer(user)
     coordi = UserCoordi.objects.filter(user=user, c_code=1).order_by('-id').values()
     coordis = []
     for i in coordi:
@@ -322,7 +323,8 @@ def list_coordi(request):
         chk = LikeCoordi.objects.filter(user=user, coordi_num=i['id'])
         liked = 1 if chk.exists() else 0
         count = LikeCoordi.objects.filter(coordi_num=i['id'])
-        coordis.append({'id':i['id'], 'img': i['img'], 'liked': liked, 'like_count': len(count),'data': data})
+        coordis.append({'id':i['id'], 'img': i['img'], 'c_code':i['c_code'], 'user':user_data.data,
+            'color':i['color'], 'style':i['style'], 'content':i['content'], 'liked': liked, 'like_count': len(count),'data': data})
     return Response(coordis)
 
 # 유저 코디 좋아요
