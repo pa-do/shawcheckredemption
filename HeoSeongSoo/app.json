@@ -24,7 +24,8 @@
     },
     "description": "",
     "android": {
-      "package": "com.jokyuseong.HeoSeongSoo"
+      "package": "com.jokyuseong.HeoSeongSoo",
+      "permissions": ["CAMERA"]
     }
   }
 }

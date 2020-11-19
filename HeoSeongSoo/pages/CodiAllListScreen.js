@@ -65,11 +65,9 @@ function CodiAllListScreen({ navigation, route }) {
         const requestHeaders = await getUserToken();
         axios.get(ServerUrl.url + `wear/infinite/${index}`, requestHeaders)
         .then(res => {
-            console.log(res.data)
             setIndex(index + 6);
             setRefreshing(false);
             setAllCodiList(refreshing ? allCodiList : allCodiList.concat(res.data));
-            console.log(res)
         })
         .catch(err => console.error(err))
     }
@@ -81,7 +79,6 @@ function CodiAllListScreen({ navigation, route }) {
             setIndex(6);
             setRefreshing(false);
             setAllCodiList(res.data);
-            console.log(res)
         })
     }
 

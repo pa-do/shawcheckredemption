@@ -74,6 +74,7 @@ function HomeScreen({ navigation }) {
     }
 
     function choiceAgain() {
+        console.log(1)
         setValue('none')
     }
 
